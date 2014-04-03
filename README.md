@@ -21,5 +21,5 @@ ssmp [port]
 
 ```
 curl -X POST -H content-type:application/json -d  '{"_id":"test-mp",
-"yamp":{"Standard":"SE3"}}' http://localhost:8000/test-mp
+"yamp":{"Standard":"SE3"}}' http://localhost:8000/mp/test-mp
 ```
