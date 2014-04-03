@@ -16,3 +16,10 @@ ssmp [port]
 ```
 ./ssmp 8001 | ../node_modules/bunyan/bin/bunyan -l info
 ```
+
+## example mp
+
+```
+curl -X POST -H content-type:application/json -d  '{"_id":"test-mp",
+"yamp":{"Standard":"SE3"}}' http://localhost:8000/test-mp
+```
