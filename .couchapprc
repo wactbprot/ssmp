@@ -1,0 +1,11 @@
+{
+  "env": {
+    "ssmp": {
+      "db":"http://localhost:8001/mp"
+       },
+    "db": {
+      "db":"http://localhost:5984/test"
+       }   
+  
+  }
+}
