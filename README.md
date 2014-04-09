@@ -24,3 +24,16 @@ ssmp [port]
 curl -X POST -H content-type:application/json -d  '{"_id":"se3-mp",\
 	"BelongsTo":"SE3"}' http://localhost:8000/se3-mp/mp
 ```
+
+### start a container
+
+```
+ curl -X PUT -d 'true' http://localhost:8001/mpdef/go/0
+```
+
+
+### stop a container
+
+```
+ curl -X PUT -d 'false' http://localhost:8001/mpdef/go/0
+```
