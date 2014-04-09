@@ -12,14 +12,15 @@
 ssmp [port]
 ```
 
-## formatted logging
+## start with formatted logging
 ```
 ./ssmp 8001 | ../node_modules/bunyan/bin/bunyan -l info
 ```
 
-## example mp
+### post a mp definition
+
 
 ```
-curl -X POST -H content-type:application/json -d  '{"_id":"test-mp",
-"yamp":{"Standard":"SE3"}}' http://localhost:8000/mp/test-mp
+curl -X POST -H content-type:application/json -d  '{"_id":"se3-mp",\
+	"BelongsTo":"SE3"}' http://localhost:8000/se3-mp/mp
 ```
