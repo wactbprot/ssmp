@@ -10,6 +10,7 @@
     "dependencies": {
         "nano":">=3.3.6",
         "underscore":">=1.4.4",
+	"clone":">=0.1.11",
         "restify":">=2.7.0",
 	"bunyan":">=0.22.1"
     },
