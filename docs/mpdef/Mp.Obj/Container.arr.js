@@ -1,6 +1,6 @@
 [
     {
-        "AutoRun": true,
+        "Ctrl": "unformed",
         "Elements": [
             {
                 "type": "div",
@@ -15,19 +15,21 @@
         "NoOfRepeats": 1,
         "Recipe": [
             [
-                "MP_wait_3s"
+                "Mp_wait_long",
+                "Mp_wait_short",
+                "Mp_wait_long"
             ],
             [
-                "MP_wait_3s"
+                "Mp_wait_long"
             ],
             [
-                "MP_wait_3s"
+                "Mp_wait_short"
             ]
         ],
         "Title": "Container 1"
     },
     {
-        "AutoRun": true,
+        "Ctrl": "unformed",
         "Elements": [
             {
                 "type": "div",
@@ -42,13 +44,15 @@
         "NoOfRepeats": 1,
         "Recipe": [
             [
-                "MP_wait_3s"
+                "Mp_wait_long",
+                "Mp_wait_short",
+                "Mp_wait_long"
             ],
             [
-                "MP_wait_3s"
+                "Mp_wait_long"
             ],
             [
-                "MP_wait_3s"
+                "Mp_wait_short"
             ]
         ],
         "Title": "Container 2"

@@ -20,14 +20,14 @@
         ],
         "Recipe": [
             [
-                "MP_wait_2s"
+                "Mp_wait_long"
             ],
             [
-                "MP_wait_2s",
-                "MP_wait_2s"
+                "Mp_wait_long",
+                "Mp_wait_long"
             ],
             [
-                "MP_wait_2s"
+                "Mp_wait_long"
             ]
         ],
         "RecipeClass": "choose",
