@@ -12,6 +12,7 @@ ssmp [port]
 ```
 
 ## start with formatted logging
+
 ```
 ./ssmp [options] | ../node_modules/bunyan/bin/bunyan -l info
 ```
@@ -26,9 +27,10 @@ Run ```ssmp -h``` for help
 curl -X POST -H content-type:application/json -d  '{"_id":"se3-mp",\
 	"BelongsTo":"SE3"}' http://localhost:8000/se3-mp
 ```
+
 or use csmp
 
-...
+
 
 
 
@@ -64,4 +66,4 @@ returns
 
 ```
  curl -X PUT -d 'false' http://localhost:8001/mpdef/ctrl/0
-```  
+```
