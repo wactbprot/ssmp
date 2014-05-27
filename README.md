@@ -6,8 +6,8 @@
 
 ```
 
-ssmp is a __s__erver __s__ide __m__easurement __p__rogram with a http api.
 
+ssmp is a __s__erver __s__ide __m__easurement __p__rogram with a http api.
 
 ## usage
 
