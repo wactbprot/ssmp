@@ -2,8 +2,12 @@
  ___ ___ _____ ___ 
 |_ -|_ -|     | . |
 |___|___|_|_|_|  _|
-              |_|  
+              |_|
+
 ```
+
+ssmp is a __s__erver __s__ide __m__easurement __p__rogram with a http api.
+
 
 ## usage
 
@@ -21,6 +25,12 @@ Run ```ssmp -h``` for help
 
 ### post a mp definition
 
+TODO: describe the definition format:
+* container
+* element
+* recipe
+* task
+
 
 ```
 curl -X POST -H content-type:application/json -d  '{"_id":"se3-mp",\
@@ -35,7 +45,9 @@ In order to prepare a container to run the tasks
 (given in the containers recipe) one have to fetch
 the task objects. This is done by sending the string 
 
-```load```
+```
+load
+```
 
 to the container which is intented to be loaded:
 
@@ -43,6 +55,7 @@ to the container which is intented to be loaded:
  curl -X PUT -d 'load' http://localhost:8001/mpdef/ctrl/0
 ```
 During this process 
+
 ```
  curl http://localhost:8001/mpdef/ctrl/0
 ```
