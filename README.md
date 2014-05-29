@@ -11,23 +11,23 @@ __ssmp__ steht für  __s__erver __s__ide __m__easurement __p__rogram.
 
 Der ssmp server führt vordefinierte Abläufe (_recipes_) aus. Diese recipes
 werden in Bereichen (_container_) bereitgestellt. Recipes bestehen
-aus Teilaufgaben (_tasks_).
+aus Teilaufgaben (_tasks_) die zur  parallelen oder sequenziellen
+Abarbeitung angeordnet werden können.
 
-## usage
+## Starten
+
+ssmp wird durch den Aufruf:
 
 ```
 ssmp [port]
 ```
-
-## start with formatted logging
-
+gestartet. Man erhält eine schönere Formatierung der Ausgaben durch:
 ```
 ./ssmp [options] | ../node_modules/bunyan/bin/bunyan -l info
 ```
+Weitere Details können mittels ```ssmp -h``` erfragt werden.
 
-Run ```ssmp -h``` for help
-
-### post a mp definition
+## 
 
 
 ```
