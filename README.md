@@ -7,7 +7,11 @@
 ```
 
 
-ssmp is a __s__erver __s__ide __m__easurement __p__rogram with a http api.
+__ssmp__ steht für  __s__erver __s__ide __m__easurement __p__rogram.
+
+Der ssmp server führt vordefinierte Abläufe (_recipes_) aus. Diese recipes
+werden in Bereichen (_container_) bereitgestellt. Recipes bestehen
+aus Teilaufgaben (_tasks_).
 
 ## usage
 
@@ -25,12 +29,6 @@ Run ```ssmp -h``` for help
 
 ### post a mp definition
 
-TODO: describe the definition format:
-* container
-* element
-* recipe
-* task
-
 
 ```
 curl -X POST -H content-type:application/json -d  '{"_id":"se3-mp",\
@@ -39,41 +37,41 @@ curl -X POST -H content-type:application/json -d  '{"_id":"se3-mp",\
 
 or use [csmp](https://github.com/wactbprot/csmp)
 
-### prepare a container
+### prepare a container (load)
 
 In order to prepare a container to run the tasks 
 (given in the containers recipe) one have to fetch
-the task objects. This is done by sending the string 
-
-```
-load
-```
-
-to the container which is intented to be loaded:
+the task objects. This is done by sending the string
+```load``` to the container which is intented to be loaded:
 
 ```
  curl -X PUT -d 'load' http://localhost:8001/mpdef/ctrl/0
 ```
-During this process 
+At this process 
 
+### run a container
+
+The 
 ```
- curl http://localhost:8001/mpdef/ctrl/0
-```
-returns a
-```
- loading
-```
-Afterwards 
-```
- curl http://localhost:8001/mpdef/ctrl/0
-```
-returns
-```
- loaded
+ curl -X PUT -d 'run' http://localhost:8001/mpdef/ctrl/0
 ```
 
 ### stop a container
 
 ```
- curl -X PUT -d 'false' http://localhost:8001/mpdef/ctrl/0
+ curl -X PUT -d 'stop' http://localhost:8001/mpdef/ctrl/0
 ```
+
+
+TODO: describe the definition format:
+* container
+* element
+* recipe
+* task
+
+## tasks
+
+Tasks sind _json_-Objekte;
+es sind die Parametersätze der auszuführenden Aufgaben.
+
+-Bsp. wait ...
