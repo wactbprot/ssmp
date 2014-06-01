@@ -13,21 +13,24 @@ Der ssmp server führt vordefinierte Abläufe (_recipes_) aus. Diese recipes
 werden in Bereichen (_container_) bereitgestellt. Recipes bestehen
 aus Teilaufgaben (_tasks_) die zur  parallelen oder sequenziellen
 Abarbeitung angeordnet werden können.
+Die Gesamtheit der container, recipes und tasks ist die Messprogrammdefinition
+(_mpdef_);
+diese besitzt eine id, die in allen urls gleich nach dem ssmp port auftaucht.
 
 ## Starten
 
-ssmp wird durch den Aufruf:
-
-```
-ssmp [port]
-```
-gestartet. Man erhält eine schönere Formatierung der Ausgaben durch:
+ssmp wird durch den Aufruf ```ssmp [port]``` gestartet. Man erhält
+eine schönere Formatierung der Ausgaben durch:
 ```
 ./ssmp [options] | ../node_modules/bunyan/bin/bunyan -l info
 ```
 Weitere Details können mittels ```ssmp -h``` erfragt werden.
 
-## 
+## Vorbereitung
+
+Die oben eingeführten  Programmdefinitionen sind zweckmäßiger
+Weise in einer CouchDB-Instanz abgelegt.
+Die oben beschriebene 
 
 
 ```
@@ -75,3 +78,8 @@ Tasks sind _json_-Objekte;
 es sind die Parametersätze der auszuführenden Aufgaben.
 
 -Bsp. wait ...
+
+## ToDo
+
+* einen API-Endpunkt, der Art:```-d run recipe/0/1/1```
+  mit dem man  einzelne Tasks ausführen bzw. testen kann
