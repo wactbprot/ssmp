@@ -61,7 +61,7 @@ Mit  [csmp](https://github.com/wactbprot/csmp) geht das so:
 mp_ctrl -i id -c 0 -d load
 ```
 
-### Ausführen, Anhalten Stoppen eines Ablaufs
+### Ausführen, Anhalten und Stoppen eines Ablaufs
 
 Das Starten des Ausführen geschieht auch über die ```ctrl``` Schnittstelle:
 
@@ -93,12 +93,63 @@ Pause macht da weiter wo angehalten wurde.
 
 
 
-## tasks
+## recipes und tasks
 
-Tasks sind _json_-Objekte;
-es sind die Parametersätze der auszuführenden Aufgaben.
+Tasks sind _json_-Objekte; es sind Parametersätze.
 
--Bsp. wait ...
+Ein einfaches Bsp. für eine task ist Warten:
+
+```
+"Name":"Mp",
+...
+"Defaults": {
+         "_waittime": 1000,
+         "_waitfor": "Ready in",
+         "_waitunit": "ms"
+       },
+"Tasks":[
+	   {
+	    "Action": "wait",
+		"Comment": "_waitfor  _waittime ms",
+		"TaskName": "wait",
+	    "Value": {
+	             "WaitTime": "_waittime"
+                 } 
+      },
+...
+```
+In dieser Task müssen noch die mit einem Unterstrich 
+beginnenden Zeichenketten (_strings_) also  ```_waitfor``` und
+```_waittime``` esetzt werden. Womit diese ersetzt werden kann an zwei
+verschiedenen Stellen angegeben werden.
+1. Im gleichen Objekt (z.B. im gleichen CalibrationObject oder Standard ect.)
+2. In einem Rezept unter dem key ```Replace```
+
+Ersetzungen, die unterhalb ```Replace``` angegeben sind, sind __vorrangig__. Wird 
+also eine Rezept 
+
+```
+"Recipe": [
+               [
+                   {
+                       "TaskName": "Mp-wait",
+                       "Replace": {
+                           "_waittime": 300
+                       }
+                   }
+               ],
+               [
+                   {
+                       "TaskName": "Mp-wait",
+                       "Replace": {
+                           "_waittime": 300
+                       }
+                   }
+               ]
+           ]
+```
+abgearbeitet, wird 300 als waittime realisiert.
+	
 
 ## ToDo
 
