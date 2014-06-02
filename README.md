@@ -7,7 +7,7 @@
 ```
 
 
-__ssmp__ steht für  __s__erver __s__ide __m__easurement __p__rogram.
+__ssmp__ steht für  server side measurement program.
 
 Der ssmp server führt vordefinierte Abläufe (_recipes_) aus. Diese recipes
 werden in Bereichen (_container_) bereitgestellt. Recipes bestehen
