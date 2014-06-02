@@ -28,49 +28,70 @@ Weitere Details können mittels ```ssmp -h``` erfragt werden.
 
 ## Vorbereitung
 
-Die oben eingeführten  Programmdefinitionen sind zweckmäßiger
-Weise in einer CouchDB-Instanz abgelegt.
-Die oben beschriebene 
-
-
-```
-curl -X POST -H content-type:application/json -d  '{"_id":"se3-mp",\
-	"BelongsTo":"SE3"}' http://localhost:8000/se3-mp
-```
-
-or use [csmp](https://github.com/wactbprot/csmp)
-
-### prepare a container (load)
-
-In order to prepare a container to run the tasks 
-(given in the containers recipe) one have to fetch
-the task objects. This is done by sending the string
-```load``` to the container which is intented to be loaded:
+Die oben eingeführten  Programmdefinitionen  sind zweckmäßiger
+Weise in einer CouchDB-Instanz abgelegt. Sie werden durch ein
+_http-POST_ in ssmp zur weiteren Abarbeitung wie folgt abgelegt: 
 
 ```
- curl -X PUT -d 'load' http://localhost:8001/mpdef/ctrl/0
+curl -X POST -H content-type:application/json -d  '{"_id":"id",\
+	"BelongsTo":"SE3"}' http://localhost:8000/id
 ```
-At this process 
 
-### run a container
+Hiefür kann auch [csmp](https://github.com/wactbprot/csmp) benutzt werden:
 
-The 
+```
+db_get -i db/id | mp_ini -i id
+```
+
+
+### Laden der recipes
+
+Die Abläufe sind in den _mpdef_ nur mit Tasknamen
+(und evtl. vorzunehmenden Ersetzungen) angegebenen.
+Es ist nötig, aus diesen Beschreibungen die konkreten
+Abläufe zu erstellen; die geschieht mittels:
+
+```
+ curl -X PUT -d 'load' http://localhost:8001/id/ctrl/0
+```
+
+Mit  [csmp](https://github.com/wactbprot/csmp) geht das so:
+
+```
+mp_ctrl -i id -c 0 -d load
+```
+
+### Ausführen, Anhalten Stoppen eines Ablaufs
+
+Das Starten des Ausführen geschieht auch über die ```ctrl``` Schnittstelle:
+
 ```
  curl -X PUT -d 'run' http://localhost:8001/mpdef/ctrl/0
 ```
 
-### stop a container
+Die  [csmp](https://github.com/wactbprot/csmp)-Variante:
 
 ```
- curl -X PUT -d 'stop' http://localhost:8001/mpdef/ctrl/0
+mp_ctrl -i id -c 0 -d run
 ```
 
+In gleicher Weise funktioniert Stop
 
-TODO: describe the definition format:
-* container
-* element
-* recipe
-* task
+```
+mp_ctrl -i id -c 0 -d stop
+```
+
+und Pause
+
+```
+mp_ctrl -i id -c 0 -d pause
+```
+
+Nach einem stop wird der Ablauf von neuem begonnen;
+Pause macht da weiter wo angehalten wurde.
+
+
+
 
 ## tasks
 
