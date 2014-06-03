@@ -155,3 +155,4 @@ abgearbeitet, wird 300 als waittime realisiert.
 
 * einen API-Endpunkt, der Art:```-d run recipe/0/1/1```
   mit dem man  einzelne Tasks ausführen bzw. testen kann
+* ```gen.mod``` auf ```jpp``` umstellen
