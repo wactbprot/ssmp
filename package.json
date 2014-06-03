@@ -14,7 +14,7 @@
         "restify":">=2.7.0",
 	"commander":">=2.2.0",
 	"bunyan":">=0.22.1",
-	"mpath":">=0.2.1"
+	"json-path-processor":">=0.1.0"
     },
     "devDependencies": {},
     "optionalDependencies": {},
