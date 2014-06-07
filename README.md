@@ -33,14 +33,13 @@ Weise in einer CouchDB-Instanz abgelegt. Sie werden durch ein
 _http-POST_ in ssmp zur weiteren Abarbeitung wie folgt abgelegt: 
 
 ```
-curl -X POST -H content-type:application/json -d  '{"_id":"id",\
-	"BelongsTo":"SE3"}' http://localhost:8000/id
+curl -X POST -d  load  http://localhost:8000/id
 ```
 
 Hiefür kann auch [csmp](https://github.com/wactbprot/csmp) benutzt werden:
 
 ```
-db_get -i db/id | mp_ini -i id
+mp_ini -i id -d load
 ```
 
 
