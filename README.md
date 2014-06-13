@@ -90,18 +90,19 @@ zu übergeben:
  curl -X PUT -d 'load' http://localhost:8001/mpid/kdid
 ```
 
-[csmp](https://github.com/wactbprot/csmp) hat dafür die Funktionen 
-```mp_id+``` zum Hinzufügen, ```mp_id+``` zum Löschen und ```mp_id```
-für eine Übersicht.
+[csmp](https://github.com/wactbprot/csmp) stellt dazu die Funktionen 
+```mp_id+``` (Hinzufügen), ```mp_id+``` (Löschen) und ```mp_id```
+(Übersicht) zur Verfügung.
 
 
 ### Laden der recipes
 
-Die Abläufe sind in den _mpdef_ nur mit Tasknamen
-(und evtl. vorzunehmenden Ersetzungen) angegebenen.
+Die Abläufe (_recipes_) der einzelnen _container_
+sind der _mpdef_  mit _TaskName_n und
+individuellen Ersetzungsanweisungen angegebenen/aufzufinden.
 
 Es ist nötig, aus diesen Beschreibungen die konkreten
-Abläufe zu erstellen; die geschieht mittels:
+Abläufe zu erstellen; dies geschieht mittels:
 
 ```
  curl -X PUT -d 'load' http://localhost:8001/mpid/ctrl/0
