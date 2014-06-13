@@ -47,7 +47,7 @@ Mittels _http-POST_ :
 curl -X POST -d  '{_id:mpdef ... }'  http://localhost:8001/id
 ```
 
-Hiefür kann auch [csmp](https://github.com/wactbprot/csmp) benutzt werden:
+Hierfür kann auch [csmp](https://github.com/wactbprot/csmp) benutzt werden:
 
 ```
 db_get -p dbname/mpid |  mp_post -i id 
