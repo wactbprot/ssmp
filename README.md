@@ -13,45 +13,85 @@ Der ssmp server führt vordefinierte Abläufe (_recipes_) aus. Diese recipes
 werden in Bereichen (_container_) bereitgestellt. Recipes bestehen
 aus Teilaufgaben (_tasks_) die zur  parallelen oder sequenziellen
 Abarbeitung angeordnet werden können.
+
 Die Gesamtheit der container, recipes und tasks ist die Messprogrammdefinition
 (_mpdef_);
 diese besitzt eine id, die in allen urls gleich nach dem ssmp port auftaucht.
 
 ## Starten
 
-ssmp wird durch den Aufruf ```ssmp [port]``` gestartet. Man erhält
+ssmp wird durch den Aufruf ```ssmp [-P port]``` gestartet. Man erhält
 eine schönere Formatierung der Ausgaben durch:
 ```
-./ssmp [options] | ../node_modules/bunyan/bin/bunyan -l info
+bin/ssmp [options] | node_modules/bunyan/bin/bunyan -l info
 ```
-Weitere Details können mittels ```ssmp -h``` erfragt werden.
+was das Gleiche wie
+```
+bin/nssmp
+```
+ist. Weitere Details können mittels ```ssmp -h``` erfragt werden.
 
 ## Vorbereitung
 
 Die oben eingeführten  Programmdefinitionen  sind zweckmäßiger
-Weise in einer CouchDB-Instanz abgelegt. Sie werden durch ein
-_http-POST_ in ssmp zur weiteren Abarbeitung wie folgt abgelegt: 
+Weise in einer CouchDB-Instanz abgelegt. Sie können auf 2 
+verschiedene Arten dem _ssmp_ zur weiteren Abarbeitung übergeben werden:
+
+### 1. POST
+
+Mittels _http-POST_ : 
 
 ```
-curl -X POST -d  load  http://localhost:8000/id
+curl -X POST -d  '{_id:mpdef ... }'  http://localhost:8001/id
 ```
 
 Hiefür kann auch [csmp](https://github.com/wactbprot/csmp) benutzt werden:
 
 ```
-mp_ini -i id -d load
+db_get -p dbname/mpid |  mp_post -i id 
 ```
+
+### 2. PUT
+
+
+Mittels _http-PUT_ : 
+
+```
+curl -X PUT -d  'load'  http://localhost:8001/id
+```
+
+oder mit [csmp](https://github.com/wactbprot/csmp):
+
+
+``` 
+mp_ini -i mpid -d load
+```
+### Übergeben der Kalibrierdokumente
+
+Damit an die vorliegende Kalibrierung/Messung angepasste 
+_recipes_ erstellt werden können,
+ist es notwendig _ssmp_ die _id_s der Kalibrierdocumente (_kdid_) 
+zu übergeben: 
+
+```
+ curl -X PUT -d 'load' http://localhost:8001/mpid/kdid
+```
+
+[csmp](https://github.com/wactbprot/csmp) hat dafür die Funktionen 
+```mp_id+``` zum Hinzufügen, ```mp_id+``` zum Löschen und ```mp_id```
+für eine Übersicht.
 
 
 ### Laden der recipes
 
 Die Abläufe sind in den _mpdef_ nur mit Tasknamen
 (und evtl. vorzunehmenden Ersetzungen) angegebenen.
+
 Es ist nötig, aus diesen Beschreibungen die konkreten
 Abläufe zu erstellen; die geschieht mittels:
 
 ```
- curl -X PUT -d 'load' http://localhost:8001/id/ctrl/0
+ curl -X PUT -d 'load' http://localhost:8001/mpid/ctrl/0
 ```
 
 Mit  [csmp](https://github.com/wactbprot/csmp) geht das so:
@@ -65,7 +105,7 @@ mp_ctrl -i id -c 0 -d load
 Das Starten des Ausführen geschieht auch über die ```ctrl``` Schnittstelle:
 
 ```
- curl -X PUT -d 'run' http://localhost:8001/mpdef/ctrl/0
+ curl -X PUT -d 'run' http://localhost:8001/mpid/ctrl/0
 ```
 
 Die  [csmp](https://github.com/wactbprot/csmp)-Variante:
@@ -86,8 +126,8 @@ und Pause
 mp_ctrl -i id -c 0 -d pause
 ```
 
-Nach einem stop wird der Ablauf von neuem begonnen;
-Pause macht da weiter wo angehalten wurde.
+Nach einem ```stop``` wird der Ablauf von neuem begonnen;
+```pause``` macht da weiter wo angehalten wurde.
 
 Die  Anweisung:
 
@@ -137,7 +177,8 @@ verschiedenen Stellen angegeben werden.
 1. Im gleichen Objekt (z.B. im gleichen CalibrationObject oder Standard ect.)
 2. In einem Rezept unter dem key ```Replace```
 
-Ersetzungen, die unterhalb ```Replace``` angegeben sind, sind __vorrangig__. Wird 
+Ersetzungen, die unterhalb ```Replace``` angegeben sind, sind __vorrangig__ 
+gegenüber den Ersetzungen in ```Defaults```. Wird 
 also eine Rezept 
 
 ```
@@ -165,6 +206,6 @@ abgearbeitet, wird 300 als waittime realisiert.
 
 ## ToDo
 
-* einen API-Endpunkt, der Art:```-d run recipe/0/1/1```
-  mit dem man  einzelne Tasks ausführen bzw. testen kann
-* ```gen.mod``` auf ```jpp``` umstellen
+* abhängige Tasks
+* stopIf -Tasks
+* runIf -Tasks
