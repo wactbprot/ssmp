@@ -31,10 +31,12 @@ bin/nssmp
 ```
 ist. Weitere Details können mittels ```ssmp -h``` erfragt werden.
 
+
+
 ## Vorbereitung
 
 Die oben eingeführten  Programmdefinitionen  sind zweckmäßiger
-Weise in einer CouchDB-Instanz abgelegt. Sie können auf 2 
+Weise in einer CouchDB-Instanz abgelegt. Sie können auf 3 
 verschiedene Arten dem _ssmp_ zur weiteren Abarbeitung übergeben werden:
 
 ### 1. POST
@@ -66,6 +68,17 @@ oder mit [csmp](https://github.com/wactbprot/csmp):
 ``` 
 mp_ini -i mpid -d load
 ```
+
+### 3. Simulation
+
+Wird die id ```sim``` zum Laden angegeben, 
+wird eine einfache _ssmp_-interne
+Messprogrammdefinition benutzt (s. ToDo):
+
+```
+curl -X PUT -d  'load'  http://localhost:8001/sim
+```
+
 ### Übergeben der Kalibrierdokumente
 
 Damit an die vorliegende Kalibrierung/Messung angepasste 
@@ -209,3 +222,4 @@ abgearbeitet, wird 300 als waittime realisiert.
 * abhängige Tasks
 * stopIf -Tasks
 * runIf -Tasks
+* task laden simulieren
