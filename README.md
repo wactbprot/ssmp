@@ -89,7 +89,20 @@ mp_ctrl -i id -c 0 -d pause
 Nach einem stop wird der Ablauf von neuem begonnen;
 Pause macht da weiter wo angehalten wurde.
 
+Die  Anweisung:
 
+```
+mp_ctrl -i id -c 0 -d 'load;5:run'
+```
+
+läd den Ablauf und startet ihn 5 mal. Es geht auch:
+
+```
+mp_ctrl -i id -c 0 -d 'load;5:run,load;stop'
+```
+
+was den Ablauf läd, 5 mal den Zyklus ```run``` gefolgt von ```load``` 
+(durch Komma getrennt) durchläuft und dann ```stop``` ausführt.  
 
 
 ## recipes und tasks
