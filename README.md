@@ -42,7 +42,6 @@ bin/nssmp
 ist. Weitere Details können mittels ```ssmp -h``` erfragt werden.
 
 
-
 ## Vorbereitung
 
 Die oben eingeführten  Programmdefinitionen  sind zweckmäßiger
@@ -57,7 +56,7 @@ Mittels _http-POST_ :
 curl -X POST -d  '{_id:mpdef ... }'  http://localhost:8001/id
 ```
 
-Hiefür kann auch [csmp](https://github.com/wactbprot/csmp) benutzt werden:
+Hierfür kann auch [csmp](https://github.com/wactbprot/csmp) benutzt werden:
 
 ```
 db_get -p dbname/mpid |  mp_post -i id 
@@ -99,6 +98,7 @@ zu übergeben:
 ```
  curl -X PUT -d 'load' http://localhost:8001/mpid/id/kdid
 ```
+
 [csmp](https://github.com/wactbprot/csmp) stellt dazu die 
 Programme ```mp_id+``` (Hinzufügen), ```mp_id-``` (Löschen) 
 und ```mp_id``` (Übersicht) zur Verfügung.
@@ -106,11 +106,12 @@ und ```mp_id``` (Übersicht) zur Verfügung.
 
 ### Laden der recipes
 
-Die Abläufe sind in den _mpdef_ nur mit Tasknamen
-(und evtl. vorzunehmenden Ersetzungen) angegebenen.
+Die Abläufe (_recipes_) der einzelnen _container_
+sind der _mpdef_  mit _TaskName_n und
+individuellen Ersetzungsanweisungen angegebenen/aufzufinden.
 
 Es ist nötig, aus diesen Beschreibungen die konkreten
-Abläufe zu erstellen; die geschieht mittels:
+Abläufe zu erstellen; dies geschieht mittels:
 
 ```
  curl -X PUT -d 'load' http://localhost:8001/mpid/ctrl/0
@@ -232,3 +233,4 @@ abgearbeitet, wird 300 als waittime realisiert.
 * stopIf -Tasks
 * runIf -Tasks
 * task laden simulieren
+* Neuschreiben in Go
