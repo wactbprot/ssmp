@@ -5,6 +5,8 @@
               |_|
 
 ```
+server side mp
+--------------
 
 
 __ssmp__ steht für  server side measurement program.
@@ -17,6 +19,14 @@ Abarbeitung angeordnet werden können.
 Die Gesamtheit der container, recipes und tasks ist die Messprogrammdefinition
 (_mpdef_);
 diese besitzt eine id, die in allen urls gleich nach dem ssmp port auftaucht.
+
+## Installation
+
+```
+git clone https://github.com/wactbprot/ssmp.git
+cd ssmp
+npm install
+```
 
 ## Starten
 
@@ -87,12 +97,11 @@ ist es notwendig _ssmp_ die _id_s der Kalibrierdocumente (_kdid_)
 zu übergeben: 
 
 ```
- curl -X PUT -d 'load' http://localhost:8001/mpid/kdid
+ curl -X PUT -d 'load' http://localhost:8001/mpid/id/kdid
 ```
-
-[csmp](https://github.com/wactbprot/csmp) hat dafür die Funktionen 
-```mp_id+``` zum Hinzufügen, ```mp_id+``` zum Löschen und ```mp_id```
-für eine Übersicht.
+[csmp](https://github.com/wactbprot/csmp) stellt dazu die 
+Programme ```mp_id+``` (Hinzufügen), ```mp_id-``` (Löschen) 
+und ```mp_id``` (Übersicht) zur Verfügung.
 
 
 ### Laden der recipes
