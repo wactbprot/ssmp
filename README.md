@@ -193,10 +193,12 @@ Ein einfaches Bsp. für eine task ist Warten:
       },
 ...
 ```
+### Ersetzungen
+
 In dieser Task müssen noch die mit einem Unterstrich 
 beginnenden Zeichenketten (_strings_) also  ```_waitfor``` und
 ```_waittime``` esetzt werden. Womit diese ersetzt werden kann an zwei
-verschiedenen Stellen angegeben werden.
+verschiedenen Stellen angegeben werden:
 1. Im gleichen Objekt (z.B. im gleichen CalibrationObject oder Standard ect.)
 2. In einem Rezept unter dem key ```Replace```
 
@@ -225,7 +227,23 @@ also eine Rezept
            ]
 ```
 abgearbeitet, wird 300 als waittime realisiert.
-	
+
+### Ablaufkontrolle
+
+_tasks_ können Schlüsselwörter (keys) besitzen,
+die ihre Ausführing beeinflussen; das sind die keys 
+```RunIf`` und ```StopIf```. Bsp.:
+
+* ```RunIf: "pfill_ok.Value"```: die _task_ wird ausgeführt, 
+  wenn der Wert unter dem Pfad _exchange.pfill___ok.Value_ zu true
+  ausgewertet wird
+* ```StopIf: "pfill_ok.Value"```: die _task_ wird wird nicht erneut aufgerufen, 
+  wenn der Wert unter dem Pfad _exchange.pfill___ok.Value_ zu true
+  ausgewertet werden kann
+
+
+#### StopIf
+
 
 ## ToDo
 
