@@ -197,11 +197,15 @@ Ein einfaches Bsp. für eine task ist Warten:
 
 In dieser Task müssen noch die mit einem Unterstrich 
 beginnenden Zeichenketten (_strings_) also  ```_waitfor``` und
-```_waittime``` esetzt werden. Womit diese ersetzt werden kann an zwei
-verschiedenen Stellen angegeben werden:
-1. Im gleichen Objekt (z.B. im gleichen CalibrationObject oder Standard ect.)
+```_waittime``` esetzt werden. Womit diese ersetzt werden kann an drei
+verschiedenen Stellen (abhängig von den Anforderungen) angegeben werden:
+1. Im gleichen Objekt (z.B. im gleichen 
+   CalibrationObject oder Standard ect.) unter dem key ```Defaults```
 2. In einem Rezept unter dem key ```Replace```
-
+3. Direkt in der _task_ unter dem key ```Exchange``` wobei hier Ersetzungen
+   zur Laufzeit vorgenommen werden.
+   Darüber hinaus kann Exchange auch ein array von Werten sein.
+   
 Ersetzungen, die unterhalb ```Replace``` angegeben sind, sind __vorrangig__ 
 gegenüber den Ersetzungen in ```Defaults```. Wird 
 also eine Rezept 
