@@ -199,12 +199,14 @@ In dieser Task müssen noch die mit einem Unterstrich
 beginnenden Zeichenketten (_strings_) also  ```_waitfor``` und
 ```_waittime``` esetzt werden. Womit diese ersetzt werden kann an drei
 verschiedenen Stellen (abhängig von den Anforderungen) angegeben werden:
-1. Im gleichen Objekt (z.B. im gleichen 
+
+#### Defaults
+
+Im gleichen Objekt (z.B. im gleichen 
    CalibrationObject oder Standard ect.) unter dem key ```Defaults```
-2. In einem Rezept unter dem key ```Replace```
-3. Direkt in der _task_ unter dem key ```Exchange``` wobei hier Ersetzungen
-   zur Laufzeit vorgenommen werden.
-   Darüber hinaus kann Exchange auch ein array von Werten sein.
+
+#### Replace
+In einem Rezept unter dem key ```Replace```
    
 Ersetzungen, die unterhalb ```Replace``` angegeben sind, sind __vorrangig__ 
 gegenüber den Ersetzungen in ```Defaults```. Wird 
@@ -232,6 +234,13 @@ also eine Rezept
 ```
 abgearbeitet, wird 300 als waittime realisiert.
 
+#### FromExchange
+
+Direkt in der _task_ unter dem key ```FromExchange``` wobei 
+hier Ersetzungen zur Laufzeit vorgenommen werden. Darüber 
+hinaus kann ```FromExchange``` auch ein Array von Werten sein.
+
+
 ### Ablaufkontrolle
 
 _tasks_ können Schlüsselwörter (keys) besitzen,
@@ -250,17 +259,19 @@ Die _task_:
 
 ```
 {
-	Action=wait, 
-	Comment="Ready in  1000 ms", 
-	TaskName=Mp-cond_wait, 
-	Exchange=wait_time.Value, 
-	RunIf=got_time.Value, 
-	Id=[], 
-	CuCo=false, 
-	MpName=Mp
+	Action      : wait, 
+	Comment     : "Ready in  1000 ms", 
+	TaskName    : Mp-cond_wait, 
+	Exchange    : wait_time.Value, 
+	Id          : [], 
+	CuCo        : false, 
+	MpName      : Mp
+	RunIf       : got_time.Value, 
 }
 ```
+
 wird gestartet, wenn z.B.:
+
 ```
 csmp/bin/mp_set -i mpdef -p  exchange/got_time/Value -d 'true'
 ```
@@ -279,4 +290,5 @@ ausgewertet werden kann.
 * stopIf -Tasks
 * runIf -Tasks
 * task laden simulieren
+* log DB Zweig in receive.js
 * Neuschreiben in Go
