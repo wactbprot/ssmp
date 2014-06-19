@@ -236,17 +236,41 @@ abgearbeitet, wird 300 als waittime realisiert.
 
 _tasks_ können Schlüsselwörter (keys) besitzen,
 die ihre Ausführing beeinflussen; das sind die keys 
-```RunIf`` und ```StopIf```. Bsp.:
+```RunIf`` und ```StopIf```.
 
-* ```RunIf: "pfill_ok.Value"```: die _task_ wird ausgeführt, 
-  wenn der Wert unter dem Pfad _exchange.pfill___ok.Value_ zu true
-  ausgewertet wird
-* ```StopIf: "pfill_ok.Value"```: die _task_ wird wird nicht erneut aufgerufen, 
-  wenn der Wert unter dem Pfad _exchange.pfill___ok.Value_ zu true
-  ausgewertet werden kann
+#### RunIf
 
+Die "Formulierung" ```RunIf: "got_time.Value"``` bewirkt, dass
+die _task_  ausgeführt wird, wenn der Wert unter 
+dem Pfad _exchange.got___time.Value_ (ausführlich: 
+http://localhost:8001/mpdef/exchange/got_time/Value)
+zu true ausgewertet wird.
+  
+Die _task_:
+
+```
+{
+	Action=wait, 
+	Comment="Ready in  1000 ms", 
+	TaskName=Mp-cond_wait, 
+	Exchange=wait_time.Value, 
+	RunIf=got_time.Value, 
+	Id=[], 
+	CuCo=false, 
+	MpName=Mp
+}
+```
+wird gestartet, wenn z.B.:
+```
+csmp/bin/mp_set -i mpdef -p  exchange/got_time/Value -d 'true'
+```
+ausgeführt wird.
 
 #### StopIf
+
+```StopIf``` funktioniert ganz analog ```RunIf```: Die _task_ wird nicht
+erneut ausgeführt, wenn der Wert unter dem Pfad _exchange.pfill___ok.Value_ zu true
+ausgewertet werden kann.
 
 
 ## ToDo
