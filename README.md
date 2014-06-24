@@ -284,6 +284,20 @@ erneut ausgeführt, wenn der Wert unter dem Pfad _exchange.pfill___ok.Value_ zu 
 ausgewertet werden kann.
 
 
+## Abfrage von Datenstrukturen
+
+geschieht mittels _http-GET_. Das Ergebnis der Anfrage hängt von der Art des
+Zurückzubebenden Objectes ab:
+
+* wenn ```x``` ein ```string```, ```number```oder ```boolean``` ist, dann siht
+  das Ergebnis so aus: ```{result:x}```
+* ist ```x``` ein ```object``` oder ```array``` wird einfach ```x```
+  zurückgegeben
+* gibt es keine der Anfrage entsprechende Daten wird mit ```{error:
+  "Beschreibung des Grundes"}``` geantwortet
+* ist die url unzulässig liefert eine Anfrage
+  ```{"code":"MethodNotAllowedError","message":"GET is not allowed"}```
+
 ## ToDo
 
 * abhängige Tasks
