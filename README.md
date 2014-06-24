@@ -287,12 +287,12 @@ ausgewertet werden kann.
 ## Abfrage von Datenstrukturen
 
 geschieht mittels _http-GET_. Das Ergebnis der Anfrage hängt von der Art des
-Zurückzubebenden Objectes ab:
+Zurückzubebenden Objektes ab:
 
-* wenn ```x``` ein ```string```, ```number```oder ```boolean``` ist, dann siht
-  das Ergebnis so aus: ```{result:x}```
+* wenn ```x``` ein ```string```, ```number```oder ```boolean``` ist, dann sieht
+  das Ergebnis so aus: ```{result:x}``` (dies damit der _return value_ jedem Fall json
 * ist ```x``` ein ```object``` oder ```array``` wird einfach ```x```
-  zurückgegeben
+  ist)
 * gibt es keine der Anfrage entsprechende Daten wird mit ```{error:
   "Beschreibung des Grundes"}``` geantwortet
 * ist die url unzulässig liefert eine Anfrage
