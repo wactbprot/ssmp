@@ -206,14 +206,14 @@ Im gleichen Objekt (z.B. im gleichen
    CalibrationObject oder Standard ect.) unter dem key ```Defaults```
 
 #### Replace
-In einem Rezept unter dem key ```Replace```
+In einer Rezeptdefinition unter dem key ```Replace```
    
 Ersetzungen, die unterhalb ```Replace``` angegeben sind, sind __vorrangig__ 
 gegenüber den Ersetzungen in ```Defaults```. Wird 
-also eine Rezept 
+also eine Definition:
 
 ```
-"Recipe": [
+"Definition": [
                [
                    {
                        "TaskName": "Mp-wait",
@@ -232,12 +232,13 @@ also eine Rezept
                ]
            ]
 ```
-abgearbeitet, wird 300 als waittime realisiert.
+abgearbeitet, wird 300 als ```waittime``` realisiert falls etwas 
+Anderes in den ```Defaults``` angegeben ist.
 
 #### FromExchange
 
 Direkt in der _task_ unter dem key ```FromExchange``` wobei 
-hier Ersetzungen zur Laufzeit vorgenommen werden. Darüber 
+hier **Ersetzungen zur Laufzeit** vorgenommen werden. Darüber 
 hinaus kann ```FromExchange``` auch ein Array von Werten sein.
 
 
@@ -280,10 +281,10 @@ ausgeführt wird.
 #### StopIf
 
 ```StopIf``` funktioniert ganz analog ```RunIf```: Die _task_ wird nicht
-erneut ausgeführt, wenn der Wert unter dem Pfad _exchange.pfill___ok.Value_ zu true
-ausgewertet werden kann.
+erneut ausgeführt, wenn der Wert unter dem Pfad ```exchange.pfill_ok.Value``` 
+zu true ausgewertet werden kann.
 
-
+	
 ## Abfrage von Datenstrukturen
 
 geschieht mittels _http-GET_. Das Ergebnis der Anfrage hängt von der Art des
@@ -305,4 +306,4 @@ Zurückzubebenden Objektes ab:
 * runIf -Tasks
 * task laden simulieren
 * log DB Zweig in receive.js
-* Neuschreiben in Go
+* Neuschreiben in Go oder Erlang
