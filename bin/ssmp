@@ -1,9 +1,5 @@
 #!/usr/bin/env node
 /**
- * ssmp
+ * mpvs
  */
-var path = require('path'),
-fs       = require('fs'),
-lib      = path.join(path.dirname(fs.realpathSync(__filename)), '../lib');
-
-require(lib + '/app.js');
+require('../app.js');
