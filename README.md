@@ -318,8 +318,8 @@ zu true ausgewertet werden kann.
 	
 ## ssmp Rückgabewerte
 
-geschieht mittels _http-GET_. Das Ergebnis der Anfrage hängt von der Art des
-Zurückzubebenden Objektes ab:
+Das Ergebnis von _http-GET_-Anfrage hängt von der Art des
+zurückzubebenden Objektes (```x```) ab:
 
 * wenn ```x``` ein ```string```, ```number```oder ```boolean``` ist, dann sieht
   das Ergebnis so aus: ```{result:x}``` (dies damit der _return value_ jedem Fall json
@@ -332,9 +332,6 @@ Zurückzubebenden Objektes ab:
 
 ## ToDo
 
-* abhängige Tasks
-* stopIf -Tasks
-* runIf -Tasks
 * task laden simulieren
 * log DB Zweig in receive.js
 * Neuschreiben in Go oder Erlang
