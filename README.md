@@ -316,7 +316,7 @@ erneut ausgeführt, wenn der Wert unter dem Pfad ```exchange.pfill_ok.Value```
 zu true ausgewertet werden kann.
 
 	
-## Abfrage von Datenstrukturen
+## ssmp Rückgabewerte
 
 geschieht mittels _http-GET_. Das Ergebnis der Anfrage hängt von der Art des
 Zurückzubebenden Objektes ab:
