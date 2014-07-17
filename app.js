@@ -11,9 +11,9 @@
       restify = require("restify"),
       bunyan  = require("bunyan"),
       utils   = require("./lib/apputils"),
-      op      = require("./lib/operation"),
       gen     = require("./lib/generic"),
       observe = require("./lib/observe"),
+      ini     = require("./lib/ini"),
       log     = bunyan.createLogger({name: name}),
       server  = restify.createServer({name: name,
                                       log: log});
@@ -139,7 +139,7 @@
    */
   server.put("/:id", function(req, res, next){
     var id   = req.params.id;
-    op.ini(mps, req, function(rob){
+    ini(mps, req, function(rob){
       res.send(rob);
       observe(mps[id]);
     });
@@ -156,7 +156,7 @@
    */
   server.post("/:id", function(req, res, next){
     var id   = req.params.id;
-    op.ini(mps, req, function(rob){
+    ini(mps, req, function(rob){
       res.send(rob);
       observe(mps[id]);
     });
