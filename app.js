@@ -12,7 +12,7 @@
       bunyan  = require("bunyan"),
       utils   = require("./lib/apputils"),
       gen     = require("./lib/generic"),
-      observe = require("./lib/observe"),
+      obs     = require("./lib/observe"),
       ini     = require("./lib/ini"),
       log     = bunyan.createLogger({name: name}),
       server  = restify.createServer({name: name,
@@ -141,7 +141,7 @@
     var id   = req.params.id;
     ini(mps, req, function(rob){
       res.send(rob);
-      observe(mps[id]);
+      obs(mps[id]);
     });
     next();
   });
@@ -158,7 +158,7 @@
     var id   = req.params.id;
     ini(mps, req, function(rob){
       res.send(rob);
-      observe(mps[id]);
+      obs(mps[id]);
     });
     next();
   });

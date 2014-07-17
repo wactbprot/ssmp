@@ -332,6 +332,11 @@ zurückzubebenden Objektes (```x```) ab:
 
 ## ToDo
 
+* wohin mit repltask aka ein universelles utils
+* jasmine anrufen
+
+## Ideas
+
+* Neuschreiben Erlang
 * task laden simulieren
 * log DB Zweig in receive.js
-* Neuschreiben in Go oder Erlang
