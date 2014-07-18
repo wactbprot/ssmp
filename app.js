@@ -13,6 +13,7 @@
       utils   = require("./lib/utils"),
       gen     = require("./lib/generic"),
       obs     = require("./lib/observe"),
+      col     = require("./lib/collections"),
       ini     = require("./lib/ini"),
       log     = bunyan.createLogger({name: name}),
       server  = restify.createServer({name: name,
@@ -42,11 +43,11 @@
    * http://localhost:8001/id/param/database
    */
   server.get("/:id", function(req, res, next){
-    res.send(utils.get(mps, req));
+    res.send(col.get_mp(mps, req));
     next();
   });
   server.get("/:id/frame", function(req, res, next){
-    res.send(utils.get_frame(mps, req));
+    res.send(col.get_frame(mps, req));
     next();
   })
 
