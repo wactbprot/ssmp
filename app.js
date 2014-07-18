@@ -10,7 +10,7 @@
       prog    = require("commander"),
       restify = require("restify"),
       bunyan  = require("bunyan"),
-      utils   = require("./lib/apputils"),
+      utils   = require("./lib/utils"),
       gen     = require("./lib/generic"),
       obs     = require("./lib/observe"),
       ini     = require("./lib/ini"),
@@ -46,7 +46,7 @@
     next();
   });
   server.get("/:id/frame", function(req, res, next){
-    res.send(utils.frame(mps, req));
+    res.send(utils.get_frame(mps, req));
     next();
   })
 
@@ -102,7 +102,7 @@
    * anders als ein normaler put-request
    */
   server.put("/:id/id/:cdid", function(req, res, next) {
-    utils.cdid(mps, req, function(rob){
+    utils.get_cd_info(mps, req, function(rob){
       res.send(rob);
     });
     next();
