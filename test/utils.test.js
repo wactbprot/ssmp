@@ -28,4 +28,18 @@ describe('utils', function(){
       assert.equal(3, utils.cmd_to_array(lrr).length);
     })
   })
+
+  describe('#replace_in_with(task, token, value)', function(){
+    it('should return replaced task (can be any object', function(){
+      var task   = {a:"_gg",
+                    b:"ff",
+                    c:[1,2,3]},
+          token= "_gg",
+          val_1 = "replaced",
+          val_2 = ["a", "b"];
+      assert.equal(val_1, utils.replace_in_with(task, token, val_1).a);
+      assert.equal("b", utils.replace_in_with(task, token, val_2).a[1]);
+
+    })
+  })
 })
