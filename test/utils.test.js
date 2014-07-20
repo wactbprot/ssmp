@@ -39,6 +39,7 @@ describe('utils', function(){
           val_2 = ["a", "b"];
       assert.equal(val_1, utils.replace_in_with(task, token, val_1).a);
       assert.equal("b", utils.replace_in_with(task, token, val_2).a[1]);
+      assert.equal(3, utils.replace_in_with(task, token, val_2).c[2]);
 
     })
   })
