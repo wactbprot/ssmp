@@ -58,6 +58,14 @@ git clone https://github.com/wactbprot/ssmp.git
 cd ssmp
 npm install
 ```
+## Unit tests/ code coverage
+ 
+```
+$> cd ssmp
+$> mocha
+$> istanbul cover _mocha -- -R spec
+$> firefox  coverage/lcov-report/index.html 
+```
 
 ## Starten
 

@@ -14,12 +14,13 @@
       gen     = require("./lib/generic"),
       obs     = require("./lib/observe"),
       col     = require("./lib/collections"),
-      ini     = require("./lib/ini"),
+      inimp   = require("./lib/ini_mp"),
+      inicd   = require("./lib/ini_cd"),
       log     = bunyan.createLogger({name: name}),
       server  = restify.createServer({name: name,
                                       log: log});
 
-  prog.version("0.0.3")
+  prog.version("0.0.4")
   .option("-P, --port <port>", "port (default is  8001)", parseInt)
   .parse(process.argv);
 
@@ -93,7 +94,7 @@
     next();
   })
 
- /**
+  /**
    * PUT
    * http://server:port/mpid/cdid
    *
@@ -103,7 +104,7 @@
    * anders als ein normaler put-request
    */
   server.put("/:id/id/:cdid", function(req, res, next) {
-    utils.get_cd_info(mps, req, function(rob){
+    inicd(mps, req, function(rob){
       res.send(rob);
     });
     next();
@@ -140,7 +141,7 @@
    */
   server.put("/:id", function(req, res, next){
     var id   = req.params.id;
-    ini(mps, req, function(rob){
+    inimp(mps, req, function(rob){
       res.send(rob);
       obs(mps[id]);
     });
