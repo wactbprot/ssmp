@@ -195,20 +195,20 @@
     </style>
 </head>
 <body>
-<div class="header low">
+<div class="header medium">
     <h1>Code coverage report for <span class="entity">lib/utils.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">41.89% <small>(31 / 74)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">59.46% <small>(44 / 74)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">9.62% <small>(5 / 52)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">48.08% <small>(25 / 52)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">42.86% <small>(3 / 7)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">57.14% <small>(4 / 7)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">41.1% <small>(30 / 73)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">58.9% <small>(43 / 73)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
@@ -385,7 +385,8 @@
 167
 168
 169
-170</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+170
+171</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -431,6 +432,7 @@
 <span class="cline-any cline-yes">3</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3</span>
 <span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -446,31 +448,31 @@
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -557,7 +559,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var _        = require("underscore"),
     bunyan   = require("bunyan"),
     net      = require("./net"),
-    col     = require("./collections"),
+    col      = require("./collections"),
     deflt    = require("./default"),
     gen      = require("./generic"),
     log      = bunyan.createLogger({name: deflt.appname}),
@@ -600,7 +602,8 @@ var replace_in_with = function(task, token, value){
   var strtask = JSON.stringify(task),
       patt    = new RegExp( token ,"g");
 &nbsp;
-  if(Object.prototype.toString.call( value ) === '[object Array]'){
+//  if(Object.prototype.toString.call( value ) === '[object Array]'){
+  if(_.isArray(value)){
     strtask = strtask.replace(patt, JSON.stringify(value))
               .replace(/\"\[/g, "\[")
               .replace(/\]\"/g, "\]")
@@ -614,32 +617,32 @@ var replace_in_with = function(task, token, value){
 }
 exports.replace_in_with = replace_in_with;
 &nbsp;
-var get_path = <span class="fstat-no" title="function not covered" >function(req){</span>
-<span class="cstat-no" title="statement not covered" >  var path = [],</span>
+var get_path = function(req){
+  var path = [],
       struct = req.params.struct,
       l1   = req.params.l1,
       l2   = req.params.l2,
       l3   = req.params.l3,
       msg  = "request to " + struct + "/";
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if(l3 &amp;&amp; l2 &amp;&amp; l1){</span>
-<span class="cstat-no" title="statement not covered" >    log.info({ok: true}, msg + l1 + "/" + l2 + "/"+ l3 );</span>
-<span class="cstat-no" title="statement not covered" >    path = [l1, l2, l3];</span>
+  if(l3 &amp;&amp; l2 &amp;&amp; l1){
+    log.info({ok: true}, msg + l1 + "/" + l2 + "/"+ l3 );
+    path = [l1, l2, l3];
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if(l2 &amp;&amp; l1 &amp;&amp; !l3){</span>
-<span class="cstat-no" title="statement not covered" >    log.info({ok: true}, msg + l1 + "/" + l2 );</span>
-<span class="cstat-no" title="statement not covered" >    path = [l1, l2];</span>
+  if(l2 &amp;&amp; l1 &amp;&amp; !l3){
+    log.info({ok: true}, msg + l1 + "/" + l2 );
+    path = [l1, l2];
   }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if(l1 &amp;&amp; !l2 &amp;&amp; !l3){</span>
-<span class="cstat-no" title="statement not covered" >    log.info({ok: true}, msg + l1 );</span>
-<span class="cstat-no" title="statement not covered" >    path = [l1];</span>
+  if(l1 &amp;&amp; !l2 &amp;&amp; !l3){
+    log.info({ok: true}, msg + l1 );
+    path = [l1];
   }
-<span class="cstat-no" title="statement not covered" >  if(!l1 &amp;&amp; !l2 &amp;&amp; !l3){</span>
-<span class="cstat-no" title="statement not covered" >    log.info({ok: true}, msg  );</span>
+  if(!l1 &amp;&amp; !l2 &amp;&amp; !l3){
+    log.info({ok: true}, msg  );
   }
-<span class="cstat-no" title="statement not covered" >  return path;</span>
+  return path;
 }
 exports.get_path = get_path;
 &nbsp;
@@ -728,7 +731,7 @@ exports.put = put;
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Jul 22 2014 10:58:48 GMT+0200 (CEST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Jul 22 2014 11:43:18 GMT+0200 (CEST)</div>
 </div>
 
 <script src="../prettify.js"></script>

@@ -51,4 +51,19 @@ describe('utils', function(){
       assert.equal(3, utils.replace_in_with(task, token, val_2).c[2]);
     })
   })
+
+  describe('#get_path(req)', function(){
+    it('should return a path array', function(){
+      var req = {params:{}};
+      req.params.struct = "test";
+
+      assert.equal(true, _.isEmpty(utils.get_path(req)));
+      req.params.l1 = "a";
+      assert.equal("a", utils.get_path(req)[0]);
+      req.params.l2 = "b";
+      assert.equal("b", utils.get_path(req)[1]);
+      req.params.l3 = "c";
+      assert.equal("c", utils.get_path(req)[2]);
+    })
+  })
 })
