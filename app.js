@@ -158,7 +158,7 @@
    */
   server.post("/:id", function(req, res, next){
     var id   = req.params.id;
-    ini(mps, req, function(rob){
+    inimp(mps, req, function(rob){
       res.send(rob);
       obs(mps[id]);
     });
@@ -169,8 +169,7 @@
    * --- go!---
    */
   server.listen(port, function() {
-    log.info({ok: true},
-             "server runs on port: " + port);
+    log.info({ok: true},"ssmp up and running @" + port);
   });
 
 }).call(this);
