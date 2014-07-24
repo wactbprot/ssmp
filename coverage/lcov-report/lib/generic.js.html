@@ -199,16 +199,16 @@
     <h1>Code coverage report for <span class="entity">lib/generic.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">21.74% <small>(15 / 69)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">31.34% <small>(21 / 67)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">0% <small>(0 / 34)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">12.5% <small>(4 / 32)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">0% <small>(0 / 12)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">16.67% <small>(2 / 12)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">21.74% <small>(15 / 69)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">31.34% <small>(21 / 67)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
@@ -392,11 +392,7 @@
 174
 175
 176
-177
-178
-179
-180
-181</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+177</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -434,19 +430,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -479,10 +475,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -613,20 +605,20 @@ var _        = require("underscore"),
  * ```mp.ctrl.ini([], "foo")```
  */
 &nbsp;
-var mod = <span class="fstat-no" title="function not covered" >function(obj){</span>
-<span class="cstat-no" title="statement not covered" >  var def  = obj || {};</span>
-<span class="cstat-no" title="statement not covered" >  return {</span>
+var mod = function(obj){
+  var def  = obj || <span class="branch-1 cbranch-no" title="branch not covered" >{};</span>
+  return {
     ensure:<span class="fstat-no" title="function not covered" >function(p, o){</span>
 <span class="cstat-no" title="statement not covered" >      obpa.ensureExists(def, p, o);</span>
     },
-    get:<span class="fstat-no" title="function not covered" >function(p){</span>
-<span class="cstat-no" title="statement not covered" >      var res;</span>
-<span class="cstat-no" title="statement not covered" >      if(_.isArray(p) &amp;&amp; _.isEmpty(p)){</span>
-<span class="cstat-no" title="statement not covered" >        res = def;</span>
+    get:function(p){
+      var res;
+      <span class="missing-if-branch" title="else path not taken" >E</span>if(_.isArray(p) &amp;&amp; _.isEmpty(p)){
+        res = def;
       }else{
 <span class="cstat-no" title="statement not covered" >        res =  obpa.get(def, p);</span>
       }
-<span class="cstat-no" title="statement not covered" >      return res;</span>
+      return res;
     },
     set:<span class="fstat-no" title="function not covered" >function(p, obj, cb){</span>
 <span class="cstat-no" title="statement not covered" >      obpa.set(def, p, obj);</span>
@@ -665,10 +657,6 @@ var walkstate = <span class="fstat-no" title="function not covered" >function(mp
 <span class="cstat-no" title="statement not covered" >    for(var seq = 0; seq &lt; seqN; seq++){</span>
 <span class="cstat-no" title="statement not covered" >      var seqElem = state[seq],</span>
           parN    = seqElem.length;
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      if(_.contains(seqElem, ctrlstr.work)){</span>
-<span class="cstat-no" title="statement not covered" >        break;</span>
-      }
 <span class="cstat-no" title="statement not covered" >      if(_.contains(seqElem, ctrlstr.ready)){</span>
 <span class="cstat-no" title="statement not covered" >        for(var par = 0; par &lt; parN; par++){</span>
 <span class="cstat-no" title="statement not covered" >          exec(mp, [no, seq, par]);</span>
@@ -761,7 +749,7 @@ exports.vlTime = vlTime;
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Jul 22 2014 11:48:45 GMT+0200 (CEST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Jul 24 2014 15:22:33 GMT+0200 (CEST)</div>
 </div>
 
 <script src="../prettify.js"></script>

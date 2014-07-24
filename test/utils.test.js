@@ -1,5 +1,6 @@
 var assert = require("assert"),
     _      = require("underscore"),
+    gen    = require("../lib/generic"),
     utils  = require("../lib/utils");
 
 describe('utils', function(){
@@ -66,4 +67,18 @@ describe('utils', function(){
       assert.equal("c", utils.get_path(req)[2]);
     })
   })
+  describe('#get(mp, req)', function(){
+    it('should return a boolean true', function(){
+      var req = {params:{}},
+          mps = {};
+      mps.id = {};
+      mps.id.test = gen.mod({a:true});
+      req.params.id = "id";
+      req.params.struct = "test";
+
+      assert.equal(true, utils.get(mps,req).a);
+
+    })
+  })
+
 })
