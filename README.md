@@ -3,7 +3,10 @@
 |_ -|_ -|     | . |
 |___|___|_|_|_|  _|
               |_|
+```
+## Überblick
 
+```
 
                            +---------------+
                            |   node-relay  |
@@ -54,9 +57,9 @@ diese besitzt eine id, die in allen urls gleich nach dem ssmp port auftaucht.
 ## Installation
 
 ```
-git clone https://github.com/wactbprot/ssmp.git
-cd ssmp
-npm install
+$> git clone https://github.com/wactbprot/ssmp.git
+$> cd ssmp
+$> npm install
 ```
 ## Unit tests/ code coverage
  
@@ -72,11 +75,11 @@ $> firefox  coverage/lcov-report/index.html
 ssmp wird durch den Aufruf ```ssmp [-P port]``` gestartet. Man erhält
 eine schönere Formatierung der Ausgaben durch:
 ```
-bin/ssmp [options] | node_modules/bunyan/bin/bunyan -l info
+$> bin/ssmp [options] | node_modules/bunyan/bin/bunyan -l info
 ```
 was das Gleiche wie
 ```
-bin/nssmp
+$> bin/nssmp
 ```
 ist. Weitere Details können mittels ```ssmp -h``` erfragt werden.
 
@@ -92,13 +95,14 @@ verschiedene Arten dem _ssmp_ zur weiteren Abarbeitung übergeben werden:
 Mittels _http-POST_ : 
 
 ```
-curl -X POST -d  '{_id:mpdef ... }'  http://localhost:8001/id
+$> curl -X POST -d  '{_id:mpdef ... }'  http://localhost:8001/id
 ```
 
 Hierfür kann auch [csmp](https://github.com/wactbprot/csmp) benutzt werden:
 
 ```
-db_get -p dbname/mpid |  mp_post -i id 
+$> cd csmp
+$> bin/db_get -p dbname/mpid |  bin/mp_post -i id 
 ```
 
 ### 2. PUT
@@ -107,14 +111,14 @@ db_get -p dbname/mpid |  mp_post -i id
 Mittels _http-PUT_ : 
 
 ```
-curl -X PUT -d  'load'  http://localhost:8001/id
+$> curl -X PUT -d  'load'  http://localhost:8001/id
 ```
 
 oder mit [csmp](https://github.com/wactbprot/csmp):
 
 
 ``` 
-mp_ini -i mpid -d load
+$> bin/mp_ini -i mpid -d load
 ```
 
 ### 3. Simulation
@@ -124,7 +128,7 @@ wird eine einfache _ssmp_-interne
 Messprogrammdefinition benutzt (s. ToDo):
 
 ```
-curl -X PUT -d  'load'  http://localhost:8001/sim
+$> curl -X PUT -d  'load'  http://localhost:8001/sim
 ```
 
 ### Übergeben der Kalibrierdokumente
@@ -135,7 +139,7 @@ ist es notwendig _ssmp_ die _id_s der Kalibrierdocumente (_kdid_)
 zu übergeben: 
 
 ```
- curl -X PUT -d 'load' http://localhost:8001/mpid/id/kdid
+$> curl -X PUT -d 'load' http://localhost:8001/mpid/id/kdid
 ```
 
 [csmp](https://github.com/wactbprot/csmp) stellt dazu die 
@@ -153,13 +157,13 @@ Es ist nötig, aus diesen Beschreibungen die konkreten
 Abläufe zu erstellen; dies geschieht mittels:
 
 ```
- curl -X PUT -d 'load' http://localhost:8001/mpid/ctrl/0
+$> curl -X PUT -d 'load' http://localhost:8001/mpid/ctrl/0
 ```
 
 Mit  [csmp](https://github.com/wactbprot/csmp) geht das so:
 
 ```
-mp_ctrl -i id -c 0 -d load
+$> bin/mp_ctrl -i id -c 0 -d load
 ```
 
 ### Ausführen, Anhalten und Stoppen eines Ablaufs
@@ -167,25 +171,25 @@ mp_ctrl -i id -c 0 -d load
 Das Starten des Ausführen geschieht auch über die ```ctrl``` Schnittstelle:
 
 ```
- curl -X PUT -d 'run' http://localhost:8001/mpid/ctrl/0
+$> curl -X PUT -d 'run' http://localhost:8001/mpid/ctrl/0
 ```
 
 Die  [csmp](https://github.com/wactbprot/csmp)-Variante:
 
 ```
-mp_ctrl -i id -c 0 -d run
+$> bin/mp_ctrl -i id -c 0 -d run
 ```
 
 In gleicher Weise funktioniert Stop
 
 ```
-mp_ctrl -i id -c 0 -d stop
+$> bin/mp_ctrl -i id -c 0 -d stop
 ```
 
 und Pause
 
 ```
-mp_ctrl -i id -c 0 -d pause
+$> bin/mp_ctrl -i id -c 0 -d pause
 ```
 
 Nach einem ```stop``` wird der Ablauf von neuem begonnen;
@@ -194,17 +198,17 @@ Nach einem ```stop``` wird der Ablauf von neuem begonnen;
 Die  Anweisung:
 
 ```
-mp_ctrl -i id -c 0 -d 'load;5:run'
+$> bin/mp_ctrl -i id -c 0 -d 'load;5:run'
 ```
 
 läd den Ablauf und startet ihn 5 mal. Es geht auch:
 
 ```
-mp_ctrl -i id -c 0 -d 'load;5:run,load;stop'
+$> bin/mp_ctrl -i id -c 0 -d 'load;5:run,load;stop'
 ```
 
 was den Ablauf läd, 5 mal den Zyklus ```run``` gefolgt von ```load``` 
-(durch Komma getrennt) durchläuft und dann ```stop``` ausführt.  
+(durch Komma getrennt) durchläuft und dann ```stop``` ausführt.
 
 
 ## recipes und tasks
@@ -313,7 +317,7 @@ Die _task_:
 wird gestartet, wenn z.B.:
 
 ```
-csmp/bin/mp_set -i mpdef -p  exchange/got_time/Value -d 'true'
+$> bin/mp_set -i mpdef -p  exchange/got_time/Value -d 'true'
 ```
 ausgeführt wird.
 
@@ -346,5 +350,4 @@ zurückzubebenden Objektes (```x```) ab:
 ## Ideas
 
 * Neuschreiben Erlang
-* task laden simulieren
-* log DB Zweig in receive.js
+* log DB Zweig
