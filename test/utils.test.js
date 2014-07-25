@@ -104,7 +104,6 @@ describe('utils', function(){
 
       var req = {params:{}};
       req.params.id     = "id";
-
       req.body          =  {a:"_gg",
                             b:"ff",
                             c:[1,2,3]},
@@ -116,6 +115,34 @@ describe('utils', function(){
       req.params.struct = "test",
 
       utils.put(mps, req, function(ret){
+        assert.equal("empty path", ret.error)
+      })
+
+      req.params.l1     = "a";
+      utils.put(mps, req, function(ret){
+        assert.equal(true, ret.ok)
+      })
+    })
+  })
+
+  describe('#del(mps, req, cb)', function(){
+    it('should return error messages and stuff', function(){
+
+      var mps           = {};
+      mps.id            = {};
+      mps.id.test       = gen.mod({a:0});
+
+      var req = {params:{}};
+      req.params.id     = "id";
+
+
+      utils.del(mps, req, function(ret){
+        assert.equal("not a valid structure", ret.error)
+      })
+
+      req.params.struct = "test",
+
+      utils.del(mps, req, function(ret){
         assert.equal("empty path", ret.error)
       })
 
