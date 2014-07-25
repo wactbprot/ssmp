@@ -40,9 +40,7 @@ describe('utils', function(){
     it('should return replaced task (can be any object', function(){
       var task    = {a:"_gg",
                     b:"ff",
-                    c:[1,
-                       2,
-                       3]},
+                    c:[1, 2, 3]},
           token   = "_gg",
           val_1   = "replaced",
           val_2   = ["a",
@@ -67,7 +65,7 @@ describe('utils', function(){
       assert.equal("c", utils.get_path(req)[2]);
     })
   })
-  describe('#get(mp, req)', function(){
+  describe('#get(mps, req)', function(){
     it('should return error messages and stuff', function(){
       var req = {params:{}},
           mps = {};
@@ -96,5 +94,36 @@ describe('utils', function(){
       assert.equal(0, utils.get(mps, req)[0]);
     })
   })
-  
+
+  describe('#put(mps, req, cb)', function(){
+    it('should return error messages and stuff', function(){
+
+      var mps           = {};
+      mps.id            = {};
+      mps.id.test       = gen.mod();
+
+      var req = {params:{}};
+      req.params.id     = "id";
+
+      req.body          =  {a:"_gg",
+                            b:"ff",
+                            c:[1,2,3]},
+
+      utils.put(mps, req, function(ret){
+        assert.equal("not a valid structure", ret.error)
+      })
+
+      req.params.struct = "test",
+
+      utils.put(mps, req, function(ret){
+        assert.equal("empty path", ret.error)
+      })
+
+      req.params.l1     = "a";
+      utils.put(mps, req, function(ret){
+        assert.equal(true, ret.ok)
+      })
+    })
+  })
+
 })
