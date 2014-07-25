@@ -68,17 +68,33 @@ describe('utils', function(){
     })
   })
   describe('#get(mp, req)', function(){
-    it('should return a boolean true', function(){
+    it('should return error messages and stuff', function(){
       var req = {params:{}},
           mps = {};
-      mps.id = {};
-      mps.id.test = gen.mod({a:true});
-      req.params.id = "id";
+
+      assert.equal("mpdef not found", utils.get(mps, req).error);
+
+      mps.id            = {};
+      req.params.id     = "id";
       req.params.struct = "test";
+      assert.equal("undefined structure", utils.get(mps, req).error);
 
-      assert.equal(true, utils.get(mps,req).a);
+      mps.id.test       = gen.mod({a:0});
+      assert.equal(0, utils.get(mps, req).a);
 
+      req.params.l1     = "test";
+      mps.id.test       = gen.mod();
+      assert.equal("object is undefined", utils.get(mps, req).error);
+
+      mps.id.test       = gen.mod({test:true});
+      assert.equal(true, utils.get(mps, req).result);
+
+      mps.id.test       = gen.mod({test:{a:0}});
+      assert.equal(0, utils.get(mps, req).a);
+
+      mps.id.test       = gen.mod({test:[0,1]});
+      assert.equal(0, utils.get(mps, req)[0]);
     })
   })
-
+  
 })
