@@ -102,8 +102,13 @@ describe('utils', function(){
       mps.id            = {};
       mps.id.test       = gen.mod();
 
-      var req = {params:{}};
+      var req           = {params:{}};
       req.params.id     = "id";
+
+      utils.put(mps, req, function(ret){
+        assert.equal("object not valid", ret.error)
+      })
+
       req.body          =  {a:"_gg",
                             b:"ff",
                             c:[1,2,3]},
@@ -147,7 +152,7 @@ describe('utils', function(){
       })
 
       req.params.l1     = "a";
-      utils.put(mps, req, function(ret){
+      utils.del(mps, req, function(ret){
         assert.equal(true, ret.ok)
       })
     })
