@@ -65,7 +65,7 @@ $> npm install
  
 ```
 $> cd ssmp
-$> mocha
+$> mocha | node_modules/bunyan/bin/bunyan -l info
 $> istanbul cover _mocha -- -R spec
 $> firefox  coverage/lcov-report/index.html 
 ```

@@ -158,4 +158,17 @@ describe('utils', function(){
     })
   })
 
+  describe('#vlDate()', function(){
+    it('should return the wellknown date format', function(){
+      assert.equal( "2014-07-25 21:25", utils.vlDate("Fri Jul 25 2014 21:25:06 GMT+0200 (CEST)"));
+
+    })
+  })
+  describe('#vlTime()', function(){
+    it('should return a string', function(){
+      assert.equal( "1406316306000", utils.vlTime("Fri Jul 25 2014 21:25:06 GMT+0200 (CEST)"));
+
+    })
+  })
+
 })
