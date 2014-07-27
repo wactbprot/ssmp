@@ -65,22 +65,19 @@ $> npm install
  
 ```
 $> cd ssmp
-$> npm run test
+$> npm test
 ```
 opens firefox with the results
 
 ## Starten
 
-ssmp wird durch den Aufruf ```ssmp [-P port]``` gestartet. Man erhält
-eine schönere Formatierung der Ausgaben durch:
-```
-$> bin/ssmp [options] | node_modules/bunyan/bin/bunyan -l info
-```
-was das Gleiche wie
+ssmp wird durch den Aufruf ```ssmp [-P port]``` gestartet.
+
+Schöner formatierte logs bekommt man mit: 
 ```
 $> npm run ssmp
 ```
-ist. Weitere Details können mittels ```ssmp -h``` erfragt werden.
+Weitere Details können mittels ```ssmp -h``` erfragt werden.
 
 
 ## Vorbereitung

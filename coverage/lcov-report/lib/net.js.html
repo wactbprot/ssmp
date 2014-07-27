@@ -195,20 +195,20 @@
     </style>
 </head>
 <body>
-<div class="header medium">
+<div class="header high">
     <h1>Code coverage report for <span class="entity">lib/net.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">61.9% <small>(13 / 21)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">100% <small>(21 / 21)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
         Branches: <span class="metric">100% <small>(0 / 0)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">33.33% <small>(2 / 6)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">100% <small>(6 / 6)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">61.9% <small>(13 / 21)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">100% <small>(21 / 21)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
@@ -318,8 +318,8 @@
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -329,11 +329,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -343,8 +343,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -354,7 +354,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -362,7 +362,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var nano = require("nano"),
     http = require("http");
@@ -391,9 +391,9 @@ var doc = function(mp){
 }
 exports.doc = doc;
 &nbsp;
-exports.task = <span class="fstat-no" title="function not covered" >function(mp){</span>
-<span class="cstat-no" title="statement not covered" >  var dbp  = mp.param.get(["database"]);</span>
-<span class="cstat-no" title="statement not covered" >  return  {</span>
+exports.task = function(mp){
+  var dbp  = mp.param.get(["database"]);
+  return  {
     path: dbp.name   + "/_design/" +
       dbp.design     + "/_list/" +
       dbp.taskslist  + "/" +
@@ -402,12 +402,12 @@ exports.task = <span class="fstat-no" title="function not covered" >function(mp)
   };
 };
 &nbsp;
-exports.list = <span class="fstat-no" title="function not covered" >function(mp, task){</span>
-<span class="cstat-no" title="statement not covered" >  var dbp  = mp.param.get(["database"]),</span>
+exports.list = function(mp, task){
+  var dbp  = mp.param.get(["database"]),
       list = task.ListName,
       view = task.ViewName;
   // params ???
-<span class="cstat-no" title="statement not covered" >  return  {</span>
+  return  {
     path: dbp.name   + "/_design/" +
       dbp.design     + "/_list/" +
       list           + "/" +
@@ -416,9 +416,9 @@ exports.list = <span class="fstat-no" title="function not covered" >function(mp,
   };
 };
 &nbsp;
-exports.docinfo = <span class="fstat-no" title="function not covered" >function(mp, docid){</span>
-<span class="cstat-no" title="statement not covered" >  var dbp  = mp.param.get(["database"]);</span>
-<span class="cstat-no" title="statement not covered" >  return  {</span>
+exports.docinfo = function(mp, docid){
+  var dbp  = mp.param.get(["database"]);
+  return  {
     path: dbp.name    + "/_design/" +
       dbp.design      + "/_show/" +
       dbp.docinfoshow +"/"+
@@ -427,8 +427,8 @@ exports.docinfo = <span class="fstat-no" title="function not covered" >function(
   };
 }
 &nbsp;
-exports.relay = <span class="fstat-no" title="function not covered" >function(mp){</span>
-<span class="cstat-no" title="statement not covered" >  var dr  = mp.param.get(["relay"]),</span>
+exports.relay = function(mp){
+  var dr  = mp.param.get(["relay"]),
       con = {
         hostname: dr.server,
         port:     dr.port,
@@ -436,14 +436,14 @@ exports.relay = <span class="fstat-no" title="function not covered" >function(mp
         headers: { 'Content-Type': 'application/json' }
       };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return con;</span>
+  return con;
 };
 &nbsp;</pre></td></tr>
 </table></pre>
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Jul 27 2014 16:56:32 GMT+0200 (CEST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Jul 27 2014 18:27:36 GMT+0200 (CEST)</div>
 </div>
 
 <script src="../prettify.js"></script>
