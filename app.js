@@ -17,8 +17,7 @@
       inimp   = require("./lib/ini_mp"),
       inicd   = require("./lib/ini_cd"),
       log     = bunyan.createLogger({name: name}),
-      server  = restify.createServer({name: name,
-                                      log: log});
+      server  = restify.createServer({name: name});
 
   prog.version("0.0.4")
   .option("-P, --port <port>", "port (default is  8001)", parseInt)
