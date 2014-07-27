@@ -65,10 +65,9 @@ $> npm install
  
 ```
 $> cd ssmp
-$> mocha | node_modules/bunyan/bin/bunyan -l info
-$> istanbul cover _mocha -- -R spec
-$> firefox  coverage/lcov-report/index.html 
+$> npm run test
 ```
+opens firefox with the results
 
 ## Starten
 
@@ -79,7 +78,7 @@ $> bin/ssmp [options] | node_modules/bunyan/bin/bunyan -l info
 ```
 was das Gleiche wie
 ```
-$> bin/nssmp
+$> npm run ssmp
 ```
 ist. Weitere Details können mittels ```ssmp -h``` erfragt werden.
 

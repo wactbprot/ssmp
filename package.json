@@ -16,7 +16,18 @@
 	"bunyan":">=0.22.1",
 	"object-path":">=0.5.0"
     },
-    "devDependencies": {},
+    "scripts": {
+	"ssmp": "bin/ssmp | bunyan -l info",
+	"run-cover": "istanbul cover _mocha -- -R spec | bunyan -o short",
+	"show-cover": "firefox  coverage/lcov-report/index.html",
+	"run-test": "mocha  | bunyan -o short",
+	"test":"npm run run-test && npm run run-cover && npm run show-cover"
+
+    },
+    "devDependencies": {
+	"mocha":">=1.20.1",
+	"istanbul":">=0.3.0"
+    },
     "optionalDependencies": {},
     "engines": {
         "node": "*"
