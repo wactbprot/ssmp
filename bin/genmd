@@ -2,10 +2,14 @@
 /**
  * mpvs
  */
-var md = require("markdox"),
-    fs = require("fs");
+var md       = require("markdox"),
+    fs       = require("fs"),
+    srcpath  =  "./lib/",
+    trgtpath =  "./doc/",
+    files    = fs.readdirSync(srcpath);
 
-//.......
-md.process(files, "output.md", function(){
-  console.log('Documentation generated');
-});
+ for(var i = 0; i < files.length; i++){
+  md.process(srcpath  + files[i], trgtpath + files[i] + ".md", function(){
+    console.log("Documentation for " + files[i] + " generated");
+  });
+ }
