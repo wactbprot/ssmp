@@ -1,0 +1,11 @@
+#!/usr/bin/env node
+/**
+ * mpvs
+ */
+var md = require("markdox"),
+    fs = require("fs");
+
+//.......
+md.process(files, "output.md", function(){
+  console.log('Documentation generated');
+});
