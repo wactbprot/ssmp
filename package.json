@@ -17,6 +17,7 @@
 	"object-path":">=0.5.0"
     },
     "scripts": {
+	"doc":"bin/genmd",
 	"ssmp": "bin/ssmp | bunyan -l info",
 	"run-cover": "istanbul cover _mocha -- -R spec | bunyan -l fatal",
 	"show-cover": "firefox  coverage/lcov-report/index.html",

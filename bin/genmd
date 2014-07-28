@@ -8,8 +8,12 @@ var md       = require("markdox"),
     trgtpath =  "./doc/",
     files    = fs.readdirSync(srcpath);
 
+  md.process("./app.js", trgtpath + "/app.js.md", function(){
+    console.log(".");
+  });
+
  for(var i = 0; i < files.length; i++){
   md.process(srcpath  + files[i], trgtpath + files[i] + ".md", function(){
-    console.log("Documentation for " + files[i] + " generated");
+    console.log(".");
   });
  }
