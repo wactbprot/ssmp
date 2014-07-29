@@ -1,2 +1,0 @@
-#!/bin/sh
-bin/ssmp  | node_modules/bunyan/bin/bunyan -l info

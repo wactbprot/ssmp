@@ -52,7 +52,7 @@ $> cd ssmp
 $> npm run all-dev
 ```
 
-##  Starten
+##  Starten des servers
 
 ssmp wird durch den Aufruf ```ssmp [-P port]``` gestartet.
 
@@ -63,7 +63,7 @@ $> npm run ssmp
 Weitere Details können mittels ```ssmp -h``` erfragt werden.
 
 
-## Vorbereitung
+## Vorbereitung des Messprogramms
 
 Die oben eingeführten  Programmdefinitionen  sind zweckmäßiger
 Weise in einer CouchDB-Instanz abgelegt. Sie können auf 3 
@@ -98,16 +98,6 @@ oder mit [csmp](https://github.com/wactbprot/csmp):
 
 ``` 
 $> bin/mp_ini -i mpid -d load
-```
-
-### 3. Simulation
-
-Wird die id ```sim``` zum Laden angegeben, 
-wird eine einfache _ssmp_-interne
-Messprogrammdefinition benutzt (s. ToDo):
-
-```
-$> curl -X PUT -d  'load'  http://localhost:8001/sim
 ```
 
 ### Übergeben der Kalibrierdokumente
@@ -159,7 +149,7 @@ Die  [csmp](https://github.com/wactbprot/csmp)-Variante:
 $> bin/mp_ctrl -i id -c 0 -d run
 ```
 
-In gleicher Weise funktioniert Stop
+In gleicher Weise funktioniert Stopp
 
 ```
 $> bin/mp_ctrl -i id -c 0 -d stop
@@ -189,32 +179,10 @@ $> bin/mp_ctrl -i id -c 0 -d 'load;5:run,load;stop'
 was den Ablauf läd, 5 mal den Zyklus ```run``` gefolgt von ```load``` 
 (durch Komma getrennt) durchläuft und dann ```stop``` ausführt.
 
+## recipes
 
-## recipes und tasks
+---> zur load function
 
-Tasks sind _json_-Objekte; es sind Parametersätze.
-
-Ein einfaches Bsp. für eine task ist Warten:
-
-```
-"Name":"Mp",
-...
-"Defaults": {
-         "_waittime": 1000,
-         "_waitfor": "Ready in",
-         "_waitunit": "ms"
-       },
-"Tasks":[
-	   {
-	    "Action": "wait",
-		"Comment": "_waitfor  _waittime ms",
-		"TaskName": "wait",
-	    "Value": {
-	             "WaitTime": "_waittime"
-                 } 
-      },
-...
-```
 ### Ersetzungen
 
 In dieser Task müssen noch die mit einem Unterstrich 
