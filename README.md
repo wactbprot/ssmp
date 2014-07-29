@@ -27,11 +27,13 @@ $> cd ssmp
 $> npm install
 ```
 ## Dokumentation
+
 ```
 $> cd ssmp
 $> npm run doc
 ```
-
+Es werden so im Verzeichniss ```ssmp/doc``` markdown 
+(Endung ```.md```) erstellt.
 
 ## Unit tests/ code coverage
  
@@ -39,9 +41,18 @@ $> npm run doc
 $> cd ssmp
 $> npm test
 ```
-opens firefox with the results
+Die Ausgabe der Testergebnisse geschieht auf der Konsole;
+im Verzeichnis ```ssmp/coverage``` werden html-Dateien erzeugt.
 
-## Starten
+
+## all together
+ 
+```
+$> cd ssmp
+$> npm run all-dev
+```
+
+##  Starten
 
 ssmp wird durch den Aufruf ```ssmp [-P port]``` gestartet.
 

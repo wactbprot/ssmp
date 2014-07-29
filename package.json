@@ -2,7 +2,7 @@
     "author": "wactbprot",
     "name": "ssmp",
     "description": "server side measurment program",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "repository": {
         "type":"git",
         "url": "https://github.com/wactbprot/ssmp"
@@ -22,7 +22,8 @@
 	"run-cover": "istanbul cover _mocha -- -R spec | bunyan -l fatal",
 	"show-cover": "firefox  coverage/lcov-report/index.html",
 	"run-test": "mocha  | bunyan -l fatal",
-	"test":"npm run run-test && npm run run-cover && npm run show-cover"
+	"test":"npm run run-test && npm run run-cover && npm run show-cover",
+	"all-dev":"npm test && npm doc"
     },
     "devDependencies": {
 	"mocha":">=1.20.1",
