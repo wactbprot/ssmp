@@ -52,7 +52,7 @@ $> cd ssmp
 $> npm run all-dev
 ```
 
-##  Starten des servers
+##  Starten des Servers
 
 ssmp wird durch den Aufruf ```ssmp [-P port]``` gestartet.
 
@@ -182,54 +182,6 @@ was den Ablauf läd, 5 mal den Zyklus ```run``` gefolgt von ```load```
 ## recipes
 
 ---> zur load function
-
-### Ersetzungen
-
-In dieser Task müssen noch die mit einem Unterstrich 
-beginnenden Zeichenketten (_strings_) also  ```_waitfor``` und
-```_waittime``` esetzt werden. Womit diese ersetzt werden kann an drei
-verschiedenen Stellen (abhängig von den Anforderungen) angegeben werden:
-
-#### Defaults
-
-Im gleichen Objekt (z.B. im gleichen 
-   CalibrationObject oder Standard ect.) unter dem key ```Defaults```
-
-#### Replace
-In einer Rezeptdefinition unter dem key ```Replace```
-   
-Ersetzungen, die unterhalb ```Replace``` angegeben sind, sind __vorrangig__ 
-gegenüber den Ersetzungen in ```Defaults```. Wird 
-also eine Definition:
-
-```
-"Definition": [
-               [
-                   {
-                       "TaskName": "Mp-wait",
-                       "Replace": {
-                           "_waittime": 300
-                       }
-                   }
-               ],
-               [
-                   {
-                       "TaskName": "Mp-wait",
-                       "Replace": {
-                           "_waittime": 300
-                       }
-                   }
-               ]
-           ]
-```
-abgearbeitet, wird 300 als ```waittime``` realisiert falls etwas 
-Anderes in den ```Defaults``` angegeben ist.
-
-#### FromExchange
-
-Direkt in der _task_ unter dem key ```FromExchange``` wobei 
-hier **Ersetzungen zur Laufzeit** vorgenommen werden. Darüber 
-hinaus kann ```FromExchange``` auch ein Array von Werten sein.
 
 
 ### Ablaufkontrolle
