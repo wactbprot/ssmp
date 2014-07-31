@@ -4,12 +4,14 @@
 
 ## _
 
-Die ```worker``` arbeiten ```tasks``` ab.
+## Die ```worker()``` Funktionen
 
- Tasks sind _json_-Objekte; es sind Parametersätze für
-```worker``` FunKtionen.
+Die ```worker()``` arbeiten ```task```s ab.
 
- Ein einfaches Bsp. für eine task ist Warten
+ Tasks sind _json_-Objekte; es sind die Parametersätze
+ der ```worker()``` Functionen.
+
+ Ein einfaches Bsp. für eine ```task``` ist Warten
 (Auszug aus Messprogrammdefinition):
 
  ```
@@ -34,15 +36,15 @@ Die ```worker``` arbeiten ```tasks``` ab.
 
 ### Ersetzungen
 
-In dieser Task müssen noch die mit einem Unterstrich
-beginnenden Zeichenketten (_strings_) also  ```_waitfor``` und
-```_waittime``` esetzt werden. Womit diese ersetzt werden kann an drei
+In dieser ```task``` müssen noch die mit einem Unterstrich
+beginnenden Zeichenketten (_strings_) also z.B. ```_waitfor``` und
+```_waittime``` ersetzt werden; womit, kann an drei
 verschiedenen Stellen (abhängig von den Anforderungen) angegeben werden:
 
 #### Defaults
 
-Im gleichen Objekt (z.B. im gleichen
-   CalibrationObject oder Standard ect.) unter dem key ```Defaults```
+Ersetzung durch Angaben aus dem gleichen Objekt (z.B. im gleichen
+CalibrationObject oder Standard ect.) unter dem key ```Defaults```
 
 #### Replace
 In einer Rezeptdefinition unter dem key ```Replace```
@@ -124,6 +126,60 @@ Anwendungsbeispiel: Ein Messgerät kann nicht
 elektronisch ausgelesen werden; es müssen manuelle
 Eingabefelder erstellt werden. Dazu ist
 ```addElement()``` gedacht.
+
+### Params: 
+
+* **Object** *mp* Messprog.-Objekt
+* **Object** *task* Task-Objekt
+* **Array** *pfad* Pfad Array
+* **Function** *cb* Callback Funktion
+
+## readElement(mp, task, pfad, cb)
+
+Die worker Funktion ```readElement()``` erlaubt es,
+zur Laufzeit Einträge aus der _exchange_-Schnittstelle
+auszulesen.
+
+Anwendungsbeispiel: Ein Messgerät kann nicht
+elektronisch ausgelesen werden; es sind Eingabefelder
+erstellt, ausgefüllt und vom Client an _exchange_
+zurückgesandt. Mir der Function  ```readElement()```
+wird jetzt der Wert aus _exchange_ ausgelesen und in das
+Kalibrierdokument geschrieben.
+
+### Params: 
+
+* **Object** *mp* Messprog.-Objekt
+* **Object** *task* Task-Objekt
+* **Array** *pfad* Pfad Array
+* **Function** *cb* Callback Funktion
+
+## select(mp, task, pfad, cb)
+
+Die worker Funktion ```select()``` wählt auf Basis
+der unter _exchange_ derzeitig vorhandenen Werte
+(z.B. ```target_pfill.Value.value```
+ein Folgerezept für den aufrufenden Container aus.
+In der ```task``` muss die Rezeptklasse unter dem Pfad
+```task.Value.RecipeClass``` gegeben sein.
+
+### Params: 
+
+* **Object** *mp* Messprog.-Objekt
+* **Object** *task* Task-Objekt
+* **Array** *pfad* Pfad Array
+* **Function** *cb* Callback Funktion
+
+## getList(mp, task, pfad, cb)
+
+Die worker Funktion ```getList()```
+holt Daten von einer Datenbank-List-Abfrage.
+Die ```task``` benötigt die Einträge  ```task.ListName```
+und ```task.ViewName```. Ergebnisse werden (wie schon beim
+```noderelay()``` worker) der ```receive()```-Funktion übergeben.
+
+Anwendungnsbeispiel: Datensätze zur Auswahl
+eines Kalibrierdokuments.
 
 ### Params: 
 
