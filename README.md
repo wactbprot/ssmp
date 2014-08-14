@@ -226,6 +226,25 @@ ausgeführt wird.
 erneut ausgeführt, wenn der Wert unter dem Pfad ```exchange.pfill_ok.Value``` 
 zu true ausgewertet werden kann.
 
+## Die Exchange Schnittstelle
+
+### Input
+
+Hier ein Beispiel wie man im Postprocessing Teil einer Task das Schreiben
+in die Exchange Schnittstelle veranlassen kann:
+
+```
+"PostProcessing": [
+               "var ok = calculate_ok_from_input,",
+               "ToExchange={'key.is.exchange.path':ok};"
+           ]
+```
+Die ```receive()``` Funktion bekommt das unter
+
+```
+data.ToExchange
+```
+und würde hier den wert von ```ok``` in den Pfad ```key.is.exchange.path``` schreiben.
 	
 ## ssmp Rückgabewerte
 
@@ -244,7 +263,7 @@ zurückzubebenden Objektes (```x```) ab:
 ## ToDo
 
 * wohin mit repltask aka ein universelles utils
-* jasmine anrufen
+
 
 ## Ideas
 

@@ -235,4 +235,20 @@ describe('utils', function(){
 
     })
   })
+
+  describe('#query_cd()', function(){
+    it('should set the get the testdoc', function(){
+
+      var now  = new Date().getTime(),
+          task = {Id:["testdoc"],
+                  DocPath:"Date.Now"},
+          data = {Result:[{Date:now}]}
+
+      // test dont work
+      // callback is not called in this enviroment
+      utils.query_cd(false, task, data,  function(m){
+        assert.equal(m,"ok");
+      })
+    })
+  })
 })

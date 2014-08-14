@@ -12,6 +12,8 @@ describe('net', function(){
     it('should return the nano object for db connection', function(){
       var cn = net.dbcon(mp);
       assert(true, _.isFunction(cn.relax));
+      assert(true, _.isFunction(cn.get));
+
     })
   })
   describe('#dbcon()', function(){
