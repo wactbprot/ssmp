@@ -171,4 +171,68 @@ describe('utils', function(){
     })
   })
 
+  describe('#data_to_doc()', function(){
+    it('should set the type, unit, value and comment structures given', function(){
+      var doc     = {dest:{}},
+          path    = "dest.aim",
+          dataset = [{Type:"test1",
+                      Unit:"tu",
+                      Value:123,
+                      Comment:"comment1"}];
+
+      utils.data_to_doc(doc, path, dataset,function(d){
+        assert.equal(d.dest.aim[0].Value[0], 123);
+        assert.equal(d.dest.aim[0].Comment[0],"comment1" );
+      } )
+
+      dataset[0].Value = 234;
+
+      utils.data_to_doc(doc, path, dataset,function(d){
+        assert.equal(d.dest.aim[0].Value[1], 234);
+      } )
+
+      dataset[0].Type = "test2";
+      dataset[0].Comment = "comment2";
+
+      utils.data_to_doc(doc, path, dataset,function(d){
+        assert.equal(d.dest.aim[1].Value[0], 234);
+        assert.equal(d.dest.aim[1].Comment[0],"comment2" );
+      } )
+
+      dataset[0].Value = 567;
+
+      utils.data_to_doc(doc, path, dataset,function(d){
+        assert.equal(d.dest.aim[1].Value[1], 567);
+      } )
+    })
+  })
+
+  describe('#data_to_doc()', function(){
+    it('should set the kv structures given', function(){
+
+      var doc     = {dest:{}},
+          dataset = [{operationKind:"opk1"}],
+          path    = "dest.SequenceControl";
+
+      utils.data_to_doc(doc, path, dataset,function(d){
+        assert.equal(d.dest.SequenceControl.operationKind,"opk1");
+      } )
+
+      dataset = [{Gas:"N2"}];
+      path    = "dest.SequenceControl";
+
+      utils.data_to_doc(doc, path, dataset,function(d){
+        assert.equal(d.dest.SequenceControl.Gas,"N2");
+      } )
+
+      dataset = [{A:"B"}, {C:"D"}];
+      path    = "dest.SequenceControl";
+
+      utils.data_to_doc(doc, path, dataset,function(d){
+        assert.equal(d.dest.SequenceControl.A,"B");
+        assert.equal(d.dest.SequenceControl.C,"D");
+      } )
+
+    })
+  })
 })
