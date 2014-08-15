@@ -41,7 +41,7 @@ Ein Beispiel für ein gültiges dataset ist:
 ### Params: 
 
 * **Object** *doc* Dokument (Kalibrierdokument)
-* **Array** *pfad* Pfad Array
+* **String** *pfad* punktseparierter Pfadstring
 * **Array** *dataset* Array mit Datenobjekten
 * **Function** *cb* Callback Funktion
 

@@ -6,9 +6,9 @@
 
 Die connection  sollte immer frisch sein,
 da evtl. während der Messung der db-server
-gewechselt werden muss.
-
-co ... connection object
+gewechselt werden muss. V.a. für Testzwecke
+soll das Ganze aber auch ohne ```mp```
+funktionieren.
 
 <!-- End ./lib/net.js -->
 
