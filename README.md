@@ -52,7 +52,7 @@ $> cd ssmp
 $> npm run all-dev
 ```
 
-##  Starten des servers
+##  Starten des Servers
 
 ssmp wird durch den Aufruf ```ssmp [-P port]``` gestartet.
 
@@ -183,54 +183,6 @@ was den Ablauf läd, 5 mal den Zyklus ```run``` gefolgt von ```load```
 
 ---> zur load function
 
-### Ersetzungen
-
-In dieser Task müssen noch die mit einem Unterstrich 
-beginnenden Zeichenketten (_strings_) also  ```_waitfor``` und
-```_waittime``` esetzt werden. Womit diese ersetzt werden kann an drei
-verschiedenen Stellen (abhängig von den Anforderungen) angegeben werden:
-
-#### Defaults
-
-Im gleichen Objekt (z.B. im gleichen 
-   CalibrationObject oder Standard ect.) unter dem key ```Defaults```
-
-#### Replace
-In einer Rezeptdefinition unter dem key ```Replace```
-   
-Ersetzungen, die unterhalb ```Replace``` angegeben sind, sind __vorrangig__ 
-gegenüber den Ersetzungen in ```Defaults```. Wird 
-also eine Definition:
-
-```
-"Definition": [
-               [
-                   {
-                       "TaskName": "Mp-wait",
-                       "Replace": {
-                           "_waittime": 300
-                       }
-                   }
-               ],
-               [
-                   {
-                       "TaskName": "Mp-wait",
-                       "Replace": {
-                           "_waittime": 300
-                       }
-                   }
-               ]
-           ]
-```
-abgearbeitet, wird 300 als ```waittime``` realisiert falls etwas 
-Anderes in den ```Defaults``` angegeben ist.
-
-#### FromExchange
-
-Direkt in der _task_ unter dem key ```FromExchange``` wobei 
-hier **Ersetzungen zur Laufzeit** vorgenommen werden. Darüber 
-hinaus kann ```FromExchange``` auch ein Array von Werten sein.
-
 
 ### Ablaufkontrolle
 
@@ -274,6 +226,25 @@ ausgeführt wird.
 erneut ausgeführt, wenn der Wert unter dem Pfad ```exchange.pfill_ok.Value``` 
 zu true ausgewertet werden kann.
 
+## Die Exchange Schnittstelle
+
+### Input
+
+Hier ein Beispiel wie man im Postprocessing Teil einer Task das Schreiben
+in die Exchange Schnittstelle veranlassen kann:
+
+```
+"PostProcessing": [
+               "var ok = calculate_ok_from_input,",
+               "ToExchange={'key.is.exchange.path':ok};"
+           ]
+```
+Die ```receive()``` Funktion bekommt das unter
+
+```
+data.ToExchange
+```
+und würde hier den wert von ```ok``` in den Pfad ```key.is.exchange.path``` schreiben.
 	
 ## ssmp Rückgabewerte
 
@@ -292,7 +263,7 @@ zurückzubebenden Objektes (```x```) ab:
 ## ToDo
 
 * wohin mit repltask aka ein universelles utils
-* jasmine anrufen
+
 
 ## Ideas
 

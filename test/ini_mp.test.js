@@ -10,7 +10,8 @@ var assert = require("assert"),
 
 req.params    = {};
 req.params.id = "simdef";
-req.body      = "load"
+req.body      = "load";
+
 describe('ini_mp', function(){
 
     it('should ini the simulation definition', function(){

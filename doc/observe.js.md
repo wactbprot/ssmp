@@ -24,17 +24,5 @@ todo:
 und Komma separierte Aufzählungen wie:
 - load,run,stop
 
----*--- executed ---*---
-
----*--- load ---*---
-
----*--- run ---*---
-
----*--- stop ---*---
-
----*--- pause ---*---
-
----!--- error ---!---
-
 <!-- End ./lib/observe.js -->
 
