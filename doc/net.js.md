@@ -2,13 +2,19 @@
 
 <!-- Start ./lib/net.js -->
 
-## dbcon()
+## dbcon(mp)
 
-Die connection  sollte immer frisch sein,
-da evtl. während der Messung der db-server
+Funktion liefert eine Datenbankverbindungsfunktion (dezeit nano).
+
+Diese Verbindung  sollte immer frisch sein,
+da evtl. während der Messung der Datenbankserver
 gewechselt werden muss. V.a. für Testzwecke
 soll das Ganze aber auch ohne ```mp```
 funktionieren.
+
+### Params: 
+
+* **Object** *mp* Messprog.-Objekt
 
 ## relay(mp)
 
