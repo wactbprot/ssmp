@@ -29,7 +29,7 @@ Die ```observe()``` reagiert auf:
 Darüber hinaus werden die beiden ```/exchange```
 Objekte:
 ```
-start_time": {
+"start_time": {
     "Value": {
         "value": 1408712602709
     },

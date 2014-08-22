@@ -1,7 +1,13 @@
 /**
- * Eingang:
+ * __Eingang__:
+ * ```
  * "Lass alle Hoffnung fahren"
+ * ```
  * -- Dante
+ *
+ * In ```app.js``` wird der http-Server gestartet,
+ * welcher die _REST_-Api des _ssmp_ zur Verfügung stellt.
+ *
  */
 (function() {
   var name    = "ssmp",
@@ -19,8 +25,8 @@
       log     = bunyan.createLogger({name: name}),
       server  = restify.createServer({name: name});
 
-  prog.version("0.0.4")
-  .option("-P, --port <port>", "port (default is  8001)", parseInt)
+ prog.version("0.0.5")
+ .option("-P, --port <port>", "port (default is  8001)", parseInt)
   .parse(process.argv);
 
   var port = prog.port || 8001;
@@ -37,10 +43,22 @@
   );
 
   /**
-   * GET
+   * __GET__
+   *
+   * Alle http-GET Anfragen funktionieren nach dem  Schema:
+   * ``
    * http://server:port/id/structur/path
-   * Bsp.:
+   * ```
+   * Mit ```id``` ist die id der Messprogrammdefinition (MPD) gemeint.
+   * Es können prinzipiell "beliebig" viele  MPD betrieben werden.
+   *
+   * Bsp. für GET-Anfrage:
+   * ```
    * http://localhost:8001/id/param/database
+   * ```
+   *
+   * @param {String} url url-Muster der Anfrage
+   * @param {Function} f Callback
    */
   server.get("/:id", function(req, res, next){
     res.send(col.get_mp(mps, req));
@@ -69,10 +87,27 @@
   });
 
   /**
-   * DELETE
-   * http://server:port/id/structur
+   * __DELETE__
+   *
+   * Die http-DELETE Anfragen funktionieren nach folgendem Muster:
+   * ```
+   * http://server:port/id/structur/path
+   * ```
+   * das löschen ganzer Strukturen ist nicht erlaubt; es muss
+   * mind. ein Pfadelement geben
+   *
    * Bsp.:
+   * ```
    * http://localhost:8001/id/param
+   * ```
+   * geht nicht
+   * ```
+   * http://localhost:8001/id/param/database/name
+   * ```
+   * funktioniert.
+   *
+   * @param {String} url url-Muster der Anfrage
+   * @param {Function} f Callback
    */
   server.del("/:id/:struct/:l1", function(req, res, next){
     utils.del(mps, req, function(rob){
@@ -94,13 +129,25 @@
   })
 
   /**
-   * PUT
-   * http://server:port/mpid/cdid
+   * __PUT__
    *
-   * cdid ... calibration doc id
-   * Die ```PUT``` Methode soll auch noch
-   * infos holen; ist in diesem Punkt also
-   * anders als ein normaler put-request
+   * Ein http-PUT geht so:
+   * ```
+   * http://server:port/id/structur/path
+   * ```
+   * eine Besonderheit ist:
+   * ```
+   * http://server:port/mpid/cdid
+   *```
+   * wobei mit ```cdid```` die _calibration doc id_
+   * gemeint ist.
+   * Der PUT-request soll zusätzliche Infos über das Kalibbrierdokument
+   * besorgen. Es ist deshalb eine Datenbankabfrage mit einem solchen PUT
+   * verbunden (ist in diesem Punkt also
+   * anders als ein normales PUT)
+   *
+   * @param {String} url url-Muster der Anfrage
+   * @param {Function} f Callback
    */
   server.put("/:id/id/:cdid", function(req, res, next) {
     inicd(mps, req, function(rob){
@@ -109,7 +156,7 @@
     next();
   });
 
-  /**
+  /*
    * PUT
    * http://server:port/id/structure/l1/...
    */
@@ -132,7 +179,7 @@
     next();
   });
 
-  /**
+  /*
    * PUT
    * http://server:port/id
    * - Initialisiert mp-Instanz
@@ -148,12 +195,18 @@
   });
 
   /**
-   * POST
+   * __POST__
+
+   * ```
    * http://server:port/id
-   * - nimmt Mp-Definition vom body des
-   *   requests
-   * - Initialisiert mp-Instanz
-   * - startet observer
+   * ```
+   *
+   * Übernimmt MPD vom _body_ des  requests
+   * Initialisiert die MP-Instanz und startet
+   * die ```observer()```-Funktion
+   *
+   * @param {String} url url-Muster der Anfrage
+   * @param {Function} f Callback
    */
   server.post("/:id", function(req, res, next){
     var id   = req.params.id;
@@ -164,9 +217,9 @@
     next();
   });
 
-  /**
-   * --- go!---
-   */
+  //
+  // --- go!---
+  //
   server.listen(port, function() {
     log.info({ok: true},"ssmp up and running @" + port);
   });
