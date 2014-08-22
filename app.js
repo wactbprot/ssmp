@@ -46,7 +46,7 @@
    * __GET__
    *
    * Alle http-GET Anfragen funktionieren nach dem  Schema:
-   * ``
+   * ```
    * http://server:port/id/structur/path
    * ```
    * Mit ```id``` ist die id der Messprogrammdefinition (MPD) gemeint.
