@@ -6,7 +6,7 @@
 
 Die ```receive()``` Function ist die
 Standard-Callbackfunktion für Netzwerkaufrufe
-wie  ```noderelay()``` oder get List.
+wie  ```noderelay()``` oder ```getList()```.
 
 Was konkret mit den Daten geschied wird:
 
@@ -24,7 +24,7 @@ if(task.ExchangePath) ...
 ```
 
 ```task.ExchangePath``` erledigt die  Fälle
-in denen kein  ```PostProcessing`` zur Verfügung steht
+in denen kein  ```PostProcessing``` zur Verfügung steht
 aber trotzdem Daten nach ```Exchange```
 geschrieben werden sollen.
 
