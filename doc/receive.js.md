@@ -2,7 +2,7 @@
 
 <!-- Start ./lib/receive.js -->
 
-## exports()
+## exports(mp, task, pfad, cb)
 
 Die ```receive()``` Function ist die
 Standard-Callbackfunktion für Netzwerkaufrufe
@@ -23,10 +23,17 @@ oder
 if(task.ExchangePath) ...
 ```
 
-Dieser Abschnitt ist für Fälle in denen kein
-PostProcessing zur Verfügung steht
-aber trotzdem data nach ```Exchange```
-geschrieben werden soll
+```task.ExchangePath``` erledigt die  Fälle
+in denen kein  ```PostProcessing`` zur Verfügung steht
+aber trotzdem Daten nach ```Exchange```
+geschrieben werden sollen.
+
+### Params: 
+
+* **Object** *mp* Messprog.-Objekt
+* **Object** *task* Task-Objekt
+* **Array** *pfad* Pfad Array
+* **Function** *cb* Callback Funktion
 
 <!-- End ./lib/receive.js -->
 
