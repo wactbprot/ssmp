@@ -90,7 +90,7 @@ ist von ```run()``` auch schon auf ```working``` gesetzt.
 
 Author: wactbprot (thsteinbock@web.de)
 
-## wait(mp, task, pfad, cb)
+## wait(mp, task, path, cb)
 
 ```wait()``` verzögert den Ablauf um die unter
 ```task.Value.WaitTime``` angegebene Zeit in ms.
@@ -99,7 +99,7 @@ Author: wactbprot (thsteinbock@web.de)
 
 * **Object** *mp* Messprog.-Objekt
 * **Object** *task* Task-Objekt
-* **Array** *pfad* Pfad Array
+* **Array** *path* Pfad Array
 * **Function** *cb* Callback Funktion
 
 ## noderelay(mp, task, pfad, cb)
