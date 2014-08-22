@@ -26,6 +26,32 @@ Die ```observe()``` reagiert auf:
 - stop
 - pause
 
+Darüber hinaus werden die beiden ```/exchange```
+Objekte:
+```
+start_time": {
+    "Value": {
+        "value": 1408712602709
+    },
+    "Unit": {
+        "value": "ms"
+    }
+}
+```
+und
+```
+"run_time": {
+    "Unit": {
+        "value": "ms"
+    },
+    "Value": {
+        "value": 928429
+    }
+
+}
+```
+erstellt; letzterer periodisch aufgefrischt.
+
 ### Params: 
 
 * **Object** *mp* Messprog.-Objekt
