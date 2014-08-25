@@ -2,27 +2,59 @@
 
 <!-- Start ./lib/observe.js -->
 
-## exports()
+## observe(mp)
 
-Die Funktion ```observe``` beobachtet die ```ctrl```
-Schnittstelle der ```container```.
+Die Funktion ```observe()``` beobachtet periodisch
+die ```/ctrl``` Schnittstelle aller _Container_ des
+Messprogramms  und deren ```/state``` (Zustand der einzelnen Tasks).
 
-Zusätzlich wird der ```state``` (Zustand der
-einzelnen Tasks) ausgewertet. Sind alle
-```state```s ```executed``` werden alle
-auf ```ready``` zurückgesetzt und
-der ```ctrl``` String des containers ebenfalls
-auf ```ready``` gesetzt.  Reagiert wird auf:
+Für den Fall, dass alle
+```state```s eines _Containers_  den Wert ```executed```
+besitzen, wird deren Wert auf  ```ready``` zurückgesetzt.
+
+Der _Container gilt dann als abgearbeitet.
+der ```/ctrl``` String des _Containers_ wird dann
+ebenfalls auf den Wert ```ready``` gesetzt.
+
+Die Funktion wird durch den
+Messprogramminitialisierungsprozess gestartet.
+
+Die ```observe()``` reagiert auf:
 
 - load
 - run
 - stop
 - pause
 
-todo:
+Darüber hinaus werden die beiden ```/exchange```
+Objekte:
+```
+"start_time": {
+    "Value": {
+        "value": 1408712602709
+    },
+    "Unit": {
+        "value": "ms"
+    }
+}
+```
+und
+```
+"run_time": {
+    "Unit": {
+        "value": "ms"
+    },
+    "Value": {
+        "value": 928429
+    }
 
-und Komma separierte Aufzählungen wie:
-- load,run,stop
+}
+```
+erstellt; letzterer periodisch aufgefrischt.
+
+### Params: 
+
+* **Object** *mp* Messprog.-Objekt
 
 <!-- End ./lib/observe.js -->
 

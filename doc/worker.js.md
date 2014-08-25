@@ -90,7 +90,7 @@ ist von ```run()``` auch schon auf ```working``` gesetzt.
 
 Author: wactbprot (thsteinbock@web.de)
 
-## wait(mp, task, pfad, cb)
+## wait(mp, task, path, cb)
 
 ```wait()``` verzögert den Ablauf um die unter
 ```task.Value.WaitTime``` angegebene Zeit in ms.
@@ -99,7 +99,7 @@ Author: wactbprot (thsteinbock@web.de)
 
 * **Object** *mp* Messprog.-Objekt
 * **Object** *task* Task-Objekt
-* **Array** *pfad* Pfad Array
+* **Array** *path* Pfad Array
 * **Function** *cb* Callback Funktion
 
 ## noderelay(mp, task, pfad, cb)
@@ -143,9 +143,17 @@ auszulesen.
 Anwendungsbeispiel: Ein Messgerät kann nicht
 elektronisch ausgelesen werden; es sind Eingabefelder
 erstellt, ausgefüllt und vom Client an _exchange_
-zurückgesandt. Mir der Function  ```readElement()```
-wird jetzt der Wert aus _exchange_ ausgelesen und in das
-Kalibrierdokument geschrieben.
+zurückgesandt. Der Client muss dann den key ```Ready```
+auf true setzen
+(Bsp.: ```exchange.calibration-pressure.Ready:true```).
+
+Mir der Funktion  ```readElement()```
+wird (wenn ```...Ready:true```) der Wert aus
+```exchange[task.key]``` zerlegt
+und all die Elemente, bei denen das Attribut ```save```
+zu ```true``` evaluiert wird
+(z.B. ```exchange.calibration-pressure.Unit.save:true```
+in die entsprechenden  Kalibrierdokument geschrieben.
 
 ### Params: 
 
