@@ -22,6 +22,10 @@ oder
 ```
 if(task.ExchangePath) ...
 ```
+oder
+```
+if(task.DocPath) ...
+```
 
 ```task.ExchangePath``` erledigt die  Fälle
 in denen kein  ```PostProcessing``` zur Verfügung steht

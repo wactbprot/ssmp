@@ -36,7 +36,7 @@ Die http-DELETE Anfragen funktionieren nach folgendem Muster:
 ```
 http://server:port/id/structur/path
 ```
-das löschen ganzer Strukturen ist nicht erlaubt; es muss
+das Löschen ganzer Strukturen ist nicht erlaubt; es muss
 mind. ein Pfadelement geben
 
 Bsp.:
