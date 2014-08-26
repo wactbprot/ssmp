@@ -66,7 +66,7 @@ Weitere Details können mittels ```ssmp -h``` erfragt werden.
 ## Vorbereitung des Messprogramms
 
 Die oben eingeführten  Programmdefinitionen  sind zweckmäßiger
-Weise in einer CouchDB-Instanz abgelegt. Sie können auf 3 
+Weise in einer CouchDB-Instanz abgelegt. Sie können auf 2 
 verschiedene Arten dem _ssmp_ zur weiteren Abarbeitung übergeben werden:
 
 ### 1. POST
@@ -181,7 +181,7 @@ was den Ablauf läd, 5 mal den Zyklus ```run``` gefolgt von ```load```
 
 ## recipes
 
----> zur load function
+s.  [doc/load.js.md](https://github.com/wactbprot/ssmp/blob/master/doc/load.js.md)
 
 
 ### Ablaufkontrolle
@@ -196,7 +196,7 @@ Die "Formulierung" ```RunIf: "got_time.Value"``` bewirkt, dass
 die _task_  ausgeführt wird, wenn der Wert unter 
 dem Pfad _exchange.got___time.Value_ (ausführlich: 
 http://localhost:8001/mpdef/exchange/got_time/Value)
-zu true ausgewertet wird.
+zu ```true``` ausgewertet wird.
   
 Die _task_:
 
@@ -213,24 +213,24 @@ Die _task_:
 }
 ```
 
-wird gestartet, wenn z.B.:
+wird gestartet, nachdem z.B.:
 
 ```
 $> bin/mp_set -i mpdef -p  exchange/got_time/Value -d 'true'
 ```
-ausgeführt wird.
+ausgeführt wurde.
 
 #### StopIf
 
 ```StopIf``` funktioniert ganz analog ```RunIf```: Die _task_ wird nicht
 erneut ausgeführt, wenn der Wert unter dem Pfad ```exchange.pfill_ok.Value``` 
-zu true ausgewertet werden kann.
+zu ```true``` ausgewertet werden kann.
 
 ## Die Exchange Schnittstelle
 
 ### Input
 
-Hier ein Beispiel wie man im Postprocessing Teil einer Task das Schreiben
+Hier ein Beispiel wie man im ```PostProcessing``` Teil einer _task_ das Schreiben
 in die Exchange Schnittstelle veranlassen kann:
 
 ```
@@ -244,7 +244,10 @@ Die ```receive()``` Funktion bekommt das unter
 ```
 data.ToExchange
 ```
-und würde hier den wert von ```ok``` in den Pfad ```key.is.exchange.path``` schreiben.
+und würde hier den wert von ```ok``` in den Pfad ```key.is.exchange.path```
+schreiben.
+
+s. [doc/receive.js.md](https://github.com/wactbprot/ssmp/blob/master/doc/receive.js.md) bzw. [utils.js.md#write_to_exchange](https://github.com/wactbprot/ssmp/blob/master/doc/utils.js.md#write_to_exchangemp-task-data-cb)
 	
 ## ssmp Rückgabewerte
 

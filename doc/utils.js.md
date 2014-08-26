@@ -68,7 +68,7 @@ Die Funktion ```write_to_exchange()``` schreibt
 Es gibt zwei Möglichkeiten (s.auch ```receive()```)
 wie der Pfad ```.../pfad/zu/daten```angegeben werden kann:
 
-__1).__  _key_ des ```data.ToExchange.pfad.zu.daten```
+1)  _key_ des ```data.ToExchange.pfad.zu.daten```
 Bsp. (PostProcessing- Teil einer _task_):
 ```
 ...
@@ -84,7 +84,7 @@ Das hier angegeben ```PostProcessing``` liefert das ```data```
 Objekt; ```pfad.zu.daten``` wäre hier z.B.
 ```MKS-SRG-3-Ctrl-1-pressure.Value.value```
 
-__2).__ der Pfad wird einfach mit dem key ```task.ExchangePath``` vorher
+2) der Pfad wird einfach mit dem key ```task.ExchangePath``` vorher
 in der _task_ angegeben; alle Daten die von der _task_
 geliefert werden, werden dann an diese Stelle geschrieben.
 Bsp. (vollst. _task_):
