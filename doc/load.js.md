@@ -2,21 +2,19 @@
 
 <!-- Start ./lib/load.js -->
 
-## exports()
+## load(mp, path)
 
---*-- load --*--
-
-```load()``` läd die Task und sendet die
+```load()``` läd die _task_ und sendet die
 Replacements (wenn vorhanden) im POST body.
 
 Bevor irgendwas geschieht wird der
 ```state``` erstmal auf ```working```
-gesetzen; alles weitere geschieht
-als callback des state setters
+gesetzen; alles Weitere geschieht
+als callback des ```state```-setters.
 
 ```load()``` ist auch
 reload; in diesem Fall
-ist task ein schon die
+ist _task_ ein schon die
 eigentliche task
 (und keine Ersetzungsvorschrift)
 
@@ -33,6 +31,11 @@ um die Kunden-Tasks aufzunehmen.
 Damit dass nicht zu kompliziert wird
 soll nur eine CUCO-Task (read, write ...)
 pro seriellem Schritt erlaubt sein.
+
+### Params: 
+
+* **Object** *mp* Messprog.-Objekt
+* **Array** *path* Pfad Array
 
 <!-- End ./lib/load.js -->
 
