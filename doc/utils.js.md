@@ -2,16 +2,37 @@
 
 <!-- Start ./lib/utils.js -->
 
-## cmd_to_array()
+## cmd_to_array(cmdstr)
 
-wenn der cmdstr kann so aussieht:
+Die ```cmd_to_array()``` Funktion zerlegt die
+unter ```Mp.Container[i].Ctrl``` bzw. ```http://.../mpid/ctrl```
+angebbaren Steuerzeichen (_cmdstr_) und erzeugt daraus eien Array,
+dessen erstes Feld den aktuellen Auftrag (load, run etc.)
+beinhaltet; die Funktion ```observe()``` benutzt dieses erste Feld,
+um entsprechende Funktionen auszuwählen.
+
+Wenn der _cmdstr_ so aussieht:
+```
 "load;run;stop"
-soll das rauskommen:
+```
+soll:
+```
 ["load","run", "stop"]
-wenn der cmdstr kann so aussieht:
+```
+erzeugt werden. Sieht der _cmdstr_wie folgt aus:
+```
 "load;2:run,stop"
-soll das rauskommen:
+```
+soll:
+```
 ["load","run", "stop","run", "stop"]
+```
+erzeugt werden. Steht an lezter Stelle der String ```mon```
+wird immer wieder ```["mon"]``` zurückgeliefert.
+
+### Params: 
+
+* **String** *cmdstr* Steuerstring
 
 ## data_to_doc(doc, pfad, dataset, cb)
 
