@@ -60,6 +60,10 @@
    * @param {String} url url-Muster der Anfrage
    * @param {Function} f Callback
    */
+  server.get("/", function(req, res, next){
+    res.send(col.get_mps(mps, req));
+    next();
+  });
   server.get("/:id", function(req, res, next){
     res.send(col.get_mp(mps, req));
     next();
