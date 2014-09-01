@@ -77,11 +77,11 @@ $> npm install
 Nach der Insatallation sind folgende Schritte sind bei einer
 Kalibrierung/Messung abzuarbeiten: 
 
-#  Starten des Servers
-#  Laden des MP
-#  Übergeben der KD
-#  Laden der MP-Abläufe
-#  Starten des MP
+1.  Starten des Servers
+2.  Laden des MP
+3.  Übergeben der KD
+4.  Laden der MP-Abläufe
+5.  Starten des MP
 
 
 ##  Starten des Servers
