@@ -264,14 +264,14 @@ Die _task_:
 
 ```javascript
 {
-	Action      : wait, 
+	Action      : "wait", 
 	Comment     : "Ready in  1000 ms", 
-	TaskName    : Mp-cond_wait, 
-	Exchange    : wait_time.Value, 
-	Id          : [], 
+	TaskName    : "Mp-cond_wait", 
+	Exchange    : "wait_time.Value", 
+	Id          : ["kdid-1","kdid-2","kdid-3","kdid-4"], 
 	CuCo        : false, 
-	MpName      : Mp
-	RunIf       : got_time.Value, 
+	MpName      : "Mp"
+	RunIf       : "got_time.Value", 
 }
 ```
 
