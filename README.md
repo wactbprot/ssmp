@@ -89,48 +89,48 @@ Kalibrierung/Messung abzuarbeiten:
 Nachfolgend eine Übersicht der Wichtigsten von __ssmp__ bereitgestellten API-Endpunkte:
 
 ___mpid___
-* GET: http://server:port/mpid ... liefert Datenbankdefinition zurück
-* PUT: http://server:port/mpid ...  Laden des MP
-* POST: http://server:port/mpid ...  Laden des MP
+* GET: ```http://server:port/mpid``` ... liefert Datenbankdefinition zurück
+* PUT: ```http://server:port/mpid``` ...  Laden des MP
+* POST: ```http://server:port/mpid``` ...  Laden des MP
 
 ___name___
-* GET: http://server:port/mpid/name ... Name des MP
+* GET: ```http://server:port/mpid/name``` ... Name des MP
 
 ___standard___
-* GET: http://server:port/mpid/standard ... MP gehöhrt zu diesem Standard
+* GET: ```http://server:port/mpid/standard``` ... MP gehöhrt zu diesem Standard
 
 ___state___
-* GET: http://server:port/mpid/state ... Abarbeitungszustand
-* GET: http://server:port/mpid/state/0 ... Abarbeitungszustand des ersten Containers
-* GET: http://server:port/mpid/state/0/0 ... Abarbeitungszustand des ersten
+* GET: ```http://server:port/mpid/state``` ... Abarbeitungszustand
+* GET: ```http://server:port/mpid/state/0``` ... Abarbeitungszustand des ersten Containers
+* GET: ```http://server:port/mpid/state/0/0``` ... Abarbeitungszustand des ersten
   Schrittes des ersten Containers 
 
 ___definition___
-* GET/PUT: http://server:port/mpid/definition ... Definition
-* GET/PUT: http://server:port/mpid/definition/0 ... analog state
-* GET/PUT: http://server:port/mpid/definition/0/0 ... analog state
+* GET/PUT: ```http://server:port/mpid/definition``` ... Definition
+* GET/PUT: ```http://server:port/mpid/definition/0``` ... analog state
+* GET/PUT: ```http://server:port/mpid/definition/0/0``` ... analog state
 
 ___recipe___
-* GET/PUT: http://server:port/mpid/recipe ... Rezept
-* GET/PUT: http://server:port/mpid/recipe/0 ... analog state
-* GET/PUT: http://server:port/mpid/recipe/0/0 ...analog state
+* GET/PUT: ```http://server:port/mpid/recipe``` ... Rezept
+* GET/PUT: ```http://server:port/mpid/recipe/0``` ... analog state
+* GET/PUT: ```http://server:port/mpid/recipe/0/0``` ...analog state
 
 ___ctrl___
-* GET/PUT: http://server:port/mpid/ctrl ... Kontrollstring
-* GET/PUT: http://server:port/mpid/ctrl/0 ... analog state
-* GET/PUT: http://server:port/mpid/ctrl/0/0 ... analog state
+* GET/PUT: ```http://server:port/mpid/ctrl``` ... Kontrollstring
+* GET/PUT: ```http://server:port/mpid/ctrl/0``` ... analog state
+* GET/PUT: ```http://server:port/mpid/ctrl/0/0``` ... analog state
 
 ___description___
-* GET/PUT: http://server:port/mpid/description/0 ... Beschreibung des 1. Containers 
+* GET/PUT: ```http://server:port/mpid/description/0``` ... Beschreibung des 1. Containers 
 
 ___title___
-* GET/PUT: http://server:port/mpid/title/0 ... Titel des 1. Containers
+* GET/PUT: ```http://server:port/mpid/title/0``` ... Titel des 1. Containers
 
 ___onerror___
-* GET/PUT: http://server:port/mpid/onerror/0 ... Fehlerverhalten des 1. Containers
+* GET/PUT: ```http://server:port/mpid/onerror/0``` ... Fehlerverhalten des 1. Containers
 
 ___id___
-* GET: http://server:port/mpid/id ... angemeldete KD-ids
+* GET: ```http://server:port/mpid/id``` ... angemeldete KD-ids
 
 
 ##  Starten des Servers
