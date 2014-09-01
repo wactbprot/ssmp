@@ -79,7 +79,7 @@ Kalibrierung/Messung abzuarbeiten:
 
 1.  Starten des Servers
 2.  Laden des MP
-3.  Übergeben der KD
+3.  Bekanntgeben der KD (optional)
 4.  Laden der MP-Abläufe
 5.  Starten des MP
 
@@ -97,8 +97,8 @@ Weitere Details können mittels ```ssmp -h``` erfragt werden.
 
 ## Laden des Messprogramms
 
-Die oben eingeführten  Programmdefinitionen  sind zweckmäßiger
-Weise in einer CouchDB-Instanz abgelegt. Sie können auf 2 
+Die Definition eines MP geschieht im JSON Format. Sie sind zweckmäßiger
+Weise in einer CouchDB als Dokumente abgelegt. Sie können auf 2 
 verschiedene Arten dem __ssmp__ zur weiteren Abarbeitung übergeben werden:
 
 ### 1. POST
@@ -135,9 +135,9 @@ $> bin/mp_ini -i mpid -d load
 ## Übergeben der Kalibrierdokumente
 
 Der konkrete Ablauf eines Messprogramms hängt auch von den zu kalibrierenden
-Geräten ab. Welche Geräte wie kalibriert werden sollen, ist in den KD
+Geräten ab. _Welche_ Geräte _wie_ kalibriert werden sollen, ist in den KD
 festgelegt. __ssmp__ muss also die ids der KD kennen um aus diesen Dokumenten die
-entsprechenden Informationen zu ziehen.
+entsprechenden Informationen zu beziehen.
 
 Das Bekanntgeben der KD-ids geschieht mittels des _id_ Endpunkts:
 
@@ -171,12 +171,12 @@ http://localhost:8001/mpid/recipe
 aufgefüllt, an dem die Ablaufdefinition mit den Tasks zu den Rezepten
 zusammengestellt ist. 
 Die Abläufe der einzelnen _container_ sind der MP-Definition unter dem Pfad 
-```Mp.Container.Definition[S][P]``` mit _TaskName_n und
+```Mp.Container.Definition[S][P]``` mit _TaskName_ und
 individuellen Ersetzungsanweisungen _Replace_ und _Use_
 angegebenen. ```S``` und ```P``` stehen hier für sequentieller 
 bzw. paralleler Schritt. Bsp.:
 
-```
+```javascript
 {
 "_id": "mpid",
 	"Mp": {
@@ -262,7 +262,7 @@ zu ```true``` ausgewertet wird.
   
 Die _task_:
 
-```
+```javascript
 {
 	Action      : wait, 
 	Comment     : "Ready in  1000 ms", 
@@ -331,7 +331,7 @@ was den Ablauf läd, 5 mal den Zyklus ```run``` gefolgt von ```load```
 Hier ein Beispiel wie man im ```PostProcessing``` Teil einer _task_ das Schreiben
 in die Exchange Schnittstelle veranlassen kann:
 
-```
+```javascript
 "PostProcessing": [
                "var ok = calculate_ok_from_input,",
                "ToExchange={'key.is.exchange.path':ok};"
