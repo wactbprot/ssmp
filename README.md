@@ -62,7 +62,7 @@ diese besitzt eine id, die in allen urls gleich nach dem __ssmp__ port auftaucht
 * ```mpid``` ... Datenbank-id der MP-Definition
 * ```kdid``` ... Datenbank-id des KD-Dokuments
 * __ssmp__ ... server side MP
-* API ... application programming interface
+* API ... application programming interface (hier eine http-Adresse)
 
 ## Installation
 
@@ -75,7 +75,7 @@ $> npm install
 ## Gesamtablauf
 
 
-Nach der Insatallation sind folgende Schritte sind bei einer
+Nach der Installation sind folgende Schritte sind bei einer
 Kalibrierung/Messung abzuarbeiten: 
 
 1.  Starten des Servers
@@ -102,8 +102,8 @@ ___standard___
 ___state___
 * GET: ```http://server:port/mpid/state``` ... Abarbeitungszustand
 * GET: ```http://server:port/mpid/state/0``` ... Abarbeitungszustand des ersten Containers
-* GET: ```http://server:port/mpid/state/0/0``` ... Abarbeitungszustand des ersten
-  Schrittes des ersten Containers 
+* GET: ```http://server:port/mpid/state/0/0``` ... Abarbeitungszustand des
+  ersten seriellen Schrittes des ersten Containers 
 
 ___definition___
 * GET/PUT: ```http://server:port/mpid/definition``` ... Definition
@@ -232,7 +232,7 @@ bzw. paralleler Schritt. Bsp.:
 		"Container": [
 			{
                "Element": ["Documents"],
-			   "Description": "periodicallyreads out all FM3/CE3 pressure devices",
+			   "Description": "periodically reads out all FM3/CE3 pressure devices",
                "Ctrl": "load;mon",
                "OnError": "fallback",
                "Definition": 
@@ -282,7 +282,7 @@ in der   [load.js Dokumentation](https://github.com/wactbprot/ssmp/blob/master/d
 
 ## Starten des Messprogramms
 
-Das Starten des Ausführens der oben geladenen Abläufe 
+Das Starten des Ausführens der oben geladenen Abläufe des 1. Containers
 geschieht auch über die ```ctrl``` Schnittstelle:
 
 ```
@@ -299,7 +299,7 @@ $> bin/mp_ctrl -i mpid -c 0 -d run
 
 _tasks_ können Schlüsselwörter (keys) besitzen,
 die ihre Ausführing beeinflussen; das sind die keys 
-```RunIf`` und ```StopIf```.
+```RunIf``` und ```StopIf```.
 
 ##### RunIf
 
@@ -362,7 +362,7 @@ Die  Anweisung:
 $> bin/mp_ctrl -i mpid -c 0 -d 'load;5:run'
 ```
 
-läd den Ablauf und startet ihn 5 mal. Es geht auch:
+lädt den Ablauf und startet ihn 5 mal. Es geht auch:
 
 ```
 $> bin/mp_ctrl -i mpid -c 0 -d 'load;5:run,load;stop'
@@ -394,7 +394,8 @@ data.ToExchange
 und würde hier den wert von ```ok``` in den Pfad ```key.is.exchange.path```
 schreiben.
 
-s. [doc/receive.js.md](https://github.com/wactbprot/ssmp/blob/master/doc/receive.js.md) bzw. [utils.js.md#write_to_exchange](https://github.com/wactbprot/ssmp/blob/master/doc/utils.js.md#write_to_exchangemp-task-data-cb)
+s. [doc/receive.js.md](https://github.com/wactbprot/ssmp/blob/master/doc/receive.js.md)
+bzw.  [utils.js.md#write_to_exchange](https://github.com/wactbprot/ssmp/blob/master/doc/utils.js.md#write_to_exchangemp-task-data-cb)
 	
 ## __ssmp__ Rückgabewerte
 
@@ -402,11 +403,14 @@ Das Ergebnis von _http-GET_-Anfrage hängt von der Art des
 zurückzubebenden Objektes (```x```) ab:
 
 * wenn ```x``` ein ```string```, ```number```oder ```boolean``` ist, dann sieht
-  das Ergebnis so aus: ```{result:x}``` (dies damit der _return value_ jedem Fall json
-* ist ```x``` ein ```object``` oder ```array``` wird einfach ```x```
-  ist)
+  das Ergebnis so aus: ```{result:x}``` (dies damit der _return value_ in
+  jedem Fall JSON ist)
+
+* ist ```x``` ein ```object``` oder ```array``` wird einfach ```x``` zurückgegeben
+ 
 * gibt es keine der Anfrage entsprechende Daten wird mit ```{error:
   "Beschreibung des Grundes"}``` geantwortet
+
 * ist die url unzulässig liefert eine Anfrage
   ```{"code":"MethodNotAllowedError","message":"GET is not allowed"}```
 
@@ -427,11 +431,14 @@ zurückzubebenden Objektes (```x```) ab:
 $> cd ssmp
 $> npm run doc
 ```
-Es werden so im Verzeichniss ```ssmp/doc``` markdown 
-(Endung ```.md```) erstellt.
+Es werden so im Verzeichniss [ssmp/doc](https://github.com/wactbprot/ssmp/tree/master/doc) markdown (Endung ```.md```) erstellt.
 
 ### Unit tests/ code coverage
- 
+
+Bei Uninttests werden die Ergebnisse die kleine Programmteile 
+(units) bei Ausführung liefern mit Sollergebnissen verglichen. 
+Dies soll der Verbesserung der code-Qualität dienen: 
+
 ```
 $> cd ssmp
 $> npm test
