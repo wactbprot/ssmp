@@ -76,6 +76,14 @@
     res.send(col.get_task_state(mps, req));
     next();
   })
+  server.get("/:id/containerelements/:container", function(req, res, next){
+    res.send(col.get_container_elements(mps, req));
+    next();
+  })
+  server.get("/:id/containerelements/:container/:key", function(req, res, next){
+    res.send(col.get_container_elements(mps, req));
+    next();
+  })
 
   server.get("/:id/:struct", function(req, res, next){
     res.send(utils.get(mps, req));
