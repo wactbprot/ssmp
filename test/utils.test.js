@@ -181,6 +181,7 @@ describe('utils', function(){
                       Comment:"comment1"}];
 
       utils.data_to_doc(doc, path, dataset,function(d){
+        assert.equal(d.dest.aim[0].Value.length, 1);
         assert.equal(d.dest.aim[0].Value[0], 123);
         assert.equal(d.dest.aim[0].Comment[0],"comment1" );
       } )
@@ -188,6 +189,7 @@ describe('utils', function(){
       dataset[0].Value = 234;
 
       utils.data_to_doc(doc, path, dataset,function(d){
+        assert.equal(d.dest.aim[0].Value.length, 2);
         assert.equal(d.dest.aim[0].Value[1], 234);
       } )
 
@@ -195,6 +197,7 @@ describe('utils', function(){
       dataset[0].Comment = "comment2";
 
       utils.data_to_doc(doc, path, dataset,function(d){
+        assert.equal(d.dest.aim[1].Value.length, 1);
         assert.equal(d.dest.aim[1].Value[0], 234);
         assert.equal(d.dest.aim[1].Comment[0],"comment2" );
       } )
@@ -202,6 +205,7 @@ describe('utils', function(){
       dataset[0].Value = 567;
 
       utils.data_to_doc(doc, path, dataset,function(d){
+        assert.equal(d.dest.aim[1].Value.length, 2);
         assert.equal(d.dest.aim[1].Value[1], 567);
       } )
     })
