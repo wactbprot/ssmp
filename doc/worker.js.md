@@ -106,8 +106,7 @@ Author: wactbprot (thsteinbock@web.de)
 
 (Mess-) Aufträge an den _node-relay_-server
 werden an diesen mit der ```noderelay()```
-Funktion gesandt. Eine erfolgreiche Antwort (```data```)
-wird der Funktion ```receive()``` übergeben.
+Funktion gesandt.
 
 ### Params: 
 
