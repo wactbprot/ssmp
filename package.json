@@ -2,13 +2,12 @@
     "author": "wactbprot",
     "name": "ssmp",
     "description": "server side measurment program",
-    "version": "0.0.5",
+    "version": "0.1.0",
     "repository": {
         "type":"git",
         "url": "https://github.com/wactbprot/ssmp"
     },
     "dependencies": {
-        "nano":">=3.3.6",
         "underscore":">=1.4.4",
 	"clone":">=0.1.11",
         "restify":">=2.7.0",

@@ -18,7 +18,6 @@
       bunyan  = require("bunyan"),
       utils   = require("./lib/utils"),
       gen     = require("./lib/generic"),
-      obs     = require("./lib/observe"),
       col     = require("./lib/collections"),
       inimp   = require("./lib/ini_mp"),
       inicd   = require("./lib/ini_cd"),
@@ -205,7 +204,6 @@
     var id   = req.params.id;
     inimp(mps, req, function(rob){
       res.send(rob);
-      obs(mps[id]);
     });
     next();
   });
