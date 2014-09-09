@@ -11,6 +11,7 @@ wie  ```noderelay()``` oder ```getList()```.
 Was konkret mit den Daten geschied wird:
 
 1.) anhand der Daten entschieden:
+z.B:
 ```
 if(data.ToExchange) ...
 ```
@@ -18,7 +19,8 @@ Ein Bsp. hierfür wäre der  ```getList()``` worker
 
 oder
 
-2.) anhand der Task entschieden:
+2.) anhand es wird anhand der Task entschieden:
+z.B.:
 ```
 if(task.ExchangePath) ...
 ```

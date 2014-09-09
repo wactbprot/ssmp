@@ -2,7 +2,7 @@
 
 <!-- Start ./lib/request.js -->
 
-## request(mp, task, pfad, con, wrtdata, cb)
+## exec(mp, task, pfad, con, wrtdata, cb)
 
 Generische http request Funktion.
 Eine erfolgreiche Antwort (```data```)

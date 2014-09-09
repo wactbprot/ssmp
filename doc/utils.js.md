@@ -66,7 +66,7 @@ Ein Beispiel für ein gültiges dataset ist:
 * **Array** *dataset* Array mit Datenobjekten
 * **Function** *cb* Callback Funktion
 
-## query_cd(mp, task, data, cb)
+## query_cd(mp, task, task, data, cb)
 
 Die Funktion ```query_cd()``` holt
 ein Kalibrierdokument (aka KD
@@ -79,6 +79,7 @@ zum wieder Abspeichern des nun aufgefüllten cd.
 
 * **Object** *mp* Messprog.-Objekt
 * **Object** *task* Task-Objekt
+* **Array** *task* state-Pfad
 * **Object** *data* Objekt mit Result key
 * **Function** *cb* Callback Funktion
 
