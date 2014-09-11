@@ -226,7 +226,6 @@
     var id   = req.params.id;
     inimp(mps, req, function(rob){
       res.send(rob);
-      obs(mps[id]);
     });
     next();
   });
