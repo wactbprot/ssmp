@@ -87,7 +87,7 @@ curl -d '{"Mp":{"Container":[{"Ctrl":"load;mon","Definition":[[{"TaskName":"Comm
 Das MP wird hier gleich mitgeschickt (```-X POST```). Es besteht aus nur einem
 Container in der nur eine Task (namens ``` Common-wait ```) geladen
 (```load```) und wiederholt gestartet werden soll (```mon``` kommt von
-_monitoring_ ). Dieses MP hat nun auch die unter dem Abschnitt Endpunkte
+_monitoring_ ). Dieses MP hat nun auch die unter dem Abschnitt [Endpunkte](https://github.com/wactbprot/ssmp#endpunkte)
 beschriebenen urls.  
 
 
