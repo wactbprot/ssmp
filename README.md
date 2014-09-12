@@ -435,8 +435,8 @@ zurückzubebenden Objektes (```x```) ab:
 
 ## ToDo
 
-* nano raus
-* antworten mit {ok:true} nicht mit "ok"
+* nano raus (done)
+* antworten mit {ok:true} nicht mit "ok" (<- now)
 
 
 ## Ideas
