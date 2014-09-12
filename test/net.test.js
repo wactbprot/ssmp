@@ -8,35 +8,7 @@ var assert = require("assert"),
 mp.param = gen.mod(deflt);
 
 describe('net', function(){
-  describe('#dbcon(mp)', function(){
-    it('should return the nano object for db connection', function(){
-      var cn = net.dbcon(mp);
-      assert(true, _.isFunction(cn.relax));
-      assert(true, _.isFunction(cn.get));
-
-    })
-  })
-  describe('#dbcon()', function(){
-    it('should return the nano object for db connection \wo mp', function(){
-      var cn = net.dbcon();
-      assert(true, _.isFunction(cn.relax));
-    })
-  })
-
-  describe('#doc(mp)', function(){
-    it('should return the db connection', function(){
-      var cn = net.doc(mp);
-      assert(true, _.isFunction(cn.get));
-    })
-  })
-
-  describe('#doc()', function(){
-    it('should return the db connection \wo mp', function(){
-      var cn = net.doc();
-      assert(true, _.isFunction(cn.get));
-    })
-  })
-
+ 
   describe('#task(mp)', function(){
     it('should return the task path', function(){
       var o = net.task(mp);
