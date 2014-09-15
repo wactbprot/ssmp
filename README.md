@@ -296,7 +296,13 @@ Mit  [csmp](https://github.com/wactbprot/csmp) geht das so:
 $> bin/mp_ctrl -i mpid -c 0 -d load
 ```
 Weitere Details zum Laden finden sich 
-in der   [load.js Dokumentation](https://github.com/wactbprot/ssmp/blob/master/doc/load.js.md).
+in der
+[load.js Dokumentation](https://github.com/wactbprot/ssmp/blob/master/doc/load.js.md).
+
+
+Es einige Zeichenketten die als Ersetzungen in den Ablaufdefinitionen immer
+zur Verfüging stehen wie z.B. das aktuelle Jahr über ```@year``` oder die
+aktuell ausgewählten KD-ids über ```@cdids```. (s. das [dbmp README](https://github.com/wactbprot/dbmp))
 
 
 ## Starten des Messprogramms
