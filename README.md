@@ -444,7 +444,7 @@ zurückzubebenden Objektes (```x```) ab:
 * nano raus (done)
 * antworten mit {ok:true} nicht mit "ok" (done)
 * tests 
-
+* vieleicht geht es die receive function einzusparen... next
 ## Ideas
 
 * Neuschreiben Erlang
