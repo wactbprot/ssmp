@@ -5,10 +5,10 @@
 ## exec(mp, task, pfad, con, wrtdata, cb)
 
 Generische http request Funktion.
-Eine erfolgreiche Antwort (```data```)
-wird der Funktion ```receive()``` übergeben.
+Bei erfolgreiche Antwort (```data```)
+werden die Daten dem callback ```cb(data)``` übergeben.
 
-Fehler werden je nach ```onerror```-Einstellung
+Fehler werden je nach ```OnError```-Einstellung
 des Containers ( = ```_.first(path)```) behandelt.
 
 ### Params: 

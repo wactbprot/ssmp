@@ -87,8 +87,8 @@ zum wieder Abspeichern des nun aufgefüllten cd.
 
 Die Funktion ```write_to_exchange()``` schreibt
 übergebene Daten in die ```/exchange/pfad/zu/daten``` Schnittstelle.
-Es gibt zwei Möglichkeiten (s.auch ```receive()```)
-wie der Pfad ```.../pfad/zu/daten```angegeben werden kann:
+Es gibt zwei Möglichkeiten wie der Pfad
+```.../pfad/zu/daten``` angegeben werden kann:
 
 1)  _key_ des ```data.ToExchange.pfad.zu.daten```
 Bsp. (PostProcessing- Teil einer _task_):
@@ -105,7 +105,7 @@ Bsp. (PostProcessing- Teil einer _task_):
 Das hier angegeben ```PostProcessing``` liefert das ```data```
 Objekt; ```pfad.zu.daten``` wäre hier z.B. ```MKS-SRG-3-Ctrl-1-pressure.Value.value```
 
-2) der Pfad wird einfach mit dem key ```task.ExchangePath``` vorher
+2) der Pfad wird einfach mit dem key ```Task.ExchangePath``` vorher
 in der _task_ angegeben; alle Daten die von der _task_
 geliefert werden, werden dann an diese Stelle geschrieben.
 Bsp. (vollst. _task_):
@@ -125,6 +125,9 @@ Bsp. (vollst. _task_):
 Die Daten die die DB-Abfrage liefert sind (von der _list_-Funktion
 so  aufbereitet, dass sie als Gesamtheit nach ```/exchange```
 geschrieben werden können.
+
+Gibt es unter dem Pfad ```Task.ExchangePath``` schon eine Struktur,
+wird diese um die Übergebne erweitert.
 
 ### Params: 
 

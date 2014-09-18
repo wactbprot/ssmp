@@ -2,7 +2,7 @@
 
 <!-- Start ./lib/net.js -->
 
-## dbparam(mp)
+## param(mp)
 
 Liefert Datenbankverbindungsparameter.
 
