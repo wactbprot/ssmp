@@ -24,7 +24,7 @@
       log     = bunyan.createLogger({name: name}),
       server  = restify.createServer({name: name});
 
- prog.version("0.0.5")
+ prog.version("0.1")
  .option("-P, --port <port>", "port (default is  8001)", parseInt)
   .parse(process.argv);
 
