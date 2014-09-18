@@ -439,17 +439,6 @@ zurückzubebenden Objektes (```x```) ab:
 * ist die url unzulässig liefert eine Anfrage
   ```{"code":"MethodNotAllowedError","message":"GET is not allowed"}```
 
-## ToDo
-
-* nano raus (done)
-* antworten mit {ok:true} nicht mit "ok" (done)
-* tests 
-* vieleicht geht es die receive function einzusparen... next
-## Ideas
-
-* Neuschreiben Erlang
-* log DB Zweig
-
 ## Dokumentation & devel
 
 ```
