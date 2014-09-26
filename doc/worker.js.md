@@ -23,12 +23,12 @@ Die ```worker()``` arbeiten ```task```s ab.
           "_waitunit": "ms"
         },
  "Tasks":[
- 	   {
- 	    "Action": "wait",
+        {
+         "Action": "wait",
          "Comment": "_waitfor  _waittime ms",
- 	    "TaskName": "wait",
- 	    "Value": {
- 	             "WaitTime": "_waittime"
+         "TaskName": "wait",
+         "Value": {
+                  "WaitTime": "_waittime"
                   }
        },
  ...
@@ -115,9 +115,9 @@ Funktion gesandt.
 * **Array** *pfad* Pfad Array
 * **Function** *cb* Callback Funktion
 
-## addElement(mp, task, pfad, cb)
+## writeExchange(mp, task, pfad, cb)
 
-Die worker Funktion ```addElement()``` erlaubt es,
+Die worker Funktion ```writeExchange()``` erlaubt es,
 zur Laufzeit Einträge in der _exchange_-Schnittstelle
 zu erstellen.
 
@@ -133,9 +133,9 @@ Eingabefelder erstellt werden. Dazu ist
 * **Array** *pfad* Pfad Array
 * **Function** *cb* Callback Funktion
 
-## readElement(mp, task, pfad, cb)
+## readExchange(mp, task, pfad, cb)
 
-Die worker Funktion ```readElement()``` erlaubt es,
+Die worker Funktion ```readExchange()``` erlaubt es,
 zur Laufzeit Einträge aus der _exchange_-Schnittstelle
 auszulesen.
 
@@ -146,13 +146,13 @@ zurückgesandt. Der Client muss dann den key ```Ready```
 auf true setzen
 (Bsp.: ```exchange.calibration-pressure.Ready:true```).
 
-Mir der Funktion  ```readElement()```
+Mir der Funktion  ```readExchange()```
 wird (wenn ```...Ready:true```) der Wert aus
-```exchange[task.key]``` zerlegt
+```exchange[Task.Key]``` zerlegt
 und all die Elemente, bei denen das Attribut ```save```
 zu ```true``` evaluiert wird
 (z.B. ```exchange.calibration-pressure.Unit.save:true```
-in die entsprechenden  Kalibrierdokument geschrieben.
+in die entsprechenden  Kalibrierdokumente geschrieben.
 
 ### Params: 
 
@@ -177,16 +177,22 @@ In der ```task``` muss die Rezeptklasse unter dem Pfad
 * **Array** *pfad* Pfad Array
 * **Function** *cb* Callback Funktion
 
-## getList(mp, task, pfad, cb)
+## updateCd(mp, task, pfad, cb)
 
-Die worker Funktion ```getList()```
-holt Daten von einer Datenbank-List-Abfrage.
-Die ```task``` benötigt die Einträge  ```task.ListName```
-und ```task.ViewName```. Ergebnisse werden (wie schon beim
-```noderelay()``` worker) der ```receive()```-Funktion übergeben.
+### Params: 
 
-Anwendungnsbeispiel: Datensätze zur Auswahl
-eines Kalibrierdokuments.
+* **Object** *mp* Messprog.-Objekt
+* **Object** *task* Task-Objekt
+* **Array** *pfad* Pfad Array
+* **Function** *cb* Callback Funktion
+
+## ctrlContainer(mp, task, pfad, cb)
+
+Die worker Funktion ```ctrlContainer```
+erlaubt es taskgesteuert den ctrl-String
+von Containern zu setzen. Ein Anwendungsbeispiel
+ist das Starten des Initialisierungscontainers
+nachdem die KD-ids ausgewählt wurden.
 
 ### Params: 
 

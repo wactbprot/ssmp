@@ -3,7 +3,6 @@ require("../lib/ini_cd");
 require("../lib/run");
 require("../lib/compare");
 require("../lib/ini_mp");
-require("../lib/receive");
 require("../lib/load");
 require("../lib/utils");
 require("../lib/default");

@@ -257,21 +257,5 @@ inimp(mps, req, function(ret){
 
       })
     })
-
-    describe('#query_cd()', function(){
-      it('should set the get the testdoc', function(){
-
-        var now  = new Date().getTime(),
-            task = {Id:["ca-test_doc_1"],
-                    DocPath:"Date.Now"},
-            data = {Result:[{Date:now}]},
-            path = [0,0,0];
-
-        utils.query_cd(mp, task, path, data,  function(m){
-          assert.equal(m,"mmmmok");
-        })
-      })
-    })
   })
-
 })

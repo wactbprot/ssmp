@@ -72,6 +72,25 @@ $> cd ssmp
 $> npm install
 ```
 
+## Einzeiler
+
+Nach der Installation kann ssmp mittels
+
+```
+npm run ssmp
+```
+gestartet werden. Ein erstes MP kann wie folgt geladen und gestartet werden:
+
+```
+curl -d '{"Mp":{"Container":[{"Ctrl":"load;mon","Definition":[[{"TaskName":"Common-wait"}]]}]}}' -X POST http://localhost:8001/bsp_mp
+```
+Das MP wird hier gleich mitgeschickt (```-X POST```). Es besteht aus nur einem
+Container in der nur eine Task (namens ``` Common-wait ```) geladen
+(```load```) und wiederholt gestartet werden soll (```mon``` kommt von
+_monitoring_ ). Dieses MP hat nun auch die unter dem Abschnitt [Endpunkte](https://github.com/wactbprot/ssmp#endpunkte)
+beschriebenen urls.  
+
+
 ## Gesamtablauf
 
 
@@ -277,7 +296,13 @@ Mit  [csmp](https://github.com/wactbprot/csmp) geht das so:
 $> bin/mp_ctrl -i mpid -c 0 -d load
 ```
 Weitere Details zum Laden finden sich 
-in der   [load.js Dokumentation](https://github.com/wactbprot/ssmp/blob/master/doc/load.js.md).
+in der
+[load.js Dokumentation](https://github.com/wactbprot/ssmp/blob/master/doc/load.js.md).
+
+
+Es einige Zeichenketten die als Ersetzungen in den Ablaufdefinitionen immer
+zur Verfüging stehen wie z.B. das aktuelle Jahr über ```@year``` oder die
+aktuell ausgewählten KD-ids über ```@cdids```. (s. das [dbmp README](https://github.com/wactbprot/dbmp))
 
 
 ## Starten des Messprogramms
@@ -413,17 +438,6 @@ zurückzubebenden Objektes (```x```) ab:
 
 * ist die url unzulässig liefert eine Anfrage
   ```{"code":"MethodNotAllowedError","message":"GET is not allowed"}```
-
-## ToDo
-
-* nano raus
-* antworten mit {ok:true} nicht mit "ok"
-
-
-## Ideas
-
-* Neuschreiben Erlang
-* log DB Zweig
 
 ## Dokumentation & devel
 
