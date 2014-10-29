@@ -59,31 +59,44 @@
    * @param {String} url url-Muster der Anfrage
    * @param {Function} f Callback
    */
+  // --*-- colection-start --*--
   server.get("/", function(req, res, next){
-    res.send(col.get_mps(mps, req));
+    col.get_mps(mps, req, function(o){
+      res.send(o);
+    });
     next();
   });
   server.get("/:id", function(req, res, next){
-    res.send(col.get_mp(mps, req));
+    col.get_mp(mps, req, function(o){
+      res.send(o);
+    });
     next();
   });
   server.get("/:id/frame", function(req, res, next){
-    res.send(col.get_frame(mps, req));
+    col.get_frame(mps, req, function(o){
+      res.send(o);
+    });
     next();
   })
   server.get("/:id/taskstate/:container", function(req, res, next){
-    res.send(col.get_task_state(mps, req));
+    col.get_task_state(mps, req, function(o){
+      res.send(o);
+    });
     next();
   })
   server.get("/:id/containerelements/:container", function(req, res, next){
-    res.send(col.get_container_elements(mps, req));
+    col.get_container_elements(mps, req, function(o){
+      res.send(o);
+    });
     next();
   })
   server.get("/:id/containerelements/:container/:key", function(req, res, next){
-    res.send(col.get_container_elements(mps, req));
+    col.get_container_elements(mps, req, function(o){
+      res.send(o);
+    });
     next();
   })
-
+  // --*-- colection-end --*--
   server.get("/:id/:struct", function(req, res, next){
     res.send(utils.get(mps, req));
     next();
