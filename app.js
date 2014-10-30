@@ -98,19 +98,27 @@
   })
   // --*-- colection-end --*--
   server.get("/:id/:struct", function(req, res, next){
-    res.send(utils.get(mps, req));
+    utils.get(mps, req, function(o){
+      res.send(o);
+    });
     next();
   })
   server.get("/:id/:struct/:l1", function(req, res, next){
-    res.send(utils.get(mps, req));
+    utils.get(mps, req, function(o){
+      res.send(o);
+    });
     next();
   });
   server.get("/:id/:struct/:l1/:l2", function(req, res, next){
-    res.send(utils.get(mps, req));
+    utils.get(mps, req, function(o){
+      res.send(o);
+    });
     next();
   });
   server.get("/:id/:struct/:l1/:l2/:l3", function(req, res, next){
-    res.send(utils.get(mps, req));
+    utils.get(mps, req, function(o){
+      res.send(o);
+    });
     next();
   });
 
