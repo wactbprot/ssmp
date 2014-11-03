@@ -197,20 +197,20 @@
    * http://server:port/id/structure/l1/...
    */
   server.put("/:id/:struct/:l1", function(req, res, next) {
-    utils.put(mps, req, function(rob){
-      res.send(rob);
+    utils.put(mps, req, function(o){
+      res.send(o);
     });
     next();
   });
   server.put("/:id/:struct/:l1/:l2", function(req, res, next) {
-    utils.put(mps, req, function(rob){
-      res.send(rob);
+    utils.put(mps, req, function(o){
+      res.send(o);
     });
     next();
   });
   server.put("/:id/:struct/:l1/:l2/:l3", function(req, res, next) {
-    utils.put(mps, req, function(rob){
-      res.send(rob);
+    utils.put(mps, req, function(o){
+      res.send(o);
     });
     next();
   });
@@ -223,8 +223,8 @@
    */
   server.put("/:id", function(req, res, next){
     var id   = req.params.id;
-    inimp(mps, req, function(rob){
-      res.send(rob);
+    inimp(mps, req, function(o){
+      res.send(o);
     });
     next();
   });
@@ -245,8 +245,8 @@
    */
   server.post("/:id", function(req, res, next){
     var id   = req.params.id;
-    inimp(mps, req, function(rob){
-      res.send(rob);
+    inimp(mps, req, function(o){
+      res.send(o);
     });
     next();
   });
