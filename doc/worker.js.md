@@ -147,7 +147,8 @@ auf true setzen
 (Bsp.: ```exchange.calibration-pressure.Ready:true```).
 
 Mir der Funktion  ```readExchange()```
-wird (wenn ```...Ready:true```) der Wert aus
+wird (wenn ```data.Ready:true``` oder es kein
+```data.Ready``` gibt) der Wert aus
 ```exchange[Task.Key]``` zerlegt
 und all die Elemente, bei denen das Attribut ```save```
 zu ```true``` evaluiert wird

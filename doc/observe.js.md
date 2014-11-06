@@ -19,7 +19,7 @@ ebenfalls auf den Wert ```ready``` gesetzt.
 Die Funktion wird durch den
 Messprogramminitialisierungsprozess gestartet.
 
-Die ```observe()``` reagiert auf:
+Die ```observe()``` Funktion reagiert auf:
 
 - load
 - run

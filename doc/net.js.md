@@ -2,14 +2,6 @@
 
 <!-- Start ./lib/net.js -->
 
-## param(mp)
-
-Liefert Datenbankverbindungsparameter.
-
-### Params: 
-
-* **Object** *mp* Messprog.-Objekt
-
 ## relay(mp)
 
 Die Funktion ```relay()```
