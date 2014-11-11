@@ -21,6 +21,7 @@
       col     = require("./lib/collections"),
       inimp   = require("./lib/ini_mp"),
       inicd   = require("./lib/ini_cd"),
+      observe = require("./lib/observe"),
       log     = bunyan.createLogger({name: name}),
       server  = restify.createServer({name: name});
 
