@@ -9,15 +9,16 @@ var assert = require("assert"),
     req    = {}
 
 req.params    = {};
-req.params.id = "simdef";
+req.params.id = "mp-waittest";
 req.body      = "load";
 
-describe('ini_mp', function(){
+describe('mp-waittest', function(){
 
-    it('should ini the simulation definition', function(){
+    it('should ini the simulation definition', function(done){
 
       inimp(mps, req, function(ret){
-        assert(true, ret.ok);
+        assert.equal(true, ret.ok);
+        done();
       })
     })
 

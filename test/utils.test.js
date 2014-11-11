@@ -9,7 +9,7 @@ var assert = require("assert"),
 
 var mps    = {},
     req    = {},
-    id     = "simdef";
+    id     = "mp-waittest";
 
 req.params    = {};
 req.params.id = id;
