@@ -16,6 +16,7 @@
       prog    = require("commander"),
       restify = require("restify"),
       bunyan  = require("bunyan"),
+      ndata   = require("ndata"),
       utils   = require("./lib/utils"),
       gen     = require("./lib/generic"),
       col     = require("./lib/collections"),
@@ -25,11 +26,13 @@
       log     = bunyan.createLogger({name: name}),
       server  = restify.createServer({name: name});
 
- prog.version("0.1")
- .option("-P, --port <port>", "port (default is  8001)", parseInt)
+  prog.version("0.1")
+  .option("-P, --port <port>", "http port (default is  8001)", parseInt)
   .parse(process.argv);
 
-  var port = prog.port || 8001;
+
+
+  var port    = prog.httpport  || 8001;
 
   server.pre(restify.pre.sanitizePath());
   server.use(restify.queryParser());
