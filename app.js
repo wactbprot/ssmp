@@ -10,23 +10,25 @@
  *
  */
 (function() {
-  var name    = "ssmp",
-      mps     = {},
-      _       = require("underscore"),
-      prog    = require("commander"),
-      restify = require("restify"),
-      bunyan  = require("bunyan"),
-      ndata   = require("ndata"),
-      utils   = require("./lib/utils"),
-      gen     = require("./lib/generic"),
-      col     = require("./lib/collections"),
-      inimp   = require("./lib/ini_mp"),
-      inicd   = require("./lib/ini_cd"),
-      observe = require("./lib/observe"),
-      log     = bunyan.createLogger({name: name}),
-      server  = restify.createServer({name: name});
+  var name    = "ssmp"
+    , mps     = {}
+    , _       = require("underscore")
+    , prog    = require("commander")
+    , restify = require("restify")
+    , bunyan  = require("bunyan")
+    , ndata   = require("ndata")
+    , utils   = require("./lib/utils")
+    , gen     = require("./lib/generic")
+    , col     = require("./lib/collections")
+    , inimp   = require("./lib/ini_mp")
+    , inicd   = require("./lib/ini_cd")
+    , observe = require("./lib/observe")
+    , log     = bunyan.createLogger({name: name})
+    , server  = restify.createServer({name: name})
 
-  prog.version("0.1")
+    , ok = {ok:true}
+
+  prog.version("0.2")
   .option("-P, --port <port>", "http port (default is  8001)", parseInt)
   .parse(process.argv);
 
@@ -44,6 +46,46 @@
       return next();
     }
   );
+
+  var mem = ndata.createClient({port: 9000})
+  var put = function(req, res){
+    mem.set(utils.get_path(req),req.body, function(err){
+      if(!err){
+        res.send(ok);
+      }else{
+        res.send({error:err});
+      }
+    });
+  }
+
+  var get = function(req, res){
+    var ro
+      , path = utils.get_path(req);
+    log.info({ok:true}
+            , "receice get request to path " + path.join(" "));
+    mem.get(path, function(err, obj){
+      if(err){
+        ro = {error:err}
+        log.error(ro,"error on get from mem");
+      }else{
+        if(_.isUndefined(obj)){
+          ro = {error:"object is undefined"}
+          log.error(ro,"found nothing in the path");
+        }else{
+          if(_.isObject(obj) || _.isArray(obj)){
+            ro = obj;
+            log.info({ok:true}, "sent object back");
+          }else{
+            ro  = {result:obj}
+            log.info({ok:true}, "sent value back");
+          };
+        }
+      }
+      res.send(ro)
+    })
+  }
+
+
 
   /**
    * __GET__
@@ -63,110 +105,61 @@
    * @param {String} url url-Muster der Anfrage
    * @param {Function} f Callback
    */
-  // --*-- colection-start --*--
-  server.get("/", function(req, res, next){
-    col.get_mps(mps, req, function(o){
-      res.send(o);
-    });
-    next();
-  });
-  server.get("/:id", function(req, res, next){
-    col.get_mp(mps, req, function(o){
-      res.send(o);
-    });
-    next();
-  });
-  server.get("/:id/frame", function(req, res, next){
-    col.get_frame(mps, req, function(o){
-      res.send(o);
-    });
-    next();
-  })
-  server.get("/:id/taskstate/:container", function(req, res, next){
-    col.get_task_state(mps, req, function(o){
-      res.send(o);
-    });
-    next();
-  })
-  server.get("/:id/containerelements/:container", function(req, res, next){
-    col.get_container_elements(mps, req, function(o){
-      res.send(o);
-    });
-    next();
-  })
-  server.get("/:id/containerelements/:container/:key", function(req, res, next){
-    col.get_container_elements(mps, req, function(o){
-      res.send(o);
-    });
-    next();
-  })
+  //// --*-- colection-start --*--
+  //server.get("/", function(req, res, next){
+  //  col.get_mps(mps, req, function(o){
+  //    res.send(o);
+  //  });
+  //  next();
+  //});
+  //server.get("/:id", function(req, res, next){
+  //  col.get_mp(mps, req, function(o){
+  //    res.send(o);
+  //  });
+  //  next();
+  //});
+  //server.get("/:id/frame", function(req, res, next){
+  //  col.get_frame(mps, req, function(o){
+  //    res.send(o);
+  //  });
+  //  next();
+  //})
+  //server.get("/:id/taskstate/:container", function(req, res, next){
+  //  col.get_task_state(mps, req, function(o){
+  //    res.send(o);
+  //  });
+  //  next();
+  //})
+  //server.get("/:id/containerelements/:container", function(req, res, next){
+  //  col.get_container_elements(mps, req, function(o){
+  //    res.send(o);
+  //  });
+  //  next();
+  //})
+  //server.get("/:id/containerelements/:container/:key", function(req, res, next){
+  //  col.get_container_elements(mps, req, function(o){
+  //    res.send(o);
+  //  });
+  //  next();
+  //})
   // --*-- colection-end --*--
+
   server.get("/:id/:struct", function(req, res, next){
-    utils.get(mps, req, function(o){
-      res.send(o);
-    });
+    get(req, res);
     next();
   })
   server.get("/:id/:struct/:l1", function(req, res, next){
-    utils.get(mps, req, function(o){
-      res.send(o);
-    });
+    get(req, res);
     next();
   });
   server.get("/:id/:struct/:l1/:l2", function(req, res, next){
-    utils.get(mps, req, function(o){
-      res.send(o);
-    });
+    get(req, res);
     next();
   });
   server.get("/:id/:struct/:l1/:l2/:l3", function(req, res, next){
-    utils.get(mps, req, function(o){
-      res.send(o);
-    });
+    get(req, res);
     next();
   });
-
-  /**
-   * __DELETE__
-   *
-   * Die http-DELETE Anfragen funktionieren nach folgendem Muster:
-   * ```
-   * http://server:port/id/structur/path
-   * ```
-   * das Löschen ganzer Strukturen ist nicht erlaubt; es muss
-   * mind. ein Pfadelement geben
-   *
-   * Bsp.:
-   * ```
-   * http://localhost:8001/id/param
-   * ```
-   * geht nicht
-   * ```
-   * http://localhost:8001/id/param/database/name
-   * ```
-   * funktioniert.
-   *
-   * @param {String} url url-Muster der Anfrage
-   * @param {Function} f Callback
-   */
-  server.del("/:id/:struct/:l1", function(req, res, next){
-    utils.del(mps, req, function(rob){
-      res.send(rob);
-    } );
-    next();
-  })
-  server.del("/:id/:struct/:l1/:l2", function(req, res, next){
-    utils.del(mps, req, function(rob){
-      res.send(rob);
-    } );
-    next();
-  })
-  server.del("/:id/:struct/:l1/:l2/:l3", function(req, res, next){
-    utils.del(mps, req, function(rob){
-      res.send(rob);
-    });
-    next();
-  })
 
   /**
    * __PUT__
@@ -201,21 +194,15 @@
    * http://server:port/id/structure/l1/...
    */
   server.put("/:id/:struct/:l1", function(req, res, next) {
-    utils.put(mps, req, function(o){
-      res.send(o);
-    });
+    put(req, res);
     next();
   });
   server.put("/:id/:struct/:l1/:l2", function(req, res, next) {
-    utils.put(mps, req, function(o){
-      res.send(o);
-    });
+    put(req, res);
     next();
   });
   server.put("/:id/:struct/:l1/:l2/:l3", function(req, res, next) {
-    utils.put(mps, req, function(o){
-      res.send(o);
-    });
+    put(req, res);
     next();
   });
 
@@ -260,6 +247,7 @@
   //
   server.listen(port, function() {
     log.info({ok: true},"ssmp up and running @" + port);
+    require("./lib/load")
   });
 
 }).call(this);
