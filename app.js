@@ -49,35 +49,51 @@
 
   var mem = ndata.createClient({port: 9000})
   var put = function(req, res){
-    mem.set(utils.get_path(req),req.body, function(err){
+    var ro
+      , ok       = {ok:true}
+      , path     = utils.get_path(req)
+      , strpath  = path.join(" ")
+
+    mem.set(path, req.body, function(err){
       if(!err){
         res.send(ok);
+        log.info(ok
+                , "set value to path: " + strpath);
+
       }else{
-        res.send({error:err});
+        ro = {error:err}
+        res.send(ro);
+        log.error(ro
+                 , "set value to path: " + strpath);
       }
     });
   }
 
   var get = function(req, res){
     var ro
+      , ok = {ok:true}
       , path = utils.get_path(req);
-    log.info({ok:true}
+    log.info(ok
             , "receice get request to path " + path.join(" "));
     mem.get(path, function(err, obj){
       if(err){
         ro = {error:err}
-        log.error(ro,"error on get from mem");
+        log.error(ro
+                 ,"error on get from mem");
       }else{
         if(_.isUndefined(obj)){
           ro = {error:"object is undefined"}
-          log.error(ro,"found nothing in the path");
+          log.error(ro
+                   ,"found nothing in the path");
         }else{
           if(_.isObject(obj) || _.isArray(obj)){
             ro = obj;
-            log.info({ok:true}, "sent object back");
+            log.info(ok
+                    , "sent object back");
           }else{
             ro  = {result:obj}
-            log.info({ok:true}, "sent value back");
+            log.info(ok
+                    , "sent value back");
           };
         }
       }
@@ -144,19 +160,23 @@
   //})
   // --*-- colection-end --*--
 
-  server.get("/:id/:struct", function(req, res, next){
+  server.get("/:id/:no", function(req, res, next){
     get(req, res);
     next();
   })
-  server.get("/:id/:struct/:l1", function(req, res, next){
+  server.get("/:id/:no/:struct", function(req, res, next){
     get(req, res);
     next();
   });
-  server.get("/:id/:struct/:l1/:l2", function(req, res, next){
+  server.get("/:id/:no/:struct/:l1", function(req, res, next){
     get(req, res);
     next();
   });
-  server.get("/:id/:struct/:l1/:l2/:l3", function(req, res, next){
+  server.get("/:id/:no/:struct/:l1/:l2", function(req, res, next){
+    get(req, res);
+    next();
+  });
+  server.get("/:id/:no/:struct/:l1/:l2/:l3", function(req, res, next){
     get(req, res);
     next();
   });
@@ -193,15 +213,19 @@
    * PUT
    * http://server:port/id/structure/l1/...
    */
-  server.put("/:id/:struct/:l1", function(req, res, next) {
+  server.put("/:id/:no/:struct", function(req, res, next) {
     put(req, res);
     next();
   });
-  server.put("/:id/:struct/:l1/:l2", function(req, res, next) {
+  server.put("/:id/:no/:struct/:l1", function(req, res, next) {
     put(req, res);
     next();
   });
-  server.put("/:id/:struct/:l1/:l2/:l3", function(req, res, next) {
+  server.put("/:id/:no/:struct/:l1/:l2", function(req, res, next) {
+    put(req, res);
+    next();
+  });
+  server.put("/:id/:no/:struct/:l1/:l2/:l3", function(req, res, next) {
     put(req, res);
     next();
   });
@@ -247,7 +271,8 @@
   //
   server.listen(port, function() {
     log.info({ok: true},"ssmp up and running @" + port);
-    require("./lib/load")
+    require("./lib/load");
+    require("./lib/allexecuted");
   });
 
 }).call(this);
