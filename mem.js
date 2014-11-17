@@ -11,4 +11,15 @@ prog.version("0.1")
 .parse(process.argv);
 
 var port  = prog.ndataport || 9000
-  , ds   = ndata.createServer({port: port});
+  , ds, dc;
+
+ndata.createServer({port: port});
+log.info({ok:true},
+         "data server started");
+
+setTimeout(function(){
+  dc = ndata.createClient({port: port});
+  log.info({ok:true},
+         "data client started");
+ // do client stuff
+}, 40)

@@ -19,6 +19,7 @@
     },
     "scripts": {
 	"doc":"rm doc/*.md && bin/genmd",
+	"mem" :"bin/mem | bunyan -l info", 
 	"ssmp": "bin/ssmp | bunyan -l info",
 	"run-cover": "istanbul cover _mocha -- -R spec | bunyan -l fatal",
 	"show-cover": "firefox  coverage/lcov-report/index.html",

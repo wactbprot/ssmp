@@ -272,6 +272,7 @@
   server.listen(port, function() {
     log.info({ok: true},"ssmp up and running @" + port);
     require("./lib/load");
+    require("./lib/run");
     require("./lib/allexecuted");
   });
 
