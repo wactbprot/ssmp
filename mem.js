@@ -27,7 +27,9 @@ ds.on('ready', function(){
              "data client started");
 
     var channels = [
-      "exchange"
+      "worker"
+    , "recipe"
+    , "exchange"
     , "state"
     , "build"
     , "buildup"
