@@ -18,11 +18,9 @@
     , bunyan  = require("bunyan")
     , ndata   = require("ndata")
     , utils   = require("./lib/utils")
-    , gen     = require("./lib/generic")
     , col     = require("./lib/collections")
     , inimp   = require("./lib/ini_mp")
     , inicd   = require("./lib/ini_cd")
-    , observe = require("./lib/observe")
     , log     = bunyan.createLogger({name: name})
     , server  = restify.createServer({name: name})
     , ok      = {ok:true}
@@ -289,7 +287,8 @@ var get = function(req, cb){
             , "ssmp up and running @" + port);
     require("./lib/load");
     require("./lib/run");
-    require("./lib/executed");
+    require("./lib/build");
+    require("./lib/observe");
   });
 
 }).call(this);

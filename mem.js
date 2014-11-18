@@ -3,6 +3,7 @@ var ndata   = require("ndata")
   , _       = require("underscore")
   , bunyan  = require("bunyan")
   , deflt   = require("./lib/default")
+  , cstr    = deflt.ctrlStr
   , log     = bunyan.createLogger({name: deflt.appname})
   , ok      = {ok:true};
 
@@ -20,8 +21,36 @@ ds.on('ready', function(){
            "data server started");
 
   dc = ndata.createClient({port: port});
-  dc.on('ready',function(){
+
+  dc.on('ready', function(){
     log.info({ok:true},
              "data client started");
+
+    var channels = [
+      "exchange"
+    , "state"
+    , "build"
+    , "buildup"
+    , "builddown"
+    , cstr.exec
+    , cstr.load
+    , cstr.run
+    ];
+
+    for(var i in channels){
+      var channel = channels[i];
+      dc.subscribe(channel,function(c){
+                             return function(err){
+                               if(!err){
+                                 log.info(ok
+                                         , "mem.js subscribed to channel: " + c);
+                               }
+                             }}(channel))
+    }
+
+    dc.on("message",  function(ch, val){
+      log.info("event received on channel: " + ch)
+    });
+
   }); // client
 }); // server
