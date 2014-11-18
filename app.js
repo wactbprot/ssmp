@@ -11,7 +11,7 @@
  */
 (function() {
   var name    = "ssmp"
-    , mps     = {}
+
     , _       = require("underscore")
     , prog    = require("commander")
     , restify = require("restify")
@@ -25,67 +25,64 @@
     , observe = require("./lib/observe")
     , log     = bunyan.createLogger({name: name})
     , server  = restify.createServer({name: name})
-
-    , ok = {ok:true}
+    , ok      = {ok:true}
 
   prog.version("0.2")
   .option("-P, --port <port>", "http port (default is  8001)", parseInt)
   .parse(process.argv);
-
-
 
   var port    = prog.httpport  || 8001;
 
   server.pre(restify.pre.sanitizePath());
   server.use(restify.queryParser());
   server.use(restify.bodyParser());
-  server.use(
-    function crossOrigin(req,res,next){
-      res.header("Access-Control-Allow-Origin", "*");
-      res.header("Access-Control-Allow-Headers", "X-Requested-With");
-      return next();
-    }
-  );
+  server.use(function crossOrigin(req,res,next){
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    return next();
+  });
 
-  var mem = ndata.createClient({port: 9000})
-  var put = function(req, res){
-    var ro
-      , ok       = {ok:true}
-      , path     = utils.get_path(req)
-      , strpath  = path.join(" ")
+  var mem = ndata.createClient({port: 9000});
 
-    mem.set(path, req.body, function(err){
-      if(!err){
-        res.send(ok);
-        log.info(ok
-                , "set value to path: " + strpath);
+var put = function(req, cb){
+  var ro
+    , ok       = {ok:true}
+    , path     = utils.get_path(req)
+    , strpath  = path.join(" ")
 
-      }else{
-        ro = {error:err}
-        res.send(ro);
-        log.error(ro
+  mem.set(path, req.body, function(err){
+    if(!err){
+      cb(ok);
+      log.info(ok
+              , "set value to path: " + strpath);
+
+    }else{
+      ro = {error:err}
+      cb(ro);
+      log.error(ro
                  , "set value to path: " + strpath);
-      }
-    });
-  }
+    }
+  });
+}
 
-  var get = function(req, res){
-    var ro
-      , ok = {ok:true}
-      , path = utils.get_path(req);
-    log.info(ok
-            , "receice get request to path " + path.join(" "));
-    mem.get(path, function(err, obj){
-      if(err){
+var get = function(req, cb){
+  var ro
+    , ok = {ok:true}
+    , path = utils.get_path(req);
+
+  log.info(ok
+          , "receice get request to path " + path.join(" "));
+  mem.get(path, function(err, obj){
+    if(err){
         ro = {error:err}
-        log.error(ro
+      log.error(ro
                  ,"error on get from mem");
+    }else{
+      if(_.isUndefined(obj)){
+        ro = {error:"object is undefined"}
+        log.error(ro
+                 ,"found nothing in the path");
       }else{
-        if(_.isUndefined(obj)){
-          ro = {error:"object is undefined"}
-          log.error(ro
-                   ,"found nothing in the path");
-        }else{
           if(_.isObject(obj) || _.isArray(obj)){
             ro = obj;
             log.info(ok
@@ -96,10 +93,10 @@
                     , "sent value back");
           };
         }
-      }
-      res.send(ro)
-    })
-  }
+    }
+    cb(ro)
+  })
+}
 
 
 
@@ -161,23 +158,33 @@
   // --*-- colection-end --*--
 
   server.get("/:id/:no", function(req, res, next){
-    get(req, res);
+    get(req, function(o){
+      res.send(o)
+    });
     next();
   })
   server.get("/:id/:no/:struct", function(req, res, next){
-    get(req, res);
+    get(req, function(o){
+      res.send(o)
+    });
     next();
   });
   server.get("/:id/:no/:struct/:l1", function(req, res, next){
-    get(req, res);
+    get(req, function(o){
+      res.send(o)
+    });
     next();
   });
   server.get("/:id/:no/:struct/:l1/:l2", function(req, res, next){
-    get(req, res);
+    get(req, function(o){
+      res.send(o)
+    });
     next();
   });
   server.get("/:id/:no/:struct/:l1/:l2/:l3", function(req, res, next){
-    get(req, res);
+    get(req, function(o){
+      res.send(o)
+    });
     next();
   });
 
@@ -203,8 +210,8 @@
    * @param {Function} f Callback
    */
   server.put("/:id/id/:cdid", function(req, res, next) {
-    inicd(mps, req, function(rob){
-      res.send(rob);
+    inicd(req, function(o){
+      res.send(o);
     });
     next();
   });
@@ -214,19 +221,27 @@
    * http://server:port/id/structure/l1/...
    */
   server.put("/:id/:no/:struct", function(req, res, next) {
-    put(req, res);
+    put(req, function(o){
+      res.send(o)
+    });
     next();
   });
   server.put("/:id/:no/:struct/:l1", function(req, res, next) {
-    put(req, res);
+    put(req, function(o){
+      res.send(o)
+    });
     next();
   });
   server.put("/:id/:no/:struct/:l1/:l2", function(req, res, next) {
-    put(req, res);
+    put(req, function(o){
+      res.send(o)
+    });
     next();
   });
   server.put("/:id/:no/:struct/:l1/:l2/:l3", function(req, res, next) {
-    put(req, res);
+    put(req, function(o){
+      res.send(o)
+    });
     next();
   });
 
@@ -238,7 +253,7 @@
    */
   server.put("/:id", function(req, res, next){
     var id   = req.params.id;
-    inimp(mps, req, function(o){
+    inimp(req, function(o){
       res.send(o);
     });
     next();
@@ -260,7 +275,7 @@
    */
   server.post("/:id", function(req, res, next){
     var id   = req.params.id;
-    inimp(mps, req, function(o){
+    inimp(req, function(o){
       res.send(o);
     });
     next();
@@ -270,10 +285,11 @@
   // --- go!---
   //
   server.listen(port, function() {
-    log.info({ok: true},"ssmp up and running @" + port);
+    log.info({ok: true}
+            , "ssmp up and running @" + port);
     require("./lib/load");
     require("./lib/run");
-    require("./lib/allexecuted");
+    require("./lib/executed");
   });
 
 }).call(this);
