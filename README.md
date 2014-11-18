@@ -41,17 +41,6 @@ diese besitzt eine id, die in allen urls gleich nach dem __ssmp__ port auftaucht
    |             |           |            +--http/json---+   csmp       |
    |             |           |            |              |              |
    +-------------+           +----+-- ----+              +--------------+
-                                  |
-                                  |
-                              http/json
-                                  |
-                            +-----+-------+
-                            |  mpvs       |
-                            |-------------|              +--------------+
-                            |             |              |              |
-                            |             +--http/html5--+   Browser    |
-                            |             |              |              |
-                            +-------------+              +--------------+
 
 ```
 
@@ -107,46 +96,37 @@ Kalibrierung/Messung abzuarbeiten:
 
 Nachfolgend eine Übersicht der Wichtigsten von __ssmp__ bereitgestellten API-Endpunkte:
 
-___mpid___
-* GET: ```http://server:port/mpid``` ... liefert Datenbankdefinition zurück
-* PUT: ```http://server:port/mpid``` ...  Laden des MP
-* POST: ```http://server:port/mpid``` ...  Laden des MP
 
-___name___
-* GET: ```http://server:port/mpid/name``` ... Name des MP
+___meta___
+* GET: ```http://server:port/mpid/meta``` ... Meta-Informationen des MPs
 
-___standard___
-* GET: ```http://server:port/mpid/standard``` ... MP gehöhrt zu diesem Standard
 
 ___state___
-* GET: ```http://server:port/mpid/state``` ... Abarbeitungszustand
-* GET: ```http://server:port/mpid/state/0``` ... Abarbeitungszustand des ersten Containers
-* GET: ```http://server:port/mpid/state/0/0``` ... Abarbeitungszustand des
-  ersten seriellen Schrittes des ersten Containers 
+* GET: ```http://server:port/mpid/0/state``` ... Abarbeitungszustand des
+  ersten Containers 
+* GET: ```http://server:port/mpid/0/state/0``` ... Abarbeitungszustand des
+  ersten sequentiellen Schritts   
+* GET: ```http://server:port/mpid/0/state/0/0``` ... erster paralleler im
+  ersten seriellen Schrittes des ersten Containers  
 
 ___definition___
-* GET/PUT: ```http://server:port/mpid/definition``` ... Definition
-* GET/PUT: ```http://server:port/mpid/definition/0``` ... analog state
-* GET/PUT: ```http://server:port/mpid/definition/0/0``` ... analog state
+* GET/PUT: ```http://server:port/mpid/0/definition``` ... Definition
+* GET/PUT: ```http://server:port/mpid/0/definition/0``` ... analog state
+* GET/PUT: ```http://server:port/mpid/0/definition/0/0``` ... analog state
 
 ___recipe___
-* GET/PUT: ```http://server:port/mpid/recipe``` ... Rezept
-* GET/PUT: ```http://server:port/mpid/recipe/0``` ... analog state
-* GET/PUT: ```http://server:port/mpid/recipe/0/0``` ...analog state
+* GET/PUT: ```http://server:port/mpid/0/recipe``` ... Rezept
+* GET/PUT: ```http://server:port/mpid/0/recipe/0``` ... analog state
+* GET/PUT: ```http://server:port/mpid/0/recipe/0/0``` ...analog state
 
 ___ctrl___
-* GET/PUT: ```http://server:port/mpid/ctrl``` ... Kontrollstring
-* GET/PUT: ```http://server:port/mpid/ctrl/0``` ... analog state
-* GET/PUT: ```http://server:port/mpid/ctrl/0/0``` ... analog state
+* GET/PUT: ```http://server:port/mpid/0/ctrl``` ... Kontrollstring des ersten containers
 
 ___description___
-* GET/PUT: ```http://server:port/mpid/description/0``` ... Beschreibung des 1. Containers 
+* GET/PUT: ```http://server:port/mpid/0/description``` ... Beschreibung des 1. Containers 
 
 ___title___
-* GET/PUT: ```http://server:port/mpid/title/0``` ... Titel des 1. Containers
-
-___onerror___
-* GET/PUT: ```http://server:port/mpid/onerror/0``` ... Fehlerverhalten des 1. Containers
+* GET/PUT: ```http://server:port/mpid/0/title``` ... Titel des 1. Containers
 
 ___id___
 * GET: ```http://server:port/mpid/id``` ... angemeldete KD-ids
@@ -158,6 +138,7 @@ __ssmp__ wird durch den Aufruf ```ssmp [-P port]``` gestartet.
 
 Schöner formatierte logs bekommt man mit: 
 ```
+$> npm run mem
 $> npm run ssmp
 ```
 Weitere Details können mittels ```ssmp -h``` erfragt werden.
@@ -234,12 +215,12 @@ mp_id -i mpid
 Nachdem  die KD dem __ssmp__ bekannt gegeben wurden, können die konkreten Abläufe
 erstellt und geladen werden. Im Zuge dieses Prozesses wird der Endpunkt
 ```
-http://localhost:8001/mpid/recipe
+http://localhost:8001/mpid/[n]/recipe
 ```
 aufgefüllt, an dem die Ablaufdefinition mit den Tasks zu den Rezepten
-zusammengestellt ist. 
+zusammengestellt sind. 
 Die Abläufe der einzelnen _container_ sind der MP-Definition unter dem Pfad 
-```Mp.Container.Definition[S][P]``` mit _TaskName_ und
+```Mp.Container[n].Definition[S][P]``` mit _TaskName_ und
 individuellen Ersetzungsanweisungen _Replace_ und _Use_
 angegebenen. ```S``` und ```P``` stehen hier für sequentieller 
 bzw. paralleler Schritt. Bsp.:
@@ -253,7 +234,6 @@ bzw. paralleler Schritt. Bsp.:
                "Element": ["Documents"],
 			   "Description": "periodically reads out all FM3/CE3 pressure devices",
                "Ctrl": "load;mon",
-               "OnError": "fallback",
                "Definition": 
 	S --------> [
       P -------->  [
@@ -287,7 +267,7 @@ Aus diesen Beschreibungen werden dann von __ssmp__ die konkreten
 Abläufe erstellt; dies geschieht durch die Aufforderung:
 
 ```
-$> curl -X PUT -d 'load' http://localhost:8001/mpid/ctrl/0
+$> curl -X PUT -d 'load' http://localhost:8001/mpid/0/ctrl
 ```
 
 Mit  [csmp](https://github.com/wactbprot/csmp) geht das so:
@@ -311,9 +291,9 @@ Das Starten des Ausführens der oben geladenen Abläufe des 1. Containers
 geschieht auch über die ```ctrl``` Schnittstelle:
 
 ```
-$> curl -X PUT -d 'run' http://localhost:8001/mpid/ctrl/0
+$> curl -X PUT -d 'run' http://localhost:8001/mpid/0/ctrl
 ```
-
+	
 Die  [csmp](https://github.com/wactbprot/csmp)-Variante:
 
 ```
