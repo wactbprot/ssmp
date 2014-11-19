@@ -67,18 +67,6 @@
   //  });
   //  next();
   //});
-  //server.get("/:id", function(req, res, next){
-  //  col.get_mp(mps, req, function(o){
-  //    res.send(o);
-  //  });
-  //  next();
-  //});
-  //server.get("/:id/frame", function(req, res, next){
-  //  col.get_frame(mps, req, function(o){
-  //    res.send(o);
-  //  });
-  //  next();
-  //})
   //server.get("/:id/taskstate/:container", function(req, res, next){
   //  col.get_task_state(mps, req, function(o){
   //    res.send(o);
