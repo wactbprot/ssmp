@@ -28,6 +28,7 @@ ds.on('ready', function(){
 
     var channels = [
       "worker"
+    , "ctrl"
     , "recipe"
     , "exchange"
     , "state"
@@ -51,7 +52,7 @@ ds.on('ready', function(){
     }
 
     dc.on("message",  function(ch, val){
-      log.info("event received on channel: " + ch)
+      log.info(val, "event received on channel: " + ch)
     });
 
   }); // client
