@@ -61,12 +61,12 @@
    * @param {Function} f Callback
    */
   //// --*-- colection-start --*--
-  //server.get("/", function(req, res, next){
-  //  col.get_mps(mps, req, function(o){
-  //    res.send(o);
-  //  });
-  //  next();
-  //});
+  server.get("/", function(req, res, next){
+    col.get_mps(req, function(o){
+      res.send(o);
+    });
+    next();
+  });
   //server.get("/:id/taskstate/:container", function(req, res, next){
   //  col.get_task_state(mps, req, function(o){
   //    res.send(o);
