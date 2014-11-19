@@ -29,12 +29,13 @@ ds.on('ready', function(){
     var channels = [
       "worker"
     , "ctrl"
+    , "load_cd"
+    , "load_mp"
+    , "buildup"
+    , "builddown"
     , "recipe"
     , "exchange"
     , "state"
-    , "build"
-    , "buildup"
-    , "builddown"
     , cstr.exec
     , cstr.load
     , cstr.run

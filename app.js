@@ -17,10 +17,8 @@
     , restify = require("restify")
     , bunyan  = require("bunyan")
     , ndata   = require("ndata")
-    , utils   = require("./lib/utils")
     , col     = require("./lib/collections")
-    , inimp   = require("./lib/ini_mp")
-    , inicd   = require("./lib/ini_cd")
+    , method  = require("./lib/methods")
     , log     = bunyan.createLogger({name: name})
     , server  = restify.createServer({name: name})
     , ok      = {ok:true}
@@ -41,60 +39,6 @@
   });
 
   var mem = ndata.createClient({port: 9000});
-
-var put = function(req, cb){
-  var ro
-    , ok       = {ok:true}
-    , path     = utils.get_path(req)
-    , strpath  = path.join(" ")
-
-  mem.set(path, req.body, function(err){
-    if(!err){
-      cb(ok);
-      log.info(ok
-              , "set value to path: " + strpath);
-
-    }else{
-      ro = {error:err}
-      cb(ro);
-      log.error(ro
-                 , "set value to path: " + strpath);
-    }
-  });
-}
-
-var get = function(req, cb){
-  var ro
-    , ok = {ok:true}
-    , path = utils.get_path(req);
-
-  log.info(ok
-          , "receice get request to path " + path.join(" "));
-  mem.get(path, function(err, obj){
-    if(err){
-        ro = {error:err}
-      log.error(ro
-                 ,"error on get from mem");
-    }else{
-      if(_.isUndefined(obj)){
-        ro = {error:"object is undefined"}
-        log.error(ro
-                 ,"found nothing in the path");
-      }else{
-          if(_.isObject(obj) || _.isArray(obj)){
-            ro = obj;
-            log.info(ok
-                    , "sent object back");
-          }else{
-            ro  = {result:obj}
-            log.info(ok
-                    , "sent value back");
-          };
-        }
-    }
-    cb(ro)
-  })
-}
 
 
 
@@ -156,31 +100,31 @@ var get = function(req, cb){
   // --*-- colection-end --*--
 
   server.get("/:id/:no", function(req, res, next){
-    get(req, function(o){
+    method.get(req, function(o){
       res.send(o)
     });
     next();
   })
   server.get("/:id/:no/:struct", function(req, res, next){
-    get(req, function(o){
+    method.get(req, function(o){
       res.send(o)
     });
     next();
   });
   server.get("/:id/:no/:struct/:l1", function(req, res, next){
-    get(req, function(o){
+    method.get(req, function(o){
       res.send(o)
     });
     next();
   });
   server.get("/:id/:no/:struct/:l1/:l2", function(req, res, next){
-    get(req, function(o){
+    method.get(req, function(o){
       res.send(o)
     });
     next();
   });
   server.get("/:id/:no/:struct/:l1/:l2/:l3", function(req, res, next){
-    get(req, function(o){
+    method.get(req, function(o){
       res.send(o)
     });
     next();
@@ -208,7 +152,7 @@ var get = function(req, cb){
    * @param {Function} f Callback
    */
   server.put("/:id/id/:cdid", function(req, res, next) {
-    inicd(req, function(o){
+    method.load_cd(req, function(o){
       res.send(o);
     });
     next();
@@ -219,25 +163,25 @@ var get = function(req, cb){
    * http://server:port/id/structure/l1/...
    */
   server.put("/:id/:no/:struct", function(req, res, next) {
-    put(req, function(o){
+    method.put(req, function(o){
       res.send(o)
     });
     next();
   });
   server.put("/:id/:no/:struct/:l1", function(req, res, next) {
-    put(req, function(o){
+    method.put(req, function(o){
       res.send(o)
     });
     next();
   });
   server.put("/:id/:no/:struct/:l1/:l2", function(req, res, next) {
-    put(req, function(o){
+    method.put(req, function(o){
       res.send(o)
     });
     next();
   });
   server.put("/:id/:no/:struct/:l1/:l2/:l3", function(req, res, next) {
-    put(req, function(o){
+    method.put(req, function(o){
       res.send(o)
     });
     next();
@@ -250,8 +194,7 @@ var get = function(req, cb){
    * - startet observer
    */
   server.put("/:id", function(req, res, next){
-    var id   = req.params.id;
-    inimp(req, function(o){
+    method.load_mp(req, function(o){
       res.send(o);
     });
     next();
@@ -272,8 +215,7 @@ var get = function(req, cb){
    * @param {Function} f Callback
    */
   server.post("/:id", function(req, res, next){
-    var id   = req.params.id;
-    inimp(req, function(o){
+    method.load_mp(req, function(o){
       res.send(o);
     });
     next();
