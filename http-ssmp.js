@@ -10,24 +10,16 @@
  *
  */
 (function() {
-  var name    = "ssmp"
-
+  var name    = "http-ssmp"
     , _       = require("underscore")
     , prog    = require("commander")
     , restify = require("restify")
     , bunyan  = require("bunyan")
     , ndata   = require("ndata")
-    , col     = require("./lib/collections")
-    , method  = require("./lib/methods")
+    , coll    = require("./lib/collections")
+    , meth    = require("./lib/methods")
     , log     = bunyan.createLogger({name: name})
-    , server  = restify.createServer({name: name})
-    , ok      = {ok:true}
-
-  prog.version("0.2")
-  .option("-P, --port <port>", "http port (default is  8001)", parseInt)
-  .parse(process.argv);
-
-  var port    = prog.httpport  || 8001;
+    , server  = restify.createServer({name: name});
 
   server.pre(restify.pre.sanitizePath());
   server.use(restify.queryParser());
@@ -38,9 +30,10 @@
     return next();
   });
 
-  var mem = ndata.createClient({port: 9000});
+  var httpport = 8001,
+      memport  = 9000
 
-
+  var mem     = ndata.createClient({port: memport});
 
   /**
    * __GET__
@@ -62,57 +55,57 @@
    */
   //// --*-- colection-start --*--
   server.get("/", function(req, res, next){
-    col.get_mps(req, function(o){
+    coll.get_mps(req, function(o){
       res.send(o);
     });
     next();
   });
-  //server.get("/:id/taskstate/:container", function(req, res, next){
-  //  col.get_task_state(mps, req, function(o){
-  //    res.send(o);
-  //  });
-  //  next();
-  //})
-  //server.get("/:id/containerelements/:container", function(req, res, next){
-  //  col.get_container_elements(mps, req, function(o){
-  //    res.send(o);
-  //  });
-  //  next();
-  //})
-  //server.get("/:id/containerelements/:container/:key", function(req, res, next){
-  //  col.get_container_elements(mps, req, function(o){
-  //    res.send(o);
-  //  });
-  //  next();
-  //})
+  server.get("/:id/:container/taskstate", function(req, res, next){
+    coll.get_task_state(req, function(o){
+      res.send(o);
+    });
+    next();
+  })
+  server.get("/:id/:container/containerelements", function(req, res, next){
+    coll.get_container_elements(req, function(o){
+      res.send(o);
+    });
+    next();
+  })
+  server.get("/:id/:container/containerelements/:key", function(req, res, next){
+    coll.get_container_elements(req, function(o){
+      res.send(o);
+    });
+    next();
+  })
   // --*-- colection-end --*--
 
   server.get("/:id/:no", function(req, res, next){
-    method.get(req, function(o){
+    meth.get(req, function(o){
       res.send(o)
     });
     next();
   })
   server.get("/:id/:no/:struct", function(req, res, next){
-    method.get(req, function(o){
+    meth.get(req, function(o){
       res.send(o)
     });
     next();
   });
   server.get("/:id/:no/:struct/:l1", function(req, res, next){
-    method.get(req, function(o){
+    meth.get(req, function(o){
       res.send(o)
     });
     next();
   });
   server.get("/:id/:no/:struct/:l1/:l2", function(req, res, next){
-    method.get(req, function(o){
+    meth.get(req, function(o){
       res.send(o)
     });
     next();
   });
   server.get("/:id/:no/:struct/:l1/:l2/:l3", function(req, res, next){
-    method.get(req, function(o){
+    meth.get(req, function(o){
       res.send(o)
     });
     next();
@@ -140,36 +133,35 @@
    * @param {Function} f Callback
    */
   server.put("/:id/id/:cdid", function(req, res, next) {
-    method.load_cd(req, function(o){
+    meth.load_cd(req, function(o){
       res.send(o);
     });
     next();
   });
-
   /*
    * PUT
    * http://server:port/id/structure/l1/...
    */
   server.put("/:id/:no/:struct", function(req, res, next) {
-    method.put(req, function(o){
+    meth.put(req, function(o){
       res.send(o)
     });
     next();
   });
   server.put("/:id/:no/:struct/:l1", function(req, res, next) {
-    method.put(req, function(o){
+    meth.put(req, function(o){
       res.send(o)
     });
     next();
   });
   server.put("/:id/:no/:struct/:l1/:l2", function(req, res, next) {
-    method.put(req, function(o){
+    meth.put(req, function(o){
       res.send(o)
     });
     next();
   });
   server.put("/:id/:no/:struct/:l1/:l2/:l3", function(req, res, next) {
-    method.put(req, function(o){
+    meth.put(req, function(o){
       res.send(o)
     });
     next();
@@ -182,7 +174,7 @@
    * - startet observer
    */
   server.put("/:id", function(req, res, next){
-    method.load_mp(req, function(o){
+    meth.load_mp(req, function(o){
       res.send(o);
     });
     next();
@@ -203,7 +195,7 @@
    * @param {Function} f Callback
    */
   server.post("/:id", function(req, res, next){
-    method.load_mp(req, function(o){
+    meth.load_mp(req, function(o){
       res.send(o);
     });
     next();
@@ -212,13 +204,10 @@
   //
   // --- go!---
   //
-  server.listen(port, function() {
+  server.listen(httpport, function() {
     log.info({ok: true}
-            , "ssmp up and running @" + port);
-    require("./lib/load");
-    require("./lib/run");
-    require("./lib/build");
-    require("./lib/observe");
-  });
+            , "http-ssmp up and running @" + httpport);
+
+});
 
 }).call(this);
