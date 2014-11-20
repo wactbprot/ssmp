@@ -1,4 +1,7 @@
 /**
+ *
+ * --- > last version with old url scheme
+ *
  * __Eingang__:
  * ```
  * "Lass alle Hoffnung fahren"
