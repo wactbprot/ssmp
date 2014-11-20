@@ -9,15 +9,20 @@ var socket_ssmp = function(conf) {
     , log     = bunyan.createLogger({name: name})
     , ok      = {ok:true};
 
+
+
+
+  var io  = require('socket.io').listen(conf.socketport);
+
   var mem = ndata.createClient({port: conf.memport});
 
   mem.on('ready', function(){
 
     log.info({ok: true}
-            , "................................\n"
+            , "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
             + "socket-ssmp up and running @"
             + conf.socketport +"\n"
-            + "................................\n"
+            + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
             );
 
     var channels = ["worker"
@@ -45,8 +50,30 @@ var socket_ssmp = function(conf) {
                               }}(channel))
     }
 
-    mem.on("message",  function(ch, val){
-      log.info(val, "event received on channel: " + ch)
+    io.on('connection', function (socket) {
+
+      log.info(ok
+              , "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+              + "client connection established\n"
+              + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
+      socket.emit('connection_active', ok);
+
+      mem.on("message",  function(ch, val){
+        log.info(val, "event received on channel: " + ch);
+        if(ch == "state"){
+          mem.get([val[0], val[1], "state"], function(err, data){
+            socket.emit('state', data);
+          })
+        }
+      });
+
+      socket.on("meta", function(id){
+        log.info(ok, "meta request to: " + id);
+        mem.get([id,"meta"],function(err, data){
+          socket.emit("meta", data);
+        })
+      });
     });
   });
 }

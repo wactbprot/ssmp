@@ -2,4 +2,4 @@
 /**
  * mpvs
  */
- require('../ssmp.js');
+ require('../ssmp.js')();

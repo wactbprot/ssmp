@@ -203,10 +203,10 @@ var http_ssmp = function(conf) {
   //
   server.listen(conf.httpport, function() {
     log.info({ok: true}
-            , "..............................\n"
+            , "``````````````````````````````\n"
             + "http-ssmp up and running @"
             + conf.httpport +"\n"
-            + "..............................\n"
+            + "``````````````````````````````"
             );
 
   });
