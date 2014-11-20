@@ -15,7 +15,8 @@ var socket_ssmp = function(conf) {
 
     log.info({ok: true}
             , "................................\n"
-            + "socket-ssmp up and running @" + conf.socketport +"\n"
+            + "socket-ssmp up and running @"
+            + conf.socketport +"\n"
             + "................................\n"
             );
 
