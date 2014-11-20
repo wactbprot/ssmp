@@ -2,6 +2,4 @@
 /**
  * mpvs
  */
-setTimeout(function(){
-require('../app.js');
-},100)
+ require('../ssmp.js');

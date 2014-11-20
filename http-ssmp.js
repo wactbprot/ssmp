@@ -9,7 +9,7 @@
  * welcher die _REST_-Api des _ssmp_ zur Verfügung stellt.
  *
  */
-(function() {
+var http_ssmp = function(conf) {
   var name    = "http-ssmp"
     , _       = require("underscore")
     , prog    = require("commander")
@@ -30,10 +30,7 @@
     return next();
   });
 
-  var httpport = 8001,
-      memport  = 9000
-
-  var mem     = ndata.createClient({port: memport});
+  var mem     = ndata.createClient({port: conf.memport});
 
   /**
    * __GET__
@@ -204,10 +201,14 @@
   //
   // --- go!---
   //
-  server.listen(httpport, function() {
+  server.listen(conf.httpport, function() {
     log.info({ok: true}
-            , "http-ssmp up and running @" + httpport);
+            , "..............................\n"
+            + "http-ssmp up and running @"
+            + conf.httpport +"\n"
+            + "..............................\n"
+            );
 
-});
-
-}).call(this);
+  });
+}
+module.exports = http_ssmp;

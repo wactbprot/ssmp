@@ -11,24 +11,29 @@
   prog.version("0.2")
   .option("-P, --port <port>", "http port (default is  8001)", parseInt)
   .parse(process.argv);
+  var conf = {memport  : 9000,
+              httpport : 8001,
+              socketport:8002}
 
-  var memport  = 9000
 
-  var mem = ndata.createServer({port: memport});
+  var mem = ndata.createServer({port: conf.memport});
 
   mem.on('ready', function(){
-    log.info({ok:true},
-             "data server started");
 
+    log.info({ok: true}
+            , ".....................................\n"
+            + "ssmp data server up and running @"
+            + conf.memport +"\n"
+            + ".....................................\n"
+            );
     // starten der ndata Clients
     require("./lib/load");
     require("./lib/run");
     require("./lib/build");
     require("./lib/observe");
 
-    require("http-ssmp");
-    require("socket-ssmp");
-
+    require("./http-ssmp")(conf);
+    require("./socket-ssmp")(conf);
 
   }); // server
 }).call(this);
