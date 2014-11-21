@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+/**
+ * mem: data server
+ */
+require('../mem.js');
