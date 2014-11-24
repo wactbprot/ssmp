@@ -1,68 +1,7 @@
 var assert = require("assert")
   , _      = require("underscore")
-  , gen    = require("../lib/generic")
   , load   = require("../lib/load")
   , deflt  = require("../lib/default")
-  , mp     = {};
-mp.param = gen.mod(deflt);
-
-/**
-  * ## ExpandSeq
- * ```
- * {
- *   "TaskName": [
- *     "A",
- *     "B",
- *     "C"
- *   ],
- *   "Replace": {
- *     "@a": 1
- *   },
- *   "ExpandSeq": {
- *     "@b": [
- *       1,
- *       2,
- *       3
- *     ]
- *   }
- * }
- * ```
- * wird zu
- * ```
- * [
- *   [
- *     {
- *       "TaskName": "A",
- *       "Replace": {
- *         "@a": 1,
- *         "@b": 1
- *       },
- *       "Id": []
- *     }
- *   ],
- *   [
- *     {
- *       "TaskName": "B",
- *       "Replace": {
- *         "@a": 1,
- *         "@b": 2
- *       },
- *       "Id": []
- *     }
- *   ],
- *   [
- *     {
- *       "TaskName": "C",
- *       "Replace": {
- *         "@a": 1,
- *         "@b": 3
- *       },
- *       "Id": []
- *     }
- *   ]
- * ]
- *```
- */
 
 describe('load', function(){
   describe('#expand_task(def, cal)', function(){
@@ -122,6 +61,64 @@ describe('load', function(){
       assert.equal(2,   a[1][0].Replace["@b"]);
       done()
     })
-
   })
 })
+
+
+/**
+  * ## ExpandSeq
+ * ```
+ * {
+ *   "TaskName": [
+ *     "A",
+ *     "B",
+ *     "C"
+ *   ],
+ *   "Replace": {
+ *     "@a": 1
+ *   },
+ *   "ExpandSeq": {
+ *     "@b": [
+ *       1,
+ *       2,
+ *       3
+ *     ]
+ *   }
+ * }
+ * ```
+ * wird zu
+ * ```
+ * [
+ *   [
+ *     {
+ *       "TaskName": "A",
+ *       "Replace": {
+ *         "@a": 1,
+ *         "@b": 1
+ *       },
+ *       "Id": []
+ *     }
+ *   ],
+ *   [
+ *     {
+ *       "TaskName": "B",
+ *       "Replace": {
+ *         "@a": 1,
+ *         "@b": 2
+ *       },
+ *       "Id": []
+ *     }
+ *   ],
+ *   [
+ *     {
+ *       "TaskName": "C",
+ *       "Replace": {
+ *         "@a": 1,
+ *         "@b": 3
+ *       },
+ *       "Id": []
+ *     }
+ *   ]
+ * ]
+ *```
+ */

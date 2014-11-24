@@ -1,10 +1,34 @@
 var assert = require("assert")
   , _      = require("underscore")
-  , gen    = require("../lib/generic")
   , load   = require("../lib/load")
-  , deflt  = require("../lib/default")
-  , mp     = {};
-mp.param = gen.mod(deflt);
+  , deflt  = require("../lib/default");
+
+describe('load', function(){
+  describe('#expand_task(def, cal)', function(){
+    it('should not expand definition ', function(done){
+      var d1 = {"TaskName":"A",
+                "Replace":{
+                  "@a":1
+                },
+                "Use":{
+                  "@b":"c"
+                }
+               }
+        , a = load.expand_task(d1, {});
+
+      assert.equal(1,   a.length);
+
+      assert.equal(1,   a[0].length);
+      assert.equal(undefined,  a[1]);
+
+      assert.equal("A", a[0][0].TaskName);
+      assert.equal(1,   a[0][0].Replace["@a"]);
+      assert.equal("c", a[0][0].Use["@b"]);
+
+      done()
+    })
+  })
+})
 
 /**
  * ## Keine Vervielfältigung
@@ -36,30 +60,3 @@ mp.param = gen.mod(deflt);
  * ]
  * ```
  */
-
-describe('load', function(){
-  describe('#expand_task(def, cal)', function(){
-    it('should not expand definition ', function(done){
-      var d1 = {"TaskName":"A",
-                "Replace":{
-                  "@a":1
-                },
-                "Use":{
-                  "@b":"c"
-                }
-               }
-        , a = load.expand_task(d1, {});
-
-      assert.equal(1,   a.length);
-
-      assert.equal(1,   a[0].length);
-      assert.equal(undefined,  a[1]);
-
-      assert.equal("A", a[0][0].TaskName);
-      assert.equal(1,   a[0][0].Replace["@a"]);
-      assert.equal("c", a[0][0].Use["@b"]);
-
-      done()
-    })
-  })
-})

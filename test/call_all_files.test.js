@@ -1,12 +1,11 @@
 require("../lib/collections");
-require("../lib/ini_cd");
+require("../lib/methods");
 require("../lib/run");
 require("../lib/compare");
-require("../lib/ini_mp");
 require("../lib/load");
 require("../lib/utils");
 require("../lib/default");
 require("../lib/net");
 require("../lib/worker");
-require("../lib/generic");
 require("../lib/observe");
+require("../lib/request");
