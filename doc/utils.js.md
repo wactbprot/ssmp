@@ -1,6 +1,6 @@
 
 
-<!-- Start ./lib/utils.js -->
+<!-- Start lib/utils.js -->
 
 ## cmd_to_array(cmdstr)
 
@@ -30,7 +30,7 @@ soll:
 erzeugt werden. Steht an lezter Stelle der String ```mon```
 wird immer wieder ```["mon"]``` zurückgeliefert.
 
-### Params: 
+### Params:
 
 * **String** *cmdstr* Steuerstring
 
@@ -59,7 +59,7 @@ Ein Beispiel für ein gültiges dataset ist:
 ]
 ```
 
-### Params: 
+### Params:
 
 * **Object** *doc* Dokument (Kalibrierdokument)
 * **String** *pfad* punktseparierter Pfadstring
@@ -75,7 +75,7 @@ ruft die Funktion ```data_to_doc()``` auf und
 übergibt dieser Funktion als callback den Auftrag
 zum wieder Abspeichern des nun aufgefüllten cd.
 
-### Params: 
+### Params:
 
 * **Object** *mp* Messprog.-Objekt
 * **Object** *task* Task-Objekt
@@ -129,12 +129,26 @@ geschrieben werden können.
 Gibt es unter dem Pfad ```Task.ExchangePath``` schon eine Struktur,
 wird diese um die Übergebne erweitert.
 
-### Params: 
+### Params:
 
 * **Object** *mp* Messprog.-Objekt
 * **Object** *task* Task-Objekt
 * **Object** *data* zu schreibende Daten
 * **Function** *cb* Callback Funktion
 
-<!-- End ./lib/utils.js -->
+## cp(no, template, val, cb)
+
+Die Funktion kopiert die Struktur ```template```
+und erzeugt eine genauso strukturiertes
+Objekt unter ```path``` und initialisiert
+es mit ```val```
+
+### Params:
+
+* **Number** *no* Container
+* **Array** *template* Strukturvorlage
+* **String** *val* Inertialer Wert
+* **Function** *cb* callback Funktion
+
+<!-- End lib/utils.js -->
 

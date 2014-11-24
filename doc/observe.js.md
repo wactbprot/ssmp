@@ -1,8 +1,8 @@
 
 
-<!-- Start ./lib/observe.js -->
+<!-- Start lib/observe.js -->
 
-## observe(mp)
+## _
 
 Die Funktion ```observe()``` beobachtet periodisch
 die ```/ctrl``` Schnittstelle aller _Container_ des
@@ -52,9 +52,5 @@ und
 ```
 erstellt; letzterer periodisch aufgefrischt.
 
-### Params: 
-
-* **Object** *mp* Messprog.-Objekt
-
-<!-- End ./lib/observe.js -->
+<!-- End lib/observe.js -->
 

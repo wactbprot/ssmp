@@ -1,6 +1,6 @@
 
 
-<!-- Start ./lib/default.js -->
+<!-- Start lib/default.js -->
 
 ## database
 
@@ -23,5 +23,5 @@ container defaults
 static strings used
 everywhere
 
-<!-- End ./lib/default.js -->
+<!-- End lib/default.js -->
 

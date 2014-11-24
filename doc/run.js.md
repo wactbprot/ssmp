@@ -1,8 +1,8 @@
 
 
-<!-- Start ./lib/run.js -->
+<!-- Start lib/run.js -->
 
-## exports()
+## run()
 
 * --*-- run --*--
 Die Funktion ```run()```  erledigt folgende Aufgaben:
@@ -13,5 +13,5 @@ Die Funktion ```run()```  erledigt folgende Aufgaben:
 * es werden die Laufzeitersetzungen vorgenommen
  (Bsp.: der String für den MKS-Flow Kontroller)
 
-<!-- End ./lib/run.js -->
+<!-- End lib/run.js -->
 

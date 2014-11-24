@@ -11,8 +11,9 @@ describe('utils.query_cd', function(){
                      function(res){
                        assert.equal(_.isString(res.error), true);
                        done();
-                     })
-    })
+                     });
+    });
+
     it('should give error message', function(done){
 
       var task = {Id:[],
@@ -22,8 +23,9 @@ describe('utils.query_cd', function(){
                      function(res){
                        assert.equal(_.isString(res.warn), true);
                        done();
-                     })
-    })
+                     });
+    });
+
     it('should give error message', function(done){
 
       var task = {Id:["ca-test_doc_1"]};
@@ -33,8 +35,8 @@ describe('utils.query_cd', function(){
                      function(res){
                        assert.equal(_.isString(res.error), true);
                        done();
-                     })
-    })
+                     });
+    });
 
     it('should save the doc', function(done){
 
@@ -46,7 +48,7 @@ describe('utils.query_cd', function(){
                      function(res){
                        assert.equal(res.ok, true);
                        done()
-                     })
-    })
-  })
-})
+                     });
+    });
+  });
+});

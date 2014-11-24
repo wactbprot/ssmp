@@ -1,8 +1,8 @@
 
 
-<!-- Start ./lib/net.js -->
+<!-- Start lib/net.js -->
 
-## relay(mp)
+## relay()
 
 Die Funktion ```relay()```
 liefert das Options-Objekt,
@@ -20,11 +20,7 @@ Fehler zu vermeiden. Bei der Benutzung
 des _agent_ wird per default
 die Anzahl der sockets auf 5 beschränkt.
 
-### Params: 
-
-* **Object** *mp* MP-Objekt
-
-## task(mp)
+## task()
 
 Die Funktion ```task()```
 liefert das Verbindungsobjekt für die
@@ -33,11 +29,7 @@ list:
 POST: _list/listname/viewname
 ```
 
-### Params: 
-
-* **Object** *mp* Messprog.-Objekt
-
-## list(mp, task)
+## list(task)
 
 Die Funktion ```list()```
 liefert das Verbindungsobjekt für die
@@ -46,12 +38,11 @@ list:
 GET: _list/listname/viewname?key=value
 ```
 
-### Params: 
+### Params:
 
-* **Object** *mp* Messprog.-Objekt
 * **Object** *task* aufrufende Task
 
-## wrtdoc(mp, id)
+## wrtdoc(id)
 
 Die Funktion ```wrtdoc()```
 liefert das Verbindungsobjekt für die
@@ -60,12 +51,11 @@ url:
 PUT: db/id
 ```
 
-### Params: 
+### Params:
 
-* **Object** *mp* Messprog.-Objekt
 * **String** *id* KD-id
 
-## rddoc(mp, id)
+## rddoc(id)
 
 Die Funktion ```rddoc()```
 liefert das Verbindungsobjekt für die
@@ -74,12 +64,11 @@ url:
 GET: db/id
 ```
 
-### Params: 
+### Params:
 
-* **Object** *mp* Messprog.-Objekt
 * **String** *id* KD-id
 
-## docinfo(mp, id)
+## docinfo(id)
 
 Die Funktion ```docinfo()```
 liefert das Verbindungsobjekt für die
@@ -88,10 +77,9 @@ show:
 _show/docinfo/id
 ```
 
-### Params: 
+### Params:
 
-* **Object** *mp* Messprog.-Objekt
 * **String** *id* KD-id
 
-<!-- End ./lib/net.js -->
+<!-- End lib/net.js -->
 

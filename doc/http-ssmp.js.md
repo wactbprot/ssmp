@@ -1,6 +1,8 @@
 
 
-<!-- Start ./app.js -->
+<!-- Start http-ssmp.js -->
+
+## http_ssmp()
 
 __Eingang__:
 ```
@@ -25,31 +27,7 @@ Bsp. für GET-Anfrage:
 http://localhost:8001/id/param/database
 ```
 
-### Params: 
-
-* **String** *url* url-Muster der Anfrage
-* **Function** *f* Callback
-
-__DELETE__
-
-Die http-DELETE Anfragen funktionieren nach folgendem Muster:
-```
-http://server:port/id/structur/path
-```
-das Löschen ganzer Strukturen ist nicht erlaubt; es muss
-mind. ein Pfadelement geben
-
-Bsp.:
-```
-http://localhost:8001/id/param
-```
-geht nicht
-```
-http://localhost:8001/id/param/database/name
-```
-funktioniert.
-
-### Params: 
+### Params:
 
 * **String** *url* url-Muster der Anfrage
 * **Function** *f* Callback
@@ -71,7 +49,7 @@ besorgen. Es ist deshalb eine Datenbankabfrage mit einem solchen PUT
 verbunden (ist in diesem Punkt also
 anders als ein normales PUT)
 
-### Params: 
+### Params:
 
 * **String** *url* url-Muster der Anfrage
 * **Function** *f* Callback
@@ -94,10 +72,10 @@ http://server:port/id
 Initialisiert die MP-Instanz und startet
 die ```observer()```-Funktion
 
-### Params: 
+### Params:
 
 * **String** *url* url-Muster der Anfrage
 * **Function** *f* Callback
 
-<!-- End ./app.js -->
+<!-- End http-ssmp.js -->
 

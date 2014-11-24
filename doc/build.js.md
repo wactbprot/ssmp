@@ -1,8 +1,8 @@
 
 
-<!-- Start ./lib/build.js -->
+<!-- Start lib/build.js -->
 
 ## _
 
-<!-- End ./lib/build.js -->
+<!-- End lib/build.js -->
 

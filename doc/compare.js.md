@@ -1,8 +1,8 @@
 
 
-<!-- Start ./lib/compare.js -->
+<!-- Start lib/compare.js -->
 
 ## eq()
 
-<!-- End ./lib/compare.js -->
+<!-- End lib/compare.js -->
 

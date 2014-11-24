@@ -8,7 +8,15 @@ var md       = require("markdox"),
     trgtpath =  "./doc/",
     files    = fs.readdirSync(libpath);
 
-  md.process("./app.js", trgtpath + "/app.js.md", function(){
+  md.process("./ssmp.js", trgtpath + "/ssmp.js.md", function(){
+    console.log("app.js.md generated");
+  });
+
+  md.process("./http-ssmp.js", trgtpath + "/http-ssmp.js.md", function(){
+    console.log("app.js.md generated");
+  });
+
+  md.process("./socket-ssmp.js", trgtpath + "/socket-ssmp.js.md", function(){
     console.log("app.js.md generated");
   });
 

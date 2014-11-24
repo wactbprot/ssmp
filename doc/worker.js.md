@@ -1,6 +1,6 @@
 
 
-<!-- Start ./lib/worker.js -->
+<!-- Start lib/worker.js -->
 
 ## _
 
@@ -90,32 +90,30 @@ ist von ```run()``` auch schon auf ```working``` gesetzt.
 
 Author: wactbprot (thsteinbock@web.de)
 
-## wait(mp, task, path, cb)
+## wait(task, pfad, cb)
 
 ```wait()``` verzögert den Ablauf um die unter
 ```task.Value.WaitTime``` angegebene Zeit in ms.
 
-### Params: 
+### Params:
 
-* **Object** *mp* Messprog.-Objekt
 * **Object** *task* Task-Objekt
-* **Array** *path* Pfad Array
+* **Array** *pfad* Pfad Array
 * **Function** *cb* Callback Funktion
 
-## noderelay(mp, task, pfad, cb)
+## noderelay(task, pfad, cb)
 
 (Mess-) Aufträge an den _node-relay_-server
 werden an diesen mit der ```noderelay()```
 Funktion gesandt.
 
-### Params: 
+### Params:
 
-* **Object** *mp* Messprog.-Objekt
 * **Object** *task* Task-Objekt
 * **Array** *pfad* Pfad Array
 * **Function** *cb* Callback Funktion
 
-## writeExchange(mp, task, pfad, cb)
+## writeExchange(task, pfad, cb)
 
 Die worker Funktion ```writeExchange()``` erlaubt es,
 zur Laufzeit Einträge in der _exchange_-Schnittstelle
@@ -126,14 +124,13 @@ elektronisch ausgelesen werden; es müssen manuelle
 Eingabefelder erstellt werden. Dazu ist
 ```addElement()``` gedacht.
 
-### Params: 
+### Params:
 
-* **Object** *mp* Messprog.-Objekt
 * **Object** *task* Task-Objekt
 * **Array** *pfad* Pfad Array
 * **Function** *cb* Callback Funktion
 
-## readExchange(mp, task, pfad, cb)
+## readExchange(task, pfad, cb)
 
 Die worker Funktion ```readExchange()``` erlaubt es,
 zur Laufzeit Einträge aus der _exchange_-Schnittstelle
@@ -155,52 +152,27 @@ zu ```true``` evaluiert wird
 (z.B. ```exchange.calibration-pressure.Unit.save:true```
 in die entsprechenden  Kalibrierdokumente geschrieben.
 
-### Params: 
+### Params:
 
-* **Object** *mp* Messprog.-Objekt
 * **Object** *task* Task-Objekt
 * **Array** *pfad* Pfad Array
 * **Function** *cb* Callback Funktion
 
-## select(mp, task, pfad, cb)
+## getList(task, pfad, cb)
 
-Die worker Funktion ```select()``` wählt auf Basis
-der unter _exchange_ derzeitig vorhandenen Werte
-(z.B. ```target_pfill.Value.value```
-ein Folgerezept für den aufrufenden Container aus.
-In der ```task``` muss die Rezeptklasse unter dem Pfad
-```task.Value.RecipeClass``` gegeben sein.
+Die worker Funktion ```getList()```
+holt Daten von einer Datenbank-List-Abfrage.
+Die ```task``` benötigt die Einträge  ```task.ListName```
+und ```task.ViewName```.
 
-### Params: 
+Anwendungnsbeispiel: Datensätze zur Auswahl
+eines Kalibrierdokuments.
 
-* **Object** *mp* Messprog.-Objekt
+### Params:
+
 * **Object** *task* Task-Objekt
 * **Array** *pfad* Pfad Array
 * **Function** *cb* Callback Funktion
 
-## updateCd(mp, task, pfad, cb)
-
-### Params: 
-
-* **Object** *mp* Messprog.-Objekt
-* **Object** *task* Task-Objekt
-* **Array** *pfad* Pfad Array
-* **Function** *cb* Callback Funktion
-
-## ctrlContainer(mp, task, pfad, cb)
-
-Die worker Funktion ```ctrlContainer```
-erlaubt es taskgesteuert den ctrl-String
-von Containern zu setzen. Ein Anwendungsbeispiel
-ist das Starten des Initialisierungscontainers
-nachdem die KD-ids ausgewählt wurden.
-
-### Params: 
-
-* **Object** *mp* Messprog.-Objekt
-* **Object** *task* Task-Objekt
-* **Array** *pfad* Pfad Array
-* **Function** *cb* Callback Funktion
-
-<!-- End ./lib/worker.js -->
+<!-- End lib/worker.js -->
 
