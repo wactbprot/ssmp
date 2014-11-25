@@ -17,7 +17,8 @@ Abarbeitung angeordnet werden können.
 
 Die Gesamtheit der container, recipes und tasks ist die Messprogrammdefinition
 (_mpdef_);
-diese besitzt eine id, die in allen urls gleich nach dem __ssmp__ port auftaucht.
+diese besitzt eine id, die in allen urls gleich nach dem __ssmp__ port
+auftaucht.
 
 ## Überblick
 
@@ -33,14 +34,19 @@ diese besitzt eine id, die in allen urls gleich nach dem __ssmp__ port auftaucht
                                     |
                                     |
                                 http/json
-                                    |
-   +-------------+           +------+-----+
-   |  CouchDB    |           |  ssmp      |
-   |-------------|           |------------|              +--------------+
-   |             +-http/json-|            |              |              |
-   |             |           |            +--http/json---+   csmp       |
-   |             |           |            |              |              |
-   +-------------+           +----+-- ----+              +--------------+
+                             +------+---------------------------------------+
+   +-------------+           | +------+-----+              +--------------+ |
+   |  CouchDB    |           | |  ssmp      |              |              | |
+   |-------------|           | |------------| ndata-client-+   socket.io  | |
+   |             +-http/json-+ |            | |            |              | |
+   |             |           | |ndata-server+-+            +--------------+ |
+   |             |           | |            | |                             |
+   +-------------+           | +----+-- ----+ |            +--------------+ |
+                             |                |            |              | |
+                             |                ndata-client-+   http-rest  | |
+                             |                             |              | |
+                             |                             +--------------+ |
+                             +----------------------------------------------+
 
 ```
 
@@ -71,20 +77,22 @@ npm run ssmp
 gestartet werden. Ein erstes MP kann wie folgt geladen und gestartet werden:
 
 ```
-curl -d '{"Mp":{"Container":[{"Ctrl":"load;mon","Definition":[[{"TaskName":"Common-wait"}]]}]}}' -X POST http://localhost:8001/bsp_mp
+curl -d
+'{"Mp":{"Container":[{"Ctrl":"load;mon","Definition":[[{"TaskName":"Common-wait"}]]}]}}'
+-X POST http://localhost:8001/bsp_mp
 ```
 Das MP wird hier gleich mitgeschickt (```-X POST```). Es besteht aus nur einem
 Container in der nur eine Task (namens ``` Common-wait ```) geladen
 (```load```) und wiederholt gestartet werden soll (```mon``` kommt von
 _monitoring_ ). Dieses MP hat nun auch die unter dem Abschnitt [Endpunkte](https://github.com/wactbprot/ssmp#endpunkte)
-beschriebenen urls.  
+beschriebenen urls.
 
 
 ## Gesamtablauf
 
 
 Nach der Installation sind folgende Schritte sind bei einer
-Kalibrierung/Messung abzuarbeiten: 
+Kalibrierung/Messung abzuarbeiten:
 
 1.  Starten des Servers
 2.  Laden des MP
@@ -92,53 +100,13 @@ Kalibrierung/Messung abzuarbeiten:
 4.  Laden der MP-Abläufe
 5.  Starten des MP
 
-## Endpunkte
-
-Nachfolgend eine Übersicht der Wichtigsten von __ssmp__ bereitgestellten API-Endpunkte:
-
-
-___meta___
-* GET: ```http://server:port/mpid/meta``` ... Meta-Informationen des MPs
-
-
-___state___
-* GET: ```http://server:port/mpid/0/state``` ... Abarbeitungszustand des
-  ersten Containers 
-* GET: ```http://server:port/mpid/0/state/0``` ... Abarbeitungszustand des
-  ersten sequentiellen Schritts   
-* GET: ```http://server:port/mpid/0/state/0/0``` ... erster paralleler im
-  ersten seriellen Schrittes des ersten Containers  
-
-___definition___
-* GET/PUT: ```http://server:port/mpid/0/definition``` ... Definition
-* GET/PUT: ```http://server:port/mpid/0/definition/0``` ... analog state
-* GET/PUT: ```http://server:port/mpid/0/definition/0/0``` ... analog state
-
-___recipe___
-* GET/PUT: ```http://server:port/mpid/0/recipe``` ... Rezept
-* GET/PUT: ```http://server:port/mpid/0/recipe/0``` ... analog state
-* GET/PUT: ```http://server:port/mpid/0/recipe/0/0``` ...analog state
-
-___ctrl___
-* GET/PUT: ```http://server:port/mpid/0/ctrl``` ... Kontrollstring des ersten containers
-
-___description___
-* GET/PUT: ```http://server:port/mpid/0/description``` ... Beschreibung des 1. Containers 
-
-___title___
-* GET/PUT: ```http://server:port/mpid/0/title``` ... Titel des 1. Containers
-
-___id___
-* GET: ```http://server:port/mpid/id``` ... angemeldete KD-ids
-
 
 ##  Starten des Servers
 
 __ssmp__ wird durch den Aufruf ```ssmp [-P port]``` gestartet.
 
-Schöner formatierte logs bekommt man mit: 
+Schöner formatierte logs bekommt man mit:
 ```
-$> npm run mem
 $> npm run ssmp
 ```
 Weitere Details können mittels ```ssmp -h``` erfragt werden.
@@ -147,12 +115,12 @@ Weitere Details können mittels ```ssmp -h``` erfragt werden.
 ## Laden des Messprogramms
 
 Die Definition eines MP geschieht im JSON Format. Sie sind zweckmäßiger
-Weise in einer CouchDB als Dokumente abgelegt. Sie können auf 2 
+Weise in einer CouchDB als Dokumente abgelegt. Sie können auf 2
 verschiedene Arten dem __ssmp__ zur weiteren Abarbeitung übergeben werden:
 
 ### 1. POST
 
-Mittels _http-POST_ : 
+Mittels _http-POST_ :
 
 ```
 $> curl -X POST -d  '{_id:mpid ... }'  http://localhost:8001/mpid
@@ -162,13 +130,13 @@ Hierfür kann auch [csmp](https://github.com/wactbprot/csmp) benutzt werden:
 
 ```
 $> cd csmp
-$> bin/db_get -p dbname/mpid |  bin/mp_post -i mpid 
+$> bin/db_get -p dbname/mpid |  bin/mp_post -i mpid
 ```
 
 ### 2. PUT
 
 
-Mittels _http-PUT_ : 
+Mittels _http-PUT_ :
 
 ```
 $> curl -X PUT -d  'load'  http://localhost:8001/mpid
@@ -177,7 +145,7 @@ $> curl -X PUT -d  'load'  http://localhost:8001/mpid
 oder mit [csmp](https://github.com/wactbprot/csmp):
 
 
-``` 
+```
 $> bin/mp_ini -i mpid -d load
 ```
 
@@ -185,16 +153,16 @@ $> bin/mp_ini -i mpid -d load
 
 Der konkrete Ablauf eines Messprogramms hängt auch von den zu kalibrierenden
 Geräten ab. _Welche_ Geräte _wie_ kalibriert werden sollen, ist in den KD
-festgelegt. __ssmp__ muss also die ids der KD kennen um aus diesen Dokumenten die
-entsprechenden Informationen zu beziehen.
+festgelegt. __ssmp__ muss also die ids der KD kennen um aus diesen Dokumenten
+die entsprechenden Informationen zu beziehen.
 
 Das Bekanntgeben der KD-ids geschieht mittels des _id_ Endpunkts:
 
 ```
 $> curl -X PUT -d 'load' http://localhost:8001/mpid/id/kdid
 ```
-[csmp](https://github.com/wactbprot/csmp) stellt dazu die 
-Programme ```mp_id+``` (Hinzufügen), ```mp_id-``` (Löschen) 
+[csmp](https://github.com/wactbprot/csmp) stellt dazu die
+Programme ```mp_id+``` (Hinzufügen), ```mp_id-``` (Löschen)
 und ```mp_id``` (Übersicht) zur Verfügung.
 
 Hinzufügen:
@@ -210,32 +178,33 @@ mp_id- -i mpid -d cdid
 mp_id -i mpid 
 ```
 
-## Erstellen und Laden der MP-Abläufe 
+## Erstellen und Laden der MP-Abläufe
 
-Nachdem  die KD dem __ssmp__ bekannt gegeben wurden, können die konkreten Abläufe
-erstellt und geladen werden. Im Zuge dieses Prozesses wird der Endpunkt
+Nachdem  die KD dem __ssmp__ bekannt gegeben wurden, können die konkreten
+Abläufe erstellt und geladen werden. Im Zuge dieses Prozesses wird der
+Endpunkt
 ```
 http://localhost:8001/mpid/[n]/recipe
 ```
 aufgefüllt, an dem die Ablaufdefinition mit den Tasks zu den Rezepten
-zusammengestellt sind. 
-Die Abläufe der einzelnen _container_ sind der MP-Definition unter dem Pfad 
+zusammengestellt sind.
+Die Abläufe der einzelnen _container_ sind der MP-Definition unter dem Pfad
 ```Mp.Container[n].Definition[S][P]``` mit _TaskName_ und
 individuellen Ersetzungsanweisungen _Replace_ und _Use_
-angegebenen. ```S``` und ```P``` stehen hier für sequentieller 
+angegebenen. ```S``` und ```P``` stehen hier für sequentieller
 bzw. paralleler Schritt. Bsp.:
 
 ```javascript
 {
 "_id": "mpid",
-	"Mp": {
-		"Container": [
-			{
+    "Mp": {
+        "Container": [
+            {
                "Element": ["Documents"],
-			   "Description": "periodically reads out all FM3/CE3 pressure devices",
+               "Description": "periodically reads out all FM3/CE3 pressure devices",
                "Ctrl": "load;mon",
-               "Definition": 
-	S --------> [
+               "Definition":
+    S --------> [
       P -------->  [
                        {
                            "TaskName": "FM3_1T-read_out",
@@ -258,10 +227,7 @@ bzw. paralleler Schritt. Bsp.:
                                "@waittime": 1000
                            }
                        }
-					   ...
-					   
 ```
-
 
 Aus diesen Beschreibungen werden dann von __ssmp__ die konkreten
 Abläufe erstellt; dies geschieht durch die Aufforderung:
@@ -275,14 +241,15 @@ Mit  [csmp](https://github.com/wactbprot/csmp) geht das so:
 ```
 $> bin/mp_ctrl -i mpid -c 0 -d load
 ```
-Weitere Details zum Laden finden sich 
+Weitere Details zum Laden finden sich
 in der
 [load.js Dokumentation](https://github.com/wactbprot/ssmp/blob/master/doc/load.js.md).
 
 
 Es einige Zeichenketten die als Ersetzungen in den Ablaufdefinitionen immer
 zur Verfüging stehen wie z.B. das aktuelle Jahr über ```@year``` oder die
-aktuell ausgewählten KD-ids über ```@cdids```. (s. das [dbmp README](https://github.com/wactbprot/dbmp))
+aktuell ausgewählten KD-ids über ```@cdids```. (s. das
+[dbmp README](https://github.com/wactbprot/dbmp))
 
 
 ## Starten des Messprogramms
@@ -293,7 +260,7 @@ geschieht auch über die ```ctrl``` Schnittstelle:
 ```
 $> curl -X PUT -d 'run' http://localhost:8001/mpid/0/ctrl
 ```
-	
+
 Die  [csmp](https://github.com/wactbprot/csmp)-Variante:
 
 ```
@@ -303,29 +270,28 @@ $> bin/mp_ctrl -i mpid -c 0 -d run
 #### Ablaufkontrolle
 
 _tasks_ können Schlüsselwörter (keys) besitzen,
-die ihre Ausführing beeinflussen; das sind die keys 
+die ihre Ausführing beeinflussen; das sind die keys
 ```RunIf``` und ```StopIf```.
 
 ##### RunIf
 
 Die "Formulierung" ```RunIf: "got_time.Value"``` bewirkt, dass
-die _task_  ausgeführt wird, wenn der Wert unter 
-dem Pfad _exchange.got___time.Value_ (ausführlich: 
+die _task_  ausgeführt wird, wenn der Wert unter
+dem Pfad _exchange.got___time.Value_ (ausführlich:
 http://localhost:8001/mpdef/exchange/got_time/Value)
 zu ```true``` ausgewertet wird.
-  
 Die _task_:
 
 ```javascript
 {
-	Action      : "wait", 
-	Comment     : "Ready in  1000 ms", 
-	TaskName    : "Mp-cond_wait", 
-	Exchange    : "wait_time.Value", 
-	Id          : ["kdid-1","kdid-2","kdid-3","kdid-4"], 
-	CuCo        : false, 
-	MpName      : "Mp"
-	RunIf       : "got_time.Value", 
+    Action      : "wait",
+    Comment     : "Ready in  1000 ms",
+    TaskName    : "Mp-cond_wait",
+    Exchange    : "wait_time.Value",
+    Id          : ["kdid-1","kdid-2","kdid-3","kdid-4"],
+    CuCo        : false,
+    MpName      : "Mp"
+    RunIf       : "got_time.Value",
 }
 ```
 
@@ -339,7 +305,7 @@ ausgeführt wurde.
 ##### StopIf
 
 ```StopIf``` funktioniert ganz analog ```RunIf```: Die _task_ wird nicht
-erneut ausgeführt, wenn der Wert unter dem Pfad ```exchange.pfill_ok.Value``` 
+erneut ausgeführt, wenn der Wert unter dem Pfad ```exchange.pfill_ok.Value```
 zu ```true``` ausgewertet werden kann.
 
 ### Anhalten des MP
@@ -373,7 +339,7 @@ lädt den Ablauf und startet ihn 5 mal. Es geht auch:
 $> bin/mp_ctrl -i mpid -c 0 -d 'load;5:run,load;stop'
 ```
 
-was den Ablauf läd, 5 mal den Zyklus ```run``` gefolgt von ```load``` 
+was den Ablauf läd, 5 mal den Zyklus ```run``` gefolgt von ```load```
 (durch Komma getrennt) durchläuft und dann ```stop``` ausführt.
 
 
@@ -382,8 +348,8 @@ was den Ablauf läd, 5 mal den Zyklus ```run``` gefolgt von ```load```
 
 ### Exchange als Input
 
-Hier ein Beispiel wie man im ```PostProcessing``` Teil einer _task_ das Schreiben
-in die Exchange Schnittstelle veranlassen kann:
+Hier ein Beispiel wie man im ```PostProcessing``` Teil einer _task_ das
+Schreiben in die Exchange Schnittstelle veranlassen kann:
 
 ```javascript
 "PostProcessing": [
@@ -400,8 +366,9 @@ und würde hier den wert von ```ok``` in den Pfad ```key.is.exchange.path```
 schreiben.
 
 s. [doc/receive.js.md](https://github.com/wactbprot/ssmp/blob/master/doc/receive.js.md)
-bzw.  [utils.js.md#write_to_exchange](https://github.com/wactbprot/ssmp/blob/master/doc/utils.js.md#write_to_exchangemp-task-data-cb)
-	
+bzw.
+[utils.js.md#write_to_exchange](https://github.com/wactbprot/ssmp/blob/master/doc/utils.js.md#write_to_exchangemp-task-data-cb)
+
 ## __ssmp__ Rückgabewerte
 
 Das Ergebnis von _http-GET_-Anfrage hängt von der Art des
@@ -412,7 +379,7 @@ zurückzubebenden Objektes (```x```) ab:
   jedem Fall JSON ist)
 
 * ist ```x``` ein ```object``` oder ```array``` wird einfach ```x``` zurückgegeben
- 
+
 * gibt es keine der Anfrage entsprechende Daten wird mit ```{error:
   "Beschreibung des Grundes"}``` geantwortet
 
@@ -425,13 +392,15 @@ zurückzubebenden Objektes (```x```) ab:
 $> cd ssmp
 $> npm run doc
 ```
-Es werden so im Verzeichniss [ssmp/doc](https://github.com/wactbprot/ssmp/tree/master/doc) markdown (Endung ```.md```) erstellt.
+Es werden so im Verzeichniss
+[ssmp/doc](https://github.com/wactbprot/ssmp/tree/master/doc) markdown (Endung
+```.md```) erstellt.
 
 ### Unit tests/ code coverage
 
-Bei Uninttests werden die Ergebnisse die kleine Programmteile 
-(units) bei Ausführung liefern mit Sollergebnissen verglichen. 
-Dies soll der Verbesserung der code-Qualität dienen: 
+Bei Uninttests werden die Ergebnisse die kleine Programmteile
+(units) bei Ausführung liefern mit Sollergebnissen verglichen.
+Dies soll der Verbesserung der code-Qualität dienen:
 
 ```
 $> cd ssmp
@@ -442,7 +411,7 @@ im Verzeichnis ```ssmp/coverage``` werden html-Dateien erzeugt.
 
 
 ### all together
- 
+
 ```
 $> cd ssmp
 $> npm run all-dev
