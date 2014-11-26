@@ -76,7 +76,7 @@ es kann auch bereits das MP-Dokument gesandt werden:
          ...
 }
 ```
-__load_mp__
+__load_cd__
 
 Wird zum Laden eines KD verwendet. Benötigt:
 ```
