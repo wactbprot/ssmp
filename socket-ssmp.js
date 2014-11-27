@@ -23,7 +23,7 @@ var socket_ssmp = function(conf) {
             );
     var channels = ["worker"
                    , "ctrl"
-                   , "load_cd"
+                   , "handle_cd"
                    , "load_mp"
                    , "buildup"
                    , "builddown"
@@ -81,7 +81,7 @@ var socket_ssmp = function(conf) {
                                    data: data});
           });
         }
-        if(ch == "load_cd" && id){
+        if(ch == "handle_cd" && id){
           var path = [id, "id"];
           mem.get(path, function(err, data){
             socket.emit("cdid", {path: path,
@@ -139,30 +139,23 @@ var socket_ssmp = function(conf) {
       }); // load mp
 
       /**
-       * Laden eines KD  über senden
+       * Entfernen/ Hinzufügen eines KD  durch Senden
        * der Datenstruktur:
        * ```
        * {
        *  id: id,
-       *  cdid: cdid,
-       *  cmd: "load"
+       *  cdid: cdid
+       *  cmd: "load" ( oder "remove")
        * }
        * ```
        */
-      socket.on("load_cd", function(data){
-        var req;
-        if(data.id && data.cmd && data.cdid){
-          req = {
-            params:{id   : data.id,
-                    cdid : data.cdid},
-            body:data.cmd
-          }
-        }
-        if(req)
-          meth.load_cd(req, function(res){
-            socket.emit("load_cd", res);
-          });
-      }); // load cd
+
+      socket.on("handle_cd", function(data){
+        mem.publish("handle_cd", data, function(err){
+          log.info(ok
+                  , "publish handle_cd");
+        });
+      }); // remove cd
 
       /**
        * Bedienen des ctrl interfaces

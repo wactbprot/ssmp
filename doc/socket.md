@@ -42,7 +42,7 @@ Publiziert bei einer Änderung ein Objekt der Art:
 }
 ```
 
-__load_cd__
+__handle_cd__
 
 Ändert sich die Anzahl der  KD wird ein Objekt der
 Art: 
@@ -76,14 +76,14 @@ es kann auch bereits das MP-Dokument gesandt werden:
          ...
 }
 ```
-__load_cd__
+__handle_cd__
 
 Wird zum Laden eines KD verwendet. Benötigt:
 ```
 {
    id: id, (Bsp.: "mp-waittest")
    cdid: cdid, (Bsp.: "ca-test_doc_1")
-   cmd: cmd, (Bsp.:"load")
+   cmd: cmd, (Bsp.:"load" oder "remove")
 }
 ```
 __ctrl__

@@ -130,7 +130,7 @@ var http_ssmp = function(conf) {
    * @param {Function} f Callback
    */
   server.put("/:id/id/:cdid", function(req, res, next) {
-    meth.load_cd(req, function(o){
+    meth.handle_cd(req, function(o){
       res.send(o);
     });
     next();
