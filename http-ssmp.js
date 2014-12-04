@@ -16,8 +16,8 @@ var http_ssmp = function(conf) {
     , restify = require("restify")
     , bunyan  = require("bunyan")
     , ndata   = require("ndata")
-    , coll    = require("./lib/collections")
-    , meth    = require("./lib/methods")
+    , coll    = require("./http-collections")
+    , meth    = require("./http-methods")
     , log     = bunyan.createLogger({name: name})
     , server  = restify.createServer({name: name});
 
@@ -171,7 +171,7 @@ var http_ssmp = function(conf) {
    * - startet observer
    */
   server.put("/:id", function(req, res, next){
-    meth.load_mp(req, function(o){
+    meth.handle_mp(req, function(o){
       res.send(o);
     });
     next();

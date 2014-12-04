@@ -19,7 +19,6 @@ var ssmp = function(){
   var mem = ndata.createServer({port: conf.memport});
 
   mem.on('ready', function(){
-
     log.info({ok: true}
             , ".....................................\n"
             + "ssmp data server up and running @"
@@ -31,9 +30,11 @@ var ssmp = function(){
     require("./lib/run");
     require("./lib/build");
     require("./lib/observe");
+    require("./lib/mphandle");
+    require("./lib/cdhandle");
 
     require("./http-ssmp")(conf);
-    require("./socket-ssmp")(conf);
+  //  require("./socket-ssmp")(conf);
 
   }); // server
 }

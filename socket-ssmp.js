@@ -4,7 +4,6 @@ var socket_ssmp = function(conf) {
     , prog    = require("commander")
     , _       = require("underscore")
     , bunyan  = require("bunyan")
-    , meth    = require("./lib/methods")
     , deflt   = require("./lib/default")
     , cstr    = deflt.ctrlStr
     , log     = bunyan.createLogger({name: name})
@@ -24,7 +23,10 @@ var socket_ssmp = function(conf) {
     var channels = ["worker"
                    , "ctrl"
                    , "handle_cd"
-                   , "load_mp"
+                   , "get_mp"
+                   , "rm_mp"
+                   , "get_cd"
+                   , "rm_cd"
                    , "buildup"
                    , "builddown"
                    , "recipe"
@@ -41,7 +43,7 @@ var socket_ssmp = function(conf) {
                               return function(err){
                                 if(!err){
                                   log.info(ok
-                                          , "mem.js subscribed to channel: " + c);
+                                          , "socket-ssmp.js subscribed to channel: " + c);
                                 }
                               }}(channel))
     }
@@ -118,25 +120,15 @@ var socket_ssmp = function(conf) {
        * ```
        *
        */
-      socket.on("load_mp", function(data){
+      socket.on("get_mp", function(data){
         var req;
-        if(data.id && data.cmd){
-          req = {
-            params:{id:data.id},
-            body:data.cmd
-          }
-        }
-        if(data._id && data.Mp){
-          req = {
-            params:{id:data._id},
-            body:data
-          }
-        }
-        if(req)
-          meth.load_mp(req, function(res){
-            socket.emit("id", res);
+        if(data.id){
+          mem.publish("get_mp", data, function(err){
+            log.info(ok
+                    , "publish get_mp");
           });
-      }); // load mp
+        }
+      });
 
       /**
        * Entfernen/ Hinzufügen eines KD  durch Senden
