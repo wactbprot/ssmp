@@ -67,27 +67,6 @@ $> cd ssmp
 $> npm install
 ```
 
-## Einzeiler
-
-Nach der Installation kann ssmp mittels
-
-```
-npm run ssmp
-```
-gestartet werden. Ein erstes MP kann wie folgt geladen und gestartet werden:
-
-```
-curl -d
-'{"Mp":{"Container":[{"Ctrl":"load;mon","Definition":[[{"TaskName":"Common-wait"}]]}]}}'
--X POST http://localhost:8001/bsp_mp
-```
-Das MP wird hier gleich mitgeschickt (```-X POST```). Es besteht aus nur einem
-Container in der nur eine Task (namens ``` Common-wait ```) geladen
-(```load```) und wiederholt gestartet werden soll (```mon``` kommt von
-_monitoring_ ). Dieses MP hat nun auch die unter dem Abschnitt [Endpunkte](https://github.com/wactbprot/ssmp#endpunkte)
-beschriebenen urls.
-
-
 ## Gesamtablauf
 
 
@@ -115,28 +94,9 @@ Weitere Details können mittels ```ssmp -h``` erfragt werden.
 ## Laden des Messprogramms
 
 Die Definition eines MP geschieht im JSON Format. Sie sind zweckmäßiger
-Weise in einer CouchDB als Dokumente abgelegt. Sie können auf 2
-verschiedene Arten dem __ssmp__ zur weiteren Abarbeitung übergeben werden:
+Weise in einer CouchDB als Dokumente abgelegt und kann auf folgende Weise dem
+__ssmp__ zur Abarbeiting übergeben werden:
 
-### 1. POST
-
-Mittels _http-POST_ :
-
-```
-$> curl -X POST -d  '{_id:mpid ... }'  http://localhost:8001/mpid
-```
-
-Hierfür kann auch [csmp](https://github.com/wactbprot/csmp) benutzt werden:
-
-```
-$> cd csmp
-$> bin/db_get -p dbname/mpid |  bin/mp_post -i mpid
-```
-
-### 2. PUT
-
-
-Mittels _http-PUT_ :
 
 ```
 $> curl -X PUT -d  'load'  http://localhost:8001/mpid

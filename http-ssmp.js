@@ -177,26 +177,6 @@ var http_ssmp = function(conf) {
     next();
   });
 
-  /**
-   * __POST__
-
-   * ```
-   * http://server:port/id
-   * ```
-   *
-   * Übernimmt MPD vom _body_ des  requests
-   * Initialisiert die MP-Instanz und startet
-   * die ```observer()```-Funktion
-   *
-   * @param {String} url url-Muster der Anfrage
-   * @param {Function} f Callback
-   */
-  server.post("/:id", function(req, res, next){
-    meth.load_mp(req, function(o){
-      res.send(o);
-    });
-    next();
-  });
 
   //
   // --- go!---
