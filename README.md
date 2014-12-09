@@ -108,6 +108,20 @@ oder mit [csmp](https://github.com/wactbprot/csmp):
 ```
 $> bin/mp_ini -i mpid -d load
 ```
+## Löschen eines MP
+
+Das entfernen eines MP aus dem ssmp Speicher geschieht in analoger Weise:
+ 
+```
+$> curl -X PUT -d  'remove'  http://localhost:8001/mpid
+```
+
+oder mit [csmp](https://github.com/wactbprot/csmp):
+
+
+```
+$> bin/mp_ini -i mpid -d remove
+```
 
 ## Übergeben der Kalibrierdokumente
 

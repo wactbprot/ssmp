@@ -31,8 +31,28 @@ var handle_mp = function(req, cb){
                   , " published to get_mp channel");
         }else{
           var ro = {error:err};
-          log.info(ro
-                  , " error on attempt to publish to get_mp channel");
+          log.error(ro
+                   , " error on attempt to publish to get_mp channel");
+          if(_.isFunction(cb)){
+            cb(ro)
+          }
+        }
+      });
+    }
+    if(rb == ctrlstr.rm){
+      log.info(ok
+              , "try to publish to rm_mp channel");
+      mem.publish("rm_mp", id , function(err){
+        if(!err){
+          if(_.isFunction(cb)){
+            cb(ok)
+          }
+          log.info(ok
+                  , " published to rm_mp channel");
+        }else{
+          var ro = {error:err};
+          log.error(ro
+                   , " error on attempt to publish to rm_mp channel");
           if(_.isFunction(cb)){
             cb(ro)
           }
@@ -66,8 +86,8 @@ var handle_cd = function(req, cb){
           }
         }else{
           var ro = {error:err};
-          log.info(ro
-                  , "error on attempt to publish to get_cd channel");
+          log.error(ro
+                   , "error on attempt to publish to get_cd channel");
           if(_.isFunction(cb)){
             cb(ro)
           }
@@ -88,8 +108,8 @@ var handle_cd = function(req, cb){
           }
         }else{
           var ro = {error:err}
-          log.info(ro
-                  , "error on attempt to publish to rm_cd channel");
+          log.error(ro
+                   , "error on attempt to publish to rm_cd channel");
           if(_.isFunction(cb)){
             cb(ro)
           }
