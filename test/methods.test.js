@@ -1,6 +1,6 @@
 var assert = require("assert"),
     _      = require("underscore"),
-    meth   = require("../lib/methods"),
+    meth   = require("../http-methods"),
     net    = require("../lib/net"),
     deflt  = require("../lib/default"),
     ctrlstr  = deflt.ctrlStr;

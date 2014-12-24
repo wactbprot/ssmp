@@ -1,5 +1,3 @@
-require("../lib/collections");
-require("../lib/methods");
 require("../lib/run");
 require("../lib/compare");
 require("../lib/load");
