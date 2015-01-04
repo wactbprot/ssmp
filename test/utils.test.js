@@ -20,6 +20,12 @@ describe('utils', function(){
       assert.equal(r, utils.cmd_to_array(r)[0]);
       assert.equal(1, utils.cmd_to_array(r).length);
     })
+    it('should return an array containing the given string', function(){
+      var  r   = "mon";
+      assert.equal(true, _.isArray(utils.cmd_to_array(r)));
+      assert.equal(r, utils.cmd_to_array(r)[0]);
+      assert.equal(1, utils.cmd_to_array(r).length);
+    })
     it('should return an array of length 2', function(){
       var l   = "load",
           r   = "run",
@@ -61,16 +67,35 @@ describe('utils', function(){
   })
 
 
-  describe('#vlDate()', function(){
+  describe('#vl_date()', function(){
     it('should return the wellknown date format', function(){
-      assert.equal( "2014-07-25 21:25", utils.vlDate("Fri Jul 25 2014 21:25:06 GMT+0200 (CEST)"));
+      var d = utils.vl_date();
+      assert.equal(true, _.isString(d));
+      assert.equal( "2014-07-25 21:25", utils.vl_date("Fri Jul 25 2014 21:25:06 GMT+0200 (CEST)") );
 
-    })
-  })
-  describe('#vlTime()', function(){
+    });
+  });
+  describe('#vl_time()', function(){
     it('should return a string', function(){
-      assert.equal( "1406316306000", utils.vlTime("Fri Jul 25 2014 21:25:06 GMT+0200 (CEST)"));
+      var t = utils.vl_time();
+      assert.equal( true, _.isString(t));
+      assert.equal( "1406316306000", utils.vl_time("Fri Jul 25 2014 21:25:06 GMT+0200 (CEST)"));
+    });
+  });
 
-    })
-  })
+
+  describe('#as_array(state)', function(){
+    it('should generate false on wrong input', function(){
+      assert.equal(utils.as_arr([]), false);
+      assert.equal(utils.as_arr({}), false);
+      assert.equal(utils.as_arr("ll"), false);
+    });
+  });
+
+  describe('#as_array(state)', function(){
+    it('should a flat array', function(){
+      assert.equal(utils.as_arr([["a"]])[0], "a");
+    });
+  });
+
 })
