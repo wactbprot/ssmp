@@ -84,17 +84,16 @@ describe('utils', function(){
   });
 
 
-  describe('#as_array(state)', function(){
+  describe('#as_arr(state)', function(){
     it('should generate false on wrong input', function(){
       assert.equal(utils.as_arr([]), false);
-      assert.equal(utils.as_arr({}), false);
       assert.equal(utils.as_arr("ll"), false);
     });
   });
 
   describe('#as_array(state)', function(){
     it('should a flat array', function(){
-      assert.equal(utils.as_arr([["a"]])[0], "a");
+      assert.equal(utils.as_arr({ '0': { '0': 'ready'}})[0], "ready");
     });
   });
 

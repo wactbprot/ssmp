@@ -41,58 +41,47 @@ describe('utils', function(){
   describe('#data_to_doc()', function(){
     it('should set multible type, unit, value and comment structures', function(done){
       var path = "Calibration.Measurement.Values.Pressure"
-        , dataset = {Result:[{Type:"test1",
-                              Unit:"tu",
-                              Value:1.234,
-                              Comment:"comment1"},
-                             {Type:"test2",
-                              Unit:"tu",
-                              Value:1.234,
-                              Comment:"comment2"},
-                             {Type:"test3",
-                              Unit:"tu",
-                              Value:1.234,
-                              Comment:"comment3"},
-                             {Type:"test4",
-                              Unit:"tu",
-                              Value:1.234,
-                              Comment:"comment4"},
-                             {Type:"test5",
-                              Unit:"tu",
-                              Value:1.234,
-                              Comment:"comment5"},
-                             {Type:"test6",
-                              Unit:"tu",
-                              Value:1.234,
-                              Comment:"comment6"},
-                             {Type:"test7",
-                              Unit:"tu",
-                              Value:1.234,
-                              Comment:"comment7"},
-                             {Type:"test8",
-                              Unit:"tu",
-                              Value:1.234,
-                              Comment:"comment8"},
-                             {Type:"test9",
-                              Unit:"tu",
-                              Value:1.234,
-                              Comment:"comment9"},
-                             {Type:"test10",
-                              Unit:"tu",
-                              Value:1.234,
-                              Comment:"comment10"}]};
+        , dataset = { Result:
+                      [ { Type: 'channel_101', Unit: 'C', Value: null },
+                        { Type: 'sd_channel_101', Unit: 'C', Value: null },
+                        { Type: 'N_channel_101', Unit: '1', Value: null },
+                        { Type: 'channel_102', Unit: 'C', Value: null },
+                        { Type: 'sd_channel_102', Unit: 'C', Value: null },
+                        { Type: 'N_channel_102', Unit: '1', Value: null },
+                        { Type: 'channel_103', Unit: 'C', Value: null },
+                        { Type: 'sd_channel_103', Unit: 'C', Value: null },
+                        { Type: 'N_channel_103', Unit: '1', Value: null },
+                        { Type: 'channel_104', Unit: 'C', Value: null },
+                        { Type: 'sd_channel_104', Unit: 'C', Value: null },
+                        { Type: 'N_channel_104', Unit: '1', Value: null },
+                        { Type: 'channel_105', Unit: 'C', Value: null },
+                        { Type: 'sd_channel_105', Unit: 'C', Value: null },
+                        { Type: 'N_channel_105', Unit: '1', Value: null },
+                        { Type: 'channel_106', Unit: 'C', Value: null },
+                        { Type: 'sd_channel_106', Unit: 'C', Value: null },
+                        { Type: 'N_channel_106', Unit: '1', Value: null },
+                        { Type: 'channel_107', Unit: 'C', Value: null },
+                        { Type: 'sd_agilent107', Unit: 'C', Value: null },
+                        { Type: 'N_channel_107', Unit: '1', Value: null },
+                        { Type: 'channel_108', Unit: 'C', Value: null },
+                        { Type: 'sd_agilentCh108', Unit: 'C', Value: null },
+                        { Type: 'N_channel_108', Unit: '1', Value: null },
+                        { Type: 'channel_109', Unit: 'C', Value: null },
+                        { Type: 'sd_channel_109', Unit: 'C', Value: null },
+                        { Type: 'N_channel_109', Unit: '1', Value: null },
+                        { Type: 'channel_110', Unit: 'C', Value: null },
+                        { Type: 'sd_channel_110', Unit: 'C', Value: null },
+                        { Type: 'N_channel_110', Unit: '1', Value: null } ] };
 
       utils.data_to_doc(clone(caldoc), path, dataset, function(d){
-
-        assert.equal(d.Calibration.Measurement.Values.Pressure.length, 10);
+        assert.equal(d.Calibration.Measurement.Values.Pressure.length, 30);
 
         for(var i in  d.Calibration.Measurement.Values.Pressure){
          var o = d.Calibration.Measurement.Values.Pressure[i];
-          assert.equal(o.Value[0], 1.234);
+          assert.equal(_.isNull(o.Value[0]), true);
           assert.equal(_.isString(o.Type), true);
           assert.equal(_.isString(o.Unit), true);
-          assert.equal(_.isString(o.Comment[0]), true);
-          if(i == 9){
+          if(i == 29){
             done();
           }
         }
