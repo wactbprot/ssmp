@@ -18,6 +18,7 @@
     "ndata":">=2.5.3"
   },
   "scripts": {
+    "mpshell":"bin/mpsh",
     "doc":"rm doc/*.md && bin/genmd",
     "mem" :"bin/mem | bunyan -l info",
     "ssmp": "bin/ssmp | bunyan -l info",
