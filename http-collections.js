@@ -19,24 +19,36 @@ var get_mps = function(req, cb){
   var ro = {};
 
   mem.getAll(function(err, all){
+    if(!err){
+      var idA = _.keys(all);
+      if(idA.length > 0){
+        for(var i = 0; i < idA.length; i++ ){
+          var id = idA[i];
+          var meta = all[id].meta;
+          ro[id]             = {};
+          ro[id].Name        = meta.name;
+          ro[id].Standard    = meta.standard;
+          ro[id].Description = meta.description;
 
-    var idA = _.keys(all);
-    for(var i = 0; i < idA.length; i++ ){
-      var id = idA[i];
-      var meta = all[id].meta;
-      ro[id]             = {};
-      ro[id].Name        = meta.name;
-      ro[id].Standard    = meta.standard;
-      ro[id].Description = meta.description;
-
-      mem.get([id, "exchange", "run_time"], function(last, ro, id){
-                                              return function(err, val){
-                                                ro[id].Uptime      = val;
-                                                if(last){
-                                                  cb(ro)
-                                                }
-                                              }}(i == idA.length - 1, ro, id));
-
+          mem.get([id, "exchange", "run_time"], function(last, ro, id){
+                                                  return function(err, val){
+                                                    ro[id].Uptime      = val;
+                                                    if(last){
+                                                      cb(ro)
+                                                    }
+                                                  }}(i == idA.length - 1, ro, id));
+        }
+      }else{
+        ro = {warn:"no mp available"}
+        log.warn(ro
+                , "nothing loaded, no mp available");
+        cb(ro);
+      }
+    }else{
+      ro = {error:err};
+      log.error(ro
+                 , "error on attempt to mem.getAll");
+      cb(ro)
     }
   });
 };

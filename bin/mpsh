@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+var repl    = require("repl")
+  , ndata   = require("ndata")
+  , _       = require("underscore")
+  , memport  = 9000
+
+
+var context      = repl.start("ssmp> ").context;
+
+context.mem      = ndata.createClient({port: memport});
+context.defaults = require("../lib/default");
+context.utils    = require("../lib/utils");
+context.worker   = require("../lib/worker");
