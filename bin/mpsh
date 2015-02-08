@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-var repl    = require("repl")
-  , ndata   = require("ndata")
-  , _       = require("underscore")
-  , memport = 9000
-
+var _          = require("underscore")
+  , ndata      = require("ndata")
+  , repl       = require("repl")
+  , memport    = 9000
+  , prettyjson = require("prettyjson");
 
 var context      = repl.start("ssmp > ").context;
 
@@ -12,14 +12,16 @@ context.mem      = ndata.createClient({port: memport});
 context.defaults = require("../lib/default");
 context.utils    = require("../lib/utils");
 context.worker   = require("../lib/worker");
+
 context.cb       = function(res){
   console.log(res);
 }
+
 context.ecb       = function(err, res){
   if(err){
-    console.log(err);
+    console.log(prettyjson.render(err));
   }else{
-    console.log(res);
+    console.log(prettyjson.render(res));
   }
 }
 
