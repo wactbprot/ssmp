@@ -14,7 +14,7 @@ context.utils    = require("../lib/utils");
 context.worker   = require("../lib/worker");
 
 context.cb       = function(res){
-  console.log(res);
+  console.log(prettyjson.render(res));
 }
 
 context.ecb       = function(err, res){
@@ -25,9 +25,14 @@ context.ecb       = function(err, res){
   }
 }
 
+context.statics =  require("../lib/providejson")("./static/");
+
+
 console.log("whats already done:");
-console.log("");
-console.log("- default call back: cb defined");
-console.log("- default call back with err param: ecb defined");
+console.log(".........................................................\n");
+console.log("- default call back in variable: cb defined");
+console.log("- default call back with err param in variable: ecb");
 console.log("- lib/defaults, lib/utils and lib/worker loaded");
-console.log("- ndata client available: mem");
+console.log("- ndata client available in variable: mem");
+console.log("- static json below ssmp/static in variable: statics");
+console.log(".........................................................\n");

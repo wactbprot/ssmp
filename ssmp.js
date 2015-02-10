@@ -33,8 +33,8 @@ var ssmp = function(){
     require("./lib/mphandle");
     require("./lib/cdhandle");
 
-    require("./http-ssmp")(conf);
-  //  require("./socket-ssmp")(conf);
+    require("./http-api/http-ssmp")(conf);
+    //require("./socketio-api/socket-ssmp")(conf);
 
   }); // server
 }
