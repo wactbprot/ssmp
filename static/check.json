@@ -1,0 +1,39 @@
+{
+    "_id": "check",
+    "Mp": {
+        "Container": [
+            {
+                "Description": "checks db and relay availability",
+                "Ctrl": "load;mon",
+                "Title": "check db & relay",
+                "Definition": [
+                    [
+                        {
+                            "TaskName": "Common-db_info"
+                        },
+                        {
+                            "TaskName": "Common-relay_info"
+                        }
+                    ],
+                    [
+                        {
+                            "TaskName": "Common-wait",
+                            "Replace": {
+                                "@waitfor": "polling end",
+                                "@waittime": 1000
+                            }
+                        }
+                    ]
+                ]
+            }
+        ],
+        "Date": [
+            {
+                "Type": "created",
+                "Value": "2015-02-11"
+            }
+        ],
+        "Name": "Check",
+        "Description": "mp definition with one container filled with check tasks"
+    }
+}

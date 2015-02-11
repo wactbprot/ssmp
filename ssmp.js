@@ -21,7 +21,7 @@ var ssmp = function(){
       , observe  = require("./lib/observe")
       , mphandle = require("./lib/mphandle")
       , cdhandle = require("./lib/cdhandle")
-      , ok = {ok: true};
+      , ok       = {ok: true};
 
     log.info(ok
             , ".....................................\n"
@@ -33,7 +33,8 @@ var ssmp = function(){
 
     require("./http-api/http-ssmp")(deflt, function(){
       var mem      = ndata.createClient({port: deflt.mem.port})
-        , statics  = require("./lib/providejson")("./static/")
+        , statics  = require("./lib/providejson")("./static/");
+
       load.ini(function(){
         run.ini(function(){
           build.ini(function(){
@@ -41,6 +42,7 @@ var ssmp = function(){
               mphandle.ini(function(){
                 cdhandle.ini(function(){
                   for(var i in statics){
+
                     mem.publish("load_mp", statics[i], function(err){
                       if(!err){
                         log.info(ok
@@ -50,9 +52,9 @@ var ssmp = function(){
                                 , "error on attempt to publish to "
                                 + "load_mp channel for static " + i);
                       }
-                      
-                    });
-                  }
+                    }); // publish
+                  } // for
+
                 });
               });
             });
