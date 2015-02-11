@@ -9,15 +9,15 @@ var socket_ssmp = function(conf) {
     , log     = bunyan.createLogger({name: name})
     , ok      = {ok:true};
 
-  var io  = require('socket.io').listen(conf.socketport);
+  var io  = require('socket.io').listen(conf.socket.port);
 
-  var mem = ndata.createClient({port: conf.memport});
+  var mem = ndata.createClient({port: conf.mem.port});
 
   mem.on('ready', function(){
     log.info({ok: true}
             , "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
             + "socket-ssmp up and running @"
-            + conf.socketport +"\n"
+            + conf.socket.port +"\n"
             + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
             );
     var channels = ["worker"

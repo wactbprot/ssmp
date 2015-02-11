@@ -11,18 +11,15 @@ var ssmp = function(){
   prog.version("0.2")
   .option("-P, --port <port>", "http port (default is  8001)", parseInt)
   .parse(process.argv);
-  var conf = {memport   : 9000,
-              httpport  : 8001,
-              socketport: 8002}
 
 
-  var mem = ndata.createServer({port: conf.memport});
+  var mem = ndata.createServer({port: deflt.mem.port});
 
   mem.on('ready', function(){
     log.info({ok: true}
             , ".....................................\n"
             + "ssmp data server up and running @"
-            + conf.memport +"\n"
+            + deflt.mem.port +"\n"
             + "....................................."
             );
     // starten der ndata Clients
@@ -33,8 +30,8 @@ var ssmp = function(){
     require("./lib/mphandle");
     require("./lib/cdhandle");
 
-    require("./http-api/http-ssmp")(conf);
-    //require("./socketio-api/socket-ssmp")(conf);
+    require("./http-api/http-ssmp")(deflt);
+    //require("./socketio-api/socket-ssmp")(deflt);
 
   }); // server
 }
