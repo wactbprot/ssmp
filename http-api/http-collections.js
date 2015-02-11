@@ -6,7 +6,7 @@ var name     = "http-ssmp"
   , log      = bunyan.createLogger({name: name})
   , ctrlstr  = deflt.ctrlStr;
 
-var mem = ndata.createClient({port: 9000});
+var mem = ndata.createClient({port: deflt.mem.port});
 
 /**
  * Die Funktion```get_mps()``` stellt

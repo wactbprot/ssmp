@@ -8,7 +8,7 @@ var  name    = "http-ssmp"
   , ctrlstr  = deflt.ctrlStr
   , ok       = {ok:true}
 
-var mem = ndata.createClient({port: 9000});
+var mem = ndata.createClient({port: deflt.mem.port});
 
 /**
  * @param {Object} req Request-Objekt

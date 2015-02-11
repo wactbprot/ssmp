@@ -9,7 +9,7 @@
  * welcher die _REST_-Api des _ssmp_ zur Verfügung stellt.
  *
  */
-var http_ssmp = function(conf) {
+var http_ssmp = function(conf, cb) {
   var name    = "http-ssmp"
     , _       = require("underscore")
     , prog    = require("commander")
@@ -188,7 +188,9 @@ var http_ssmp = function(conf) {
             + conf.http.port +"\n"
             + "``````````````````````````````"
             );
-
+    if(_.isFunction(cb)){
+      cb();
+    }
   });
 }
 module.exports = http_ssmp;

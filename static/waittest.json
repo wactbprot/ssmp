@@ -1,11 +1,10 @@
 {
-   "_id": "mp-waittest",
-   "_rev": "15-6f2a757c691497c8f0c0043716ff0b69",
+  "_id": "waittest",
    "Mp": {
        "Container": [
            {
                "Description": "testdescr container 0",
-               "Ctrl": "unformed",
+               "Ctrl": "load;mon",
                "Title": "Container 0",
                "Definition": [
                    [

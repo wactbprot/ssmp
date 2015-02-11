@@ -13,24 +13,53 @@ var ssmp = function(){
   .parse(process.argv);
 
 
-  var mem = ndata.createServer({port: deflt.mem.port});
+  ndata.createServer({port: deflt.mem.port}).on('ready', function(){
+    // starten der ndata Clients
+    var load     = require("./lib/load")
+      , run      = require("./lib/run")
+      , build    = require("./lib/build")
+      , observe  = require("./lib/observe")
+      , mphandle = require("./lib/mphandle")
+      , cdhandle = require("./lib/cdhandle")
+      , ok = {ok: true};
 
-  mem.on('ready', function(){
-    log.info({ok: true}
+    log.info(ok
             , ".....................................\n"
             + "ssmp data server up and running @"
             + deflt.mem.port +"\n"
             + "....................................."
             );
-    // starten der ndata Clients
-    require("./lib/load");
-    require("./lib/run");
-    require("./lib/build");
-    require("./lib/observe");
-    require("./lib/mphandle");
-    require("./lib/cdhandle");
 
-    require("./http-api/http-ssmp")(deflt);
+
+    require("./http-api/http-ssmp")(deflt, function(){
+      var mem      = ndata.createClient({port: deflt.mem.port})
+        , statics  = require("./lib/providejson")("./static/")
+      load.ini(function(){
+        run.ini(function(){
+          build.ini(function(){
+            observe.ini(function(){
+              mphandle.ini(function(){
+                cdhandle.ini(function(){
+                  for(var i in statics){
+                    mem.publish("load_mp", statics[i], function(err){
+                      if(!err){
+                        log.info(ok
+                                , "published to load_mp channel for static " + i);
+                      }else{
+                        log.info({error:err}
+                                , "error on attempt to publish to "
+                                + "load_mp channel for static " + i);
+                      }
+                      
+                    });
+                  }
+                });
+              });
+            });
+          });
+        });
+      });
+    });
     //require("./socketio-api/socket-ssmp")(deflt);
 
   }); // server
