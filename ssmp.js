@@ -43,14 +43,22 @@ var ssmp = function(){
                 cdhandle.ini(function(){
                   for(var i in statics){
 
-                    mem.publish("load_mp", statics[i], function(err){
+                    mem.set([i], statics[i], function(err){
                       if(!err){
                         log.info(ok
-                                , "published to load_mp channel for static " + i);
+                                , "set static: " + i);
+                        mem.publish("buildup", [i], function(err){
+                          if(!err){
+                            log.info(ok
+                                    , "mp builded, event published, exec callback");
+                          }else{
+                            log.error({error:err}
+                                     , "error on publishing build event")
+                          }
+                        });
                       }else{
                         log.info({error:err}
-                                , "error on attempt to publish to "
-                                + "load_mp channel for static " + i);
+                                , "unable to set static " + i);
                       }
                     }); // publish
                   } // for

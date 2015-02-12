@@ -1,39 +1,59 @@
 {
-    "_id": "check",
-    "Mp": {
-        "Container": [
+    "0":{
+        "ctrl":"monitoring",
+        "element":[]
+        ,
+        "contdescr":"checks db and relay availability",
+        "title":"check db & relay",
+        "definition":[[
+	    {
+		"TaskName":"Common-db_info"
+	    },
             {
-                "Description": "checks db and relay availability",
-                "Ctrl": "load;mon",
-                "Title": "check db & relay",
-                "Definition": [
-                    [
-                        {
-                            "TaskName": "Common-db_info"
-                        },
-                        {
-                            "TaskName": "Common-relay_info"
-                        }
-                    ],
-                    [
-                        {
-                            "TaskName": "Common-wait",
-                            "Replace": {
-                                "@waitfor": "polling end",
-                                "@waittime": 1000
-                            }
-                        }
-                    ]
-                ]
-            }
-        ],
-        "Date": [
-            {
-                "Type": "created",
-                "Value": "2015-02-11"
-            }
-        ],
-        "Name": "Check",
-        "Description": "mp definition with one container filled with check tasks"
-    }
+		"TaskName":"Common-relay_info"
+	    }
+	],[
+	    {
+		"TaskName":"Common-wait"
+	    }
+	]],
+        "recipe":{
+	    "0":{
+		"0":{"Action":"checkDB",
+                     "Comment":"Checks the availibility and other params of the database and writes it to db_info",
+                     "TaskName":"Common-db_info",
+                     "ExchangePath":"db_info",
+                     "MpName":"Check"},
+                "1":{"Action":"checkRelay",
+                     "Comment":"Checks the availibility and other params of the node relay server and writes it to relay_info",
+                     "TaskName":"Common-relay_info",
+                     "ExchangePath":"relay_info",
+                     "MpName":"Check"}},
+            "1":{"0":{"Action":"wait",
+                      "Comment":"polling end  1000 ms",
+                      "TaskName":"Common-wait",
+                      "WaitTime":"1000",
+                      "MpName":"Check"}}},
+        "state":{
+	    "0":{
+		"0":"executed",
+                "1":"executed"},
+            "1":{
+		"0":"executed"}
+	}
+    },
+    "meta":{"id":"check",
+            "rev":"",
+            "date":[{"Type":"created",
+                     "Value":"2015-02-11"}],
+            "standard":"",
+            "description":"mp definition with one container filled with check tasks",
+            "name":"Check",
+            "container":{
+		"N":1,
+                "Title":["check db & relay"]}},
+    "exchange":{},
+    "definitions":[],
+    "tasks":[],
+    "id":{}
 }
