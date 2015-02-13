@@ -8,8 +8,9 @@ var ssmp = function(){
     , log     = bunyan.createLogger({name: deflt.appname})
     , ok      = {ok:true};
 
-  prog.version("0.2")
-  .option("-P, --port <port>", "http port (default is  8001)", parseInt)
+  prog.version("0.3")
+  .option("-a, --all_statics", "load all statics on start up.")
+  .option("-l, --statics_list <slist>", "name1,name2 (see folder ssmp/statics for available names)")
   .parse(process.argv);
 
 
@@ -30,10 +31,23 @@ var ssmp = function(){
             + "....................................."
             );
 
-
     require("./http-api/http-ssmp")(deflt, function(){
       var mem      = ndata.createClient({port: deflt.mem.port})
-        , statics  = require("./lib/providejson")("./static/");
+        , statics  = {};
+      if(prog.all_statics || prog.statics_list){
+        var sts  = require("./lib/providejson")("./static/");
+        if(prog.statics_list){
+          var sl =  prog.statics_list.split(",")
+          for(var j = 0; j < sl.length; j++){
+            var sname = sl[j]
+            if(sts[sname]){
+              statics[sname] = sts[sname];
+            }
+          }
+        }else{
+          statics = sts;
+        }
+      }
 
       load.ini(function(){
         run.ini(function(){

@@ -1,39 +1,40 @@
 {
-  "author": "wactbprot",
-  "name": "ssmp",
-  "description": "server side measurment program",
-  "version": "0.1.1",
-  "repository": {
-    "type":"git",
-    "url": "https://github.com/wactbprot/ssmp"
-  },
-  "dependencies": {
-    "underscore":">=1.4.4",
-    "clone":">=0.1.11",
-    "restify":">=2.7.0",
-    "commander":">=2.2.0",
-    "bunyan":">=0.22.1",
-    "object-path":">=0.5.0",
-    "socket.io":">=1.2.0",
-    "ndata":">=2.5.3",
-    "prettyjson": ">=1.1.0"
-  },
-  "scripts": {
-    "mpshell":"bin/mpsh",
-    "doc":"rm doc/*.md && bin/genmd",
-    "mem" :"bin/mem | bunyan -l info",
-    "ssmp": "bin/ssmp | bunyan -l info",
-    "show-cover":"firefox  coverage/lcov-report/index.html",
-    "test":"istanbul cover _mocha -- -R spec | bunyan -l fatal",
-    "all-dev":"npm test && npm run doc"
-  },
-  "devDependencies": {
-    "mocha":">=1.20.1",
-    "istanbul":">=0.3.0",
-    "markdox":">=0.1.4"
-  },
-  "optionalDependencies": {},
-  "engines": {
-    "node": "*"
-  }
+    "author": "wactbprot",
+    "name": "ssmp",
+    "description": "server side measurment program",
+    "version": "0.1.1",
+    "repository": {
+        "type":"git",
+        "url": "https://github.com/wactbprot/ssmp"
+    },
+    "dependencies": {
+        "underscore":">=1.4.4",
+        "clone":">=0.1.11",
+        "restify":">=2.7.0",
+        "commander":">=2.2.0",
+        "bunyan":">=0.22.1",
+        "object-path":">=0.5.0",
+        "socket.io":">=1.2.0",
+        "ndata":">=2.5.3",
+        "prettyjson": ">=1.1.0"
+    },
+    "scripts": {
+        "mpshell":"bin/mpsh",
+        "doc":"rm doc/*.md && bin/genmd",
+        "mem" :"bin/mem | bunyan -l info",
+        "ssmp": "bin/ssmp | bunyan -l info",
+        "ssmp-all": "bin/ssmp -a | bunyan -l info",
+        "show-cover":"firefox  coverage/lcov-report/index.html",
+        "test":"istanbul cover _mocha -- -R spec | bunyan -l fatal",
+        "all-dev":"npm test && npm run doc"
+    },
+    "devDependencies": {
+        "mocha":">=1.20.1",
+        "istanbul":">=0.3.0",
+        "markdox":">=0.1.4"
+    },
+    "optionalDependencies": {},
+    "engines": {
+        "node": "*"
+    }
 }
