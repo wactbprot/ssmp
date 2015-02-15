@@ -11,6 +11,9 @@ var  name    = "http-ssmp"
 var mem = ndata.createClient({port: deflt.mem.port});
 
 /**
+ * Funktion veranlasst laden und löschen der mp-
+ * Dokumente.
+ *
  * @param {Object} req Request-Objekt
  * @param {Function} cb call back
  */
@@ -64,6 +67,10 @@ var handle_mp = function(req, cb){
 exports.handle_mp =  handle_mp;
 
 /**
+ * Funktion veranlasst laden und löschen der
+ * cd(calibration )-
+ * Dokumente.
+ *
  * @param {Object} req Request-Objekt
  * @param {Function} cb call back
  */
@@ -120,12 +127,20 @@ var handle_cd = function(req, cb){
 }
 exports.handle_cd =  handle_cd;
 
-
-
+/**
+ * Funktion schreibt Daten in die
+ * mem-Struktur und ruft callback damit auf.
+ *
+ * @param {Object} req Request-Objekt
+ * @param {Function} cb call back
+ */
 var put = function(req, cb){
   var ro
     , path     = get_path(req)
     , strpath  = path.join(" ")
+
+  log.info(ok
+          , "receice put request to path " + path.join(" "));
 
   mem.set(path, req.body, function(err){
     if(!err){
@@ -141,7 +156,12 @@ var put = function(req, cb){
   });
 }
 exports.put = put;
-
+/**
+ * Funktion ließt Daten aus der
+ * mem-Struktur und ruft callback damit auf.
+ * @param {Object} req Request-Objekt
+ * @param {Function} cb call back
+ */
 var get = function(req, cb){
   var ro
     , path = get_path(req);
@@ -175,10 +195,17 @@ var get = function(req, cb){
 }
 exports.get = get;
 
+/**
+ * Funktion extrahiert den Pfad aus dem
+ * req-Objekt und gibt ihn zurück.
+ * @param {Object} req Request-Objekt
+ * @return {Array}
+ */
+
 var get_path = function(req){
   var path = [];
 
-  if(req.params){
+  if(req && req.params){
     var id   = req.params.id
       , no   = req.params.no
       , s    = req.params.struct
@@ -190,6 +217,7 @@ var get_path = function(req){
       path = [id, no];
       if(s){
         path = path.concat(s);
+
         if(l3 && l2 && l1){
           path = path.concat([l1, l2, l3]);
         }
