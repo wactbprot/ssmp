@@ -20,7 +20,7 @@
     },
     "scripts": {
         "mpshell":"bin/mpsh",
-        "doc":"rm doc/*.md && bin/genmd",
+        "doc":"jsdoc  -R ./README.md -P ./package.json -d doc/ lib/*.js",
         "mem" :"bin/mem | bunyan -l info",
         "ssmp": "bin/ssmp | bunyan -l info",
         "ssmp-all": "bin/ssmp -a | bunyan -l info",
@@ -30,8 +30,7 @@
     },
     "devDependencies": {
         "mocha":">=1.20.1",
-        "istanbul":">=0.3.0",
-        "markdox":">=0.1.4"
+        "istanbul":">=0.3.0"
     },
     "optionalDependencies": {},
     "engines": {

@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: worker.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: worker.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * ## Die ```worker()``` Funktionen
  *
  * Die ```worker()``` arbeiten ```task```s ab.
@@ -112,7 +140,7 @@ var wait = function(task, cb){
   var path = task.Path
     , ro = {ok:true};
 
-  if(task && task.WaitTime){
+  if(task &amp;&amp; task.WaitTime){
     setTimeout(function(){
 
       log.info(ro,
@@ -162,11 +190,11 @@ var nodeRelay = function(task, cb){
                 , " exec callback with simple ok");
         cb(data);
       }else{
-        var dp = task.DocPath    && task.DocPath    !== ""
-          , ep = data.ToExchange && data.ToExchange !== ""
-          , rr = data.Result     && data.Result     !== "";
+        var dp = task.DocPath    &amp;&amp; task.DocPath    !== ""
+          , ep = data.ToExchange &amp;&amp; data.ToExchange !== ""
+          , rr = data.Result     &amp;&amp; data.Result     !== "";
 
-        if(dp && ep){
+        if(dp &amp;&amp; ep){
         log.info(ro
                 , "found DocPath and ToExchange, try to save");
           utils.query_cd(task, data, function(res){
@@ -181,26 +209,26 @@ var nodeRelay = function(task, cb){
             cb(ro);
           }
         })
-      } // dp & ep
+      } // dp &amp; ep
 
-      if(dp && !ep){
+      if(dp &amp;&amp; !ep){
         log.info(ro,
                  "found DocPath and Results try to save");
         utils.query_cd(task, data, cb)
-      } // dp && !ep
+      } // dp &amp;&amp; !ep
 
-      if(!dp && ep){
+      if(!dp &amp;&amp; ep){
         log.info(ro,
                  "found ToExchange, try to exchange");
         utils.write_to_exchange(task, data, path, cb)
 
-      } //!dp && ep
+      } //!dp &amp;&amp; ep
 
-      if(!dp && !ep && rr){
+      if(!dp &amp;&amp; !ep &amp;&amp; rr){
         log.info(ro,
                  " simple pass with Result: " + JSON.stringify(data.Result));
         cb(ro);
-      } //!dp && ep
+      } //!dp &amp;&amp; ep
       }
     } // data.error
   });
@@ -217,7 +245,7 @@ var getTime = function(task, cb){
   var path = task.Path
     , ro   = {ok:true}
 
-  if(task.DocPath && task.Type){
+  if(task.DocPath &amp;&amp; task.Type){
     log.info(ro
             , "call query_cd function");
 
@@ -248,7 +276,7 @@ var getDate = function(task, cb){
   var path = task.Path
     , ro = {ok:true}
 
-  if(task.DocPath && task.Type){
+  if(task.DocPath &amp;&amp; task.Type){
     log.info(ro
             , "call query_cd function")
 
@@ -285,7 +313,7 @@ var writeExchange = function(task, cb){
     , path_b = [path[0]]
     , path_e = path_b.concat("exchange")
 
-  if(task.Value &&
+  if(task.Value &amp;&amp;
      task.Key){
 
     // alles nach exchange,
@@ -385,7 +413,7 @@ var readExchange = function(task, cb){
             var valcoll = {};
             for(var k in data){
 
-              if(_.isObject(data[k]) && ! _.isUndefined(data[k].value) && data[k].save){
+              if(_.isObject(data[k]) &amp;&amp; ! _.isUndefined(data[k].value) &amp;&amp; data[k].save){
 
                 if(data[k].type === "number"){
                   valcoll[k] = parseFloat(data[k].value);
@@ -487,7 +515,7 @@ var getList = function(task, cb){
     , path_e = [path[0], "exchange"];
   request.exec(con, task, false, function(listdata){
     var path_t = task.ExchangePath;
-    if(path_t  && path_t !== ""){
+    if(path_t  &amp;&amp; path_t !== ""){
       var path_s = path_e.concat(path_t.split("."));
       mem.set(path_s, listdata, function(err){
         if(!err){
@@ -539,7 +567,7 @@ var checkDB = function(task, cb){
 
   request.exec(con, task, false, function(dbinfo){
     var path_t = task.ExchangePath;
-    if(path_t  && path_t !== ""){
+    if(path_t  &amp;&amp; path_t !== ""){
       var path_s = path_e.concat(path_t.split("."));
 
       if(dbinfo.error){
@@ -601,7 +629,7 @@ var checkRelay = function(task, cb){
   request.exec(con, task, JSON.stringify(tsk), function(data){
     if(data.Result || data.error){
       var path_t = task.ExchangePath;
-      if(path_t  && path_t !== ""){
+      if(path_t  &amp;&amp; path_t !== ""){
         var path_s    = path_e.concat(path_t.split("."));
         if(data.Result){
           relayinfo = {version: data.Result
@@ -667,7 +695,7 @@ var updateCd = function(task, cb){
       var ids = _.keys(sd)
         , N   = ids.length;
       if(N > 0){
-        for(var i = 0; i < N; i++){
+        for(var i = 0; i &lt; N; i++){
 
           var id     = ids[i];
           log.info(ro
@@ -742,11 +770,11 @@ var ctrlContainer = function(task, cb){
     , mpid   = path[0]
     , path_b = [mpid]
 
-  if(task.Value && _.isObject(task.Value)){
+  if(task.Value &amp;&amp; _.isObject(task.Value)){
     var containers = _.keys(task.Value)
       , N = containers.length;
 
-    for( var i = 0; i < N; i++ ){
+    for( var i = 0; i &lt; N; i++ ){
 
       var no       = containers[i]
         , ctrlStr  = task.Value[no]
@@ -812,7 +840,7 @@ exports.checkRelay    = checkRelay;
 //   // dont work for the moment
 //   // because of async get recipe conditions
 //
-//   if(task.Value &&
+//   if(task.Value &amp;&amp;
 //      task.Value.RecipeClass){
 //     var rclass = task.Value.RecipeClass;
 //
@@ -820,17 +848,17 @@ exports.checkRelay    = checkRelay;
 //       var take   = false
 //         , pos    = clone(path).shift();
 //
-//       for(var i = 0; i < defs.length; i++){
+//       for(var i = 0; i &lt; defs.length; i++){
 //         var def = defs[i];
 //         if(def.RecipeClass === rclass){
 //           log.info({ok:true}
 //                   , "found recipe class")
 //           var conds = def.Conditions;
 //           take  = true;
-//           for(var j = 0; j < conds.length; j++){
+//           for(var j = 0; j &lt; conds.length; j++){
 //             var cond = conds[j];
-//             if(cond.ExchangePath &&
-//                cond.Value &&
+//             if(cond.ExchangePath &amp;&amp;
+//                cond.Value &amp;&amp;
 //                cond.Methode){
 //
 //               mp.exchange.get(cond.ExchangePath, function(exchval){
@@ -839,7 +867,7 @@ exports.checkRelay    = checkRelay;
 //                 if(_.isUndefined(exchval)){
 //                   take = false;
 //                 }else{
-//                   take = take && compare[cond.Methode](exchval, condval);
+//                   take = take &amp;&amp; compare[cond.Methode](exchval, condval);
 //                 }
 //               }); // exchpath
 //             }
@@ -890,3 +918,26 @@ exports.checkRelay    = checkRelay;
 //     }
 //   }
 // };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#_">_</a></li><li><a href="global.html#all">all</a></li><li><a href="global.html#all_same">all_same</a></li><li><a href="global.html#as_arr">as_arr</a></li><li><a href="global.html#build_base">build_base</a></li><li><a href="global.html#build_container">build_container</a></li><li><a href="global.html#cb">cb</a></li><li><a href="global.html#checkDB">checkDB</a></li><li><a href="global.html#checkdb">checkdb</a></li><li><a href="global.html#checkRelay">checkRelay</a></li><li><a href="global.html#cmd_to_array">cmd_to_array</a></li><li><a href="global.html#container">container</a></li><li><a href="global.html#cp">cp</a></li><li><a href="global.html#ctrlContainer">ctrlContainer</a></li><li><a href="global.html#data_to_doc">data_to_doc</a></li><li><a href="global.html#distribute_def">distribute_def</a></li><li><a href="global.html#docinfo">docinfo</a></li><li><a href="global.html#eq">eq</a></li><li><a href="global.html#exec">exec</a></li><li><a href="global.html#expand_cust">expand_cust</a></li><li><a href="global.html#expand_task">expand_task</a></li><li><a href="global.html#exports">exports</a></li><li><a href="global.html#fetchtask">fetchtask</a></li><li><a href="global.html#getDate">getDate</a></li><li><a href="global.html#getList">getList</a></li><li><a href="global.html#getTime">getTime</a></li><li><a href="global.html#gt">gt</a></li><li><a href="global.html#ini">ini</a></li><li><a href="global.html#insert">insert</a></li><li><a href="global.html#list">list</a></li><li><a href="global.html#lt">lt</a></li><li><a href="global.html#name">name</a></li><li><a href="global.html#nodeRelay">nodeRelay</a></li><li><a href="global.html#pad0">pad0</a></li><li><a href="global.html#query_cd">query_cd</a></li><li><a href="global.html#rddoc">rddoc</a></li><li><a href="global.html#readExchange">readExchange</a></li><li><a href="global.html#relay">relay</a></li><li><a href="global.html#repl">repl</a></li><li><a href="global.html#replace_in_with">replace_in_with</a></li><li><a href="global.html#run">run</a></li><li><a href="global.html#shout">shout</a></li><li><a href="global.html#task">task</a></li><li><a href="global.html#task_exchange">task_exchange</a></li><li><a href="global.html#task_run_if">task_run_if</a></li><li><a href="global.html#task_stop_if">task_stop_if</a></li><li><a href="global.html#updateCd">updateCd</a></li><li><a href="global.html#vl_date">vl_date</a></li><li><a href="global.html#vl_time">vl_time</a></li><li><a href="global.html#wait">wait</a></li><li><a href="global.html#write_to_exchange">write_to_exchange</a></li><li><a href="global.html#writeExchange">writeExchange</a></li><li><a href="global.html#wrtdoc">wrtdoc</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-beta1</a> on Mon Feb 16 2015 09:34:13 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

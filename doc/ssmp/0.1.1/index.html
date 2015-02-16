@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3>ssmp 0.1.1</h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><pre class="prettyprint source"><code> ___ ___ _____ ___ 
+|_ -|_ -|     | . |
+|___|___|_|_|_|  _|
+              |_|</code></pre><h2>server side mp</h2><p><strong>ssmp</strong> steht für  server side measurement program.</p>
+<p><strong>ssmp</strong>  führt vordefinierte Abläufe (<em>recipes</em>) aus. Diese recipes
+werden in Bereichen (<em>container</em>) bereitgestellt. Recipes bestehen
+aus Teilaufgaben (<em>tasks</em>) die zur  parallelen oder sequenziellen
+Abarbeitung angeordnet werden können.</p>
+<p>Die Gesamtheit der container, recipes und tasks ist die Messprogrammdefinition
+(<em>mpdef</em>);
+diese besitzt eine id, die in allen urls gleich nach dem <strong>ssmp</strong> port
+auftaucht.</p>
+<h2>Überblick</h2><pre class="prettyprint source"><code>
+                           +---------------+
+                           |   node-relay  |
+                           |---------------|             +--------------+
+                           |               |     TCP     |              |
+                           |               +-----VXI-----+   Devices    |
+                           |               |     UDP     |              |
+                           +--------+------+             +--------------+
+                                    |
+                                    |
+                                http/json
+                             +------+---------------------------------------+
+   +-------------+           | +------+-----+              +--------------+ |
+   |  CouchDB    |           | |  ssmp      |              |              | |
+   |-------------|           | |------------| ndata-client-+   socket.io  | |
+   |             +-http/json-+ |            | |            |              | |
+   |             |           | |ndata-server+-+            +--------------+ |
+   |             |           | |            | |                             |
+   +-------------+           | +----+-- ----+ |            +--------------+ |
+                             |                |            |              | |
+                             |                ndata-client-+   http-rest  | |
+                             |                             |              | |
+                             |                             +--------------+ |
+                             +----------------------------------------------+</code></pre><h2>Abkürzungen</h2><ul>
+<li>MP ... Messprogramm</li>
+<li>KD ... Kalibrierdokument</li>
+<li><code>mpid</code> ... Datenbank-id der MP-Definition</li>
+<li><code>kdid</code> ... Datenbank-id des KD-Dokuments</li>
+<li><strong>ssmp</strong> ... server side MP</li>
+<li>API ... application programming interface (hier eine http-Adresse)</li>
+</ul>
+<h2>Installation</h2><pre class="prettyprint source"><code>$> git clone https://github.com/wactbprot/ssmp.git
+$> cd ssmp
+$> npm install</code></pre><h2>Gesamtablauf</h2><p>Nach der Installation sind folgende Schritte sind bei einer
+Kalibrierung/Messung abzuarbeiten:</p>
+<ol>
+<li>Starten des Servers</li>
+<li>Laden des MP</li>
+<li>Bekanntgeben der KD (optional)</li>
+<li>Laden der MP-Abläufe</li>
+<li>Starten des MP</li>
+</ol>
+<h2>Starten des Servers</h2><p><strong>ssmp</strong> wird durch den Aufruf <code>ssmp [-P port]</code> gestartet.</p>
+<p>Schöner formatierte logs bekommt man mit:</p>
+<pre class="prettyprint source"><code>$> npm run ssmp</code></pre><p>Weitere Details können mittels <code>ssmp -h</code> erfragt werden.</p>
+<h2>Laden des Messprogramms</h2><p>Die Definition eines MP geschieht im JSON Format. Sie sind zweckmäßiger
+Weise in einer CouchDB als Dokumente abgelegt und kann auf folgende Weise dem
+<strong>ssmp</strong> zur Abarbeiting übergeben werden:</p>
+<pre class="prettyprint source"><code>$> curl -X PUT -d  'load'  http://localhost:8001/mpid</code></pre><p>oder mit <a href="https://github.com/wactbprot/csmp">csmp</a>:</p>
+<pre class="prettyprint source"><code>$> bin/mp_ini -i mpid -d load</code></pre><h2>Löschen eines MP</h2><p>Das entfernen eines MP aus dem ssmp Speicher geschieht in analoger Weise:</p>
+<pre class="prettyprint source"><code>$> curl -X PUT -d  'remove'  http://localhost:8001/mpid</code></pre><p>oder mit <a href="https://github.com/wactbprot/csmp">csmp</a>:</p>
+<pre class="prettyprint source"><code>$> bin/mp_ini -i mpid -d remove</code></pre><h2>Übergeben der Kalibrierdokumente</h2><p>Der konkrete Ablauf eines Messprogramms hängt auch von den zu kalibrierenden
+Geräten ab. <em>Welche</em> Geräte <em>wie</em> kalibriert werden sollen, ist in den KD
+festgelegt. <strong>ssmp</strong> muss also die ids der KD kennen um aus diesen Dokumenten
+die entsprechenden Informationen zu beziehen.</p>
+<p>Das Bekanntgeben der KD-ids geschieht mittels des <em>id</em> Endpunkts:</p>
+<pre class="prettyprint source"><code>$> curl -X PUT -d 'load' http://localhost:8001/mpid/id/kdid</code></pre><p><a href="https://github.com/wactbprot/csmp">csmp</a> stellt dazu die
+Programme <code>mp_id+</code> (Hinzufügen), <code>mp_id-</code> (Löschen)
+und <code>mp_id</code> (Übersicht) zur Verfügung.</p>
+<p>Hinzufügen:</p>
+<pre class="prettyprint source"><code>mp_id+ -i mpid -d cdid</code></pre><p>Löschen</p>
+<pre class="prettyprint source"><code>mp_id- -i mpid -d cdid</code></pre><p>Übersicht</p>
+<pre class="prettyprint source"><code>mp_id -i mpid</code></pre><h2>Erstellen und Laden der MP-Abläufe</h2><p>Nachdem  die KD dem <strong>ssmp</strong> bekannt gegeben wurden, können die konkreten
+Abläufe erstellt und geladen werden. Im Zuge dieses Prozesses wird der
+Endpunkt</p>
+<pre class="prettyprint source"><code>http://localhost:8001/mpid/[n]/recipe</code></pre><p>aufgefüllt, an dem die Ablaufdefinition mit den Tasks zu den Rezepten
+zusammengestellt sind.
+Die Abläufe der einzelnen <em>container</em> sind der MP-Definition unter dem Pfad
+<code>Mp.Container[n].Definition[S][P]</code> mit <em>TaskName</em> und
+individuellen Ersetzungsanweisungen <em>Replace</em> und <em>Use</em>
+angegebenen. <code>S</code> und <code>P</code> stehen hier für sequentieller
+bzw. paralleler Schritt. Bsp.:</p>
+<pre class="prettyprint source lang-javascript"><code>{
+&quot;_id&quot;: &quot;mpid&quot;,
+    &quot;Mp&quot;: {
+        &quot;Container&quot;: [
+            {
+               &quot;Element&quot;: [&quot;Documents&quot;],
+               &quot;Description&quot;: &quot;periodically reads out all FM3/CE3 pressure devices&quot;,
+               &quot;Ctrl&quot;: &quot;load;mon&quot;,
+               &quot;Definition&quot;:
+    S --------> [
+      P -------->  [
+                       {
+                           &quot;TaskName&quot;: &quot;FM3_1T-read_out&quot;,
+                           &quot;Replace&quot;: {
+                               &quot;@exchpath&quot;: &quot;FM3_1T_pressure&quot;,
+                               &quot;@token&quot;: &quot;mon&quot;,
+                               &quot;@repeat&quot;: 10,
+                               &quot;@waittime&quot;: 500
+                           }
+                       },
+                       {
+                           &quot;TaskName&quot;: &quot;Combi_CE3-read_out&quot;,
+               ---------> &quot;Use&quot;: {
+                               &quot;Values&quot;: &quot;thermovac1&quot;
+                           },
+               --------->  &quot;Replace&quot;: {
+                               &quot;@exchpath&quot;: &quot;Combi_CE3_thermovac1_pressure&quot;,
+                               &quot;@token&quot;: &quot;mon&quot;,
+                               &quot;@repeat&quot;: 10,
+                               &quot;@waittime&quot;: 1000
+                           }
+                       }</code></pre><p>Aus diesen Beschreibungen werden dann von <strong>ssmp</strong> die konkreten
+Abläufe erstellt; dies geschieht durch die Aufforderung:</p>
+<pre class="prettyprint source"><code>$> curl -X PUT -d 'load' http://localhost:8001/mpid/0/ctrl</code></pre><p>Mit  <a href="https://github.com/wactbprot/csmp">csmp</a> geht das so:</p>
+<pre class="prettyprint source"><code>$> bin/mp_ctrl -i mpid -c 0 -d load</code></pre><p>Weitere Details zum Laden finden sich
+in der
+<a href="https://github.com/wactbprot/ssmp/blob/master/doc/load.js.md">load.js Dokumentation</a>.</p>
+<p>Es einige Zeichenketten die als Ersetzungen in den Ablaufdefinitionen immer
+zur Verfüging stehen wie z.B. das aktuelle Jahr über <code>@year</code> oder die
+aktuell ausgewählten KD-ids über <code>@cdids</code>. (s. das
+<a href="https://github.com/wactbprot/dbmp">dbmp README</a>)</p>
+<h2>Starten des Messprogramms</h2><p>Das Starten des Ausführens der oben geladenen Abläufe des 1. Containers
+geschieht auch über die <code>ctrl</code> Schnittstelle:</p>
+<pre class="prettyprint source"><code>$> curl -X PUT -d 'run' http://localhost:8001/mpid/0/ctrl</code></pre><p>Die  <a href="https://github.com/wactbprot/csmp">csmp</a>-Variante:</p>
+<pre class="prettyprint source"><code>$> bin/mp_ctrl -i mpid -c 0 -d run</code></pre><h4>Ablaufkontrolle</h4><p><em>tasks</em> können Schlüsselwörter (keys) besitzen,
+die ihre Ausführing beeinflussen; das sind die keys
+<code>RunIf</code> und <code>StopIf</code>.</p>
+<h5>RunIf</h5><p>Die &quot;Formulierung&quot; <code>RunIf: &quot;got_time.Value&quot;</code> bewirkt, dass
+die <em>task</em>  ausgeführt wird, wenn der Wert unter
+dem Pfad <em>exchange.got___time.Value</em> (ausführlich:
+http://localhost:8001/mpdef/exchange/got<em>time/Value)
+zu <code>true</code> ausgewertet wird.
+Die _task</em>:</p>
+<pre class="prettyprint source lang-javascript"><code>{
+    Action      : &quot;wait&quot;,
+    Comment     : &quot;Ready in  1000 ms&quot;,
+    TaskName    : &quot;Mp-cond_wait&quot;,
+    Exchange    : &quot;wait_time.Value&quot;,
+    Id          : [&quot;kdid-1&quot;,&quot;kdid-2&quot;,&quot;kdid-3&quot;,&quot;kdid-4&quot;],
+    CuCo        : false,
+    MpName      : &quot;Mp&quot;
+    RunIf       : &quot;got_time.Value&quot;,
+}</code></pre><p>wird gestartet, nachdem z.B.:</p>
+<pre class="prettyprint source"><code>$> bin/mp_set -i mpdef -p  exchange/got_time/Value -d 'true'</code></pre><p>ausgeführt wurde.</p>
+<h5>StopIf</h5><p><code>StopIf</code> funktioniert ganz analog <code>RunIf</code>: Die <em>task</em> wird nicht
+erneut ausgeführt, wenn der Wert unter dem Pfad <code>exchange.pfill_ok.Value</code>
+zu <code>true</code> ausgewertet werden kann.</p>
+<h3>Anhalten des MP</h3><p>In gleicher Weise funktioniert Stopp</p>
+<pre class="prettyprint source"><code>$> bin/mp_ctrl -i mpid -c 0 -d stop</code></pre><p>und Pause</p>
+<pre class="prettyprint source"><code>$> bin/mp_ctrl -i mpid -c 0 -d pause</code></pre><p>Nach einem <code>stop</code> wird der Ablauf von neuem begonnen;
+<code>pause</code> macht da weiter wo angehalten wurde.</p>
+<h3>ctrl-Syntax</h3><p>Die  Anweisung:</p>
+<pre class="prettyprint source"><code>$> bin/mp_ctrl -i mpid -c 0 -d 'load;5:run'</code></pre><p>lädt den Ablauf und startet ihn 5 mal. Es geht auch:</p>
+<pre class="prettyprint source"><code>$> bin/mp_ctrl -i mpid -c 0 -d 'load;5:run,load;stop'</code></pre><p>was den Ablauf läd, 5 mal den Zyklus <code>run</code> gefolgt von <code>load</code>
+(durch Komma getrennt) durchläuft und dann <code>stop</code> ausführt.</p>
+<h2>Die Exchange Schnittstelle</h2><h3>Exchange als Input</h3><p>Hier ein Beispiel wie man im <code>PostProcessing</code> Teil einer <em>task</em> das
+Schreiben in die Exchange Schnittstelle veranlassen kann:</p>
+<pre class="prettyprint source lang-javascript"><code>&quot;PostProcessing&quot;: [
+               &quot;var ok = calculate_ok_from_input,&quot;,
+               &quot;ToExchange={'key.is.exchange.path':ok};&quot;
+           ]</code></pre><p>Die <code>receive()</code> Funktion bekommt das unter</p>
+<pre class="prettyprint source"><code>data.ToExchange</code></pre><p>und würde hier den wert von <code>ok</code> in den Pfad <code>key.is.exchange.path</code>
+schreiben.</p>
+<p>s. <a href="https://github.com/wactbprot/ssmp/blob/master/doc/receive.js.md">doc/receive.js.md</a>
+bzw.
+<a href="https://github.com/wactbprot/ssmp/blob/master/doc/utils.js.md#write_to_exchangemp-task-data-cb">utils.js.md#write_to_exchange</a></p>
+<h2><strong>ssmp</strong> Rückgabewerte</h2><p>Das Ergebnis von <em>http-GET</em>-Anfrage hängt von der Art des
+zurückzubebenden Objektes (<code>x</code>) ab:</p>
+<ul>
+<li><p>wenn <code>x</code> ein <code>string</code>, <code>number</code>oder <code>boolean</code> ist, dann sieht
+das Ergebnis so aus: <code>{result:x}</code> (dies damit der <em>return value</em> in
+jedem Fall JSON ist)</p>
+</li>
+<li><p>ist <code>x</code> ein <code>object</code> oder <code>array</code> wird einfach <code>x</code> zurückgegeben</p>
+</li>
+<li><p>gibt es keine der Anfrage entsprechende Daten wird mit <code>{error:
+&quot;Beschreibung des Grundes&quot;}</code> geantwortet</p>
+</li>
+<li><p>ist die url unzulässig liefert eine Anfrage
+<code>{&quot;code&quot;:&quot;MethodNotAllowedError&quot;,&quot;message&quot;:&quot;GET is not allowed&quot;}</code></p>
+</li>
+</ul>
+<h2>Dokumentation &amp; devel</h2><pre class="prettyprint source"><code>$> cd ssmp
+$> npm run doc</code></pre><p>Es werden so im Verzeichniss
+<a href="https://github.com/wactbprot/ssmp/tree/master/doc">ssmp/doc</a> markdown (Endung
+<code>.md</code>) erstellt.</p>
+<h3>Unit tests/ code coverage</h3><p>Bei Uninttests werden die Ergebnisse die kleine Programmteile
+(units) bei Ausführung liefern mit Sollergebnissen verglichen.
+Dies soll der Verbesserung der code-Qualität dienen:</p>
+<pre class="prettyprint source"><code>$> cd ssmp
+$> npm test</code></pre><p>Die Ausgabe der Testergebnisse geschieht auf der Konsole;
+im Verzeichnis <code>ssmp/coverage</code> werden html-Dateien erzeugt.</p>
+<h3>all together</h3><pre class="prettyprint source"><code>$> cd ssmp
+$> npm run all-dev</code></pre></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#_">_</a></li><li><a href="global.html#all">all</a></li><li><a href="global.html#all_same">all_same</a></li><li><a href="global.html#as_arr">as_arr</a></li><li><a href="global.html#build_base">build_base</a></li><li><a href="global.html#build_container">build_container</a></li><li><a href="global.html#cb">cb</a></li><li><a href="global.html#checkDB">checkDB</a></li><li><a href="global.html#checkdb">checkdb</a></li><li><a href="global.html#checkRelay">checkRelay</a></li><li><a href="global.html#cmd_to_array">cmd_to_array</a></li><li><a href="global.html#container">container</a></li><li><a href="global.html#cp">cp</a></li><li><a href="global.html#ctrlContainer">ctrlContainer</a></li><li><a href="global.html#data_to_doc">data_to_doc</a></li><li><a href="global.html#distribute_def">distribute_def</a></li><li><a href="global.html#docinfo">docinfo</a></li><li><a href="global.html#eq">eq</a></li><li><a href="global.html#exec">exec</a></li><li><a href="global.html#expand_cust">expand_cust</a></li><li><a href="global.html#expand_task">expand_task</a></li><li><a href="global.html#exports">exports</a></li><li><a href="global.html#fetchtask">fetchtask</a></li><li><a href="global.html#getDate">getDate</a></li><li><a href="global.html#getList">getList</a></li><li><a href="global.html#getTime">getTime</a></li><li><a href="global.html#gt">gt</a></li><li><a href="global.html#ini">ini</a></li><li><a href="global.html#insert">insert</a></li><li><a href="global.html#list">list</a></li><li><a href="global.html#lt">lt</a></li><li><a href="global.html#name">name</a></li><li><a href="global.html#nodeRelay">nodeRelay</a></li><li><a href="global.html#pad0">pad0</a></li><li><a href="global.html#query_cd">query_cd</a></li><li><a href="global.html#rddoc">rddoc</a></li><li><a href="global.html#readExchange">readExchange</a></li><li><a href="global.html#relay">relay</a></li><li><a href="global.html#repl">repl</a></li><li><a href="global.html#replace_in_with">replace_in_with</a></li><li><a href="global.html#run">run</a></li><li><a href="global.html#shout">shout</a></li><li><a href="global.html#task">task</a></li><li><a href="global.html#task_exchange">task_exchange</a></li><li><a href="global.html#task_run_if">task_run_if</a></li><li><a href="global.html#task_stop_if">task_stop_if</a></li><li><a href="global.html#updateCd">updateCd</a></li><li><a href="global.html#vl_date">vl_date</a></li><li><a href="global.html#vl_time">vl_time</a></li><li><a href="global.html#wait">wait</a></li><li><a href="global.html#write_to_exchange">write_to_exchange</a></li><li><a href="global.html#writeExchange">writeExchange</a></li><li><a href="global.html#wrtdoc">wrtdoc</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-beta1</a> on Mon Feb 16 2015 09:34:13 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
