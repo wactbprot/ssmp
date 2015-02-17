@@ -1,4 +1,32 @@
-var _        = require("underscore")
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: build.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: build.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>var _        = require("underscore")
   , bunyan   = require("bunyan")
   , ndata    = require('ndata')
   , deflt    = require("./default")
@@ -8,7 +36,7 @@ var _        = require("underscore")
   , log      = bunyan.createLogger({name: deflt.appname})
   , cstr     = deflt.ctrlStr
   , ok       = {ok:true}
-  , mem      = ndata.createClient({port: deflt.mem.port})
+  , mem      = ndata.createClient({port: 9000})
 
 /**
  * Description
@@ -32,10 +60,9 @@ mem.on('message', function(ch, val){
   if(ch == "load_mp"){
     var i
       , doc   = val.Mp
-      , dc    = doc.Container
-      , Ndc   = dc ? dc.length : 0;
     if(doc){
       var docid = val._id
+
       mem.publish("builddown", [docid], function(err){
         if(!err){
           mem.remove([docid], function(err){
@@ -43,9 +70,17 @@ mem.on('message', function(ch, val){
               log.info(ok
                       , "clean up: " + docid);
               build_base([docid], val, function(path){
+                var dc    = doc.Container
                 if(dc){
-                  for(i = 0; i < Ndc; i++){
+                  var Ndc = dc.length;
+
+                  for(i = 0; i &lt; Ndc; i++){
                     ((function(j){
+                        /**
+                         * Description
+                         * @method cb
+                         * @param {} res
+                         */
                         var cont   = dc[j]
                           , path_c = path.concat([j])
                           , cb     = function(res){
@@ -69,16 +104,16 @@ mem.on('message', function(ch, val){
                           }
                       return function(){
                         if(_.isObject(cont)){
-                          if(cont.Take && cont.From){
+                          if(cont.Take &amp;&amp; cont.From){
                             var con = net.container(cont)
-                              , s   = JSON.stringify({take:cont.Take, from:cont.From})
+                              , s = JSON.stringify({take:cont.Take, from:cont.From})
                             log.info(ok
                                     , "found container reference, try to get from db");
                             // db request
                             request.exec(con, false, s, function(c){
-                              if(_.isObject(c) && c.Definition){
+                              if(_.isObject(c) &amp;&amp; c.Definition){
                                 // replace
-                                if(cont.Replace && _.isObject(cont.Replace)){
+                                if(cont.Replace &amp;&amp; _.isObject(cont.Replace)){
                                   log.info(ok
                                           , "found replace key on container level"
                                           + "try to substitude");
@@ -264,4 +299,26 @@ var repl = function(c, cont){
   }
   c = JSON.parse(strcont);
   return c;
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#_">_</a></li><li><a href="global.html#all">all</a></li><li><a href="global.html#all_same">all_same</a></li><li><a href="global.html#as_arr">as_arr</a></li><li><a href="global.html#build_base">build_base</a></li><li><a href="global.html#build_container">build_container</a></li><li><a href="global.html#cb">cb</a></li><li><a href="global.html#checkDB">checkDB</a></li><li><a href="global.html#checkdb">checkdb</a></li><li><a href="global.html#checkRelay">checkRelay</a></li><li><a href="global.html#cmd_to_array">cmd_to_array</a></li><li><a href="global.html#container">container</a></li><li><a href="global.html#cp">cp</a></li><li><a href="global.html#ctrlContainer">ctrlContainer</a></li><li><a href="global.html#data_to_doc">data_to_doc</a></li><li><a href="global.html#distribute_def">distribute_def</a></li><li><a href="global.html#docinfo">docinfo</a></li><li><a href="global.html#eq">eq</a></li><li><a href="global.html#exec">exec</a></li><li><a href="global.html#expand_cust">expand_cust</a></li><li><a href="global.html#expand_task">expand_task</a></li><li><a href="global.html#exports">exports</a></li><li><a href="global.html#fetchtask">fetchtask</a></li><li><a href="global.html#getDate">getDate</a></li><li><a href="global.html#getList">getList</a></li><li><a href="global.html#getTime">getTime</a></li><li><a href="global.html#gt">gt</a></li><li><a href="global.html#ini">ini</a></li><li><a href="global.html#insert">insert</a></li><li><a href="global.html#list">list</a></li><li><a href="global.html#lt">lt</a></li><li><a href="global.html#name">name</a></li><li><a href="global.html#nodeRelay">nodeRelay</a></li><li><a href="global.html#pad0">pad0</a></li><li><a href="global.html#query_cd">query_cd</a></li><li><a href="global.html#rddoc">rddoc</a></li><li><a href="global.html#readExchange">readExchange</a></li><li><a href="global.html#relay">relay</a></li><li><a href="global.html#repl">repl</a></li><li><a href="global.html#replace_in_with">replace_in_with</a></li><li><a href="global.html#run">run</a></li><li><a href="global.html#shout">shout</a></li><li><a href="global.html#task">task</a></li><li><a href="global.html#task_exchange">task_exchange</a></li><li><a href="global.html#task_run_if">task_run_if</a></li><li><a href="global.html#task_stop_if">task_stop_if</a></li><li><a href="global.html#updateCd">updateCd</a></li><li><a href="global.html#vl_date">vl_date</a></li><li><a href="global.html#vl_time">vl_time</a></li><li><a href="global.html#wait">wait</a></li><li><a href="global.html#write_to_exchange">write_to_exchange</a></li><li><a href="global.html#writeExchange">writeExchange</a></li><li><a href="global.html#wrtdoc">wrtdoc</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-beta1</a> on Mon Feb 16 2015 09:34:13 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -11,6 +11,7 @@ var context      = repl.start("ssmp > ").context;
 context.mem      = ndata.createClient({port: memport});
 context.defaults = require("../lib/default");
 context.utils    = require("../lib/utils");
+context.load     = require("../lib/load");
 context.worker   = require("../lib/worker");
 
 context.cb       = function(res){
@@ -32,7 +33,7 @@ console.log("whats already done:");
 console.log(".........................................................\n");
 console.log("- default call back in variable: cb defined");
 console.log("- default call back with err param in variable: ecb");
-console.log("- lib/defaults, lib/utils and lib/worker loaded");
+console.log("- lib/defaults, lib/utils, lib/load and lib/worker loaded");
 console.log("- ndata client available in variable: mem");
 console.log("- static json below ssmp/static in variable: statics");
 console.log(".........................................................\n");

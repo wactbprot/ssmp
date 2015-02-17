@@ -1,4 +1,32 @@
-var _        = require("underscore")
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: utils.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: utils.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>var _        = require("underscore")
   , bunyan   = require("bunyan")
   , ndata    = require('ndata')
   , op       = require("object-path")
@@ -40,16 +68,16 @@ var _        = require("underscore")
 var cmd_to_array = function(cmdstr){
   var arr = [],
       al1 = cmdstr.split(";");
-  if( al1.length === 1 && al1[0] ===  ctrlstr.mon){
+  if( al1.length === 1 &amp;&amp; al1[0] ===  ctrlstr.mon){
     return [ ctrlstr.mon];
   }else{
-    for(var i = 0; i < al1.length; i++){
+    for(var i = 0; i &lt; al1.length; i++){
       var al2 = al1[i].split(":");
 
       if(al2.length > 1){
         var rep    = parseInt(al2[0],10);
         if(_.isNumber(rep)){
-          for(var j = 0; j < rep; j++){
+          for(var j = 0; j &lt; rep; j++){
             _.map(al2[1].split(","), function(c){arr.push(c)});
           }
         }
@@ -69,7 +97,7 @@ exports.cmd_to_array = cmd_to_array;
  * @param {Object} o state array
 */
 var as_arr = function(o){
-  if(_.isObject(o) && _.isObject(o['0'])){
+  if(_.isObject(o) &amp;&amp; _.isObject(o['0'])){
   return _.flatten(_.map(o, function(v, k){
                      return _.map(v,function(vv, kk){
                               return vv})
@@ -89,7 +117,7 @@ exports.as_arr = as_arr;
  * @param {} val
 */
 var all_same =  function(arr, val){
-  if(_.isArray(arr) && _.isString(val)){
+  if(_.isArray(arr) &amp;&amp; _.isString(val)){
     return  _.every(arr, function(i){
               return i == val;
             });
@@ -134,7 +162,7 @@ exports.replace_in_with = replace_in_with;
  * @return ConditionalExpression
  */
 var pad0 = function(n){
-  return n < 10 ? "0" + n : n;
+  return n &lt; 10 ? "0" + n : n;
 };
 
 /**
@@ -202,14 +230,14 @@ var data_to_doc = function(doc, path, data, cb){
     , data_result =  data.Result
     , ro;
 
-  if(data_result && _.isArray(data_result) && data_result.length > 0 ){
+  if(data_result &amp;&amp; _.isArray(data_result) &amp;&amp; data_result.length > 0 ){
 
     var Nds     = data_result.length;
 
     log.info(ok
             , "found "+ Nds+" data sets to store" );
 
-    for(var i = 0; i < Nds; i++){
+    for(var i = 0; i &lt; Nds; i++){
       var doc_struct   = op.get(doc, path)
         , data_struct  = data_result[i]
         , pos          = -1
@@ -221,16 +249,16 @@ var data_to_doc = function(doc, path, data, cb){
 
       if(_.isString(data_struct.Type)){      // write Type, Value, Unit- Structures
 
-        if((data_struct.Value || _.isNull(data_struct.Value))  && _.isString(data_struct.Unit)){
+        if((data_struct.Value || _.isNull(data_struct.Value))  &amp;&amp; _.isString(data_struct.Unit)){
 
           if(_.isArray(doc_struct)){
-            for(var k = 0; k < doc_struct.length; k++){
+            for(var k = 0; k &lt; doc_struct.length; k++){
               var path_c = [path, k, "Type"].join(".")
               if(data_struct.Type == op.get(doc, path_c)){
                 pos = k;
               }
             } // for
-            if(pos < 0){
+            if(pos &lt; 0){
               pos = k;
             }
           }else{
@@ -304,10 +332,10 @@ exports.data_to_doc = data_to_doc;
 var query_cd = function(task, data, cb){
   var ro;
 
-  if( task &&
+  if( task &amp;&amp;
       _.isObject(task)){
 
-    if(task.Id         &&
+    if(task.Id         &amp;&amp;
        task.Id.length  > 0){
 
       if(task.DocPath){
@@ -316,7 +344,7 @@ var query_cd = function(task, data, cb){
             docpath = task.DocPath,
             Nid     = Id.length;
 
-        for(var i = 0; i < Nid; i++){
+        for(var i = 0; i &lt; Nid; i++){
           var rdcon  = net.rddoc(Id[i]);
 
           // (con, task, wrtdata, cb)
@@ -446,7 +474,7 @@ var write_to_exchange = function(task, data, path, cb){
             , "found " + Nks + " key(s)");
     ok = true;
 
-    for(i = 0; i < Nks; i++){
+    for(i = 0; i &lt; Nks; i++){
       var path_k  = ks[i]
         , path_n = path_e.concat(path_k.split("."))
         , val    = data.ToExchange[path_k];
@@ -466,7 +494,7 @@ var write_to_exchange = function(task, data, path, cb){
                                   log.error({error:err}
                                            , "attempt to write to exchange");
                                 }
-                                if(last && _.isFunction(cb)){
+                                if(last &amp;&amp; _.isFunction(cb)){
                                   log.info(ro
                                           , "wrote all data to exchange");
                                   cb(ro);
@@ -542,19 +570,41 @@ var cp = function(path, template, val, cb){
   var k = _.keys(template)
     , iN = k.length;
 
-  for(var i = 0; i < iN; i++){
+  for(var i = 0; i &lt; iN; i++){
     var e = template[k[i]]
       , kk = _.keys(e)
       , jN = kk.length;
-    for(var j = 0; j < jN; j++){
+    for(var j = 0; j &lt; jN; j++){
       var lpath = path.concat([ i, j]);
       mem.set(lpath, val, function(last){
                             return function(err){
                               if(last){
                                 cb()
                               }
-                            }}(i == iN -1 && j == jN -1));
+                            }}(i == iN -1 &amp;&amp; j == jN -1));
     }
   }
 };
-exports.cp = cp;
+exports.cp = cp;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#_">_</a></li><li><a href="global.html#all">all</a></li><li><a href="global.html#all_same">all_same</a></li><li><a href="global.html#as_arr">as_arr</a></li><li><a href="global.html#build_base">build_base</a></li><li><a href="global.html#build_container">build_container</a></li><li><a href="global.html#cb">cb</a></li><li><a href="global.html#checkDB">checkDB</a></li><li><a href="global.html#checkdb">checkdb</a></li><li><a href="global.html#checkRelay">checkRelay</a></li><li><a href="global.html#cmd_to_array">cmd_to_array</a></li><li><a href="global.html#container">container</a></li><li><a href="global.html#cp">cp</a></li><li><a href="global.html#ctrlContainer">ctrlContainer</a></li><li><a href="global.html#data_to_doc">data_to_doc</a></li><li><a href="global.html#distribute_def">distribute_def</a></li><li><a href="global.html#docinfo">docinfo</a></li><li><a href="global.html#eq">eq</a></li><li><a href="global.html#exec">exec</a></li><li><a href="global.html#expand_cust">expand_cust</a></li><li><a href="global.html#expand_task">expand_task</a></li><li><a href="global.html#exports">exports</a></li><li><a href="global.html#fetchtask">fetchtask</a></li><li><a href="global.html#getDate">getDate</a></li><li><a href="global.html#getList">getList</a></li><li><a href="global.html#getTime">getTime</a></li><li><a href="global.html#gt">gt</a></li><li><a href="global.html#ini">ini</a></li><li><a href="global.html#insert">insert</a></li><li><a href="global.html#list">list</a></li><li><a href="global.html#lt">lt</a></li><li><a href="global.html#name">name</a></li><li><a href="global.html#nodeRelay">nodeRelay</a></li><li><a href="global.html#pad0">pad0</a></li><li><a href="global.html#query_cd">query_cd</a></li><li><a href="global.html#rddoc">rddoc</a></li><li><a href="global.html#readExchange">readExchange</a></li><li><a href="global.html#relay">relay</a></li><li><a href="global.html#repl">repl</a></li><li><a href="global.html#replace_in_with">replace_in_with</a></li><li><a href="global.html#run">run</a></li><li><a href="global.html#shout">shout</a></li><li><a href="global.html#task">task</a></li><li><a href="global.html#task_exchange">task_exchange</a></li><li><a href="global.html#task_run_if">task_run_if</a></li><li><a href="global.html#task_stop_if">task_stop_if</a></li><li><a href="global.html#updateCd">updateCd</a></li><li><a href="global.html#vl_date">vl_date</a></li><li><a href="global.html#vl_time">vl_time</a></li><li><a href="global.html#wait">wait</a></li><li><a href="global.html#write_to_exchange">write_to_exchange</a></li><li><a href="global.html#writeExchange">writeExchange</a></li><li><a href="global.html#wrtdoc">wrtdoc</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-beta1</a> on Mon Feb 16 2015 09:34:13 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
