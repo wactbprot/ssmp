@@ -1,0 +1,652 @@
+<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width" charset="utf-8"><title>ssmp</title><!-- Foundation CSS--><link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/foundation/4.1.6/css/foundation.min.css"><!-- Prism CSS--><style type="text/css">/**
+ * prism.js default theme for JavaScript, CSS and HTML
+ * Based on dabblet (http://dabblet.com)
+ * @author Lea Verou
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: black;
+	text-shadow: 0 1px white;
+	font-family: Consolas, Monaco, 'Andale Mono', monospace;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+::-moz-selection {
+	text-shadow: none;
+	background: #b3d4fc;
+}
+
+::selection {
+	text-shadow: none;
+	background: #b3d4fc;
+}
+
+@media print {
+	code[class*="language-"],
+	pre[class*="language-"] {
+		text-shadow: none;
+	}
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #f5f2f0;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: slategray;
+}
+
+.token.punctuation {
+	color: #999;
+}
+
+.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number {
+	color: #905;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string {
+	color: #690;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+	color: #a67f59;
+	background: hsla(0,0%,100%,.5);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: #07a;
+}
+
+
+.token.regex,
+.token.important {
+	color: #e90;
+}
+
+.token.important {
+	font-weight: bold;
+}
+
+.token.entity {
+	cursor: help;
+}
+</style><!-- Custom Styles--><style type="text/css">h1.page-title small {
+  font-weight: 400;
+}
+/*.section-container, .section-container .section .title
+  border-color #e6e6e6*/
+#nav .section.active {
+  padding-top: 0 !important;
+}
+#nav .section.active .title {
+  background: #ddd;
+}
+#nav .section .title {
+  background-color: #eee;
+}
+#nav .section .title a {
+  font-weight: 700;
+  padding: 0.6em;
+}
+#nav .section .title a small {
+  font-size: 0.8em;
+  line-height: 1em;
+  display: block;
+  color: #888;
+  margin: 2px 0 -2px;
+}
+#nav .section .title:hover {
+  background: #ddd;
+}
+#nav ul.solo {
+  border-top: 1px solid #ccc;
+  padding: 0.875em;
+}
+code {
+  background: transparent;
+  line-height: 1.3em;
+  font-weight: normal;
+}
+.comment {
+  position: relative;
+  padding-bottom: 1.5em;
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+}
+.comment ol,
+.comment ul {
+  margin-left: 2.25em;
+}
+.comment ol.no-bullet,
+.comment ul.no-bullet {
+  margin-left: 0;
+}
+.comment header {
+  margin-bottom: 1.5em;
+}
+.comment header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.2em;
+}
+.comment .section-container,
+.comment .section-container > .section > .content {
+  border: none;
+}
+.comment .section-container > .section > .title {
+  padding: auto;
+  background: none !important;
+  border: none !important;
+}
+.comment .section-container > .section > .title a {
+  border-radius: 4px;
+  font-weight: 700;
+  padding: 1px 10px 1px 0;
+  margin-right: 5px;
+  color: #ccc;
+}
+.comment .section-container > .section:hover .title a {
+  color: #999;
+}
+.comment .section-container > .section.active .title a {
+  color: #2ba6cb;
+}
+.comment .section-container > .section > .content {
+  padding: 0.9em 0 0;
+}
+.comment div.description h2 {
+  font-size: 1.2em;
+}
+.comment .tags span {
+  margin-right: 4px;
+}
+.comment .tags .name,
+.comment .tags .type {
+  font-weight: 700;
+}
+.comment .tags .types {
+  color: #666;
+}
+.comment .tags .description {
+  margin-left: 15px;
+}
+.ctx-type {
+  margin-right: 6px;
+  font-size: 0.7em;
+}
+</style><script srr="http://cdnjs.cloudflare.com/ajax/libs/foundation/4.1.6/js/vendor/custom.modernizr.js"></script></head><body><div class="row"><div class="small-12 columns"><h1 class="page-title">ssmp<small> lib/utils.js</small></h1></div></div><div class="row"><div id="nav" class="large-3 columns"><div data-section="accordian" data-options="" class="section-container accordian"><div class="section"><p data-section-title class="title"><a href="../../doc/http-api/http-collections.js.html"><small>http-api/</small>http-collections.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/http-api/http-collections.js.html#get_mps">get_mps</a></li><li><a href="../../doc/http-api/http-collections.js.html#get_task_state">get_task_state</a></li><li><a href="../../doc/http-api/http-collections.js.html#get_container_elements">get_container_elements</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/http-api/http-methods.js.html"><small>http-api/</small>http-methods.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/http-api/http-methods.js.html#handle_mp">handle_mp</a></li><li><a href="../../doc/http-api/http-methods.js.html#handle_cd">handle_cd</a></li><li><a href="../../doc/http-api/http-methods.js.html#put">put</a></li><li><a href="../../doc/http-api/http-methods.js.html#get">get</a></li><li><a href="../../doc/http-api/http-methods.js.html#get_path">get_path</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/http-api/http-ssmp.js.html"><small>http-api/</small>http-ssmp.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/http-api/http-ssmp.js.html#http_ssmp">http_ssmp</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/lib/build.js.html"><small>lib/</small>build.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/lib/build.js.html#ini">ini</a></li><li><a href="../../doc/lib/build.js.html#build_container">build_container</a></li><li><a href="../../doc/lib/build.js.html#build_base">build_base</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/lib/cdhandle.js.html"><small>lib/</small>cdhandle.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/lib/cdhandle.js.html#ini">ini</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/lib/compare.js.html"><small>lib/</small>compare.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/lib/compare.js.html#eq">eq</a></li><li><a href="../../doc/lib/compare.js.html#gt">gt</a></li><li><a href="../../doc/lib/compare.js.html#lt">lt</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/lib/default.js.html"><small>lib/</small>default.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/lib/default.js.html#database">database</a></li><li><a href="../../doc/lib/default.js.html#relay">relay</a></li><li><a href="../../doc/lib/default.js.html#mem">mem</a></li><li><a href="../../doc/lib/default.js.html#http">http</a></li><li><a href="../../doc/lib/default.js.html#socket">socket</a></li><li><a href="../../doc/lib/default.js.html#system">system</a></li><li><a href="../../doc/lib/default.js.html#container">container</a></li><li><a href="../../doc/lib/default.js.html#ctrlStr">ctrlStr</a></li><li><a href="../../doc/lib/default.js.html#fallbackvalues">fallbackvalues</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/lib/load.js.html"><small>lib/</small>load.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/lib/load.js.html#ini">ini</a></li><li><a href="../../doc/lib/load.js.html#all">all</a></li><li><a href="../../doc/lib/load.js.html#distribute_def">distribute_def</a></li><li><a href="../../doc/lib/load.js.html#insert">insert</a></li><li><a href="../../doc/lib/load.js.html#expand_task">expand_task</a></li><li><a href="../../doc/lib/load.js.html#expand_cust">expand_cust</a></li><li><a href="../../doc/lib/load.js.html#fetchtask">fetchtask</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/lib/mphandle.js.html"><small>lib/</small>mphandle.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/lib/mphandle.js.html#ini">ini</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/lib/net.js.html"><small>lib/</small>net.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/lib/net.js.html#relay">relay</a></li><li><a href="../../doc/lib/net.js.html#task">task</a></li><li><a href="../../doc/lib/net.js.html#checkdb">checkdb</a></li><li><a href="../../doc/lib/net.js.html#container">container</a></li><li><a href="../../doc/lib/net.js.html#list">list</a></li><li><a href="../../doc/lib/net.js.html#wrtdoc">wrtdoc</a></li><li><a href="../../doc/lib/net.js.html#rddoc">rddoc</a></li><li><a href="../../doc/lib/net.js.html#docinfo">docinfo</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/lib/observe.js.html"><small>lib/</small>observe.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/lib/observe.js.html#ini">ini</a></li><li><a href="../../doc/lib/observe.js.html#observe">observe</a></li><li><a href="../../doc/lib/observe.js.html#shout">shout</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/lib/providejson.js.html"><small>lib/</small>providejson.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/lib/providejson.js.html#pj">pj</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/lib/request.js.html"><small>lib/</small>request.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/lib/request.js.html#exec">exec</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/lib/run.js.html"><small>lib/</small>run.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/lib/run.js.html#ini">ini</a></li><li><a href="../../doc/lib/run.js.html#run">run</a></li><li><a href="../../doc/lib/run.js.html#task_exchange">task_exchange</a></li><li><a href="../../doc/lib/run.js.html#task_stop_if">task_stop_if</a></li><li><a href="../../doc/lib/run.js.html#task_run_if">task_run_if</a></li></ul></div></div><div class="section active"><p data-section-title class="title"><a href="../../doc/lib/utils.js.html"><small>lib/</small>utils.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/lib/utils.js.html#cmd_to_array">cmd_to_array</a></li><li><a href="../../doc/lib/utils.js.html#as_arr">as_arr</a></li><li><a href="../../doc/lib/utils.js.html#all_same">all_same</a></li><li><a href="../../doc/lib/utils.js.html#replace_in_with">replace_in_with</a></li><li><a href="../../doc/lib/utils.js.html#pad0">pad0</a></li><li><a href="../../doc/lib/utils.js.html#vl_date">vl_date</a></li><li><a href="../../doc/lib/utils.js.html#vl_time">vl_time</a></li><li><a href="../../doc/lib/utils.js.html#data_to_doc">data_to_doc</a></li><li><a href="../../doc/lib/utils.js.html#query_cd">query_cd</a></li><li><a href="../../doc/lib/utils.js.html#write_to_exchange">write_to_exchange</a></li><li><a href="../../doc/lib/utils.js.html#cp">cp</a></li><li><a href="../../doc/lib/utils.js.html#replace">replace</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/lib/worker.js.html"><small>lib/</small>worker.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/lib/worker.js.html#wait">wait</a></li><li><a href="../../doc/lib/worker.js.html#nodeRelay">nodeRelay</a></li><li><a href="../../doc/lib/worker.js.html#getTime">getTime</a></li><li><a href="../../doc/lib/worker.js.html#getDate">getDate</a></li><li><a href="../../doc/lib/worker.js.html#writeExchange">writeExchange</a></li><li><a href="../../doc/lib/worker.js.html#readExchange">readExchange</a></li><li><a href="../../doc/lib/worker.js.html#getList">getList</a></li><li><a href="../../doc/lib/worker.js.html#checkDB">checkDB</a></li><li><a href="../../doc/lib/worker.js.html#checkRelay">checkRelay</a></li><li><a href="../../doc/lib/worker.js.html#updateCd">updateCd</a></li><li><a href="../../doc/lib/worker.js.html#ctrlContainer">ctrlContainer</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/socketio-api/socket-ssmp.js.html"><small>socketio-api/</small>socket-ssmp.js</a></p><div data-section-content class="content"><ul class="side-nav"></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/ssmp.js.html"><small>./</small>ssmp.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/ssmp.js.html#ssmp">ssmp</a></li></ul></div></div></div></div><div class="small-12 large-9 columns"><article class="comment"><header><h1 id="cmd_to_array">cmd_to_array</h1><h5 class="subheader"><div class="label radius ctx-type">function</div>cmd_to_array()</h5></header><ul class="no-bullet tags"><li class="tag"><span class="type">@method: </span><span class="string">cmd_to_array</span></li><li class="tag"><span class="type">@param: </span><span class="types">{String}</span><span class="name">cmdstr</span><span class="description">Steuerstring</span></li></ul><div data-section="accordian" data-options="one_up: false;" class="section-container code auto"><div class="section"><p data-section-title class="title"><a href="#">Description</a></p><div data-section-content class="content description"><p>Die <code>cmd_to_array()</code> Funktion zerlegt die<br />unter <code>Mp.Container[i].Ctrl</code> bzw. <code>http://.../mpid/ctrl</code><br />angebbaren Steuerzeichen (<em>cmdstr</em>) und erzeugt daraus eien Array,<br />dessen erstes Feld den aktuellen Auftrag (load, run etc.)<br />beinhaltet; die Funktion <code>observe()</code> benutzt dieses erste Feld,<br />um entsprechende Funktionen auszuwählen.<br />Wenn der <em>cmdstr</em> so aussieht:</p><pre><code>&quot;load;run;stop&quot;
+</code></pre><p>soll:</p><pre><code>[&quot;load&quot;,&quot;run&quot;, &quot;stop&quot;]
+</code></pre><p>erzeugt werden. Sieht der _cmdstr_wie folgt aus:</p><pre><code>&quot;load;2:run,stop&quot;
+</code></pre><p>soll:</p><pre><code>[&quot;load&quot;,&quot;run&quot;, &quot;stop&quot;,&quot;run&quot;, &quot;stop&quot;]
+</code></pre><p>erzeugt werden. Steht an lezter Stelle der String <code>mon</code><br />wird immer wieder <code>[&quot;mon&quot;]</code> zurückgeliefert.</p></div></div><div class="section"><p data-section-title class="title"><a href="#">Source</a></p><div data-section-content class="content"><pre><code class="language-javascript">var cmd_to_array = function(cmdstr){
+  var arr = [],
+      al1 = cmdstr.split(&quot;;&quot;);
+  if( al1.length === 1 &amp;&amp; al1[0] ===  ctrlstr.mon){
+    return [ ctrlstr.mon];
+  }else{
+    for(var i = 0; i &lt; al1.length; i++){
+      var al2 = al1[i].split(&quot;:&quot;);
+
+      if(al2.length &gt; 1){
+        var rep    = parseInt(al2[0],10);
+        if(_.isNumber(rep)){
+          for(var j = 0; j &lt; rep; j++){
+            _.map(al2[1].split(&quot;,&quot;), function(c){arr.push(c)});
+          }
+        }
+      }else{
+        arr.push(al1[i]);
+      }
+    }
+    return arr;
+  }
+};
+exports.cmd_to_array = cmd_to_array;</code></pre></div></div></div></article><article class="comment"><header><h1 id="as_arr">as_arr</h1><h5 class="subheader"><div class="label radius ctx-type">function</div>as_arr()</h5></header><ul class="no-bullet tags"><li class="tag"><span class="type">@method: </span><span class="string">as_arr</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Object}</span><span class="name">o</span><span class="description">state array</span></li></ul><div data-section="accordian" data-options="one_up: false;" class="section-container code auto"><div class="section"><p data-section-title class="title"><a href="#">Description</a></p><div data-section-content class="content description"><p>Macht aus dem geschachtelten State Object ein<br />flaches Array</p></div></div><div class="section"><p data-section-title class="title"><a href="#">Source</a></p><div data-section-content class="content"><pre><code class="language-javascript">var as_arr = function(o){
+  if(_.isObject(o) &amp;&amp; _.isObject(o['0'])){
+  return _.flatten(_.map(o, function(v, k){
+                     return _.map(v,function(vv, kk){
+                              return vv})
+                   })
+                  );
+  }else{
+    return false;
+  }
+};
+exports.as_arr = as_arr;</code></pre></div></div></div></article><article class="comment"><header><h1 id="all_same">all_same</h1><h5 class="subheader"><div class="label radius ctx-type">function</div>all_same()</h5></header><ul class="no-bullet tags"><li class="tag"><span class="type">@method: </span><span class="string">all_same</span></li><li class="tag"><span class="type">@param: </span><span class="types">{}</span><span class="name">arr</span><span class="description"></span></li><li class="tag"><span class="type">@param: </span><span class="types">{}</span><span class="name">val</span><span class="description"></span></li></ul><div data-section="accordian" data-options="one_up: false;" class="section-container code auto"><div class="section"><p data-section-title class="title"><a href="#">Description</a></p><div data-section-content class="content description"><p>Gibt true zurück, wenn<br />alle Array Elemente val sind sonst false</p></div></div><div class="section"><p data-section-title class="title"><a href="#">Source</a></p><div data-section-content class="content"><pre><code class="language-javascript">var all_same =  function(arr, val){
+  if(_.isArray(arr) &amp;&amp; _.isString(val)){
+    return  _.every(arr, function(i){
+              return i == val;
+            });
+  }else{
+    return false;
+  }
+}
+exports.all_same = all_same;</code></pre></div></div></div></article><article class="comment"><header><h1 id="replace_in_with">replace_in_with</h1><h5 class="subheader"><div class="label radius ctx-type">function</div>replace_in_with()</h5></header><ul class="no-bullet tags"><li class="tag"><span class="type">@method: </span><span class="string">replace_in_with</span></li><li class="tag"><span class="type">@param: </span><span class="types">{}</span><span class="name">task</span><span class="description"></span></li><li class="tag"><span class="type">@param: </span><span class="types">{}</span><span class="name">token</span><span class="description"></span></li><li class="tag"><span class="type">@param: </span><span class="types">{}</span><span class="name">value</span><span class="description"></span></li><li class="tag"><span class="type">@return: </span><span class="types">{CallExpression}</span><span class="description"></span></li></ul><div data-section="accordian" data-options="one_up: false;" class="section-container code auto"><div class="section"><p data-section-title class="title"><a href="#">Description</a></p><div data-section-content class="content description"><p>Description</p></div></div><div class="section"><p data-section-title class="title"><a href="#">Source</a></p><div data-section-content class="content"><pre><code class="language-javascript">var replace_in_with = function(task, token, value){
+
+  var strtask = JSON.stringify(task),
+      patt    = new RegExp( token ,&quot;g&quot;);
+
+  if(_.isArray(value)){
+    strtask = strtask.replace(patt, JSON.stringify(value))
+              .replace(/\&quot;\[/g, &quot;\[&quot;)
+              .replace(/\]\&quot;/g, &quot;\]&quot;)
+  }else{
+    strtask  = strtask.replace(patt, value);
+  }
+  strtask  = strtask.replace(/\n/g, &quot;\\n&quot;);
+  strtask  = strtask.replace(/\r/g, &quot;\\r&quot;);
+
+  return JSON.parse(strtask);
+}
+exports.replace_in_with = replace_in_with;</code></pre></div></div></div></article><article class="comment"><header><h1 id="pad0">pad0</h1><h5 class="subheader"><div class="label radius ctx-type">function</div>pad0()</h5></header><ul class="no-bullet tags"><li class="tag"><span class="type">@method: </span><span class="string">pad0</span></li><li class="tag"><span class="type">@param: </span><span class="types">{}</span><span class="name">n</span><span class="description"></span></li><li class="tag"><span class="type">@return: </span><span class="types">{ConditionalExpression}</span><span class="description"></span></li></ul><div data-section="accordian" data-options="one_up: false;" class="section-container code auto"><div class="section"><p data-section-title class="title"><a href="#">Description</a></p><div data-section-content class="content description"><p>Description</p></div></div><div class="section"><p data-section-title class="title"><a href="#">Source</a></p><div data-section-content class="content"><pre><code class="language-javascript">var pad0 = function(n){
+  return n &lt; 10 ? &quot;0&quot; + n : n;
+};</code></pre></div></div></div></article><article class="comment"><header><h1 id="vl_date">vl_date</h1><h5 class="subheader"><div class="label radius ctx-type">function</div>vl_date()</h5></header><ul class="no-bullet tags"><li class="tag"><span class="type">@method: </span><span class="string">vl_date</span></li><li class="tag"><span class="type">@param: </span><span class="types">{}</span><span class="name">dstr</span><span class="description"></span></li><li class="tag"><span class="type">@return: </span><span class="types">{BinaryExpression}</span><span class="description"></span></li></ul><div data-section="accordian" data-options="one_up: false;" class="section-container code auto"><div class="section"><p data-section-title class="title"><a href="#">Description</a></p><div data-section-content class="content description"><p>Description</p></div></div><div class="section"><p data-section-title class="title"><a href="#">Source</a></p><div data-section-content class="content"><pre><code class="language-javascript">var vl_date = function(dstr){
+  var dt = dstr ? new Date(dstr) : new Date(),
+      Y = dt.getFullYear(),
+      M = pad0(dt.getMonth() + 1),
+      D = pad0(dt.getDate()),
+      h = pad0(dt.getHours()),
+      m = pad0(dt.getMinutes());
+  return Y + '-' + M + '-' + D + &quot; &quot; + h+&quot;:&quot; + m;
+};
+exports.vl_date = vl_date;</code></pre></div></div></div></article><article class="comment"><header><h1 id="vl_time">vl_time</h1><h5 class="subheader"><div class="label radius ctx-type">function</div>vl_time()</h5></header><ul class="no-bullet tags"><li class="tag"><span class="type">@method: </span><span class="string">vl_time</span></li><li class="tag"><span class="type">@param: </span><span class="types">{}</span><span class="name">dstr</span><span class="description"></span></li><li class="tag"><span class="type">@return: </span><span class="types">{BinaryExpression}</span><span class="description"></span></li></ul><div data-section="accordian" data-options="one_up: false;" class="section-container code auto"><div class="section"><p data-section-title class="title"><a href="#">Description</a></p><div data-section-content class="content description"><p>Description</p></div></div><div class="section"><p data-section-title class="title"><a href="#">Source</a></p><div data-section-content class="content"><pre><code class="language-javascript">var vl_time = function(dstr){
+  var dt = dstr ? new Date(dstr) : new Date();
+
+  return &quot;&quot; + dt.getTime();
+};
+exports.vl_time = vl_time;</code></pre></div></div></div></article><article class="comment"><header><h1 id="data_to_doc">data_to_doc</h1><h5 class="subheader"><div class="label radius ctx-type">function</div>data_to_doc()</h5></header><ul class="no-bullet tags"><li class="tag"><span class="type">@method: </span><span class="string">data_to_doc</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Object}</span><span class="name">doc</span><span class="description">Dokument (Kalibrierdokument)</span></li><li class="tag"><span class="type">@param: </span><span class="types">{}</span><span class="name">path</span><span class="description"></span></li><li class="tag"><span class="type">@param: </span><span class="types">{Object}</span><span class="name">data</span><span class="description">Datenobjekten</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Function}</span><span class="name">cb</span><span class="description">Callback Funktion</span></li></ul><div data-section="accordian" data-options="one_up: false;" class="section-container code auto"><div class="section"><p data-section-title class="title"><a href="#">Description</a></p><div data-section-content class="content description"><p>Die Function <code>data_to_doc()</code><br />schreibt Daten in Dokumente und ruft den callback<br />(in aller Regel <code>save(doc)</code>)<br />mit dem so aufgefüllten Dokument auf.<br />Ein Beispiel für ein gültiges dataset ist:</p><pre><code>{Result:
+[
+  {
+   Type:&quot;a&quot;,         |
+   Unit:&quot;b&quot;,         | Datenobjekten 0
+   Value:1,          |
+   Comment:&quot;bla&quot;     |
+  },
+  {
+   Type:&quot;c&quot;,         |
+   Unit:&quot;d&quot;,         | Datenobjekten 1
+   Value:2,          |
+   Comment:&quot;blu&quot;     |
+  }
+]
+}
+</code></pre></div></div><div class="section"><p data-section-title class="title"><a href="#">Source</a></p><div data-section-content class="content"><pre><code class="language-javascript">var data_to_doc = function(doc, path, data, cb){
+  var ok          = {ok:true}
+    , data_result =  data.Result
+    , ro;
+
+  if(data_result &amp;&amp; _.isArray(data_result) &amp;&amp; data_result.length &gt; 0 ){
+
+    var Nds     = data_result.length;
+
+    log.info(ok
+            , &quot;found &quot;+ Nds+&quot; data sets to store&quot; );
+
+    for(var i = 0; i &lt; Nds; i++){
+      var doc_struct   = op.get(doc, path)
+        , data_struct  = data_result[i]
+        , pos          = -1
+        , ppos         = 0;
+
+      if(_.isUndefined(doc_struct)){
+        op.set(doc, path, [])
+      }
+
+      if(_.isString(data_struct.Type)){      // write Type, Value, Unit- Structures
+
+        if((data_struct.Value || _.isNull(data_struct.Value))  &amp;&amp; _.isString(data_struct.Unit)){
+
+          if(_.isArray(doc_struct)){
+            for(var k = 0; k &lt; doc_struct.length; k++){
+              var path_c = [path, k, &quot;Type&quot;].join(&quot;.&quot;)
+              if(data_struct.Type == op.get(doc, path_c)){
+                pos = k;
+              }
+            } // for
+            if(pos &lt; 0){
+              pos = k;
+            }
+          }else{
+            pos = 0;
+          }
+          op.ensureExists(doc, [path, pos].join(&quot;.&quot;), {})
+
+          op.set(doc, [path, pos, &quot;Type&quot;].join(&quot;.&quot;), data_struct.Type);
+          op.set(doc, [path, pos, &quot;Unit&quot;].join(&quot;.&quot;), data_struct.Unit);
+
+          var doc_struct_value = op.get(doc, [path, pos, &quot;Value&quot;].join(&quot;.&quot;));
+
+          if(_.isArray(doc_struct_value)){
+            ppos = doc_struct_value.length;
+          }else{
+            op.set(doc, [path, pos, &quot;Value&quot;].join(&quot;.&quot;), [])
+            ppos = 0;
+          }
+          op.set(doc, [path, pos, &quot;Value&quot;, ppos].join(&quot;.&quot;), data_struct.Value);
+
+          if(data_struct.Comment){
+            var doc_struct_comment = op.get(doc, [path, pos, &quot;Comment&quot;].join(&quot;.&quot;))
+            if(!_.isArray(doc_struct_comment)){
+              op.set(doc, [path, pos, &quot;Comment&quot;].join(&quot;.&quot;), [])
+          }
+            // ppos wird von value genommen
+          op.set(doc, [path, pos, &quot;Comment&quot;, ppos].join(&quot;.&quot;), data_struct.Comment);
+        }
+        }else{ // wrong value structure
+          ro = {error: &quot;wrong data structure&quot;}
+          log.error(ro,
+                    &quot;wrong or value, unit in data set&quot;)
+          cb(ro);
+          break;
+        }
+      }else{
+        for(var j in data_struct){
+          // write stuff like Gas, okpk ...
+          op.set(doc, [path, j].join(&quot;.&quot;), data_struct[j]);
+        }
+
+      }
+    }//for
+
+    if(_.isFunction(cb)){
+      log.info(ok
+              , &quot;exec call back in data_to_doc&quot;);
+      cb(doc)
+    }
+  }else{
+    ro = {error:&quot;wrong dataset structure&quot;};
+    log.error(ro
+             , &quot;the test on data.Result failed&quot;);
+    cb(ro);
+  }
+};
+exports.data_to_doc = data_to_doc;</code></pre></div></div></div></article><article class="comment"><header><h1 id="query_cd">query_cd</h1><h5 class="subheader"><div class="label radius ctx-type">function</div>query_cd()</h5></header><ul class="no-bullet tags"><li class="tag"><span class="type">@method: </span><span class="string">query_cd</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Object}</span><span class="name">task</span><span class="description">Task-Objekt</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Object}</span><span class="name">data</span><span class="description">Objekt mit Result key</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Function}</span><span class="name">cb</span><span class="description">Callback Funktion</span></li></ul><div data-section="accordian" data-options="one_up: false;" class="section-container code auto"><div class="section"><p data-section-title class="title"><a href="#">Description</a></p><div data-section-content class="content description"><p>Die Funktion <code>query_cd()</code> holt<br />ein Kalibrierdokument (aka KD<br />oder cd: calibration document) von der Datenbank<br />ruft die Funktion <code>data_to_doc()</code> auf und<br />übergibt dieser Funktion als callback den Auftrag<br />zum wieder Abspeichern des nun aufgefüllten cd.</p></div></div><div class="section"><p data-section-title class="title"><a href="#">Source</a></p><div data-section-content class="content"><pre><code class="language-javascript">var query_cd = function(task, data, cb){
+  var ro;
+
+  if( task &amp;&amp;
+      _.isObject(task)){
+
+    if(task.Id         &amp;&amp;
+       task.Id.length  &gt; 0){
+
+      if(task.DocPath){
+
+        var Id      = task.Id,
+            docpath = task.DocPath,
+            Nid     = Id.length;
+
+        for(var i = 0; i &lt; Nid; i++){
+          var rdcon  = net.rddoc(Id[i]);
+
+          // (con, task, wrtdata, cb)
+          request.exec(rdcon, task, false
+                      ,function(last){
+                         return function(doc){
+                           log.info({ok:true},
+                                    &quot;get doc try to store date in it&quot;);
+                           data_to_doc(doc, docpath, data
+                                      , function(filled_doc){
+                                          log.info({ok:true}
+                                                  ,&quot;doc filled up with date try to store back&quot;);
+                                          var wrtcon = net.wrtdoc(filled_doc._id)
+                                          // (con, task, wrtdata, cb)
+                                          request.exec(wrtcon, task, JSON.stringify(filled_doc)
+                                                      , function(res){
+                                                          if(res.error){
+                                                            log.error(res
+                                                                     , &quot;error on attempt to save doc&quot;);
+                                                          }
+                                                          if(res.ok){
+                                                            log.info(res
+                                                                    ,&quot;save doc with id: &quot;
+                                                                    + res.id);
+                                                          }
+                                                          if(last){
+                                                            log.info({ok:true}
+                                                                    ,&quot;saved all docs&quot;);
+                                                            if(_.isFunction(cb)){
+                                                              cb(res);
+                                                            }
+                                                          }
+                                                        });
+                                        });
+                         }
+                       }(i === Nid -1));
+        }
+      }else{
+        ro = {error:&quot;with given data&quot;};
+        log.error(ro
+                 , &quot;test on task.DocPath  failed&quot;);
+        if(_.isFunction(cb)){
+          cb(ro);
+        }
+      }
+    }else{
+      log.warn({warn:&quot;no or empty Id array&quot;},
+               &quot;seems to be a test; no calibration doc selected&quot;);
+      if(_.isFunction(cb)){
+        cb({ok:true
+           , warn: &quot;empty Id array&quot;});
+      }
+    }
+  }else{
+    ro = {error:&quot;no task&quot;};
+    log.error(ro
+             , &quot;test on task failed&quot;);
+    if(_.isFunction(cb)){
+      cb(ro);
+    }
+  }
+};
+exports.query_cd = query_cd;</code></pre></div></div></div></article><article class="comment"><header><h1 id="write_to_exchange">write_to_exchange</h1><h5 class="subheader"><div class="label radius ctx-type">function</div>write_to_exchange()</h5></header><ul class="no-bullet tags"><li class="tag"><span class="type">@method: </span><span class="string">write_to_exchange</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Object}</span><span class="name">task</span><span class="description">Task-Objekt</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Object}</span><span class="name">data</span><span class="description">zu schreibende Daten</span></li><li class="tag"><span class="type">@param: </span><span class="types">{}</span><span class="name">path</span><span class="description"></span></li><li class="tag"><span class="type">@param: </span><span class="types">{Function}</span><span class="name">cb</span><span class="description">Callback Funktion</span></li></ul><div data-section="accordian" data-options="one_up: false;" class="section-container code auto"><div class="section"><p data-section-title class="title"><a href="#">Description</a></p><div data-section-content class="content description"><p>Die Funktion <code>write_to_exchange()</code> schreibt<br />übergebene Daten in die <code>/exchange/pfad/zu/daten</code> Schnittstelle.<br />Es gibt zwei Möglichkeiten wie der Pfad<br /><code>.../pfad/zu/daten</code> angegeben werden kann:<br />1)  <em>key</em> des <code>data.ToExchange.pfad.zu.daten</code><br />Bsp. (PostProcessing- Teil einer <em>task</em>):</p><pre><code>...
+ &quot;PostProcessing&quot;: [
+             &quot;var _vec=_x.map(_.extractSRG3),&quot;,
+              ...
+             &quot;ToExchange={&#39;MKS-SRG-3-Ctrl-1-pressure.Type.value&#39;:&#39;@token&#39;,
+                          &#39;MKS-SRG-3-Ctrl-1-pressure.Value.value&#39;:_res.mv,
+                          &#39;MKS-SRG-3-Ctrl-1-pressure.Unit.value&#39;:&#39;mbar&#39; };&quot;
+         ]
+</code></pre><p>Das hier angegeben <code>PostProcessing</code> liefert das <code>data</code><br />Objekt; <code>pfad.zu.daten</code> wäre hier z.B. <code>MKS-SRG-3-Ctrl-1-pressure.Value.value</code><br />2) der Pfad wird einfach mit dem key <code>Task.ExchangePath</code> vorher<br />in der <em>task</em> angegeben; alle Daten die von der <em>task</em><br />geliefert werden, werden dann an diese Stelle geschrieben.<br />Bsp. (vollst. <em>task</em>):</p><pre><code>   {
+           &quot;Action&quot;: &quot;getList&quot;,
+           &quot;Comment&quot;: &quot;Remove an Element from Elements and Exchange&quot;,
+           &quot;TaskName&quot;: &quot;get_calib_select&quot;,
+           &quot;ViewName&quot;: &quot;calibrations&quot;,
+           &quot;ListName&quot;: &quot;select&quot;,
+           &quot;Params&quot;: {
+               &quot;key&quot;: &quot;@standard-@year&quot;
+           },
+           &quot;ExchangePath&quot;: &quot;Documents&quot;
+       }
+</code></pre><p>Die Daten die die DB-Abfrage liefert sind (von der <em>list</em>-Funktion<br />so  aufbereitet, dass sie als Gesamtheit nach <code>/exchange</code><br />geschrieben werden können.<br />Gibt es unter dem Pfad <code>Task.ExchangePath</code> schon eine Struktur,<br />wird diese um die Übergebne erweitert.</p></div></div><div class="section"><p data-section-title class="title"><a href="#">Source</a></p><div data-section-content class="content"><pre><code class="language-javascript">var write_to_exchange = function(task, data, path, cb){
+  var exval
+    , ro        = {ok:true}
+    , path_e    = [path[0]].concat([&quot;exchange&quot;])
+    , ok        = false
+    , fromdata  = _.isObject(data.ToExchange)
+    , fromtask  = _.isString(task.ExchangePath);
+
+  if(fromdata){
+    var i,
+        tedata = data.ToExchange,
+        ks     = _.keys(tedata),
+        Nks    = ks.length;
+
+    log.info({ok:true}
+            , &quot;found &quot; + Nks + &quot; key(s)&quot;);
+    ok = true;
+
+    for(i = 0; i &lt; Nks; i++){
+      var path_k  = ks[i]
+        , path_n = path_e.concat(path_k.split(&quot;.&quot;))
+        , val    = data.ToExchange[path_k];
+      mem.set(path_n, val, (function(last, path_l){
+                              return function(err){
+                                if(!err){
+                                  mem.publish(&quot;exchange&quot;, path_l, function(err){
+                                    if(!err){
+                                      log.info(ro
+                                              , &quot;wrote data to exchange&quot;);
+                                    }else{
+                                      log.error({error: err}
+                                               , &quot;error on publishing to exchange channel&quot;)
+                                    }
+                                  }); // publish exchange
+                                }else{
+                                  log.error({error:err}
+                                           , &quot;attempt to write to exchange&quot;);
+                                }
+                                if(last &amp;&amp; _.isFunction(cb)){
+                                  log.info(ro
+                                          , &quot;wrote all data to exchange&quot;);
+                                  cb(ro);
+                                }
+                              }}(i == Nks -1, path_n )));
+    } // for
+  } // fromdata
+
+  if(fromtask){
+    mem.get( path_e, function(err, exval){
+      if(!err){
+        ok   = true;
+        var path_t = task.ExchangePath.split(&quot;.&quot;)
+          , path_n = path_e.concat(path_t)
+          , val;
+        if(exval){
+          val = _.extend(exval, data);
+        }else{
+          val = data;
+        }
+        mem.set(path_n , val, function(err){
+
+          if(!err){
+            mem.publish(&quot;exchange&quot;, path_n, function(err){
+              if(!err){
+                log.info(ro
+                        , &quot;wrote data to exchange&quot;);
+              }else{
+                log.error({error: err}
+                         , &quot;error on publishing to exchange channel&quot;)
+              }
+            }); // publish exchange
+          }else{
+            ro = {error:err}
+            log.error(ro
+                     ,&quot;attempt to write to exchange&quot;);
+          }
+          if(_.isFunction(cb)){
+            cb(ro);
+          }
+        });
+      }else{
+        log.error({error:err}
+                 , &quot;error on getting values from &quot;+ task.ExchangePath);
+      }
+    }); // get exval
+  } // fromtask
+
+  if(!ok){
+    ro = {error:&quot;data exchange&quot;};
+    log.error(ro
+             , &quot;find path/data neither in data nor in task&quot;);
+    if(_.isFunction(cb)){
+      cb(ro);
+    }
+  }
+};
+exports.write_to_exchange = write_to_exchange;</code></pre></div></div></div></article><article class="comment"><header><h1 id="cp">cp</h1><h5 class="subheader"><div class="label radius ctx-type">function</div>cp()</h5></header><ul class="no-bullet tags"><li class="tag"><span class="type">@method: </span><span class="string">cp</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Array}</span><span class="name">path</span><span class="description"></span></li><li class="tag"><span class="type">@param: </span><span class="types">{Array}</span><span class="name">template</span><span class="description">Strukturvorlage</span></li><li class="tag"><span class="type">@param: </span><span class="types">{String}</span><span class="name">val</span><span class="description">Inertialer Wert</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Function}</span><span class="name">cb</span><span class="description">callback Funktion</span></li></ul><div data-section="accordian" data-options="one_up: false;" class="section-container code auto"><div class="section"><p data-section-title class="title"><a href="#">Description</a></p><div data-section-content class="content description"><p>Die Funktion kopiert die Struktur <code>template</code><br />und erzeugt eine genauso strukturiertes<br />Objekt unter <code>path</code> und initialisiert<br />es mit <code>val</code></p></div></div><div class="section"><p data-section-title class="title"><a href="#">Source</a></p><div data-section-content class="content"><pre><code class="language-javascript">var cp = function(path, template, val, cb){
+
+  var k = _.keys(template)
+    , iN = k.length;
+
+  for(var i = 0; i &lt; iN; i++){
+    var e = template[k[i]]
+      , kk = _.keys(e)
+      , jN = kk.length;
+    for(var j = 0; j &lt; jN; j++){
+      var lpath = path.concat([ i, j]);
+      mem.set(lpath, val, function(last){
+                            return function(err){
+                              if(last){
+                                cb()
+                              }
+                            }}(i == iN -1 &amp;&amp; j == jN -1));
+    }
+  }
+};
+exports.cp = cp;</code></pre></div></div></div></article><article class="comment"><header><h1 id="replace">replace</h1><h5 class="subheader"><div class="label radius ctx-type">function</div>replace()</h5></header><ul class="no-bullet tags"><li class="tag"><span class="type">@method: </span><span class="string">repl</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Object}</span><span class="name">c1</span><span class="description"></span></li><li class="tag"><span class="type">@param: </span><span class="types">{Object}</span><span class="name">c2</span><span class="description"></span></li><li class="tag"><span class="type">@return: </span><span class="types">{c}</span><span class="description"></span></li></ul><div data-section="accordian" data-options="one_up: false;" class="section-container code auto"><div class="section"><p data-section-title class="title"><a href="#">Description</a></p><div data-section-content class="content description"><p>Ersetzt c2.Replace[*] in c1 -- durch replace_in_with() ers.</p></div></div><div class="section"><p data-section-title class="title"><a href="#">Source</a></p><div data-section-content class="content"><pre><code class="language-javascript">var replace = function(c1, c2){
+
+  var strcont = JSON.stringify(c1)
+  for(var j in c2.Replace){
+    var patt = new RegExp( j ,&quot;g&quot;);
+    strcont  = strcont.replace(patt, c2.Replace[j]);
+  }
+
+  return JSON.parse(strcont);
+}
+exports.replace = replace</code></pre></div></div></div></article></div></div><!-- Foundation JS--><script type="text/javascript">document.write('<script src=' +
+('__proto__' in {} ? 'http://cdnjs.cloudflare.com/ajax/libs/zepto/1.0/zepto.min' : 'http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min') +
+'.js><\/script>')
+</script><script src="http://cdnjs.cloudflare.com/ajax/libs/foundation/4.1.6/js/foundation.min.js"></script><script src="http://cdnjs.cloudflare.com/ajax/libs/foundation/4.1.6/js/foundation/foundation.reveal.min.js"></script><!-- Prism js--><script>/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ * MIT license http://www.opensource.org/licenses/mit-license.php/
+ * @author Lea Verou http://lea.verou.me
+ */(function(){var e=/\blang(?:uage)?-(?!\*)(\w+)\b/i,t=self.Prism={util:{type:function(e){return Object.prototype.toString.call(e).match(/\[object (\w+)\]/)[1]},clone:function(e){var n=t.util.type(e);switch(n){case"Object":var r={};for(var i in e)e.hasOwnProperty(i)&&(r[i]=t.util.clone(e[i]));return r;case"Array":return e.slice()}return e}},languages:{extend:function(e,n){var r=t.util.clone(t.languages[e]);for(var i in n)r[i]=n[i];return r},insertBefore:function(e,n,r,i){i=i||t.languages;var s=i[e],o={};for(var u in s)if(s.hasOwnProperty(u)){if(u==n)for(var a in r)r.hasOwnProperty(a)&&(o[a]=r[a]);o[u]=s[u]}return i[e]=o},DFS:function(e,n){for(var r in e){n.call(e,r,e[r]);t.util.type(e)==="Object"&&t.languages.DFS(e[r],n)}}},highlightAll:function(e,n){var r=document.querySelectorAll('code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code');for(var i=0,s;s=r[i++];)t.highlightElement(s,e===!0,n)},highlightElement:function(r,i,s){var o,u,a=r;while(a&&!e.test(a.className))a=a.parentNode;if(a){o=(a.className.match(e)||[,""])[1];u=t.languages[o]}if(!u)return;r.className=r.className.replace(e,"").replace(/\s+/g," ")+" language-"+o;a=r.parentNode;/pre/i.test(a.nodeName)&&(a.className=a.className.replace(e,"").replace(/\s+/g," ")+" language-"+o);var f=r.textContent;if(!f)return;f=f.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ");var l={element:r,language:o,grammar:u,code:f};t.hooks.run("before-highlight",l);if(i&&self.Worker){var c=new Worker(t.filename);c.onmessage=function(e){l.highlightedCode=n.stringify(JSON.parse(e.data),o);t.hooks.run("before-insert",l);l.element.innerHTML=l.highlightedCode;s&&s.call(l.element);t.hooks.run("after-highlight",l)};c.postMessage(JSON.stringify({language:l.language,code:l.code}))}else{l.highlightedCode=t.highlight(l.code,l.grammar,l.language);t.hooks.run("before-insert",l);l.element.innerHTML=l.highlightedCode;s&&s.call(r);t.hooks.run("after-highlight",l)}},highlight:function(e,r,i){return n.stringify(t.tokenize(e,r),i)},tokenize:function(e,n,r){var i=t.Token,s=[e],o=n.rest;if(o){for(var u in o)n[u]=o[u];delete n.rest}e:for(var u in n){if(!n.hasOwnProperty(u)||!n[u])continue;var a=n[u],f=a.inside,l=!!a.lookbehind,c=0;a=a.pattern||a;for(var h=0;h<s.length;h++){var p=s[h];if(s.length>e.length)break e;if(p instanceof i)continue;a.lastIndex=0;var d=a.exec(p);if(d){l&&(c=d[1].length);var v=d.index-1+c,d=d[0].slice(c),m=d.length,g=v+m,y=p.slice(0,v+1),b=p.slice(g+1),w=[h,1];y&&w.push(y);var E=new i(u,f?t.tokenize(d,f):d);w.push(E);b&&w.push(b);Array.prototype.splice.apply(s,w)}}}return s},hooks:{all:{},add:function(e,n){var r=t.hooks.all;r[e]=r[e]||[];r[e].push(n)},run:function(e,n){var r=t.hooks.all[e];if(!r||!r.length)return;for(var i=0,s;s=r[i++];)s(n)}}},n=t.Token=function(e,t){this.type=e;this.content=t};n.stringify=function(e,r,i){if(typeof e=="string")return e;if(Object.prototype.toString.call(e)=="[object Array]")return e.map(function(t){return n.stringify(t,r,e)}).join("");var s={type:e.type,content:n.stringify(e.content,r,i),tag:"span",classes:["token",e.type],attributes:{},language:r,parent:i};s.type=="comment"&&(s.attributes.spellcheck="true");t.hooks.run("wrap",s);var o="";for(var u in s.attributes)o+=u+'="'+(s.attributes[u]||"")+'"';return"<"+s.tag+' class="'+s.classes.join(" ")+'" '+o+">"+s.content+"</"+s.tag+">"};if(!self.document){self.addEventListener("message",function(e){var n=JSON.parse(e.data),r=n.language,i=n.code;self.postMessage(JSON.stringify(t.tokenize(i,t.languages[r])));self.close()},!1);return}var r=document.getElementsByTagName("script");r=r[r.length-1];if(r){t.filename=r.src;document.addEventListener&&!r.hasAttribute("data-manual")&&document.addEventListener("DOMContentLoaded",t.highlightAll)}})();;
+Prism.languages.markup={comment:/&lt;!--[\w\W]*?-->/g,prolog:/&lt;\?.+?\?>/,doctype:/&lt;!DOCTYPE.+?>/,cdata:/&lt;!\[CDATA\[[\w\W]*?]]>/i,tag:{pattern:/&lt;\/?[\w:-]+\s*(?:\s+[\w:-]+(?:=(?:("|')(\\?[\w\W])*?\1|\w+))?\s*)*\/?>/gi,inside:{tag:{pattern:/^&lt;\/?[\w:-]+/i,inside:{punctuation:/^&lt;\/?/,namespace:/^[\w-]+?:/}},"attr-value":{pattern:/=(?:('|")[\w\W]*?(\1)|[^\s>]+)/gi,inside:{punctuation:/=|>|"/g}},punctuation:/\/?>/g,"attr-name":{pattern:/[\w:-]+/g,inside:{namespace:/^[\w-]+?:/}}}},entity:/&amp;#?[\da-z]{1,8};/gi};Prism.hooks.add("wrap",function(e){e.type==="entity"&&(e.attributes.title=e.content.replace(/&amp;/,"&"))});;
+Prism.languages.css={comment:/\/\*[\w\W]*?\*\//g,atrule:{pattern:/@[\w-]+?.*?(;|(?=\s*{))/gi,inside:{punctuation:/[;:]/g}},url:/url\((["']?).*?\1\)/gi,selector:/[^\{\}\s][^\{\};]*(?=\s*\{)/g,property:/(\b|\B)[\w-]+(?=\s*:)/ig,string:/("|')(\\?.)*?\1/g,important:/\B!important\b/gi,ignore:/&(lt|gt|amp);/gi,punctuation:/[\{\};:]/g};Prism.languages.markup&&Prism.languages.insertBefore("markup","tag",{style:{pattern:/(&lt;|<)style[\w\W]*?(>|&gt;)[\w\W]*?(&lt;|<)\/style(>|&gt;)/ig,inside:{tag:{pattern:/(&lt;|<)style[\w\W]*?(>|&gt;)|(&lt;|<)\/style(>|&gt;)/ig,inside:Prism.languages.markup.tag.inside},rest:Prism.languages.css}}});;
+Prism.languages.clike={comment:{pattern:/(^|[^\\])(\/\*[\w\W]*?\*\/|(^|[^:])\/\/.*?(\r?\n|$))/g,lookbehind:!0},string:/("|')(\\?.)*?\1/g,"class-name":{pattern:/((?:(?:class|interface|extends|implements|trait|instanceof|new)\s+)|(?:catch\s+\())[a-z0-9_\.\\]+/ig,lookbehind:!0,inside:{punctuation:/(\.|\\)/}},keyword:/\b(if|else|while|do|for|return|in|instanceof|function|new|try|catch|finally|null|break|continue)\b/g,"boolean":/\b(true|false)\b/g,"function":{pattern:/[a-z0-9_]+\(/ig,inside:{punctuation:/\(/}}, number:/\b-?(0x[\dA-Fa-f]+|\d*\.?\d+([Ee]-?\d+)?)\b/g,operator:/[-+]{1,2}|!|&lt;=?|>=?|={1,3}|(&amp;){1,2}|\|?\||\?|\*|\/|\~|\^|\%/g,ignore:/&(lt|gt|amp);/gi,punctuation:/[{}[\];(),.:]/g};;
+Prism.languages.javascript=Prism.languages.extend("clike",{keyword:/\b(var|let|if|else|while|do|for|return|in|instanceof|function|new|with|typeof|try|catch|finally|null|break|continue)\b/g,number:/\b-?(0x[\dA-Fa-f]+|\d*\.?\d+([Ee]-?\d+)?|NaN|-?Infinity)\b/g});Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:/(^|[^/])\/(?!\/)(\[.+?]|\\.|[^/\r\n])+\/[gim]{0,3}(?=\s*($|[\r\n,.;})]))/g,lookbehind:!0}});Prism.languages.markup&&Prism.languages.insertBefore("markup","tag",{script:{pattern:/(&lt;|<)script[\w\W]*?(>|&gt;)[\w\W]*?(&lt;|<)\/script(>|&gt;)/ig,inside:{tag:{pattern:/(&lt;|<)script[\w\W]*?(>|&gt;)|(&lt;|<)\/script(>|&gt;)/ig,inside:Prism.languages.markup.tag.inside},rest:Prism.languages.javascript}}});;
+Prism.languages.coffeescript=Prism.languages.extend("javascript",{"block-comment":/([#]{3}\s*\r?\n(.*\s*\r*\n*)\s*?\r?\n[#]{3})/g,comment:/(\s|^)([#]{1}[^#^\r^\n]{2,}?(\r?\n|$))/g,keyword:/\b(this|window|delete|class|extends|namespace|extend|ar|let|if|else|while|do|for|each|of|return|in|instanceof|new|with|typeof|try|catch|finally|null|undefined|break|continue)\b/g});Prism.languages.insertBefore("coffeescript","keyword",{"function":{pattern:/[a-z|A-z]+\s*[:|=]\s*(\([.|a-z\s|,|:|{|}|\"|\'|=]*\))?\s*-&gt;/gi,inside:{"function-name":/[_?a-z-|A-Z-]+(\s*[:|=])| @[_?$?a-z-|A-Z-]+(\s*)| /g,operator:/[-+]{1,2}|!|=?&lt;|=?&gt;|={1,2}|(&amp;){1,2}|\|?\||\?|\*|\//g}},"attr-name":/[_?a-z-|A-Z-]+(\s*:)| @[_?$?a-z-|A-Z-]+(\s*)| /g});;
+Prism.languages.scss=Prism.languages.extend("css",{comment:{pattern:/(^|[^\\])(\/\*[\w\W]*?\*\/|\/\/.*?(\r?\n|$))/g,lookbehind:!0},atrule:/@[\w-]+(?=\s+(\(|\{|;))/gi,url:/([-a-z]+-)*url(?=\()/gi,selector:/([^@;\{\}\(\)]?([^@;\{\}\(\)]|&amp;|\#\{\$[-_\w]+\})+)(?=\s*\{(\}|\s|[^\}]+(:|\{)[^\}]+))/gm});Prism.languages.insertBefore("scss","atrule",{keyword:/@(if|else if|else|for|each|while|import|extend|debug|warn|mixin|include|function|return)|(?=@for\s+\$[-_\w]+\s)+from/i});Prism.languages.insertBefore("scss","property",{variable:/((\$[-_\w]+)|(#\{\$[-_\w]+\}))/i});Prism.languages.insertBefore("scss","ignore",{placeholder:/%[-_\w]+/i,statement:/\B!(default|optional)\b/gi,"boolean":/\b(true|false)\b/g,"null":/\b(null)\b/g,operator:/\s+([-+]{1,2}|={1,2}|!=|\|?\||\?|\*|\/|\%)\s+/g});
+;
+</script><script>  var headerHeight = 64;
+
+  $(document).foundation();
+
+  $(function(){
+    $('pre code').addClass('language-javascript');
+  //   $('#nav > ul > li > a[href$="'+location.pathname.substring(location.pathname.lastIndexOf('/')+1, location.pathname.length)+'"]').parent().addClass('active');
+  })</script></body></html>
