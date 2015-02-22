@@ -97,4 +97,18 @@ describe('utils', function(){
     });
   });
 
+  describe('#all_same(arr, val)', function(){
+    it('should return false on wrong values', function(){
+      assert.equal(utils.all_same ({}, "tst"), false);
+      assert.equal(utils.all_same ([], true), false);
+    });
+  });
+
+  describe('#all_same(arr, val)', function(){
+    it('should return true on all same', function(){
+      assert.equal(utils.all_same ([["tst"]], "tst"), true);
+      assert.equal(utils.all_same (["tst"], "tst"), true);
+    });
+  });
+
 })
