@@ -2,22 +2,24 @@
 
 var _          = require("underscore")
   , ndata      = require("ndata")
+  , clone      = require("clone")
   , repl       = require("repl")
-  , memport    = 9000
-  , prettyjson = require("prettyjson");
+  , deflt      = require("../lib/default")
+  , prettyjson = require("prettyjson")
+  , utils      = require("../lib/utils")
+  , load       = require("../lib/load")
+  , run        = require("../lib/run")
+  , net        = require("../lib/net")
+  , request    = require("../lib/request")
+  , worker     = require("../lib/worker");
 
-var context      = repl.start("ssmp > ").context;
+var context       = repl.start("ssmp > ").context;
 
-context.mem      = ndata.createClient({port: memport});
-context.defaults = require("../lib/default");
-context.utils    = require("../lib/utils");
-context.worker   = require("../lib/worker");
-
-context.cb       = function(res){
+context.cb = function(res){
   console.log(prettyjson.render(res));
 }
 
-context.ecb       = function(err, res){
+context.ecb = function(err, res){
   if(err){
     console.log(prettyjson.render(err));
   }else{
@@ -25,14 +27,65 @@ context.ecb       = function(err, res){
   }
 }
 
-context.statics =  require("../lib/providejson")("./static/");
+var task_exec = function(tsk, repl, cb){
+  if(_.isObject(repl)){
+    for(var token in repl){
+      var value = repl[token]
+      tsk = utils.replace_in_with(tsk,token, value)
+    }
+  }
+
+  if(tsk.Defaults){
+    var td = clone(tsk.Defaults)
+    delete tsk.Defaults;
+    for(var token in td){
+      var value = td[token]
+      tsk = utils.replace_in_with(tsk, token, value)
+    }
+    tsk.Defaults = td;
+  } // tsk.Defaults
+
+  if(_.isObject(tsk) && tsk.Action && _.isFunction(cb)){
+    worker[tsk.Action](tsk, cb);
+  }
+}
+
+
+var refresh_task_list = function(){
+  context.task = {};
+  request.exec(net.list({ListName:"kv", ViewName:"tasks"}), false, false, function(res){
+    if(res.error){
+      console.log(prettyjson.render(res))
+    }else{
+      for(var taskName in res){
+        context.task[taskName.replace(/\-/g, "_")] = res[taskName];
+      } // task
+    }
+  })
+}
+
+
+context.mem       = ndata.createClient({port: deflt.mem.port});
+context.defaults  = deflt;
+context.utils     = utils;
+context.load      = load;
+context.worker    = worker;
+context.run       = run;
+context.request   = request;
+context.statics   = require("../lib/providejson")("./static/");
+context.task_exec = task_exec;
+context.refresh_task_list = refresh_task_list;
+
 
 
 console.log("whats already done:");
+console.log("- refresh task list and assign to TaskList");
+refresh_task_list()
 console.log(".........................................................\n");
 console.log("- default call back in variable: cb defined");
 console.log("- default call back with err param in variable: ecb");
-console.log("- lib/defaults, lib/utils and lib/worker loaded");
+console.log("- function task_exec(task_or_name, replace_object, cb)");
+console.log("- function refresh_task_list()");
 console.log("- ndata client available in variable: mem");
 console.log("- static json below ssmp/static in variable: statics");
 console.log(".........................................................\n");

@@ -1,0 +1,907 @@
+<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width" charset="utf-8"><title>ssmp</title><!-- Foundation CSS--><link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/foundation/4.1.6/css/foundation.min.css"><!-- Prism CSS--><style type="text/css">/**
+ * prism.js default theme for JavaScript, CSS and HTML
+ * Based on dabblet (http://dabblet.com)
+ * @author Lea Verou
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: black;
+	text-shadow: 0 1px white;
+	font-family: Consolas, Monaco, 'Andale Mono', monospace;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+::-moz-selection {
+	text-shadow: none;
+	background: #b3d4fc;
+}
+
+::selection {
+	text-shadow: none;
+	background: #b3d4fc;
+}
+
+@media print {
+	code[class*="language-"],
+	pre[class*="language-"] {
+		text-shadow: none;
+	}
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #f5f2f0;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: slategray;
+}
+
+.token.punctuation {
+	color: #999;
+}
+
+.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number {
+	color: #905;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string {
+	color: #690;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+	color: #a67f59;
+	background: hsla(0,0%,100%,.5);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: #07a;
+}
+
+
+.token.regex,
+.token.important {
+	color: #e90;
+}
+
+.token.important {
+	font-weight: bold;
+}
+
+.token.entity {
+	cursor: help;
+}
+</style><!-- Custom Styles--><style type="text/css">h1.page-title small {
+  font-weight: 400;
+}
+/*.section-container, .section-container .section .title
+  border-color #e6e6e6*/
+#nav .section.active {
+  padding-top: 0 !important;
+}
+#nav .section.active .title {
+  background: #ddd;
+}
+#nav .section .title {
+  background-color: #eee;
+}
+#nav .section .title a {
+  font-weight: 700;
+  padding: 0.6em;
+}
+#nav .section .title a small {
+  font-size: 0.8em;
+  line-height: 1em;
+  display: block;
+  color: #888;
+  margin: 2px 0 -2px;
+}
+#nav .section .title:hover {
+  background: #ddd;
+}
+#nav ul.solo {
+  border-top: 1px solid #ccc;
+  padding: 0.875em;
+}
+code {
+  background: transparent;
+  line-height: 1.3em;
+  font-weight: normal;
+}
+.comment {
+  position: relative;
+  padding-bottom: 1.5em;
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+}
+.comment ol,
+.comment ul {
+  margin-left: 2.25em;
+}
+.comment ol.no-bullet,
+.comment ul.no-bullet {
+  margin-left: 0;
+}
+.comment header {
+  margin-bottom: 1.5em;
+}
+.comment header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.2em;
+}
+.comment .section-container,
+.comment .section-container > .section > .content {
+  border: none;
+}
+.comment .section-container > .section > .title {
+  padding: auto;
+  background: none !important;
+  border: none !important;
+}
+.comment .section-container > .section > .title a {
+  border-radius: 4px;
+  font-weight: 700;
+  padding: 1px 10px 1px 0;
+  margin-right: 5px;
+  color: #ccc;
+}
+.comment .section-container > .section:hover .title a {
+  color: #999;
+}
+.comment .section-container > .section.active .title a {
+  color: #2ba6cb;
+}
+.comment .section-container > .section > .content {
+  padding: 0.9em 0 0;
+}
+.comment div.description h2 {
+  font-size: 1.2em;
+}
+.comment .tags span {
+  margin-right: 4px;
+}
+.comment .tags .name,
+.comment .tags .type {
+  font-weight: 700;
+}
+.comment .tags .types {
+  color: #666;
+}
+.comment .tags .description {
+  margin-left: 15px;
+}
+.ctx-type {
+  margin-right: 6px;
+  font-size: 0.7em;
+}
+</style><script srr="http://cdnjs.cloudflare.com/ajax/libs/foundation/4.1.6/js/vendor/custom.modernizr.js"></script></head><body><div class="row"><div class="small-12 columns"><h1 class="page-title">ssmp<small> lib/worker.js</small></h1></div></div><div class="row"><div id="nav" class="large-3 columns"><div data-section="accordian" data-options="" class="section-container accordian"><div class="section"><p data-section-title class="title"><a href="../../doc/http-api/http-collections.js.html"><small>http-api/</small>http-collections.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/http-api/http-collections.js.html#get_mps">get_mps</a></li><li><a href="../../doc/http-api/http-collections.js.html#get_task_state">get_task_state</a></li><li><a href="../../doc/http-api/http-collections.js.html#get_container_elements">get_container_elements</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/http-api/http-methods.js.html"><small>http-api/</small>http-methods.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/http-api/http-methods.js.html#handle_mp">handle_mp</a></li><li><a href="../../doc/http-api/http-methods.js.html#handle_cd">handle_cd</a></li><li><a href="../../doc/http-api/http-methods.js.html#put">put</a></li><li><a href="../../doc/http-api/http-methods.js.html#get">get</a></li><li><a href="../../doc/http-api/http-methods.js.html#get_path">get_path</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/http-api/http-ssmp.js.html"><small>http-api/</small>http-ssmp.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/http-api/http-ssmp.js.html#http_ssmp">http_ssmp</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/lib/build.js.html"><small>lib/</small>build.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/lib/build.js.html#ini">ini</a></li><li><a href="../../doc/lib/build.js.html#build_container">build_container</a></li><li><a href="../../doc/lib/build.js.html#build_base">build_base</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/lib/cdhandle.js.html"><small>lib/</small>cdhandle.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/lib/cdhandle.js.html#ini">ini</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/lib/compare.js.html"><small>lib/</small>compare.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/lib/compare.js.html#eq">eq</a></li><li><a href="../../doc/lib/compare.js.html#gt">gt</a></li><li><a href="../../doc/lib/compare.js.html#lt">lt</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/lib/default.js.html"><small>lib/</small>default.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/lib/default.js.html#database">database</a></li><li><a href="../../doc/lib/default.js.html#relay">relay</a></li><li><a href="../../doc/lib/default.js.html#mem">mem</a></li><li><a href="../../doc/lib/default.js.html#http">http</a></li><li><a href="../../doc/lib/default.js.html#socket">socket</a></li><li><a href="../../doc/lib/default.js.html#system">system</a></li><li><a href="../../doc/lib/default.js.html#container">container</a></li><li><a href="../../doc/lib/default.js.html#ctrlStr">ctrlStr</a></li><li><a href="../../doc/lib/default.js.html#fallbackvalues">fallbackvalues</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/lib/load.js.html"><small>lib/</small>load.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/lib/load.js.html#ini">ini</a></li><li><a href="../../doc/lib/load.js.html#all">all</a></li><li><a href="../../doc/lib/load.js.html#distribute_def">distribute_def</a></li><li><a href="../../doc/lib/load.js.html#insert">insert</a></li><li><a href="../../doc/lib/load.js.html#expand_task">expand_task</a></li><li><a href="../../doc/lib/load.js.html#expand_cust">expand_cust</a></li><li><a href="../../doc/lib/load.js.html#fetchtask">fetchtask</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/lib/mphandle.js.html"><small>lib/</small>mphandle.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/lib/mphandle.js.html#ini">ini</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/lib/net.js.html"><small>lib/</small>net.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/lib/net.js.html#relay">relay</a></li><li><a href="../../doc/lib/net.js.html#task">task</a></li><li><a href="../../doc/lib/net.js.html#checkdb">checkdb</a></li><li><a href="../../doc/lib/net.js.html#container">container</a></li><li><a href="../../doc/lib/net.js.html#list">list</a></li><li><a href="../../doc/lib/net.js.html#wrtdoc">wrtdoc</a></li><li><a href="../../doc/lib/net.js.html#rddoc">rddoc</a></li><li><a href="../../doc/lib/net.js.html#docinfo">docinfo</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/lib/observe.js.html"><small>lib/</small>observe.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/lib/observe.js.html#ini">ini</a></li><li><a href="../../doc/lib/observe.js.html#observe">observe</a></li><li><a href="../../doc/lib/observe.js.html#shout">shout</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/lib/providejson.js.html"><small>lib/</small>providejson.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/lib/providejson.js.html#pj">pj</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/lib/request.js.html"><small>lib/</small>request.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/lib/request.js.html#exec">exec</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/lib/run.js.html"><small>lib/</small>run.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/lib/run.js.html#ini">ini</a></li><li><a href="../../doc/lib/run.js.html#run">run</a></li><li><a href="../../doc/lib/run.js.html#task_exchange">task_exchange</a></li><li><a href="../../doc/lib/run.js.html#task_stop_if">task_stop_if</a></li><li><a href="../../doc/lib/run.js.html#task_run_if">task_run_if</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/lib/utils.js.html"><small>lib/</small>utils.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/lib/utils.js.html#cmd_to_array">cmd_to_array</a></li><li><a href="../../doc/lib/utils.js.html#as_arr">as_arr</a></li><li><a href="../../doc/lib/utils.js.html#all_same">all_same</a></li><li><a href="../../doc/lib/utils.js.html#replace_in_with">replace_in_with</a></li><li><a href="../../doc/lib/utils.js.html#pad0">pad0</a></li><li><a href="../../doc/lib/utils.js.html#vl_date">vl_date</a></li><li><a href="../../doc/lib/utils.js.html#vl_time">vl_time</a></li><li><a href="../../doc/lib/utils.js.html#data_to_doc">data_to_doc</a></li><li><a href="../../doc/lib/utils.js.html#query_cd">query_cd</a></li><li><a href="../../doc/lib/utils.js.html#write_to_exchange">write_to_exchange</a></li><li><a href="../../doc/lib/utils.js.html#cp">cp</a></li><li><a href="../../doc/lib/utils.js.html#replace">replace</a></li></ul></div></div><div class="section active"><p data-section-title class="title"><a href="../../doc/lib/worker.js.html"><small>lib/</small>worker.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/lib/worker.js.html#wait">wait</a></li><li><a href="../../doc/lib/worker.js.html#nodeRelay">nodeRelay</a></li><li><a href="../../doc/lib/worker.js.html#getTime">getTime</a></li><li><a href="../../doc/lib/worker.js.html#getDate">getDate</a></li><li><a href="../../doc/lib/worker.js.html#writeExchange">writeExchange</a></li><li><a href="../../doc/lib/worker.js.html#readExchange">readExchange</a></li><li><a href="../../doc/lib/worker.js.html#getList">getList</a></li><li><a href="../../doc/lib/worker.js.html#checkDB">checkDB</a></li><li><a href="../../doc/lib/worker.js.html#checkRelay">checkRelay</a></li><li><a href="../../doc/lib/worker.js.html#updateCd">updateCd</a></li><li><a href="../../doc/lib/worker.js.html#ctrlContainer">ctrlContainer</a></li></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/socketio-api/socket-ssmp.js.html"><small>socketio-api/</small>socket-ssmp.js</a></p><div data-section-content class="content"><ul class="side-nav"></ul></div></div><div class="section"><p data-section-title class="title"><a href="../../doc/ssmp.js.html"><small>./</small>ssmp.js</a></p><div data-section-content class="content"><ul class="side-nav"><li><a href="../../doc/ssmp.js.html#ssmp">ssmp</a></li></ul></div></div></div></div><div class="small-12 large-9 columns"><article class="comment"><header><h1 id="wait">wait</h1><h5 class="subheader"><div class="label radius ctx-type">function</div>wait()</h5></header><ul class="no-bullet tags"><li class="tag"><span class="type">@method: </span><span class="string">wait</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Object}</span><span class="name">task</span><span class="description">Task-Objekt</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Function}</span><span class="name">cb</span><span class="description">Callback Funktion</span></li></ul><div data-section="accordian" data-options="one_up: false;" class="section-container code auto"><div class="section"><p data-section-title class="title"><a href="#">Description</a></p><div data-section-content class="content description"><p><code>wait()</code> verzögert den Ablauf um die unter<br /><code>task.WaitTime</code> angegebene Zeit in ms.</p></div></div><div class="section"><p data-section-title class="title"><a href="#">Source</a></p><div data-section-content class="content"><pre><code class="language-javascript">var wait = function(task, cb){
+
+  var path = task.Path
+    , ro = {ok:true};
+
+  if(task &amp;&amp; task.WaitTime){
+    setTimeout(function(){
+
+      log.info(ro,
+               &quot;waittime over&quot;);
+      if(_.isFunction(cb)){
+        cb(ro);
+      }
+    }, parseInt(task.WaitTime,10))
+
+  }else{
+    ro = {error:&quot;no waittime&quot;};
+    log.error(ro, &quot;no task.Value or task.Value.WaitTime&quot;);
+    if(_.isFunction(cb)){
+      cb(ro);
+    }
+  }
+};</code></pre></div></div></div></article><article class="comment"><header><h1 id="nodeRelay">nodeRelay</h1><h5 class="subheader"><div class="label radius ctx-type">function</div>nodeRelay()</h5></header><ul class="no-bullet tags"><li class="tag"><span class="type">@method: </span><span class="string">nodeRelay</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Object}</span><span class="name">task</span><span class="description">Task-Objekt</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Function}</span><span class="name">cb</span><span class="description">Callback Funktion</span></li></ul><div data-section="accordian" data-options="one_up: false;" class="section-container code auto"><div class="section"><p data-section-title class="title"><a href="#">Description</a></p><div data-section-content class="content description"><p>(Mess-) Aufträge an den <em>node-relay</em>-server<br />werden an diesen mit der <code>nodeRelay()</code><br />Funktion gesandt.</p></div></div><div class="section"><p data-section-title class="title"><a href="#">Source</a></p><div data-section-content class="content"><pre><code class="language-javascript">var nodeRelay = function(task, cb){
+  var path    = task.Path
+    , ro      = {ok:true}
+    , con     = net.relay()
+    , wrtdata = JSON.stringify(task);
+
+  log.info(ro,
+           &quot;try request to nodeRelay&quot;);
+
+  request.exec(con, task, wrtdata, function(data){
+    if(data.error){
+      ro = {error:data.error}
+      log.error(ro
+               , &quot;received error in callback&quot;);
+      cb(ro);
+    }else{
+      log.info(ro
+              , &quot;request callback succesful&quot;);
+      if(data.ok){
+        log.info(ro
+                , &quot; exec callback with simple ok&quot;);
+        cb(data);
+      }else{
+        var dp = task.DocPath    &amp;&amp; task.DocPath    !== &quot;&quot;
+          , ep = data.ToExchange &amp;&amp; data.ToExchange !== &quot;&quot;
+          , rr = data.Result     &amp;&amp; data.Result     !== &quot;&quot;;
+
+        if(dp &amp;&amp; ep){
+        log.info(ro
+                , &quot;found DocPath and ToExchange, try to save&quot;);
+          utils.query_cd(task, data, function(res){
+          if(res.ok){
+            log.info(ro,
+                     &quot;try to write to exchange&quot;);
+            utils.write_to_exchange(task, data, path, cb);
+          }else{
+            ro = {error:&quot;in call back of query_cd&quot;}
+            log.error(ro,
+                      &quot;try to write to exchange&quot;);
+            cb(ro);
+          }
+        })
+      } // dp &amp; ep
+
+      if(dp &amp;&amp; !ep){
+        log.info(ro,
+                 &quot;found DocPath and Results try to save&quot;);
+        utils.query_cd(task, data, cb)
+      } // dp &amp;&amp; !ep
+
+      if(!dp &amp;&amp; ep){
+        log.info(ro,
+                 &quot;found ToExchange, try to exchange&quot;);
+        utils.write_to_exchange(task, data, path, cb)
+
+      } //!dp &amp;&amp; ep
+
+      if(!dp &amp;&amp; !ep &amp;&amp; rr){
+        log.info(ro,
+                 &quot; simple pass with Result: &quot; + JSON.stringify(data.Result));
+        cb(ro);
+      } //!dp &amp;&amp; ep
+      }
+    } // data.error
+  });
+};</code></pre></div></div></div></article><article class="comment"><header><h1 id="getTime">getTime</h1><h5 class="subheader"><div class="label radius ctx-type">function</div>getTime()</h5></header><ul class="no-bullet tags"><li class="tag"><span class="type">@method: </span><span class="string">getTime</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Object}</span><span class="name">task</span><span class="description">Task-Objekt</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Function}</span><span class="name">cb</span><span class="description">Callback Funktion</span></li></ul><div data-section="accordian" data-options="one_up: false;" class="section-container code auto"><div class="section"><p data-section-title class="title"><a href="#">Description</a></p><div data-section-content class="content description"><p>Funktion speichert Zeit in ms seit 1970<br />in angegebeben DocPath unter dem</p></div></div><div class="section"><p data-section-title class="title"><a href="#">Source</a></p><div data-section-content class="content"><pre><code class="language-javascript">var getTime = function(task, cb){
+  var path = task.Path
+    , ro   = {ok:true}
+
+  if(task.DocPath &amp;&amp; task.Type){
+    log.info(ro
+            , &quot;call query_cd function&quot;);
+
+    utils.query_cd(task
+                  , {
+                    Result:[
+                      {Type:task.Type,
+                       Value:utils.vl_time(),
+                       Unit:&quot;ms&quot;}
+                    ]
+                  }
+                  , cb)
+  }else{
+    ro =  {error:&quot;key missing&quot;}
+    log.error(ro
+             , &quot;task.DocPath and/or task.Type missing&quot;);
+    cb(ro);
+  }
+}</code></pre></div></div></div></article><article class="comment"><header><h1 id="getDate">getDate</h1><h5 class="subheader"><div class="label radius ctx-type">function</div>getDate()</h5></header><ul class="no-bullet tags"><li class="tag"><span class="type">@method: </span><span class="string">getDate</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Object}</span><span class="name">task</span><span class="description">Task-Objekt</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Function}</span><span class="name">cb</span><span class="description">Callback Funktion</span></li></ul><div data-section="accordian" data-options="one_up: false;" class="section-container code auto"><div class="section"><p data-section-title class="title"><a href="#">Description</a></p><div data-section-content class="content description"><p>Funktion speichert Zeit in ms seit 1970<br />in angegebeben DocPath unter dem</p></div></div><div class="section"><p data-section-title class="title"><a href="#">Source</a></p><div data-section-content class="content"><pre><code class="language-javascript">var getDate = function(task, cb){
+  var path = task.Path
+    , ro = {ok:true}
+
+  if(task.DocPath &amp;&amp; task.Type){
+    log.info(ro
+            , &quot;call query_cd function&quot;)
+
+    utils.query_cd(task
+                  , {
+                    Result:[
+                      {Type:task.Type,
+                       Value:utils.vl_date(),
+                       Unit:&quot;ms&quot;}]}
+                  , cb)
+  }else{
+    ro =  {error:&quot;key missing&quot;}
+    log.error(ro
+             , &quot;task.DocPath and/or task.Type missing&quot;);
+    cb(ro);
+  }
+}</code></pre></div></div></div></article><article class="comment"><header><h1 id="writeExchange">writeExchange</h1><h5 class="subheader"><div class="label radius ctx-type">function</div>writeExchange()</h5></header><ul class="no-bullet tags"><li class="tag"><span class="type">@method: </span><span class="string">writeExchange</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Object}</span><span class="name">task</span><span class="description">Task-Objekt</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Function}</span><span class="name">cb</span><span class="description">Callback Funktion</span></li></ul><div data-section="accordian" data-options="one_up: false;" class="section-container code auto"><div class="section"><p data-section-title class="title"><a href="#">Description</a></p><div data-section-content class="content description"><p>Die worker Funktion <code>writeExchange()</code> erlaubt es,<br />zur Laufzeit Einträge in der <em>exchange</em>-Schnittstelle<br />zu erstellen.<br />Anwendungsbeispiel: Ein Messgerät kann nicht<br />elektronisch ausgelesen werden; es müssen manuelle<br />Eingabefelder erstellt werden. Dazu ist<br /><code>addElement()</code> gedacht.</p></div></div><div class="section"><p data-section-title class="title"><a href="#">Source</a></p><div data-section-content class="content"><pre><code class="language-javascript">var writeExchange = function(task, cb){
+  var ro     = {ok:true}
+    , path   = task.Path
+    , path_b = [path[0]]
+    , path_e = path_b.concat(&quot;exchange&quot;)
+
+  if(task.Value &amp;&amp;
+     task.Key){
+
+    // alles nach exchange,
+    // unter elems nur noch path zu
+    // exchange
+    var prob,
+        exchObj   = {},
+        key       = task.Key,
+        val       = task.Value;
+
+    if(task.Customer){
+      key = deflt.cucoStr + &quot;-&quot; + key;
+    }
+    var path_k = path_e.concat(key.split(&quot;.&quot;))
+    mem.set(path_k, val, function(err){
+      if(!err){
+        log.info(ro,
+                 &quot;wrote &quot; + key + &quot; to Exchange&quot;)
+        mem.publish(&quot;exchange&quot;, path_k, function(err){
+          if(!err){
+            log.info(ro,
+                     &quot;published to to exchange&quot;)
+            if(_.isFunction(cb)){
+              cb(ro);
+            }
+          }else{
+            log.error({err:err}
+                     , &quot;on attempt to publish to to exchange&quot;)
+
+          }
+        }); // publish exch
+      }else{
+        ro = {error:err};
+        log.error(ro
+                 , &quot;on attempt to set exchange value&quot;)
+        if(_.isFunction(cb)){
+          cb(ro);
+        }
+      }
+    });
+  }else{
+    ro = {error:&quot;not a valid task&quot;};
+    log.error(ro, &quot;missing  Key or Value&quot;)
+    if(_.isFunction(cb)){
+      cb(ro);
+    }
+  }
+};</code></pre></div></div></div></article><article class="comment"><header><h1 id="readExchange">readExchange</h1><h5 class="subheader"><div class="label radius ctx-type">function</div>readExchange()</h5></header><ul class="no-bullet tags"><li class="tag"><span class="type">@method: </span><span class="string">readExchange</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Object}</span><span class="name">task</span><span class="description">Task-Objekt</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Function}</span><span class="name">cb</span><span class="description">Callback Funktion</span></li></ul><div data-section="accordian" data-options="one_up: false;" class="section-container code auto"><div class="section"><p data-section-title class="title"><a href="#">Description</a></p><div data-section-content class="content description"><p>Die worker Funktion <code>readExchange()</code> erlaubt es,<br />zur Laufzeit Einträge aus der <em>exchange</em>-Schnittstelle<br />auszulesen.<br />Anwendungsbeispiel: Ein Messgerät kann nicht<br />elektronisch ausgelesen werden; es sind Eingabefelder<br />erstellt, ausgefüllt und vom Client an <em>exchange</em><br />zurückgesandt. Der Client muss dann den key <code>Ready.value</code><br />auf true setzen<br />(Bsp.: <code>exchange.calibration-pressure.Ready.value:true</code>).<br />Mir der Funktion  <code>readExchange()</code><br />wird (wenn <code>data.Ready.value:true</code> oder es kein<br /><code>data.Ready</code> gibt) der Wert aus<br /><code>exchange[Task.Key]</code> zerlegt<br />und all die Elemente, bei denen das Attribut <code>save</code><br />zu <code>true</code> evaluiert wird<br />(z.B. <code>exchange.calibration-pressure.Unit.save:true</code><br />in die entsprechenden  Kalibrierdokumente geschrieben.</p></div></div><div class="section"><p data-section-title class="title"><a href="#">Source</a></p><div data-section-content class="content"><pre><code class="language-javascript">var readExchange = function(task, cb){
+  var ro     = {ok:true}
+    , key    = task.Key
+    , path   = task.Path
+    , path_b = [path[0]]
+    , path_e = path_b.concat(&quot;exchange&quot;)
+
+  if(key){
+    if(task.Customer){
+      key = deflt.cucoStr + &quot;-&quot; + key;
+    }
+    var path_d  = path_e.concat(key.split(&quot;.&quot;));
+
+    mem.get(path_d, function(err, data){
+      if(!err){
+        if(_.isUndefined(data)){
+          ro = {error:&quot;struct missing&quot;}
+          log.error(ro,
+                    &quot;nothing below &quot; + key)
+          if(_.isFunction(cb)){
+            cb(ro);
+          }
+        }else{
+          var dR = data.Ready
+          if( _.isUndefined(dR) || dR.value == true || dR.value == &quot;true&quot;){
+            var valcoll = {};
+            for(var k in data){
+
+              if(_.isObject(data[k]) &amp;&amp; ! _.isUndefined(data[k].value) &amp;&amp; data[k].save){
+
+                if(data[k].type === &quot;number&quot;){
+                  valcoll[k] = parseFloat(data[k].value);
+                }else{
+                  valcoll[k] = data[k].value;
+                }
+              }
+            }
+            log.info(ro
+                    , &quot;try storing data&quot;)
+            if(!_.isEmpty(valcoll)){
+              utils.query_cd(task
+                            , {Result:[valcoll]}
+                            , function(res){
+
+                                if(res.ok){
+                                  if(_.isUndefined(data.Ready)){
+                                    if(_.isFunction(cb)){
+                                      cb(ro);
+                                    }
+                                  }else{
+                                    var path_r = path_d.concat([&quot;Ready&quot;]);
+                                    mem.set(path_r, false, function(err){
+                                      if(res.ok){
+                                        log.info(ro
+                                                , &quot;reset exchange &quot; + key + &quot;Ready to false&quot; );
+                                        mem.publish(&quot;exchange&quot;, path_r, function(err){
+                                          log.info(ro
+                                                  , &quot;publish to  exchange channel&quot;);
+                                          if(!err){
+                                            if(_.isFunction(cb)){
+                                              cb(ro);
+                                            }
+                                          }else{
+                                            log.error({error:err}
+                                                     , &quot;on attempt to publish to exchange channel&quot;);
+                                          }
+                                        });
+                                      }else{
+                                        ro = {error:&quot;reset ready flag&quot;};
+                                        log.info(ro
+                                                , &quot; error on reset exchange.&quot; + key + &quot;.&quot; + &quot;Ready&quot; );
+                                        if(_.isFunction(cb)){
+                                          cb(ro);
+                                        }
+                                      }
+                                    });
+                                  }
+                                }else{
+                                  if(_.isFunction(cb)){
+                                    cb(res);
+                                  }
+                                }
+                              });
+            }else{
+              ro = {error:&quot;no values to save&quot;};
+              log.info(ro
+                      ,&quot;the value collection failed&quot; );
+              if(_.isFunction(cb)){
+                cb(ro);
+              }
+            }
+          }else{
+            if(_.isFunction(cb)){
+              setTimeout(function(){
+                cb({again:true});
+              }, deflt.system.againdelay)
+            }
+          }
+        }
+      } // if get exch err
+    }); // get data from exchange
+  }else{
+    ro = {error:&quot;not a valid task&quot;};
+    log.error(ro,
+              &quot;missing  key to read from&quot;)
+    if(_.isFunction(cb)){
+      cb(ro);
+    }
+  }
+};</code></pre></div></div></div></article><article class="comment"><header><h1 id="getList">getList</h1><h5 class="subheader"><div class="label radius ctx-type">function</div>getList()</h5></header><ul class="no-bullet tags"><li class="tag"><span class="type">@method: </span><span class="string">getList</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Object}</span><span class="name">task</span><span class="description">Task-Objekt</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Function}</span><span class="name">cb</span><span class="description">Callback Funktion</span></li></ul><div data-section="accordian" data-options="one_up: false;" class="section-container code auto"><div class="section"><p data-section-title class="title"><a href="#">Description</a></p><div data-section-content class="content description"><p>Die worker Funktion <code>getList()</code><br />holt Daten von einer Datenbank-List-Abfrage.<br />Die <code>task</code> benötigt die Einträge  <code>task.ListName</code><br />und <code>task.ViewName</code>.<br />Anwendungnsbeispiel: Datensätze zur Auswahl<br />eines Kalibrierdokuments.</p></div></div><div class="section"><p data-section-title class="title"><a href="#">Source</a></p><div data-section-content class="content"><pre><code class="language-javascript">var getList = function(task, cb){
+
+  var ro     = {ok:true}
+    , con    = net.list(task)
+    , path   = task.Path
+    , path_e = [path[0], &quot;exchange&quot;];
+  request.exec(con, task, false, function(listdata){
+    var path_t = task.ExchangePath;
+    if(path_t  &amp;&amp; path_t !== &quot;&quot;){
+      var path_s = path_e.concat(path_t.split(&quot;.&quot;));
+      mem.set(path_s, listdata, function(err){
+        if(!err){
+          mem.publish(&quot;exchange&quot;, path_s, function(err){
+            if(!err){
+              log.info(ro
+                      , &quot;wrote data to exchange&quot;);
+              if(_.isFunction(cb)){
+                cb(ro);
+              }
+            }else{
+              log.error({error: err}
+                       , &quot;error on publishing to exchange channel&quot;)
+            }
+
+          });
+        }else{
+          ro = {error: err}
+          log.error(ro
+                   , &quot;error on writing to exchange&quot;)
+          if(_.isFunction(cb)){
+            cb(ro);
+          }
+        }
+      }); // set exchange
+    }else{
+      log.error({error: &quot;receive list data&quot;}
+               , &quot;don't know what todo with received data: &quot;
+               + JSON.stringify(listdata)
+               + &quot; need a exchangepath&quot;);
+    }
+  });
+};</code></pre></div></div></div></article><article class="comment"><header><h1 id="checkDB">checkDB</h1><h5 class="subheader"><div class="label radius ctx-type">function</div>checkDB()</h5></header><ul class="no-bullet tags"><li class="tag"><span class="type">@method: </span><span class="string">checkDB</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Object}</span><span class="name">task</span><span class="description">Task-Objekt</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Function}</span><span class="name">cb</span><span class="description">Callback Funktion</span></li></ul><div data-section="accordian" data-options="one_up: false;" class="section-container code auto"><div class="section"><p data-section-title class="title"><a href="#">Description</a></p><div data-section-content class="content description"><p>Die worker Funktion <code>checkDB()</code><br />prüft die Verfügbarkeit der Datenbank über<br />den api Endpunkt /db</p></div></div><div class="section"><p data-section-title class="title"><a href="#">Source</a></p><div data-section-content class="content"><pre><code class="language-javascript">var checkDB = function(task, cb){
+
+  var ro     = {ok:true}
+    , con    = net.checkdb()
+    , path   = task.Path
+    , path_e = [path[0], &quot;exchange&quot;];
+
+  request.exec(con, task, false, function(dbinfo){
+    var path_t = task.ExchangePath;
+    if(path_t  &amp;&amp; path_t !== &quot;&quot;){
+      var path_s = path_e.concat(path_t.split(&quot;.&quot;));
+
+      if(dbinfo.error){
+        dbinfo.available = false;
+      }else{
+        dbinfo.available = false;
+      }
+
+      mem.set(path_s, dbinfo, function(err){
+        if(!err){
+          mem.publish(&quot;exchange&quot;, path_s, function(err){
+            if(!err){
+              log.info(ro
+                      , &quot;wrote data to exchange&quot;);
+              if(_.isFunction(cb)){
+                cb(ro);
+              }
+            }else{
+              log.error({error: err}
+                       , &quot;error on publishing to exchange channel&quot;)
+            }
+          });
+        }else{
+          ro = {error: err}
+          log.error(ro
+                   , &quot;error on writing to exchange&quot;)
+          if(_.isFunction(cb)){
+            cb(ro);
+          }
+        }
+      }); // set exchange
+    }else{
+      log.error({error: &quot;receive list data&quot;}
+               , &quot;don't know what todo with received data: &quot;
+               + JSON.stringify(dbinfo)
+               + &quot; need a exchangepath&quot;);
+    }
+  });
+};</code></pre></div></div></div></article><article class="comment"><header><h1 id="checkRelay">checkRelay</h1><h5 class="subheader"><div class="label radius ctx-type">function</div>checkRelay()</h5></header><ul class="no-bullet tags"><li class="tag"><span class="type">@method: </span><span class="string">checkRelay</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Object}</span><span class="name">task</span><span class="description">Task-Objekt</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Function}</span><span class="name">cb</span><span class="description">Callback Funktion</span></li></ul><div data-section="accordian" data-options="one_up: false;" class="section-container code auto"><div class="section"><p data-section-title class="title"><a href="#">Description</a></p><div data-section-content class="content description"><p>Die worker Funktion <code>checkRelay()</code><br />prüft die Verfügbarkeit der Datenbank über<br />den api Endpunkt /db</p></div></div><div class="section"><p data-section-title class="title"><a href="#">Source</a></p><div data-section-content class="content"><pre><code class="language-javascript">var checkRelay = function(task, cb){
+
+  var ro     = {ok:true}
+    , con    = net.relay()
+    , path   = task.Path
+    , path_e = [path[0], &quot;exchange&quot;]
+    , tsk    = clone(task)
+    , relayinfo;
+
+  tsk.Action = &quot;_version&quot;;
+  request.exec(con, task, JSON.stringify(tsk), function(data){
+    if(data.Result || data.error){
+      var path_t = task.ExchangePath;
+      if(path_t  &amp;&amp; path_t !== &quot;&quot;){
+        var path_s    = path_e.concat(path_t.split(&quot;.&quot;));
+        if(data.Result){
+          relayinfo = {version: data.Result
+                      , available:true};
+        }else{
+          relayinfo = {error: data.error,
+                       available:false};
+        }
+        mem.set(path_s, relayinfo , function(err){
+          if(!err){
+            mem.publish(&quot;exchange&quot;, path_s, function(err){
+              if(!err){
+                log.info(ro
+                        , &quot;wrote data to exchange&quot;);
+                if(_.isFunction(cb)){
+                  cb(ro);
+                }
+              }else{
+                log.error({error: err}
+                         , &quot;error on publishing to exchange channel&quot;)
+              }
+            });
+          }else{
+            ro = {error: err}
+            log.error(ro
+                     , &quot;error on writing to exchange&quot;)
+            if(_.isFunction(cb)){
+              cb(ro);
+            }
+          }
+        }); // set exchange
+      }else{
+        log.error({error: &quot;receive info data&quot;}
+                 , &quot;don't know what todo with received data: &quot;
+                 + JSON.stringify(data)
+                 + &quot; need a exchangepath&quot;);
+      }
+    }else{
+      ro = {error: &quot;receive unexpected data&quot;};
+      log.error(ro
+               , &quot;receive no data.Result&quot;)
+      if(_.isFunction(cb)){
+        cb(ro);
+      }
+    }
+  });
+};</code></pre></div></div></div></article><article class="comment"><header><h1 id="updateCd">updateCd</h1><h5 class="subheader"><div class="label radius ctx-type">function</div>updateCd()</h5></header><ul class="no-bullet tags"><li class="tag"><span class="type">@method: </span><span class="string">updateCd</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Object}</span><span class="name">task</span><span class="description">Task-Objekt</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Function}</span><span class="name">cb</span><span class="description">Callback Funktion</span></li></ul><div data-section="accordian" data-options="one_up: false;" class="section-container code auto"><div class="section"><p data-section-title class="title"><a href="#">Description</a></p><div data-section-content class="content description"><p>Holt KDs, über update list und schreibt KD zurück.</p></div></div><div class="section"><p data-section-title class="title"><a href="#">Source</a></p><div data-section-content class="content"><pre><code class="language-javascript">var updateCd = function(task, cb){
+
+  var path = task.Path
+    , mpid = path[0]
+    , ro   = {ok:true};
+
+  mem.get([mpid, &quot;id&quot;], function(err, sd){
+    if(!err){
+      var ids = _.keys(sd)
+        , N   = ids.length;
+      if(N &gt; 0){
+        for(var i = 0; i &lt; N; i++){
+
+          var id     = ids[i];
+          log.info(ro
+                  ,&quot;try to update: &quot; + id)
+          task.Param = {id: id};
+          var getcon = net.list(task);
+          request.exec(getcon, task, false
+                      , function(last, id){
+                          return function(updoc){
+                            if(updoc._id){
+                              var wrtcon    = net.wrtdoc(updoc._id)
+                                , wrtdata   = JSON.stringify(updoc);
+                              log.info(ro
+                                      ,&quot;try to write doc with id: &quot; + id)
+                              request.exec(wrtcon, task, wrtdata
+                                          , function(res){
+                                              if(res.ok){
+                                                log.info(ro
+                                                        ,&quot;doc with id: &quot; + res.id + &quot; got new revision &quot;
+                                                        +  res.rev + &quot; on storing&quot;);
+                                                if(last){
+                                                  cb(res);
+                                                }
+                                              }else{
+                                                ro = {error: &quot;update request&quot;};
+                                                log.error(res
+                                                         , &quot;while try to save updated doc&quot;)
+                                              }
+                                            })
+                            }else{
+                              ro = {error:&quot;update request&quot;};
+                              log.error(ro,
+                                        &quot;object returned by db has no _id property&quot;)
+                              if(_.isFunction(cb)){
+                                cb(ro)
+                              }
+                            }
+                          }
+                        }(i == N-1, id))
+        }
+      }else{
+        log.warn({warn:&quot;no cd id&quot;}
+                , &quot;no calibration doc selected&quot;);
+        if(_.isFunction(cb)){
+          cb(ro)
+        }
+      }
+    }else{
+      ro = err
+      log.error(ro
+               , &quot;error on attempt to get id interface&quot;);
+      if(_.isFunction(cb)){
+        cb(ro)
+      }
+    }
+  }); // get short doc objects
+}</code></pre></div></div></div></article><article class="comment"><header><h1 id="ctrlContainer">ctrlContainer</h1><h5 class="subheader"><div class="label radius ctx-type">function</div>ctrlContainer()</h5></header><ul class="no-bullet tags"><li class="tag"><span class="type">@method: </span><span class="string">ctrlContainer</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Object}</span><span class="name">task</span><span class="description">Task-Objekt</span></li><li class="tag"><span class="type">@param: </span><span class="types">{Function}</span><span class="name">cb</span><span class="description">Callback Funktion</span></li></ul><div data-section="accordian" data-options="one_up: false;" class="section-container code auto"><div class="section"><p data-section-title class="title"><a href="#">Description</a></p><div data-section-content class="content description"><p>Die worker Funktion <code>ctrlContainer</code><br />erlaubt es taskgesteuert den ctrl-String<br />von Containern zu setzen. Ein Anwendungsbeispiel<br />ist das Starten des Initialisierungscontainers<br />nachdem die KD-ids ausgewählt wurden.</p></div></div><div class="section"><p data-section-title class="title"><a href="#">Source</a></p><div data-section-content class="content"><pre><code class="language-javascript">var ctrlContainer = function(task, cb){
+  var path   = task.Path
+    , ro     = {ok:true}
+    , mpid   = path[0]
+    , path_b = [mpid]
+
+  if(task.Value &amp;&amp; _.isObject(task.Value)){
+    var containers = _.keys(task.Value)
+      , N = containers.length;
+
+    for( var i = 0; i &lt; N; i++ ){
+
+      var no       = containers[i]
+        , ctrlStr  = task.Value[no]
+        , path_c   = [mpid, no, &quot;ctrl&quot;]
+
+      mem.set(path_c, ctrlStr
+             , function(last, n, c){
+                 return function(err){
+                   if(!err){
+                     log.info(ro
+                             , &quot;set container: &quot; + n + &quot; to &quot;+ c);
+                   }else{
+                     ro = {error:err}
+                     log.info(ro
+                             ,&quot;error on attempt to set container: &quot; + no + &quot; to &quot; + c);
+                   }
+                   if(last){
+                     if(_.isFunction(cb)){
+                       cb(ro);
+                     }
+                   }
+                 }
+               }(i == N-1, no, ctrlStr))
+    } //for
+  } // task.value
+}
+
+
+exports.VXI11         = nodeRelay;
+exports.TCP           = nodeRelay;
+exports.UDP           = nodeRelay;
+exports.wait          = wait;
+exports.writeExchange = writeExchange;
+exports.readExchange  = readExchange;
+exports.getList       = getList;
+exports.ctrlContainer = ctrlContainer
+exports.updateCd      = updateCd
+exports.getTime       = getTime;
+exports.getDate       = getDate;
+
+exports.checkDB       = checkDB;
+exports.checkRelay    = checkRelay;
+
+//exports[&quot;/usr/local/bin/vxiTransceiver&quot;] = nodeRelay;
+
+//exports.select        = select;
+// /**
+//  * Die worker Funktion ```select()``` wählt auf Basis
+//  * der unter _exchange_ derzeitig vorhandenen Werte
+//  * (z.B. ```target_pfill.Value.value```
+//  * ein Folgerezept für den aufrufenden Container aus.
+//  * In der ```task``` muss die Rezeptklasse unter dem Pfad
+//  * ```task.Value.RecipeClass``` gegeben sein.
+//  *
+//  * @param {Object} task Task-Objekt
+//  * @param {Array} pfad Pfad Array
+//  * @param {Function} cb Callback Funktion
+//  */
+//
+// var select = function(task, path, cb){
+//   var ro;
+//   // --- rewrite if can be tested
+//   // dont work for the moment
+//   // because of async get recipe conditions
+//
+//   if(task.Value &amp;&amp;
+//      task.Value.RecipeClass){
+//     var rclass = task.Value.RecipeClass;
+//
+//     mp.definitions.get([],function(defs){
+//       var take   = false
+//         , pos    = clone(path).shift();
+//
+//       for(var i = 0; i &lt; defs.length; i++){
+//         var def = defs[i];
+//         if(def.RecipeClass === rclass){
+//           log.info({ok:true}
+//                   , &quot;found recipe class&quot;)
+//           var conds = def.Conditions;
+//           take  = true;
+//           for(var j = 0; j &lt; conds.length; j++){
+//             var cond = conds[j];
+//             if(cond.ExchangePath &amp;&amp;
+//                cond.Value &amp;&amp;
+//                cond.Methode){
+//
+//               mp.exchange.get(cond.ExchangePath, function(exchval){
+//                 var condval = cond.Value;
+//
+//                 if(_.isUndefined(exchval)){
+//                   take = false;
+//                 }else{
+//                   take = take &amp;&amp; compare[cond.Methode](exchval, condval);
+//                 }
+//               }); // exchpath
+//             }
+//           }
+//           if(take){
+//             ro = {ok:true};
+//             log.info(ro
+//                     , &quot;found matching recipe&quot;)
+//             mp.definition.del([pos], function(){
+//                 mp.recipe.del([pos], function(){
+//                   log.info(ro
+//                           , &quot;sync def and state: &quot; + pos);
+//                   mp.definition.set([pos], def.Definition, function(){
+//                     utils.cp(..., def.Definition, ctrlstr.ready, function(){
+//                       mp.ctrl.get([pos], function(oldctrl){
+//                         mp.ctrl.set([pos], ctrlstr.load + &quot;;&quot; + oldctrl, function(){
+//                           log.info(ro
+//                                   , &quot;load matching recipe&quot;)
+//                           if(_.isFunction(cb)){
+//                             cb(ro);
+//                           }
+//                         });
+//                       });
+//                     });
+//                   });
+//                 });
+//               });
+//
+//             break;
+//           } // take
+//         } // if rclass
+//       } // for
+//       if(!take){
+//         ro = {error:&quot;no condition match&quot;};
+//         log.error(ro,
+//                   &quot;no recipe matches the conditions&quot;);
+//         if(_.isFunction(cb)){
+//           cb(ro)
+//         }
+//       }
+//     });  // get recipe
+//   }else{
+//     ro = {error:&quot;recipe class missing&quot;};
+//     log.error(ro,
+//               &quot;don't know which RecipeClass to look for&quot;)
+//     if(_.isFunction(cb)){
+//       cb(ro)
+//     }
+//   }
+// };</code></pre></div></div></div></article></div></div><!-- Foundation JS--><script type="text/javascript">document.write('<script src=' +
+('__proto__' in {} ? 'http://cdnjs.cloudflare.com/ajax/libs/zepto/1.0/zepto.min' : 'http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min') +
+'.js><\/script>')
+</script><script src="http://cdnjs.cloudflare.com/ajax/libs/foundation/4.1.6/js/foundation.min.js"></script><script src="http://cdnjs.cloudflare.com/ajax/libs/foundation/4.1.6/js/foundation/foundation.reveal.min.js"></script><!-- Prism js--><script>/**
+ * Prism: Lightweight, robust, elegant syntax highlighting
+ * MIT license http://www.opensource.org/licenses/mit-license.php/
+ * @author Lea Verou http://lea.verou.me
+ */(function(){var e=/\blang(?:uage)?-(?!\*)(\w+)\b/i,t=self.Prism={util:{type:function(e){return Object.prototype.toString.call(e).match(/\[object (\w+)\]/)[1]},clone:function(e){var n=t.util.type(e);switch(n){case"Object":var r={};for(var i in e)e.hasOwnProperty(i)&&(r[i]=t.util.clone(e[i]));return r;case"Array":return e.slice()}return e}},languages:{extend:function(e,n){var r=t.util.clone(t.languages[e]);for(var i in n)r[i]=n[i];return r},insertBefore:function(e,n,r,i){i=i||t.languages;var s=i[e],o={};for(var u in s)if(s.hasOwnProperty(u)){if(u==n)for(var a in r)r.hasOwnProperty(a)&&(o[a]=r[a]);o[u]=s[u]}return i[e]=o},DFS:function(e,n){for(var r in e){n.call(e,r,e[r]);t.util.type(e)==="Object"&&t.languages.DFS(e[r],n)}}},highlightAll:function(e,n){var r=document.querySelectorAll('code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code');for(var i=0,s;s=r[i++];)t.highlightElement(s,e===!0,n)},highlightElement:function(r,i,s){var o,u,a=r;while(a&&!e.test(a.className))a=a.parentNode;if(a){o=(a.className.match(e)||[,""])[1];u=t.languages[o]}if(!u)return;r.className=r.className.replace(e,"").replace(/\s+/g," ")+" language-"+o;a=r.parentNode;/pre/i.test(a.nodeName)&&(a.className=a.className.replace(e,"").replace(/\s+/g," ")+" language-"+o);var f=r.textContent;if(!f)return;f=f.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ");var l={element:r,language:o,grammar:u,code:f};t.hooks.run("before-highlight",l);if(i&&self.Worker){var c=new Worker(t.filename);c.onmessage=function(e){l.highlightedCode=n.stringify(JSON.parse(e.data),o);t.hooks.run("before-insert",l);l.element.innerHTML=l.highlightedCode;s&&s.call(l.element);t.hooks.run("after-highlight",l)};c.postMessage(JSON.stringify({language:l.language,code:l.code}))}else{l.highlightedCode=t.highlight(l.code,l.grammar,l.language);t.hooks.run("before-insert",l);l.element.innerHTML=l.highlightedCode;s&&s.call(r);t.hooks.run("after-highlight",l)}},highlight:function(e,r,i){return n.stringify(t.tokenize(e,r),i)},tokenize:function(e,n,r){var i=t.Token,s=[e],o=n.rest;if(o){for(var u in o)n[u]=o[u];delete n.rest}e:for(var u in n){if(!n.hasOwnProperty(u)||!n[u])continue;var a=n[u],f=a.inside,l=!!a.lookbehind,c=0;a=a.pattern||a;for(var h=0;h<s.length;h++){var p=s[h];if(s.length>e.length)break e;if(p instanceof i)continue;a.lastIndex=0;var d=a.exec(p);if(d){l&&(c=d[1].length);var v=d.index-1+c,d=d[0].slice(c),m=d.length,g=v+m,y=p.slice(0,v+1),b=p.slice(g+1),w=[h,1];y&&w.push(y);var E=new i(u,f?t.tokenize(d,f):d);w.push(E);b&&w.push(b);Array.prototype.splice.apply(s,w)}}}return s},hooks:{all:{},add:function(e,n){var r=t.hooks.all;r[e]=r[e]||[];r[e].push(n)},run:function(e,n){var r=t.hooks.all[e];if(!r||!r.length)return;for(var i=0,s;s=r[i++];)s(n)}}},n=t.Token=function(e,t){this.type=e;this.content=t};n.stringify=function(e,r,i){if(typeof e=="string")return e;if(Object.prototype.toString.call(e)=="[object Array]")return e.map(function(t){return n.stringify(t,r,e)}).join("");var s={type:e.type,content:n.stringify(e.content,r,i),tag:"span",classes:["token",e.type],attributes:{},language:r,parent:i};s.type=="comment"&&(s.attributes.spellcheck="true");t.hooks.run("wrap",s);var o="";for(var u in s.attributes)o+=u+'="'+(s.attributes[u]||"")+'"';return"<"+s.tag+' class="'+s.classes.join(" ")+'" '+o+">"+s.content+"</"+s.tag+">"};if(!self.document){self.addEventListener("message",function(e){var n=JSON.parse(e.data),r=n.language,i=n.code;self.postMessage(JSON.stringify(t.tokenize(i,t.languages[r])));self.close()},!1);return}var r=document.getElementsByTagName("script");r=r[r.length-1];if(r){t.filename=r.src;document.addEventListener&&!r.hasAttribute("data-manual")&&document.addEventListener("DOMContentLoaded",t.highlightAll)}})();;
+Prism.languages.markup={comment:/&lt;!--[\w\W]*?-->/g,prolog:/&lt;\?.+?\?>/,doctype:/&lt;!DOCTYPE.+?>/,cdata:/&lt;!\[CDATA\[[\w\W]*?]]>/i,tag:{pattern:/&lt;\/?[\w:-]+\s*(?:\s+[\w:-]+(?:=(?:("|')(\\?[\w\W])*?\1|\w+))?\s*)*\/?>/gi,inside:{tag:{pattern:/^&lt;\/?[\w:-]+/i,inside:{punctuation:/^&lt;\/?/,namespace:/^[\w-]+?:/}},"attr-value":{pattern:/=(?:('|")[\w\W]*?(\1)|[^\s>]+)/gi,inside:{punctuation:/=|>|"/g}},punctuation:/\/?>/g,"attr-name":{pattern:/[\w:-]+/g,inside:{namespace:/^[\w-]+?:/}}}},entity:/&amp;#?[\da-z]{1,8};/gi};Prism.hooks.add("wrap",function(e){e.type==="entity"&&(e.attributes.title=e.content.replace(/&amp;/,"&"))});;
+Prism.languages.css={comment:/\/\*[\w\W]*?\*\//g,atrule:{pattern:/@[\w-]+?.*?(;|(?=\s*{))/gi,inside:{punctuation:/[;:]/g}},url:/url\((["']?).*?\1\)/gi,selector:/[^\{\}\s][^\{\};]*(?=\s*\{)/g,property:/(\b|\B)[\w-]+(?=\s*:)/ig,string:/("|')(\\?.)*?\1/g,important:/\B!important\b/gi,ignore:/&(lt|gt|amp);/gi,punctuation:/[\{\};:]/g};Prism.languages.markup&&Prism.languages.insertBefore("markup","tag",{style:{pattern:/(&lt;|<)style[\w\W]*?(>|&gt;)[\w\W]*?(&lt;|<)\/style(>|&gt;)/ig,inside:{tag:{pattern:/(&lt;|<)style[\w\W]*?(>|&gt;)|(&lt;|<)\/style(>|&gt;)/ig,inside:Prism.languages.markup.tag.inside},rest:Prism.languages.css}}});;
+Prism.languages.clike={comment:{pattern:/(^|[^\\])(\/\*[\w\W]*?\*\/|(^|[^:])\/\/.*?(\r?\n|$))/g,lookbehind:!0},string:/("|')(\\?.)*?\1/g,"class-name":{pattern:/((?:(?:class|interface|extends|implements|trait|instanceof|new)\s+)|(?:catch\s+\())[a-z0-9_\.\\]+/ig,lookbehind:!0,inside:{punctuation:/(\.|\\)/}},keyword:/\b(if|else|while|do|for|return|in|instanceof|function|new|try|catch|finally|null|break|continue)\b/g,"boolean":/\b(true|false)\b/g,"function":{pattern:/[a-z0-9_]+\(/ig,inside:{punctuation:/\(/}}, number:/\b-?(0x[\dA-Fa-f]+|\d*\.?\d+([Ee]-?\d+)?)\b/g,operator:/[-+]{1,2}|!|&lt;=?|>=?|={1,3}|(&amp;){1,2}|\|?\||\?|\*|\/|\~|\^|\%/g,ignore:/&(lt|gt|amp);/gi,punctuation:/[{}[\];(),.:]/g};;
+Prism.languages.javascript=Prism.languages.extend("clike",{keyword:/\b(var|let|if|else|while|do|for|return|in|instanceof|function|new|with|typeof|try|catch|finally|null|break|continue)\b/g,number:/\b-?(0x[\dA-Fa-f]+|\d*\.?\d+([Ee]-?\d+)?|NaN|-?Infinity)\b/g});Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:/(^|[^/])\/(?!\/)(\[.+?]|\\.|[^/\r\n])+\/[gim]{0,3}(?=\s*($|[\r\n,.;})]))/g,lookbehind:!0}});Prism.languages.markup&&Prism.languages.insertBefore("markup","tag",{script:{pattern:/(&lt;|<)script[\w\W]*?(>|&gt;)[\w\W]*?(&lt;|<)\/script(>|&gt;)/ig,inside:{tag:{pattern:/(&lt;|<)script[\w\W]*?(>|&gt;)|(&lt;|<)\/script(>|&gt;)/ig,inside:Prism.languages.markup.tag.inside},rest:Prism.languages.javascript}}});;
+Prism.languages.coffeescript=Prism.languages.extend("javascript",{"block-comment":/([#]{3}\s*\r?\n(.*\s*\r*\n*)\s*?\r?\n[#]{3})/g,comment:/(\s|^)([#]{1}[^#^\r^\n]{2,}?(\r?\n|$))/g,keyword:/\b(this|window|delete|class|extends|namespace|extend|ar|let|if|else|while|do|for|each|of|return|in|instanceof|new|with|typeof|try|catch|finally|null|undefined|break|continue)\b/g});Prism.languages.insertBefore("coffeescript","keyword",{"function":{pattern:/[a-z|A-z]+\s*[:|=]\s*(\([.|a-z\s|,|:|{|}|\"|\'|=]*\))?\s*-&gt;/gi,inside:{"function-name":/[_?a-z-|A-Z-]+(\s*[:|=])| @[_?$?a-z-|A-Z-]+(\s*)| /g,operator:/[-+]{1,2}|!|=?&lt;|=?&gt;|={1,2}|(&amp;){1,2}|\|?\||\?|\*|\//g}},"attr-name":/[_?a-z-|A-Z-]+(\s*:)| @[_?$?a-z-|A-Z-]+(\s*)| /g});;
+Prism.languages.scss=Prism.languages.extend("css",{comment:{pattern:/(^|[^\\])(\/\*[\w\W]*?\*\/|\/\/.*?(\r?\n|$))/g,lookbehind:!0},atrule:/@[\w-]+(?=\s+(\(|\{|;))/gi,url:/([-a-z]+-)*url(?=\()/gi,selector:/([^@;\{\}\(\)]?([^@;\{\}\(\)]|&amp;|\#\{\$[-_\w]+\})+)(?=\s*\{(\}|\s|[^\}]+(:|\{)[^\}]+))/gm});Prism.languages.insertBefore("scss","atrule",{keyword:/@(if|else if|else|for|each|while|import|extend|debug|warn|mixin|include|function|return)|(?=@for\s+\$[-_\w]+\s)+from/i});Prism.languages.insertBefore("scss","property",{variable:/((\$[-_\w]+)|(#\{\$[-_\w]+\}))/i});Prism.languages.insertBefore("scss","ignore",{placeholder:/%[-_\w]+/i,statement:/\B!(default|optional)\b/gi,"boolean":/\b(true|false)\b/g,"null":/\b(null)\b/g,operator:/\s+([-+]{1,2}|={1,2}|!=|\|?\||\?|\*|\/|\%)\s+/g});
+;
+</script><script>  var headerHeight = 64;
+
+  $(document).foundation();
+
+  $(function(){
+    $('pre code').addClass('language-javascript');
+  //   $('#nav > ul > li > a[href$="'+location.pathname.substring(location.pathname.lastIndexOf('/')+1, location.pathname.length)+'"]').parent().addClass('active');
+  })</script></body></html>
