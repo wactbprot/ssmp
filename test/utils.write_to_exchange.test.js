@@ -24,13 +24,14 @@ describe('utils', function(){
   });
 
   describe('#write_to_exchange', function(){
-    it('should write to exchange', function(){
+    it('should write to exchange', function(done){
       var task   = {"ExchangePath": "test"}
         , value  = {"value":true}
         , path   = ["check"]
 
-       utils.write_to_exchange(task, value , path, function(res){
-         console.log(res)
+      utils.write_to_exchange(task, value , path, function(res){
+        console.log(res)
+        done();
        });
     });
   });

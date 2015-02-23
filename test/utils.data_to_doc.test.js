@@ -119,7 +119,6 @@ if(false){
         , path = "Calibration.Measurement.Values.Pressure";
 
       utils.data_to_doc(clone(caldoc), path, dataset, function(d){
-        console.log(d)
         assert.equal(d.Calibration.Measurement.Values.Pressure[0].Value.length, 1);
         assert.equal(d.Calibration.Measurement.Values.Pressure[0].Value[0], 123);
         assert.equal(d.Calibration.Measurement.Values.Pressure[0].Comment[0],"comment0" );
