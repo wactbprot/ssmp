@@ -28,11 +28,10 @@ describe('utils', function(){
       var task   = {"ExchangePath": "test"}
         , value  = {"value":true}
         , path   = ["check"]
-
-        utils.write_to_exchange(task, value , path, function(res){
-          assert.equal(res.ok, true);
+      utils.write_to_exchange(task, value , path, function(res){
+        assert.equal(res.ok, true);
           done()
-        });
+      });
     });
   });
 });
