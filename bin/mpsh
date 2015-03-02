@@ -27,29 +27,37 @@ context.ecb = function(err, res){
   }
 }
 
-var task_exec = function(tsk, repl, cb){
-  if(_.isObject(repl)){
-    for(var token in repl){
-      var value = repl[token]
-      tsk = utils.replace_in_with(tsk,token, value)
-    }
+var task_exec = function(task, repl, cb){
+  var tsk   = clone(task)
+    , tdef;
+
+  if(!_.isObject(repl)){
+    repl = {};
   }
 
-  if(tsk.Defaults){
-    var td = clone(tsk.Defaults)
+  if(!_.isObject(tsk.Defaults) ){
+    tdef = {};
+  }else{
+    tdef = tsk.Defaults
     delete tsk.Defaults;
-    for(var token in td){
-      var value = td[token]
-      tsk = utils.replace_in_with(tsk, token, value)
-    }
-    tsk.Defaults = td;
-  } // tsk.Defaults
+  }
 
-  if(_.isObject(tsk) && tsk.Action && _.isFunction(cb)){
-    worker[tsk.Action](tsk, cb);
+  tdef  = _.extend(tdef, repl);
+
+  var k  = _.keys(tdef)
+    , v  = _.values(tdef)
+    , Nk = k.length;
+
+  for(var i = 0; i < Nk; i++){
+    tsk = utils.replace_in_with(tsk, k[i], v[i])
+    if(i == Nk - 1){
+      tsk.Defaults = tdef;
+      if(_.isObject(tsk) && tsk.Action && _.isFunction(cb)){
+        worker[tsk.Action](tsk, cb);
+      }
+    }
   }
 }
-
 
 var refresh_task_list = function(){
   context.task = {};
@@ -64,7 +72,6 @@ var refresh_task_list = function(){
   })
 }
 
-
 context.mem       = ndata.createClient({port: deflt.mem.port});
 context.defaults  = deflt;
 context.utils     = utils;
@@ -75,8 +82,6 @@ context.request   = request;
 context.statics   = require("../lib/providejson")("./static/");
 context.task_exec = task_exec;
 context.refresh_task_list = refresh_task_list;
-
-
 
 console.log("whats already done:");
 console.log("- refresh task list and assign to TaskList");
