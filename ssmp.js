@@ -61,15 +61,15 @@ var ssmp = function(){
                       if(!err){
                         log.info(ok
                                 , "set static: " + i);
-                        mem.publish("buildup", [i], function(err){
-                          if(!err){
-                            log.info(ok
-                                    , "mp builded, event published, exec callback");
-                          }else{
-                            log.error({error:err}
-                                     , "error on publishing build event")
-                          }
-                        });
+//  --> start_container_obs                      mem.publish("buildup", [i], function(err){
+//                          if(!err){
+//                            log.info(ok
+//                                    , "mp builded, event published, exec callback");
+//                          }else{
+//                            log.error({error:err}
+//                                     , "error on publishing build event")
+//                          }
+//                        });
                       }else{
                         log.info({error:err}
                                 , "unable to set static " + i);

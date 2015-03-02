@@ -9,8 +9,8 @@ var assert = require("assert")
 
 describe('utils', function(){
 
-if(false){
-} // if false
+  if(false){
+  } // if false
   describe('#data_to_doc()', function(){
     it('should return error on empty data set', function(done){
 
@@ -18,22 +18,18 @@ if(false){
         assert.equal(d.error, "wrong dataset structure");
 
         done();
-      })
-    })
-  })
+      });
+    });
 
-  describe('#data_to_doc()', function(){
     it('should return error on empty Result set', function(done){
 
       utils.data_to_doc(clone(caldoc), "Calibration", {Result:[]}, function(d){
         assert.equal(d.error, "wrong dataset structure");
 
         done();
-      })
-    })
-  })
+      });
+    });
 
-  describe('#data_to_doc()', function(){
     it('should set multible type, unit, value and comment structures', function(done){
       var path = "Calibration.Measurement.Values.Pressure"
         , dataset = { Result:
@@ -41,14 +37,14 @@ if(false){
                         { Type: 'b', Unit: 'C', Value: null , Comment: "bla bla"},
                         { Type: 'c', Unit: 'C', Value: null , Comment: "bla bla"},
                         { Type: 'd', Unit: 'C', Value: null , Comment: "bla bla"}
-                        ] }
+                      ] }
         , N = dataset.Result.length;
 
       utils.data_to_doc(clone(caldoc), path, dataset, function(d){
         assert.equal(d.Calibration.Measurement.Values.Pressure.length, N);
 
         for(var i in  d.Calibration.Measurement.Values.Pressure){
-         var o = d.Calibration.Measurement.Values.Pressure[i];
+          var o = d.Calibration.Measurement.Values.Pressure[i];
           assert.equal(_.isNull(o.Value[0]), true);
           assert.equal(_.isString(o.Type), true);
           assert.equal(_.isString(o.Unit), true);
@@ -57,10 +53,8 @@ if(false){
           }
         }
       });
-    })
-  });
+    });
 
-  describe('#data_to_doc()', function(){
     it('should set very deep paths', function(done){
       var path    = "a.s.d.f.g.h.j.k.l.o.i.u.z.t.r.f",
           dataset = {Result:[{Type:"test1",
@@ -73,10 +67,8 @@ if(false){
         assert.equal(d.a.s.d.f.g.h.j.k.l.o.i.u.z.t.r.f[0].Comment[0],"comment1" );
         done();
       });
-    })
-  });
+    });
 
-  describe('#data_to_doc()', function(){
     it('should set multible values to the same type', function(done){
       var path    = "Calibration.Measurement.Values.Pressure",
           dataset = {Result:[{Type:"test1",
@@ -97,10 +89,7 @@ if(false){
         });
       });
     })
-  });
 
-
-  describe('#data_to_doc()', function(){
     it('should return error on wrong Result', function(done){
 
       utils.data_to_doc(clone(caldoc), "Calibration", {Result:[{Type:"d"}]}, function(d){
@@ -108,9 +97,7 @@ if(false){
         done();
       })
     })
-  })
 
-  describe('#data_to_doc()', function(){
     it('should set one type, unit, value and comment structure', function(done){
       var dataset = {Result:[{Type:"test0",
                               Unit:"tu",
@@ -126,9 +113,23 @@ if(false){
         done();
       });
     })
-  });
 
-  describe('#data_to_doc()', function(){
+    it('should set value:0 case ', function(done){
+      var dataset = {Result:[{Type:"test0",
+                              Unit:"tu",
+                              Value:0,
+                              Comment:"comment0"}]}
+        , path = "Calibration.Measurement.Values.Pressure";
+
+      utils.data_to_doc(clone(caldoc), path, dataset, function(d){
+        assert.equal(d.Calibration.Measurement.Values.Pressure[0].Value.length, 1);
+        assert.equal(d.Calibration.Measurement.Values.Pressure[0].Value[0], 0);
+        assert.equal(d.Calibration.Measurement.Values.Pressure[0].Comment[0],"comment0" );
+
+        done();
+      });
+    })
+
     it('should set the kv structures given', function(done){
 
       var dataset = {Result:[{Gas:"N2"},
@@ -142,6 +143,4 @@ if(false){
       });
     });
   });
-
-
 });
