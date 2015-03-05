@@ -4,6 +4,7 @@ var ssmp = function(){
     , _       = require("underscore")
     , bunyan  = require("bunyan")
     , deflt   = require("./lib/default")
+    , utils   = require("./lib/utils")
     , cstr    = deflt.ctrlStr
     , log     = bunyan.createLogger({name: deflt.appname})
     , ok      = {ok:true};
@@ -35,7 +36,7 @@ var ssmp = function(){
       var mem      = ndata.createClient({port: deflt.mem.port})
         , statics  = {};
       if(prog.all_statics || prog.statics_list){
-        var sts  = require("./lib/providejson")("./static/");
+        var sts  = utils.get_jsn("./static/");
         if(prog.statics_list){
           var sl =  prog.statics_list.split(",")
           for(var j = 0; j < sl.length; j++){
