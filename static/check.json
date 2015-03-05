@@ -1,22 +1,8 @@
 {
     "0":{
         "ctrl":"monitoring",
-        "element":[]
-        ,
         "contdescr":"checks db and relay availability",
         "title":"check db & relay",
-        "definition":[[
-	    {
-		"TaskName":"Common-db_info"
-	    },
-            {
-		"TaskName":"Common-relay_info"
-	    }
-	],[
-	    {
-		"TaskName":"Common-wait"
-	    }
-	]],
         "recipe":{
 	    "0":{
 		"0":{"Action":"checkDB",
@@ -52,8 +38,5 @@
             "container":{
 		"N":1,
                 "Title":["check db & relay"]}},
-    "exchange":{},
-    "definitions":[],
-    "tasks":[],
-    "id":{}
+    "exchange":{}
 }
