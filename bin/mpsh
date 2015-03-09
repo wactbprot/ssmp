@@ -79,7 +79,7 @@ context.load      = load;
 context.worker    = worker;
 context.run       = run;
 context.request   = request;
-context.statics   = require("../lib/providejson")("./static/");
+context.statics   = utils.get_jsn("./static/");
 context.task_exec = task_exec;
 context.refresh_task_list = refresh_task_list;
 
