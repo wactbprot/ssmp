@@ -8,41 +8,41 @@ describe('net', function(){
   describe('#task(mp)', function(){
     it('should return the task path', function(){
       var o = net.task();
-      assert("mp_db/_design/dbmp/_list/get/tasks", o.path);
+      assert(deflt.database.name + "/_design/dbmp/_list/get/tasks", o.path);
     })
   })
   describe('#task()', function(){
     it('should return the task path \wo mp', function(){
       var o = net.task();
-      assert("mp_db/_design/dbmp/_list/get/tasks", o.path);
+      assert(deflt.database.name + "/_design/dbmp/_list/get/tasks", o.path);
     })
   })
 
   describe('#list(mp, task)', function(){
     it('should return a list path', function(){
       var o = net.list({ListName:"l", ViewName:"v"});
-      assert("mp_db/_design/dbmp/_list/l/v", o.path);
+      assert(deflt.database.name + "/_design/dbmp/_list/l/v", o.path);
     })
   })
 
   describe('#list(false, task)', function(){
     it('should return a list path \wo mp', function(){
       var o = net.list({ListName:"l", ViewName:"v"});
-      assert("mp_db/_design/dbmp/_list/l/v", o.path);
+      assert(deflt.database.name + "/_design/dbmp/_list/l/v", o.path);
     })
   })
 
   describe('#docinfo(mp, docid)', function(){
     it('should return the docinfo path', function(){
       var o = net.docinfo("test");
-      assert("mp_db/_design/dbmp/_show/test", o.path);
+      assert(deflt.database.name + "/_design/dbmp/_show/test", o.path);
     })
   })
 
   describe('#docinfo(false, docid)', function(){
     it('should return the docinfo path \wo mp', function(){
       var o = net.docinfo("test");
-      assert("mp_db/_design/dbmp/_show/test", o.path);
+      assert(deflt.database.name + "/_design/dbmp/_show/test", o.path);
     })
   })
 
