@@ -37,18 +37,5 @@ describe('utils.query_cd', function(){
                        done();
                      });
     });
-
-    it('should save the doc', function(done){
-
-      var task = {Id:["ca-test_doc_1"],
-                  DocPath:"Date.Now"};
-      var data = {Result:[{Date:now}]};
-
-      utils.query_cd(task, data,
-                     function(res){
-                       assert.equal(res.ok, true);
-                       done()
-                     });
-    });
   });
 });

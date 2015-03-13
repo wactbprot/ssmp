@@ -12,7 +12,14 @@ describe('utils', function(){
       utils.replace_all({a:"@c"}, {"@c":"d"}, function(o){
         assert.equal(o.a, "d");
       });
-    })
+    });
+
+    it('should replace numbers', function(){
+
+      utils.replace_all({a:"@c"}, {"@c":24356376}, function(o){
+        assert.equal(o.a, 24356376);
+      });
+    });
 
     it('should replace array', function(){
       utils.replace_all({a:"@c"}, {"@c":["d","e"]}, function(o){
