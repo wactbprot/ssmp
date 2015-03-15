@@ -95,4 +95,14 @@ describe('utils', function(){
     });
   });
 
+
+  describe('#cp(template, inival, cb)', function(){
+    it('should do his work', function(){
+      utils.cp({"0":{"0":1}}, 2, function(res){
+      assert.equal(res["0"]["0"], 2);
+      });
+    });
+  });
+
+
 })
