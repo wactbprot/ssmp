@@ -2,7 +2,6 @@ var _        = require("underscore")
   , assert   = require("assert")
   , ndata    = require("ndata")
   , deflt    = require("../lib/default")
-  , load     = require("../lib/load")
   , worker
   , ds
   , mem
@@ -69,8 +68,7 @@ describe('worker', function(){
 
     it('should select Definition', function(done){
       worker.select({DefinitionClass:"test", Path:["test", 0]}, function(res){
-        console.log(res)
-        //assert.equal()
+        assert.equal(res.end, true)
         done();
       });
     });
