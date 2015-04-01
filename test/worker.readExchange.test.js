@@ -28,12 +28,20 @@ describe('worker', function(){
                                 Ready:
                                 {value:true}}
                              , function(){
-                                 mem.set(exchpath.concat(["c"])
+                                 mem.set(exchpath.concat(["d"])
                                         , {Wrong:
                                            {value:"nope"}}
                                         , function(){
-                                            worker    = require("../lib/worker")
-                                            done();
+                                            mem.set(exchpath.concat(["c"])
+                                                   , {Value:
+                                                      {value:1,
+                                                       save:true},
+                                                      Ready:
+                                                      {value:true}}
+                                                   , function(){
+                                                       worker    = require("../lib/worker")
+                                                       done();
+                                                     });
                                           });
                                });
                     });
@@ -79,11 +87,24 @@ describe('worker', function(){
       });
     });
 
-    it('should  work on missing Ready ', function(done){
+    it('should work with missing Ready ', function(done){
 
       worker.readExchange({Key:"c", Path:["test", 0]}, function(res){
         assert.equal(res.ok, true);
         done();
+      });
+    });
+
+    it('should reset Ready to false', function(done){
+
+      worker.readExchange({Key:"d", Path:["test", 0]}, function(res){
+
+        mem.get(["test", "exchange","d","Ready","value"], function(err, res){
+
+          assert.equal(res, false);
+
+        done();
+        });
       });
     });
 
