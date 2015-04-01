@@ -14,8 +14,7 @@ describe('worker', function(){
            mem.set(exchpath.concat(["a"])
                   , {Value:
                      {value:"ok"},
-                     Ready:
-                     {value:"true"}}
+                     Ready:{value:"true"}}
                   , function(){
                       mem.set(exchpath.concat(["b"])
                              , {Value:
@@ -28,11 +27,11 @@ describe('worker', function(){
                                 Ready:
                                 {value:true}}
                              , function(){
-                                 mem.set(exchpath.concat(["d"])
+                                 mem.set(exchpath.concat(["c"])
                                         , {Wrong:
                                            {value:"nope"}}
                                         , function(){
-                                            mem.set(exchpath.concat(["c"])
+                                            mem.set(exchpath.concat(["d"])
                                                    , {Value:
                                                       {value:1,
                                                        save:true},
@@ -96,19 +95,23 @@ describe('worker', function(){
     });
 
     it('should reset Ready to false', function(done){
-
       worker.readExchange({Key:"d", Path:["test", 0]}, function(res){
-
-        mem.get(["test", "exchange","d","Ready","value"], function(err, res){
-
+        mem.get(["test", "exchange","d", "Ready", "value"], function(err, res){
           assert.equal(res, false);
-
-        done();
+          mem.set(["test", "exchange","d", "Ready", "value"], true, function(err){
+            mem.get(["test", "exchange","d", "Ready", "value"], function(err, res){
+              assert.equal(res, true);
+              worker.readExchange({Key:"d", Path:["test", 0]}, function(res){
+                mem.get(["test", "exchange","d", "Ready", "value"], function(err, res){
+                assert.equal(res, false);
+                  done();
+                });
+              });
+            });
+          });
         });
       });
     });
-
-
-});
+  });
 
 });
