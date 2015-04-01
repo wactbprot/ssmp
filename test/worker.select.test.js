@@ -25,8 +25,21 @@ var _        = require("underscore")
      "Definition": [
        [{"TaskName": "Commons-wait"}]
      ],
-     "DefinitionClass": "test"
-    }];
+     "DefinitionClass": "testOk"
+    },
+    {"Condition": [
+      {
+        "ExchangePath": "a.Value.value",
+        "Methode": "nope",
+        "Value": 3
+      }
+    ],
+     "Definition": [
+       [{"TaskName": "Commons-wait"}]
+     ],
+     "DefinitionClass": "testWrong"
+    }
+  ];
 
 describe('worker', function(){
   before(function(done){
@@ -67,11 +80,42 @@ describe('worker', function(){
     });
 
     it('should select Definition', function(done){
-      worker.select({DefinitionClass:"test", Path:["test", 0]}, function(res){
+      worker.select({DefinitionClass:"testOk", Path:["test", 0]}, function(res){
         assert.equal(res.end, true)
         done();
       });
     });
+
+    it('should detect unvalid conditions', function(done){
+      worker.select({DefinitionClass:"testWrong", Path:["test", 0]}, function(res){
+
+        assert.equal(res.error,"unvalid condition")
+        done();
+      });
+    });
+
+    it('should return error on wrong path', function(done){
+      worker.select({DefinitionClass:"testOk", Path:["wrong", 0]}, function(res){
+        assert.equal(res.error,"get definitions")
+        done();
+      });
+    });
+
+
+    it('should return error on missing definition class', function(done){
+      worker.select({WrongClass:"testOk", Path:["test", 0]}, function(res){
+        assert.equal(res.error,"wrong task")
+        done();
+      });
+    });
+
+    it('should return error on missing path', function(done){
+      worker.select({DefinitionClass:"testOk"}, function(res){
+        assert.equal(res.error,"wrong task")
+        done();
+      });
+    });
+
 
   });
 });
