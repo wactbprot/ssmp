@@ -24,7 +24,7 @@ describe('worker', function(){
   describe('#writeExchange(task, cb)', function(){
 
     it('should fail on missing key', function(done){
-      worker.writeExchange({}, function(res){
+      worker.writeExchange({Path:["test",0], Value:true}, function(res){
         assert.equal(res.error, "not a valid task")
         done();
       });
