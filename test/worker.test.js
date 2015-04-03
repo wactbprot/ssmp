@@ -278,7 +278,32 @@ describe('worker', function(){
         done();
       });
     });
+  });
+
+  describe('#updateCd()', function(){
+    it('should fail on empty task', function(done){
+      worker.updateCd({}, function(res){
+        assert.equal(res.error, "unvalid task");
+        done();
+      });
+    });
+
+    it('should fail on empty task', function(done){
+      worker.updateCd({Path:["test", 0]}, function(res){
+        assert.equal(res.ok, true);
+        done();
+      });
+    });
 
   });
 
+  describe('#ctrlContainer()', function(){
+    it('should fail on empty task', function(done){
+      worker.ctrlContainer({}, function(res){
+        assert.equal(res.error, "unvalid task");
+        done();
+      });
+    });
+
+  });
 });
