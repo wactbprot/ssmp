@@ -149,11 +149,16 @@ describe('worker', function(){
     });
   });
 
-
   describe('#wait()', function(){
-
     it('should wait 10ms on missing WaitTime', function(done){
       worker.wait({WaitTime:10}, function(res){
+        assert.equal(res.ok, true);
+        done();
+      });
+    });
+
+    it('should wait 1000ms on  missing WaitTime', function(done){
+      worker.wait({}, function(res){
         assert.equal(res.ok, true);
         done();
       });
@@ -208,17 +213,68 @@ describe('worker', function(){
     });
   });
 
-  describe('#readExchange(task, cb)', function(){
-    it('should fail on empty path', function(done){
+  describe('#checkRelay(task, cb)', function(){
+    it('should fail on empty task', function(done){
       worker.checkRelay({}, function(res){
         assert.equal(res.error, "unvalid task");
         done();
       });
     });
 
-    it('should fail on empty path', function(done){
+    it('should return ok', function(done){
       worker.checkRelay({Path:["test", 0], ExchangePath:"a.c.d"}, function(res){
         assert.equal(res.ok, true);
+        done();
+      });
+    });
+
+  });
+
+  describe('#nodeRelay(task, cb)', function(){
+    it('should fail on empty task', function(done){
+      worker.nodeRelay({}, function(res){
+        assert.equal(res.error, "wrong path");
+        done();
+      });
+    });
+
+    it('should return result object', function(done){
+      worker.nodeRelay({Path:["test", 0]}, function(res){
+        assert.equal(_.isObject(res),true);
+        done();
+      });
+    });
+
+  });
+
+  describe('#getList(task, cb)', function(){
+    it('should fail on empty task', function(done){
+      worker.getList({}, function(res){
+        assert.equal(res.error, "wrong path");
+        done();
+      });
+    });
+
+    it('should return result object', function(done){
+      worker.getList({Path:["test", 0], ExchangePath:"a.b.c"}, function(res){
+        assert.equal(_.isObject(res), true);
+        done();
+      });
+    });
+
+  });
+
+  describe('#checkDB()', function(){
+    it('should fail on empty task', function(done){
+      worker.checkDB({}, function(res){
+        assert.equal(res.error, "wrong path");
+        done();
+      });
+    });
+
+    it('should return result object', function(done){
+      worker.checkDB({Path:["test", 0], ExchangePath:"a.b.c"}, function(res){
+        assert.equal(_.isObject(res), true);
         done();
       });
     });
