@@ -11,10 +11,9 @@ describe('worker', function(){
   before(function(done){
     ds = ndata.createServer({port: deflt.mem.port}).on('ready', function(){
            mem  = ndata.createClient({port: deflt.mem.port});
-           mem.set(exchpath.concat(["a"])
-                  , {Value:
-                     {value:"ok"},
-                     Ready:{value:"true"}}
+           mem.set(exchpath.concat(["a"]), {Value:
+                                            {value:"ok"},
+                                            Ready:{value:"true"}}
                   , function(){
                       mem.set(exchpath.concat(["b"])
                              , {Value:
@@ -27,16 +26,14 @@ describe('worker', function(){
                                 Ready:
                                 {value:true}}
                              , function(){
-                                 mem.set(exchpath.concat(["c"])
-                                        , {Wrong:
-                                           {value:"nope"}}
+                                 mem.set(exchpath.concat(["c"]), {Wrong:
+                                                                  {value:"nope"}}
                                         , function(){
-                                            mem.set(exchpath.concat(["d"])
-                                                   , {Value:
-                                                      {value:1,
-                                                       save:true},
-                                                      Ready:
-                                                      {value:true}}
+                                            mem.set(exchpath.concat(["d"]), {Value:
+                                                                             {value:1,
+                                                                              save:true},
+                                                                             Ready:
+                                                                             {value:true}}
                                                    , function(){
                                                        worker    = require("../lib/worker")
                                                        done();
@@ -52,10 +49,8 @@ describe('worker', function(){
     done();
   });
 
-
   describe('#readExchange(task, cb)', function(){
-
-    it('should fail on missing key', function(done){
+      it('should fail on missing key', function(done){
       worker.readExchange({}, function(res){
 
         assert.equal(res.error, "not a valid task")
@@ -88,6 +83,7 @@ describe('worker', function(){
     });
 
     it('should work with missing Ready ', function(done){
+
       worker.readExchange({Key:"c", Path:["test", 0]}, function(res){
         assert.equal(res.ok, true);
         done();
@@ -103,7 +99,7 @@ describe('worker', function(){
               assert.equal(res, true);
               worker.readExchange({Key:"d", Path:["test", 0]}, function(res){
                 mem.get(["test", "exchange","d", "Ready", "value"], function(err, res){
-                assert.equal(res, false);
+                  assert.equal(res, false);
                   done();
                 });
               });
@@ -112,6 +108,7 @@ describe('worker', function(){
         });
       });
     });
+
   });
 
   describe('#writeExchange(task, cb)', function(){
