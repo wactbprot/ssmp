@@ -87,7 +87,7 @@ describe('run', function(){
         done();
       });
     });
-    
+
     it('should replace and set true', function(done){
       var task = {A:"@A",
                   B:"@B",
@@ -105,7 +105,21 @@ describe('run', function(){
         done();
       });
     });
-
-
   });
+
+  describe('#run()', function(){
+    it('should start', function(){
+     run.run(["test", 0], 0, 0, {Action:"wait"});
+    });
+  });
+
+  describe('#ini()', function(){
+    it('should start', function(done){
+      run.ini(function(res){
+        assert.equal(res.ok, true);
+        done();
+      });
+    });
+  });
+
 });
