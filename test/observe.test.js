@@ -10,7 +10,7 @@ var assert   = require("assert")
   , observe
   , ds
 
-describe('run', function(){
+describe('observe', function(){
   before(function(done){
     ds = ndata.createServer({port: deflt.mem.port}).on('ready', function(){
            mem  = ndata.createClient({port: deflt.mem.port});
@@ -33,6 +33,30 @@ describe('run', function(){
         done();
       });
     });
+  });
+
+  describe('#stop_cont()', function(){
+    it('should return error (path)', function(done){
+      observe.stop_cont([], "", {}, function(err, path){
+        assert.equal(err, "no or wrong path");
+        done();
+      });
+    });
+
+    it('should return error (timerId)', function(done){
+      observe.stop_cont(["test", 0], "stop_container_obs", {}, function(err, path){
+        assert.equal(err, "no or wrong timerId object");
+        done();
+      });
+    });
+
+    it('should return error (channel)', function(done){
+      observe.stop_cont(["test", 0], "wrong", {test:{0:"test"}}, function(err, path){
+        assert.equal(err, "wrong channel");
+        done();
+      });
+    });
+
   });
 
 });
