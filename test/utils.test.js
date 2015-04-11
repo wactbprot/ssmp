@@ -22,6 +22,7 @@ describe('utils', function(){
 
     });
   });
+
   describe('#vl_time()', function(){
     it('should return a string', function(){
       var t = utils.vl_time();
@@ -30,15 +31,12 @@ describe('utils', function(){
     });
   });
 
-
   describe('#as_arr(state)', function(){
     it('should generate false on wrong input', function(){
       assert.equal(utils.as_arr([]), false);
       assert.equal(utils.as_arr("ll"), false);
     });
-  });
 
-  describe('#as_array(state)', function(){
     it('should a flat array', function(){
       assert.equal(utils.as_arr({ '0': { '0': 'ready'}})[0], "ready");
     });
@@ -49,9 +47,7 @@ describe('utils', function(){
       assert.equal(utils.all_same ({}, "tst"), false);
       assert.equal(utils.all_same ([], true), false);
     });
-  });
 
-  describe('#all_same(arr, val)', function(){
     it('should return true on all same', function(){
       assert.equal(utils.all_same ([["tst"]], "tst"), true);
       assert.equal(utils.all_same (["tst"], "tst"), true);
@@ -60,12 +56,23 @@ describe('utils', function(){
 
 
   describe('#cp(template, inival, cb)', function(){
+
+    it('should return error on wrong template level 0', function(){
+      utils.cp("wrong", 2, function(err, res){
+        assert.equal(err, "wrong template");
+      });
+    });
+
+    it('should return error on wrong template level 1', function(){
+      utils.cp({"0":"k"}, 2, function(err, res){
+        assert.equal(err, "wrong template");
+      });
+    });
+
     it('should do his work', function(){
-      utils.cp({"0":{"0":1}}, 2, function(res){
-      assert.equal(res["0"]["0"], 2);
+      utils.cp({"0":{"0":1}}, 2, function(err, res){
+        assert.equal(res["0"]["0"], 2);
       });
     });
   });
-
-
 })
