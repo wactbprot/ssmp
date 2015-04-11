@@ -46,6 +46,62 @@ describe('observe', function(){
       });
     });
 
+    it('should return error on empty cmd', function(done){
+      observe.dispatch(["test", 0], "", "", function(err, path){
+        assert.equal(err, "empty cmd");
+        done();
+      });
+    });
+
+    it('should work on stop', function(done){
+      observe.dispatch(["test", 0], "stop", "", function(err, path){
+        assert.equal(err, false);
+        done();
+      });
+    });
+
+    it('should work on load', function(done){
+      observe.dispatch(["test", 0], "load", "", function(err, path){
+        assert.equal(err, false);
+        done();
+      });
+    });
+
+    it('should work on mon', function(done){
+      observe.dispatch(["test", 0], "mon", "", function(err, path){
+        assert.equal(err, false);
+        done();
+      });
+    });
+
+    it('should work on run', function(done){
+      observe.dispatch(["test", 0], "run", "", function(err, path){
+        assert.equal(err, false);
+        done();
+      });
+    });
+
+    it('should work on mon all executed', function(done){
+      observe.dispatch(["test", 0], "monitoring", [["executed"]], function(err, path){
+        assert.equal(err, false);
+        done();
+      });
+    });
+
+    it('should work on empty sting', function(done){
+      observe.dispatch(["test", 0], "", [["executed"]], function(err, path){
+        assert.equal(err, false);
+        done();
+      });
+    });
+
+    it('should work on unknown sting', function(done){
+      observe.dispatch(["test", 0], "wrong", [["executed"]], function(err, path){
+        assert.equal(err, false);
+        done();
+      });
+    });
+
     it('should return error', function(done){
       observe.dispatch([], "", "", function(err, path){
         assert.equal(err, "wrong path");
