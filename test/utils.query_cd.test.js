@@ -27,15 +27,26 @@ describe('utils.query_cd', function(){
     });
 
     it('should give error message', function(done){
-
       var task = {Id:["ca-test_doc_1"]};
       var data = {Result:[{Date:now}]};
 
-      utils.query_cd(task, data,
-                     function(res){
+      utils.query_cd(task, data, function(res){
                        assert.equal(_.isString(res.error), true);
                        done();
                      });
     });
+
+    it('should write give', function(done){
+      var task = {Id:["unknown"],
+                  DocPath:"a.b.c"};
+      var data = {Result:[{Date:now}]};
+
+      utils.query_cd(task, data, function(res){
+
+        assert.equal(res.error, "not_found");
+                       done();
+                     });
+    });
+
   });
 });
