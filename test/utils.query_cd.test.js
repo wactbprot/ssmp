@@ -15,10 +15,8 @@ describe('utils.query_cd', function(){
     });
 
     it('should give error message', function(done){
-
       var task = {Id:[],
                   DocPath:"Date.Now"};
-
       utils.query_cd(task, false,
                      function(res){
                        assert.equal(_.isString(res.warn), true);
