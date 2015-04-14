@@ -52,21 +52,7 @@ describe('observe', function(){
       });
     });
 
-    it('should return error on stop_container_obs', function(done){
-      mem.set(["test", 0, "recipe"], [[{a:"b"}]],  function(err){
-        mem.set(["test", 0, "ctrl"], "",  function(err){
-          observe.observe("stop_container_obs", ["test", 0], function(err, path){
-            assert.equal(err,"no or wrong timerId object" );
-            mem.remove(["test", 0, "recipe"],  function(err){
-              mem.remove(["test", 0, "ctrl"],  function(err){
-                done();
-              });
-            });
-          });
-        });
-      });
-    });
-
+   
     it('should call stop_cont with start_container_obs due to missing timerId on thie test', function(done){
       mem.set(["test", 0, "recipe"], [[{a:"b"}]],  function(err){
         mem.set(["test", 0, "ctrl"], "",  function(err){
@@ -226,13 +212,6 @@ describe('observe', function(){
     it('should return error (path)', function(done){
       observe.stop_cont([], "", {}, function(err, path){
         assert.equal(err, "no or wrong path");
-        done();
-      });
-    });
-
-    it('should return error (timerId)', function(done){
-      observe.stop_cont(["test", 0], "stop_container_obs", {}, function(err, path){
-        assert.equal(err, "no or wrong timerId object");
         done();
       });
     });
