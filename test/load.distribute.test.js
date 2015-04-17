@@ -65,10 +65,9 @@ describe('load', function(){
       })
     });
 
-    it('should ', function(done){
-      load.distribute(["test", 0], [[{}]], {},  function(err, path){
-        console.log(err)
-       // assert.equal(err,"wrong definition");
+    it('should work with Common-wait', function(done){
+      load.distribute(["test", 0], [[{TaskName:"Common-wait"}]], {},  function(err, path){
+        assert.equal(err,false);
         done()
       })
     });
