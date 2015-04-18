@@ -136,26 +136,37 @@ exports.handle_cd =  handle_cd;
  */
 var put = function(req, cb){
   var ro
-    , path     = get_path(req)
-    , strpath  = path.join(" ")
-
-  log.info(ok
-          , "receice put request to path " + path.join(" "));
-
-  mem.set(path, req.body, function(err){
+  get_path(req, function(err, path){
     if(!err){
-      ro = ok;
+      var strpath  = path.join(" ")
       log.info(ok
-              , "set value to path: " + strpath);
+              , "receice put request to path " + path.join(" "));
+      mem.set(path, req.body, function(err){
+        if(!err){
+          ro = ok;
+          log.info(ok
+                  , "set value to path: " + strpath);
+        }else{
+          ro = {error:err}
+        log.error(ro
+                 , "set value to path: " + strpath);
+        }
+        if(_.isFunction(cb)){
+          cb(ro);
+        }
+      });
     }else{
-      ro = {error:err}
+      ro  = {error:err}
       log.error(ro
-               , "set value to path: " + strpath);
+               , "given path is not meaningful");
+      if(_.isFunction(cb)){
+        cb(ro);
+      }
     }
-    cb(ro);
   });
 }
 exports.put = put;
+
 /**
  * Funktion ließt Daten aus der
  * mem-Struktur und ruft callback damit auf.
@@ -164,34 +175,43 @@ exports.put = put;
  */
 var get = function(req, cb){
   var ro
-    , path = get_path(req);
 
-  log.info(ok
-          , "receice get request to path " + path.join(" "));
-  mem.get(path, function(err, obj){
-    if(err){
-      ro = {error:err}
-      log.error(ro
-               ,"error on get from mem");
-    }else{
-      if(_.isUndefined(obj)){
-        ro = {error:"object is undefined"}
-        log.error(ro
-                 ,"found nothing in the path");
-      }else{
-        if(_.isObject(obj) || _.isArray(obj)){
-          ro = obj;
-          log.info(ok
-                  , "sent object back");
+  get_path(req, function(err, path){
+    if(!err){
+      log.info(ok
+              , "receice get request to path " + path.join(" "));
+      mem.get(path, function(err, obj){
+        if(err){
+          ro = {error:err}
+          log.error(ro
+                   ,"error on get from mem");
         }else{
-          ro  = {result:obj}
-          log.info(ok
-                  , "sent value back");
-        };
+          if(_.isUndefined(obj)){
+            ro = {error:"object is undefined"}
+            log.error(ro
+                 ,"found nothing in the path");
+          }else{
+            if(_.isObject(obj) || _.isArray(obj)){
+              ro = obj;
+              log.info(ok
+                      , "sent object back");
+            }else{
+              ro  = {result:obj}
+              log.info(ok
+                    , "sent value back");
+            };
+          }
+        }
+        cb(ro)
+      }); // mem.get
+    }else{
+      log.error({error:err}
+               ,"error on get path");
+      if(_.isFunction(cb)){
+        cb({error:err});
       }
     }
-    cb(ro)
-  })
+  }); // get_path
 }
 exports.get = get;
 
@@ -199,37 +219,52 @@ exports.get = get;
  * Funktion extrahiert den Pfad aus dem
  * req-Objekt und gibt ihn zurück.
  * @param {Object} req Request-Objekt
- * @return {Array}
+ * @param {Function} cb callback of the form cb(err, path)
  */
 
-var get_path = function(req){
+var get_path = function(req, cb){
   var path = [];
 
-  if(req && req.params){
-    var id   = req.params.id
-      , no   = req.params.no
-      , s    = req.params.struct
-      , l1   = req.params.l1
-      , l2   = req.params.l2
-      , l3   = req.params.l3;
+  if(req && _.isObject(req)
+         && req.params
+         && _.isObject(req.params)){
+    var rp   = req.params
+      , id   = rp.id
+      , no   = rp.no
+      , s    = rp.struct
+      , l1   = rp.l1
+      , l2   = rp.l2
+      , l3   = rp.l3;
 
-    if(id && no){
-      path = [id, no];
-      if(s){
-        path = path.concat(s);
-
-        if(l3 && l2 && l1){
-          path = path.concat([l1, l2, l3]);
-        }
-        if(l2 && l1 && !l3){
-          path = path.concat([l1, l2]);
-        }
-        if(l1 && !l2 && !l3){
-          path = path.concat([l1]);
+    if(!_.isEmpty(id)){
+      path = ["" + id];
+      if(!_.isEmpty(no)){
+        path = path.concat(["" + no]);
+        if(s){
+          path = path.concat(s);
+          if(l3 && l2 && l1){
+            path =  path.concat(["" + l1, "" + l2, "" + l3]);
+          }
+          if(l2 && l1 && !l3){
+            path =   path.concat(["" + l1, "" + l2]);
+          }
+          if(l1 && !l2 && !l3){
+            path = path.concat(["" + l1]);
+          }
         }
       }
+      if(_.isFunction(cb)){
+        cb(false, path);
+      }
+    }else{
+      if(_.isFunction(cb)){
+        cb("missing id",[]);
+      }
+    }
+  }else{
+    if(_.isFunction(cb)){
+      cb("unvalid request object",[]);
     }
   }
-  return path;
 }
 exports.get_path = get_path;
