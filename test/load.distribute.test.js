@@ -22,6 +22,15 @@ describe('load', function(){
     done();
   });
 
+  describe('#ini()', function(){
+    it('should start', function(done){
+      load.ini(function(res){
+        assert.equal(res.ok, true);
+        done();
+      });
+    });
+  });
+
   describe('#distribut(def, calob, cb)', function(){
     it('should return error on wrong path', function(done){
       load.distribute("path", "def", "meta",  function(err, path){

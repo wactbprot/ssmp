@@ -18,51 +18,72 @@ var mem = ndata.createClient({port: deflt.mem.port});
  * @param {Function} cb call back
  */
 var handle_mp = function(req, cb){
-  var id    = req.params.id
-    , rb    = req.body;
-  if(_.isString(rb)){
-    // switch
-    if(rb == ctrlstr.load){
-      log.info(ok
-              , "try to publish to get_mp channel");
-      mem.publish("get_mp", id , function(err){
-        if(!err){
-          if(_.isFunction(cb)){
-            cb(ok)
+  if(req && _.isObject(req)
+         && req.params
+         && _.isObject(req.params)){
+
+    var id    = req.params.id
+      , rb    = req.body;
+    if(rb && _.isString(rb)){
+      // switch
+      if(rb == ctrlstr.load){
+        log.info(ok
+                , "try to publish to get_mp channel");
+        mem.publish("get_mp", id , function(err){
+          if(!err){
+            if(_.isFunction(cb)){
+              cb(ok)
+            }
+            log.info(ok
+                    , " published to get_mp channel");
+          }else{
+            var ro = {error:err};
+            log.error(ro
+                     , " error on attempt to publish to get_mp channel");
+            if(_.isFunction(cb)){
+              cb(ro)
+            }
           }
-          log.info(ok
-                  , " published to get_mp channel");
-        }else{
-          var ro = {error:err};
-          log.error(ro
-                   , " error on attempt to publish to get_mp channel");
-          if(_.isFunction(cb)){
-            cb(ro)
+        });
+      }
+      if(rb == ctrlstr.rm){
+        log.info(ok
+                , "try to publish to rm_mp channel");
+        mem.publish("rm_mp", id , function(err){
+          if(!err){
+            if(_.isFunction(cb)){
+              cb(ok)
+            }
+            log.info(ok
+                    , " published to rm_mp channel");
+          }else{
+            var ro = {error:err};
+            log.error(ro
+                     , " error on attempt to publish to rm_mp channel");
+            if(_.isFunction(cb)){
+              cb(ro)
+            }
           }
-        }
-      });
+        });
+      }
+    }else{ // string
+      var err = "unvalid request body"
+        , ro  = {error:err}
+      log.error(ro
+               , "no request body");
+      if(_.isFunction(cb)){
+        cb(ro);
+      }
     }
-    if(rb == ctrlstr.rm){
-      log.info(ok
-              , "try to publish to rm_mp channel");
-      mem.publish("rm_mp", id , function(err){
-        if(!err){
-          if(_.isFunction(cb)){
-            cb(ok)
-          }
-          log.info(ok
-                  , " published to rm_mp channel");
-        }else{
-          var ro = {error:err};
-          log.error(ro
-                   , " error on attempt to publish to rm_mp channel");
-          if(_.isFunction(cb)){
-            cb(ro)
-          }
-        }
-      });
+  }else{
+    var err = "unvalid request object"
+      , ro  = {error:err}
+    log.error(ro
+             , "no request param");
+    if(_.isFunction(cb)){
+      cb(ro);
     }
-  };
+  }
 }
 exports.handle_mp =  handle_mp;
 
@@ -75,55 +96,77 @@ exports.handle_mp =  handle_mp;
  * @param {Function} cb call back
  */
 var handle_cd = function(req, cb){
-  var val = { id:   req.params.id
-            , cdid: req.params.cdid}
-    , rb  = req.body;
+  if(req && _.isObject(req)
+         && req.params
+         && _.isObject(req.params)){
 
-  if(_.isString(rb)){
-    // switch
-    if(rb == ctrlstr.load){
-      log.info(ok
-              , "try to publish to get_cd channel");
-      mem.publish("get_cd",val , function(err){
-        if(!err){
-          log.info(ok
-                  , "published to get_cd channel");
-          if(_.isFunction(cb)){
-            cb(ok)
-          }
-        }else{
-          var ro = {error:err};
-          log.error(ro
-                   , "error on attempt to publish to get_cd channel");
-          if(_.isFunction(cb)){
-            cb(ro)
-          }
+    var val = { id:   req.params.id
+              , cdid: req.params.cdid}
+      , rb  = req.body;
 
-        }
-      });
-    };
+    if(rb && _.isString(rb)){
+      // switch
+      if(rb == ctrlstr.load){
+        log.info(ok
+                , "try to publish to get_cd channel");
+        mem.publish("get_cd",val , function(err){
+          if(!err){
+            log.info(ok
+                    , "published to get_cd channel");
+            if(_.isFunction(cb)){
+              cb(ok)
+            }
+          }else{
+            var ro = {error:err};
+            log.error(ro
+                     , "error on attempt to publish to get_cd channel");
+            if(_.isFunction(cb)){
+              cb(ro)
+            }
 
-    if(rb == ctrlstr.rm){
-      log.info(ok
-              , "try to publish to get_cd channel");
-      mem.publish("rm_cd",val , function(err){
-        if(!err){
-          log.info(ok
-                  , "published to rm_cd channel");
-          if(_.isFunction(cb)){
-            cb(ok);
           }
-        }else{
-          var ro = {error:err}
-          log.error(ro
-                   , "error on attempt to publish to rm_cd channel");
-          if(_.isFunction(cb)){
-            cb(ro)
+        });
+      };
+
+      if(rb == ctrlstr.rm){
+        log.info(ok
+                , "try to publish to get_cd channel");
+        mem.publish("rm_cd",val , function(err){
+          if(!err){
+            log.info(ok
+                    , "published to rm_cd channel");
+            if(_.isFunction(cb)){
+              cb(ok);
+            }
+          }else{
+            var ro = {error:err}
+            log.error(ro
+                     , "error on attempt to publish to rm_cd channel");
+            if(_.isFunction(cb)){
+              cb(ro)
+            }
           }
-        }
-      });
-    };
-  } // string
+        });
+      };
+    }else{ // string
+      var err = "unvalid request body"
+        , ro  = {error:err}
+      log.error(ro
+               , "no request body");
+      if(_.isFunction(cb)){
+        cb(ro);
+      }
+    }
+  }else{
+    var err = "unvalid request object"
+      , ro  = {error:err}
+    log.error(ro
+             , "no request param");
+    if(_.isFunction(cb)){
+      cb(ro);
+    }
+
+  }
 }
 exports.handle_cd =  handle_cd;
 
@@ -138,23 +181,33 @@ var put = function(req, cb){
   var ro
   get_path(req, function(err, path){
     if(!err){
-      var strpath  = path.join(" ")
-      log.info(ok
-              , "receice put request to path " + path.join(" "));
-      mem.set(path, req.body, function(err){
-        if(!err){
-          ro = ok;
-          log.info(ok
-                  , "set value to path: " + strpath);
-        }else{
-          ro = {error:err}
+      if(req.body){
+        var strpath  = path.join(" ")
+        log.info(ok
+                , "receice put request to path " + path.join(" "));
+        mem.set(path, req.body, function(err){
+          if(!err){
+            ro = ok;
+            log.info(ok
+                    , "set value to path: " + strpath);
+          }else{
+            ro = {error:err}
+            log.error(ro
+                     , "set value to path: " + strpath);
+          }
+          if(_.isFunction(cb)){
+            cb(ro);
+          }
+        });
+      }else{
+        err = "unvalid request body"
+        ro  = {error:err}
         log.error(ro
-                 , "set value to path: " + strpath);
-        }
+                 , "given path is not meaningful");
         if(_.isFunction(cb)){
           cb(ro);
         }
-      });
+      }
     }else{
       ro  = {error:err}
       log.error(ro
@@ -189,7 +242,7 @@ var get = function(req, cb){
           if(_.isUndefined(obj)){
             ro = {error:"object is undefined"}
             log.error(ro
-                 ,"found nothing in the path");
+                     ,"found nothing in the path");
           }else{
             if(_.isObject(obj) || _.isArray(obj)){
               ro = obj;
@@ -198,7 +251,7 @@ var get = function(req, cb){
             }else{
               ro  = {result:obj}
               log.info(ok
-                    , "sent value back");
+                      , "sent value back");
             };
           }
         }

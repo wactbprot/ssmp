@@ -1,8 +1,25 @@
 var assert = require("assert")
   , _      = require("underscore")
-  , meth   = require("../http-api/http-methods")
+  , ndata  = require("ndata")
+  , deflt  = require("../lib/default")
+  , meth
+  , mem
+  , ds
 
 describe('http-methods', function(){
+  before(function(done){
+    ds = ndata.createServer({port: deflt.mem.port}).on('ready', function(){
+           mem  = ndata.createClient({port: deflt.mem.port})
+           meth = require("../http-api/http-methods")
+           done();
+         });
+  });
+
+  after(function(done){
+    ds.destroy();
+    done();
+  });
+
   describe('#get_path(req)', function(){
 
     it('should return error object on missing params', function(done){
@@ -43,7 +60,7 @@ describe('http-methods', function(){
                                           assert.equal(err, false);
                                           assert.equal(res.length, 2);
                                           done();
-      });
+                                        });
     });
 
     it('should return path (id, no, struct)', function(done){
@@ -107,7 +124,130 @@ describe('http-methods', function(){
                                           assert.equal(err, false);
                                           assert.equal(res.length, 6);
                                           done();
+                                        });
+    });
+  });
+
+  describe('#get(req)', function(){
+
+    it('should return error object on missing params', function(done){
+      meth.get({}, function(res){
+        assert.equal(res.error,"unvalid request object");
+        done();
       });
     });
+
+    it('should return error object on missing value', function(done){
+      meth.get({params:{id:"test"}}, function(res){
+        assert.equal(res.error,"object is undefined");
+        done();
+      });
+    });
+
+    it('should return result: boolean value', function(done){
+      mem.set(["test"], true, function(){
+        meth.get({params:{id:"test"}}, function(res){
+          assert.equal(res.result,true);
+          done();
+        });
+      });
+    });
+
+    it('should return object', function(done){
+      mem.set(["test"], {test:true}, function(){
+        meth.get({params:{id:"test"}}, function(res){
+          assert.equal(res.test,true);
+          done();
+        });
+      });
+    });
+
+    describe('#put(req)', function(){
+
+      it('should return error on empty request', function(done){
+        meth.put({}, function(res){
+          assert.equal(res.error,"unvalid request object");
+          done();
+        });
+      });
+
+      it('should return error on empty request', function(done){
+        meth.put({params:{id:"test"}}, function(res){
+          assert.equal(res.error,"unvalid request body");
+          done();
+        });
+      });
+
+      it('should put value', function(done){
+        meth.put({params:{id:"test"}, body:{test:true}}, function(res){
+          assert.equal(res.ok,true);
+          done();
+        });
+      });
+    });
+
+    describe('#handle_cd(req)', function(){
+
+      it('should return error on empty request', function(done){
+        meth.handle_cd({}, function(res){
+          assert.equal(res.error,"unvalid request object");
+          done();
+        });
+      });
+
+      it('should return error on empty body', function(done){
+        meth.handle_cd({params:{id:"test", cdid:"test"}}, function(res){
+          assert.equal(res.error,"unvalid request body");
+          done();
+        });
+      });
+
+      it('should load', function(done){
+        meth.handle_cd({params:{id:"test", cdid:"test"}, body:"load"}, function(res){
+          assert.equal(res.ok,true);
+          done();
+        });
+      });
+
+      it('should remove', function(done){
+        meth.handle_cd({params:{id:"test", cdid:"test"}, body:"remove"}, function(res){
+          assert.equal(res.ok,true);
+          done();
+        });
+      });
+
+      describe('#handle_mb(req)', function(){
+
+        it('should return error on empty request', function(done){
+          meth.handle_mp({}, function(res){
+            assert.equal(res.error,"unvalid request object");
+            done();
+          });
+        });
+
+        it('should return error on empty body', function(done){
+          meth.handle_mp({params:{id:"test", cdid:"test"}}, function(res){
+            assert.equal(res.error,"unvalid request body");
+            done();
+          });
+        });
+
+        it('should load', function(done){
+          meth.handle_mp({params:{id:"test", cdid:"test"}, body:"load"}, function(res){
+            assert.equal(res.ok,true);
+            done();
+          });
+        });
+
+        it('should remove', function(done){
+          meth.handle_mp({params:{id:"test", cdid:"test"}, body:"remove"}, function(res){
+            assert.equal(res.ok,true);
+            done();
+          });
+        });
+
+      });
+    });
+
   });
 });
