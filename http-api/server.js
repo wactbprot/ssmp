@@ -16,8 +16,8 @@ var http_ssmp = function(conf, cb) {
     , restify = require("restify")
     , bunyan  = require("bunyan")
     , ndata   = require("ndata")
-    , coll    = require("./http-collections")
-    , meth    = require("./http-methods")
+    , coll    = require("./collections")
+    , meth    = require("./methods")
     , log     = bunyan.createLogger({name: name})
     , server  = restify.createServer({name: name});
 
