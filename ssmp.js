@@ -33,7 +33,7 @@ var ssmp = function(){
             + "....................................."
             );
 
-      require("./http-api/http-ssmp")(deflt, function(){
+      require("./http-api/server")(deflt, function(){
         var mem      = ndata.createClient({port: deflt.mem.port})
           , statics  = {};
         if(prog.all_statics || prog.statics_list){
