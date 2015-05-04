@@ -11,6 +11,6 @@ require("../lib/worker");
 require("../lib/observe");
 require("../lib/request");
 
-require("../http-api/http-collections")
-require("../http-api/http-methods")
-require("../http-api/http-ssmp")
+require("../http-api/collections")
+require("../http-api/methods")
+require("../http-api/server")
