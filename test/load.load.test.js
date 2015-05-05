@@ -27,9 +27,13 @@ describe('load', function(){
 
 
   describe('#load(path)', function(){
-    it('', function(done){
-
-
+    it('should give error on wrong path', function(done){
+      load.load(["test"], function(err, path){
+        assert.equal(err, "wrong path");
+        done();
+      });
     });
+
+
   });
 });
