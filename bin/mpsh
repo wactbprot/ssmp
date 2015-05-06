@@ -30,6 +30,7 @@ context.ecb = function(err, res){
 var task_exec = function(task, repl, cb){
   var tsk   = clone(task)
     , tdef;
+  tsk.Path = [];
 
   if(!_.isObject(repl)){
     repl = {};
@@ -82,11 +83,11 @@ context.request   = request;
 context.statics   = utils.get_jsn("./static/");
 context.task_exec = task_exec;
 context.refresh_task_list = refresh_task_list;
+refresh_task_list();
 
-console.log("whats already done:");
-console.log("- refresh task list and assign to TaskList");
-refresh_task_list()
 console.log(".........................................................\n");
+console.log("whats already done:");
+console.log("- refresh task list and assign to task");
 console.log("- default call back in variable: cb defined");
 console.log("- default call back with err param in variable: ecb");
 console.log("- function task_exec(task_or_name, replace_object, cb)");
