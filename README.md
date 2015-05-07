@@ -18,7 +18,7 @@ Die Gesamtheit der container, recipes und tasks ist die Messprogrammdefinition
 (_mpdef_);
 diese besitzt eine id, die in allen urls gleich nach dem __ssmp__ port
 auftaucht. __ssmp__ kann vollständig über http gesteuert und abgefragt
-werden. Besonders wichtig sind hierbei die Endpunkte ```/ctrl`` und
+werden. Besonders wichtig sind hierbei die Endpunkte ```/ctrl``` und
 ```/exchange```. 
 
 	```
