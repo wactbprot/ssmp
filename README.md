@@ -7,7 +7,6 @@
 server side mp
 --------------
 
-
 __ssmp__ steht für  server side measurement program.
 
 __ssmp__  führt vordefinierte Abläufe (_recipes_) aus. Diese recipes
@@ -18,46 +17,72 @@ Abarbeitung angeordnet werden können.
 Die Gesamtheit der container, recipes und tasks ist die Messprogrammdefinition
 (_mpdef_);
 diese besitzt eine id, die in allen urls gleich nach dem __ssmp__ port
-auftaucht.
+auftaucht. __ssmp__ kann vollständig über http gesteuert und abgefragt
+werden. Besonders wichtig sind hierbei die Endpunkte ```/ctrl`` und
+```/exchange```. 
 
-## Überblick
-
-```
-
-                           +---------------+
-                           |   node-relay  |
-                           |---------------|             +--------------+
-                           |               |     TCP     |              |
-                           |               +-----VXI-----+   Devices    |
-                           |               |     UDP     |              |
-                           +--------+------+             +--------------+
-                                    |
-                                    |
-                                http/json
-                             +------+---------------------------------------+
-   +-------------+           | +------+-----+              +--------------+ |
-   |  CouchDB    |           | |  ssmp      |              |              | |
-   |-------------|           | |------------| ndata-client-+   socket.io  | |
-   |             +-http/json-+ |            | |            |              | |
-   |             |           | |ndata-server+-+            +--------------+ |
-   |             |           | |            | |                             |
-   +-------------+           | +----+-- ----+ |            +--------------+ |
-                             |                |            |              | |
-                             |                ndata-client-+   http-rest  | |
-                             |                             |              | |
-                             |                             +--------------+ |
-                             +----------------------------------------------+
-
+	```
+   +-------------+              +-------------+
+   | CouchDB     |              | nodeRelay   |
+   |-------------|              |-------------|         +--------+
+   | - mp-docs   |      http    | - TCP       +-------->|Device  |
+   | - tasks     |    +-------->| - VXI       |<--------+        |
+   | - kd-docs   |    | +-------+ - Rscript   |         +--------+
+   |             |    | |       | - email     |
+   +-----+-------+    | |       +-------------+
+       ^ |            | v
+       | |          +-+----------------+
+       | |  http    |     ssmp         |
+       | +--------->|------------------|
+       +------------+  /exchange       |
+                    |  /state          |
+                    |  /ctrl           |
+                    +--------+---------+
+                           ^ |
+                           | | http
+                           | |
+                           | v
+                    +------+-----------+
+                    |   client         |
+                    |------------------|
+                    | labVIEW          |
+                    | Python           |
+                    | js/http/css      |
+                    +------------------+
 ```
 
 ## Abkürzungen
 
+* ssmp ... server side MP
 * MP ... Messprogramm
 * KD ... Kalibrierdokument
-* ```mpid``` ... Datenbank-id der MP-Definition
-* ```kdid``` ... Datenbank-id des KD-Dokuments
-* __ssmp__ ... server side MP
-* API ... application programming interface (hier eine http-Adresse)
+* mpid ... Datenbank-id der MP-Definition (json-Dokument)
+* kdid ... Datenbank-id des KD-Dokuments (json-Dokument)
+* API ... application programming interface
+* container ... Teilbereich eines MP indem Unterabläufe organisiert werden können
+
+## API Endpunkte
+
+In den url-Schemata ist 
+* ```C``` (zählt von 0 an) Nummer des containers
+* ```S``` (zählt von 0 an) Nummer des sequentiellen Schritts
+* ```P``` (zählt von 0 an) Nummer des parallelen Schritts
+
+Hier ein symbolischer Überblick über die von ssmp bereitgestellten
+Schnittstellen. 
+
+* ```/mpid/exchange``` ... Austausch von Daten client-server 
+* ```/mpid/id``` ... Info über geladene KD
+* ```/mpid/meta``` ... Informationen zum MP
+* ```/mpid/C/ctrl``` ... Steuerung/ Übersicht des containers ```C```
+* ```/mpid/C/state``` ... Zustand des containers C
+* ```/mpid/C/state/S``` ... Zustand der ```S```. sequentiellen Schritte des
+  containers ```C```
+* ```/mpid/C/state/S/P``` ... Zustand des ```S```. sequentiellen und
+  ```P```. parallelen Schritts des containers ```C```
+*  ```/mpid/C/recipe``` ... recipe des containers ```C```
+*  ```/mpid/C/recipe/S``` ...  analog state
+*  ```/mpid/C/recipe/S/P``` ...  analog state
 
 ## Installation
 
@@ -69,9 +94,7 @@ $> npm install
 
 ## Gesamtablauf
 
-
-Nach der Installation sind folgende Schritte sind bei einer
-Kalibrierung/Messung abzuarbeiten:
+Nach der Installation sind folgende Schritte abzuarbeiten:
 
 1.  Starten des Servers
 2.  Laden des MP
@@ -108,9 +131,10 @@ oder mit [csmp](https://github.com/wactbprot/csmp):
 ```
 $> bin/mp_ini -i mpid -d load
 ```
+
 ## Löschen eines MP
 
-Das entfernen eines MP aus dem ssmp Speicher geschieht in analoger Weise:
+Das Entfernen eines MP aus dem ssmp Speicher geschieht in analoger Weise:
  
 ```
 $> curl -X PUT -d  'remove'  http://localhost:8001/mpid
@@ -191,10 +215,10 @@ bzw. paralleler Schritt. Bsp.:
                        },
                        {
                            "TaskName": "Combi_CE3-read_out",
-               ---------> "Use": {
+                    "Use": {
                                "Values": "thermovac1"
                            },
-               --------->  "Replace": {
+                "Replace": {
                                "@exchpath": "Combi_CE3_thermovac1_pressure",
                                "@token": "mon",
                                "@repeat": 10,
@@ -215,12 +239,8 @@ Mit  [csmp](https://github.com/wactbprot/csmp) geht das so:
 ```
 $> bin/mp_ctrl -i mpid -c 0 -d load
 ```
-Weitere Details zum Laden finden sich
-in der
-[load.js Dokumentation](https://github.com/wactbprot/ssmp/blob/master/doc/load.js.md).
 
-
-Es einige Zeichenketten die als Ersetzungen in den Ablaufdefinitionen immer
+Es gibt einige Zeichenketten die als Ersetzungen in den Ablaufdefinitionen immer
 zur Verfüging stehen wie z.B. das aktuelle Jahr über ```@year``` oder die
 aktuell ausgewählten KD-ids über ```@cdids```. (s. das
 [dbmp README](https://github.com/wactbprot/dbmp))
@@ -244,7 +264,7 @@ $> bin/mp_ctrl -i mpid -c 0 -d run
 #### Ablaufkontrolle
 
 _tasks_ können Schlüsselwörter (keys) besitzen,
-die ihre Ausführing beeinflussen; das sind die keys
+die ihre Ausführung beeinflussen; das sind die keys
 ```RunIf``` und ```StopIf```.
 
 ##### RunIf
@@ -290,14 +310,7 @@ In gleicher Weise funktioniert Stopp
 $> bin/mp_ctrl -i mpid -c 0 -d stop
 ```
 
-und Pause
-
-```
-$> bin/mp_ctrl -i mpid -c 0 -d pause
-```
-
-Nach einem ```stop``` wird der Ablauf von neuem begonnen;
-```pause``` macht da weiter wo angehalten wurde.
+Durch ein ```stop``` wird der **state aller Tasks auf ready** gesetzt.
 
 ### ctrl-Syntax
 
@@ -343,7 +356,7 @@ s. [doc/receive.js.md](https://github.com/wactbprot/ssmp/blob/master/doc/receive
 bzw.
 [utils.js.md#write_to_exchange](https://github.com/wactbprot/ssmp/blob/master/doc/utils.js.md#write_to_exchangemp-task-data-cb)
 
-## __ssmp__ Rückgabewerte
+## Rückgabewerte
 
 Das Ergebnis von _http-GET_-Anfrage hängt von der Art des
 zurückzubebenden Objektes (```x```) ab:
@@ -360,16 +373,6 @@ zurückzubebenden Objektes (```x```) ab:
 * ist die url unzulässig liefert eine Anfrage
   ```{"code":"MethodNotAllowedError","message":"GET is not allowed"}```
 
-## Dokumentation & devel
-
-```
-$> cd ssmp
-$> npm run doc
-```
-Es werden so im Verzeichniss
-[ssmp/doc](https://github.com/wactbprot/ssmp/tree/master/doc) markdown (Endung
-```.md```) erstellt.
-
 ### Unit tests/ code coverage
 
 Bei Uninttests werden die Ergebnisse die kleine Programmteile
@@ -382,11 +385,3 @@ $> npm test
 ```
 Die Ausgabe der Testergebnisse geschieht auf der Konsole;
 im Verzeichnis ```ssmp/coverage``` werden html-Dateien erzeugt.
-
-
-### all together
-
-```
-$> cd ssmp
-$> npm run all-dev
-```
