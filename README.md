@@ -61,12 +61,12 @@ werden. Besonders wichtig sind hierbei die Endpunkte ```/ctrl``` und
 * API ... application programming interface
 * container ... Teilbereich eines MP indem Unterabläufe organisiert werden können
 
-## API Endpunkte
-
 In den url-Schemata ist 
 * ```C``` (zählt von 0 an) Nummer des containers
 * ```S``` (zählt von 0 an) Nummer des sequentiellen Schritts
 * ```P``` (zählt von 0 an) Nummer des parallelen Schritts
+
+## API Endpunkte
 
 Hier ein symbolischer Überblick über die von ssmp bereitgestellten
 Schnittstellen. 
@@ -182,15 +182,15 @@ Nachdem  die KD dem __ssmp__ bekannt gegeben wurden, können die konkreten
 Abläufe erstellt und geladen werden. Im Zuge dieses Prozesses wird der
 Endpunkt
 ```
-http://localhost:8001/mpid/[n]/recipe
+http://localhost:8001/mpid/C/recipe
 ```
 aufgefüllt, an dem die Ablaufdefinition mit den Tasks zu den Rezepten
 zusammengestellt sind.
 Die Abläufe der einzelnen _container_ sind der MP-Definition unter dem Pfad
 ```Mp.Container[n].Definition[S][P]``` mit _TaskName_ und
 individuellen Ersetzungsanweisungen _Replace_ und _Use_
-angegebenen. ```S``` und ```P``` stehen hier für sequentieller
-bzw. paralleler Schritt. Bsp.:
+angegebenen. (```S``` und ```P``` stehen wie oben beschrieben für sequentieller
+bzw. paralleler Schritt.) Bsp.:
 
 ```javascript
 {
@@ -237,7 +237,7 @@ $> curl -X PUT -d 'load' http://localhost:8001/mpid/0/ctrl
 Mit  [csmp](https://github.com/wactbprot/csmp) geht das so:
 
 ```
-$> bin/mp_ctrl -i mpid -c 0 -d load
+$> bin/mp_ctrl -i mpid -c C -d load
 ```
 
 Es gibt einige Zeichenketten die als Ersetzungen in den Ablaufdefinitionen immer
@@ -252,13 +252,13 @@ Das Starten des Ausführens der oben geladenen Abläufe des 1. Containers
 geschieht auch über die ```ctrl``` Schnittstelle:
 
 ```
-$> curl -X PUT -d 'run' http://localhost:8001/mpid/0/ctrl
+$> curl -X PUT -d 'run' http://localhost:8001/mpid/C/ctrl
 ```
 
 Die  [csmp](https://github.com/wactbprot/csmp)-Variante:
 
 ```
-$> bin/mp_ctrl -i mpid -c 0 -d run
+$> bin/mp_ctrl -i mpid -c C -d run
 ```
 
 #### Ablaufkontrolle
@@ -307,7 +307,7 @@ zu ```true``` ausgewertet werden kann.
 In gleicher Weise funktioniert Stopp
 
 ```
-$> bin/mp_ctrl -i mpid -c 0 -d stop
+$> bin/mp_ctrl -i mpid -c C -d stop
 ```
 
 Durch ein ```stop``` wird der **state aller Tasks auf ready** gesetzt.
@@ -317,13 +317,13 @@ Durch ein ```stop``` wird der **state aller Tasks auf ready** gesetzt.
 Die  Anweisung:
 
 ```
-$> bin/mp_ctrl -i mpid -c 0 -d 'load;5:run'
+$> bin/mp_ctrl -i mpid -c C -d 'load;5:run'
 ```
 
 lädt den Ablauf und startet ihn 5 mal. Es geht auch:
 
 ```
-$> bin/mp_ctrl -i mpid -c 0 -d 'load;5:run,load;stop'
+$> bin/mp_ctrl -i mpid -c C -d 'load;5:run,load;stop'
 ```
 
 was den Ablauf läd, 5 mal den Zyklus ```run``` gefolgt von ```load```
