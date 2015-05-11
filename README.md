@@ -15,13 +15,13 @@ aus Teilaufgaben (_tasks_) die zur  parallelen oder sequenziellen
 Abarbeitung angeordnet werden können.
 
 Die Gesamtheit der container, recipes und tasks ist die Messprogrammdefinition
-(_mpdef_);
-diese besitzt eine id, die in allen urls gleich nach dem __ssmp__ port
+(_mpdef_). Diese besitzt eine id, die in allen urls gleich nach dem __ssmp__ port
 auftaucht. __ssmp__ kann vollständig über http gesteuert und abgefragt
 werden. Besonders wichtig sind hierbei die Endpunkte ```/ctrl``` und
 ```/exchange```. 
 
-	```
+
+```
    +-------------+              +-------------+
    | CouchDB     |              | nodeRelay   |
    |-------------|              |-------------|         +--------+
@@ -147,7 +147,7 @@ oder mit [csmp](https://github.com/wactbprot/csmp):
 $> bin/mp_ini -i mpid -d remove
 ```
 
-## Übergeben der Kalibrierdokumente
+## Kalibrierdokumente
 
 Der konkrete Ablauf eines Messprogramms hängt auch von den zu kalibrierenden
 Geräten ab. _Welche_ Geräte _wie_ kalibriert werden sollen, ist in den KD
@@ -176,63 +176,20 @@ mp_id- -i mpid -d cdid
 mp_id -i mpid 
 ```
 
-## Erstellen und Laden der MP-Abläufe
+## Erstellen eines Rezepts
 
 Nachdem  die KD dem __ssmp__ bekannt gegeben wurden, können die konkreten
-Abläufe erstellt und geladen werden. Im Zuge dieses Prozesses wird der
-Endpunkt
+Abläufe erstellt und geladen werden. Im Zuge dieses Prozesses wird die 
+Definition mit den Tasks zu den Rezepten zusammengestellt. Das fertige Rezept
+ist dann am Endpunkt
 ```
 http://localhost:8001/mpid/C/recipe
 ```
-aufgefüllt, an dem die Ablaufdefinition mit den Tasks zu den Rezepten
-zusammengestellt sind.
-Die Abläufe der einzelnen _container_ sind der MP-Definition unter dem Pfad
-```Mp.Container[n].Definition[S][P]``` mit _TaskName_ und
-individuellen Ersetzungsanweisungen _Replace_ und _Use_
-angegebenen. (```S``` und ```P``` stehen wie oben beschrieben für sequentieller
-bzw. paralleler Schritt.) Bsp.:
-
-```javascript
-{
-"_id": "mpid",
-    "Mp": {
-        "Container": [
-            {
-               "Element": ["Documents"],
-               "Description": "periodically reads out all FM3/CE3 pressure devices",
-               "Ctrl": "load;mon",
-               "Definition":
-    S --------> [
-      P -------->  [
-                       {
-                           "TaskName": "FM3_1T-read_out",
-                           "Replace": {
-                               "@exchpath": "FM3_1T_pressure",
-                               "@token": "mon",
-                               "@repeat": 10,
-                               "@waittime": 500
-                           }
-                       },
-                       {
-                           "TaskName": "Combi_CE3-read_out",
-                    "Use": {
-                               "Values": "thermovac1"
-                           },
-                "Replace": {
-                               "@exchpath": "Combi_CE3_thermovac1_pressure",
-                               "@token": "mon",
-                               "@repeat": 10,
-                               "@waittime": 1000
-                           }
-                       }
-```
-
-Aus diesen Beschreibungen werden dann von __ssmp__ die konkreten
-Abläufe erstellt; dies geschieht durch die Aufforderung:
-
+zugänglich. Die Rezepterzeugung wird mittels
 ```
 $> curl -X PUT -d 'load' http://localhost:8001/mpid/0/ctrl
 ```
+gestartet.
 
 Mit  [csmp](https://github.com/wactbprot/csmp) geht das so:
 
@@ -240,16 +197,10 @@ Mit  [csmp](https://github.com/wactbprot/csmp) geht das so:
 $> bin/mp_ctrl -i mpid -c C -d load
 ```
 
-Es gibt einige Zeichenketten die als Ersetzungen in den Ablaufdefinitionen immer
-zur Verfüging stehen wie z.B. das aktuelle Jahr über ```@year``` oder die
-aktuell ausgewählten KD-ids über ```@cdids```. (s. das
-[dbmp README](https://github.com/wactbprot/dbmp))
+## Starten eines Rezepts
 
-
-## Starten des Messprogramms
-
-Das Starten des Ausführens der oben geladenen Abläufe des 1. Containers
-geschieht auch über die ```ctrl``` Schnittstelle:
+Das Starten des Ausführens der oben geladenen Abläufe des ```C```. containers
+geschieht über die ```ctrl``` Schnittstelle:
 
 ```
 $> curl -X PUT -d 'run' http://localhost:8001/mpid/C/ctrl
@@ -261,50 +212,14 @@ Die  [csmp](https://github.com/wactbprot/csmp)-Variante:
 $> bin/mp_ctrl -i mpid -c C -d run
 ```
 
-#### Ablaufkontrolle
-
-_tasks_ können Schlüsselwörter (keys) besitzen,
-die ihre Ausführung beeinflussen; das sind die keys
-```RunIf``` und ```StopIf```.
-
-##### RunIf
-
-Die "Formulierung" ```RunIf: "got_time.Value"``` bewirkt, dass
-die _task_  ausgeführt wird, wenn der Wert unter
-dem Pfad _exchange.got___time.Value_ (ausführlich:
-http://localhost:8001/mpdef/exchange/got_time/Value)
-zu ```true``` ausgewertet wird.
-Die _task_:
-
-```javascript
-{
-    Action      : "wait",
-    Comment     : "Ready in  1000 ms",
-    TaskName    : "Mp-cond_wait",
-    Exchange    : "wait_time.Value",
-    Id          : ["kdid-1","kdid-2","kdid-3","kdid-4"],
-    CuCo        : false,
-    MpName      : "Mp"
-    RunIf       : "got_time.Value",
-}
-```
-
-wird gestartet, nachdem z.B.:
-
-```
-$> bin/mp_set -i mpdef -p  exchange/got_time/Value -d 'true'
-```
-ausgeführt wurde.
-
-##### StopIf
-
-```StopIf``` funktioniert ganz analog ```RunIf```: Die _task_ wird nicht
-erneut ausgeführt, wenn der Wert unter dem Pfad ```exchange.pfill_ok.Value```
-zu ```true``` ausgewertet werden kann.
-
 ### Anhalten des MP
 
 In gleicher Weise funktioniert Stopp
+
+```
+$> curl -X PUT -d 'stop' http://localhost:8001/mpid/C/ctrl
+```
+oder
 
 ```
 $> bin/mp_ctrl -i mpid -c C -d stop
@@ -329,34 +244,7 @@ $> bin/mp_ctrl -i mpid -c C -d 'load;5:run,load;stop'
 was den Ablauf läd, 5 mal den Zyklus ```run``` gefolgt von ```load```
 (durch Komma getrennt) durchläuft und dann ```stop``` ausführt.
 
-
-
-## Die Exchange Schnittstelle
-
-### Exchange als Input
-
-Hier ein Beispiel wie man im ```PostProcessing``` Teil einer _task_ das
-Schreiben in die Exchange Schnittstelle veranlassen kann:
-
-```javascript
-"PostProcessing": [
-               "var ok = calculate_ok_from_input,",
-               "ToExchange={'key.is.exchange.path':ok};"
-           ]
-```
-Die ```receive()``` Funktion bekommt das unter
-
-```
-data.ToExchange
-```
-und würde hier den wert von ```ok``` in den Pfad ```key.is.exchange.path```
-schreiben.
-
-s. [doc/receive.js.md](https://github.com/wactbprot/ssmp/blob/master/doc/receive.js.md)
-bzw.
-[utils.js.md#write_to_exchange](https://github.com/wactbprot/ssmp/blob/master/doc/utils.js.md#write_to_exchangemp-task-data-cb)
-
-## Rückgabewerte
+## Rückgabewerte der  Exchange-Schnittstelle
 
 Das Ergebnis von _http-GET_-Anfrage hängt von der Art des
 zurückzubebenden Objektes (```x```) ab:
