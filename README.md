@@ -15,11 +15,17 @@ aus Teilaufgaben (_tasks_) die zur  parallelen oder sequenziellen
 Abarbeitung angeordnet werden können.
 
 Die Gesamtheit der container, recipes und tasks ist die Messprogrammdefinition
-(_mpdef_). Diese besitzt eine id, die in allen urls gleich nach dem __ssmp__ port
-auftaucht. __ssmp__ kann vollständig über http gesteuert und abgefragt
-werden. Besonders wichtig sind hierbei die Endpunkte ```/ctrl``` und
-```/exchange```. 
+(_mpdef_).
 
+Bei der mpdef handelt es sich um ein json-Document. Dieses ist in
+der Datenbank (CouchDB) abgelegt.  Es besitzt eine id, die in allen
+nachfolgend beschriebenen urls gleich nach dem Port
+auftaucht.
+
+__ssmp__ kann vollständig über http gesteuert und abgefragt werden. Besonders
+wichtig sind hierbei die Endpunkte ```/ctrl``` und ```/exchange```. 
+
+## Schema
 
 ```
    +-------------+              +-------------+
@@ -99,8 +105,8 @@ Nach der Installation sind folgende Schritte abzuarbeiten:
 1.  Starten des Servers
 2.  Laden des MP
 3.  Bekanntgeben der KD (optional)
-4.  Laden der MP-Abläufe
-5.  Starten des MP
+4.  Laden der MP-Abläufe (in einem, mehreren oder allen containern)
+5.  Starten des MP (in einem, mehreren oder allen containern)
 
 
 ##  Starten des Servers
@@ -111,15 +117,23 @@ Schöner formatierte logs bekommt man mit:
 ```
 $> npm run ssmp
 ```
-Weitere Details können mittels ```ssmp -h``` erfragt werden.
+
+## Ports
+
+Aufgrund des modularen Aufbaus des Systems werden eine Reihe von
+Serverprozessen an folgenden *Ports* gestartet:
+
+* 8001: http-api des ssmp
+* 9000: datenserver (intern)
+* 55555: nodeRelay
+* (8002: web socket)
 
 
 ## Laden des Messprogramms
 
-Die Definition eines MP geschieht im JSON Format. Sie sind zweckmäßiger
-Weise in einer CouchDB als Dokumente abgelegt und kann auf folgende Weise dem
-__ssmp__ zur Abarbeiting übergeben werden:
-
+Die Definition eines MP liegt im JSON Format vor welch zweckmäßiger
+Weise in einer CouchDB als Dokumente abgelegt sind. Sie kann auf folgende
+Weise dem __ssmp__ zur Abarbeiting übergeben werden:
 
 ```
 $> curl -X PUT -d  'load'  http://localhost:8001/mpid
@@ -150,15 +164,16 @@ $> bin/mp_ini -i mpid -d remove
 ## Kalibrierdokumente
 
 Der konkrete Ablauf eines Messprogramms hängt auch von den zu kalibrierenden
-Geräten ab. _Welche_ Geräte _wie_ kalibriert werden sollen, ist in den KD
-festgelegt. __ssmp__ muss also die ids der KD kennen um aus diesen Dokumenten
-die entsprechenden Informationen zu beziehen.
+Geräten ab. _Wieviel_, _welche_ und _wie_ die Geräte kalibriert werden sollen,
+wird am Anfang des Gesamtablaufs festgelegt. __ssmp__ muss also die ids der KD
+kennen um aus diesen Dokumenten die entsprechenden Informationen zu beziehen.
 
 Das Bekanntgeben der KD-ids geschieht mittels des _id_ Endpunkts:
 
 ```
 $> curl -X PUT -d 'load' http://localhost:8001/mpid/id/kdid
 ```
+
 [csmp](https://github.com/wactbprot/csmp) stellt dazu die
 Programme ```mp_id+``` (Hinzufügen), ```mp_id-``` (Löschen)
 und ```mp_id``` (Übersicht) zur Verfügung.
@@ -179,19 +194,23 @@ mp_id -i mpid
 ## Erstellen eines Rezepts
 
 Nachdem  die KD dem __ssmp__ bekannt gegeben wurden, können die konkreten
-Abläufe erstellt und geladen werden. Im Zuge dieses Prozesses wird die 
-Definition mit den Tasks zu den Rezepten zusammengestellt. Das fertige Rezept
-ist dann am Endpunkt
+Abläufe erstellt und geladen werden. Im Zuge dieses Prozesses wird aus der 
+_Definition_ zusammen mit den _Informationen aus den KD_ und den aus der
+Datenbank bezogenen _Task_s das Rezept (_recipe_)
+entwickelt. Dieses ist dann unter
+
 ```
 http://localhost:8001/mpid/C/recipe
 ```
+
 zugänglich. Die Rezepterzeugung wird mittels
+
 ```
 $> curl -X PUT -d 'load' http://localhost:8001/mpid/0/ctrl
 ```
-gestartet.
+gestartet. Es gibt jedoch auch eine _task_, die dies erledigen kann.
 
-Mit  [csmp](https://github.com/wactbprot/csmp) geht das so:
+Mit [csmp](https://github.com/wactbprot/csmp) geht das so:
 
 ```
 $> bin/mp_ctrl -i mpid -c C -d load
@@ -219,6 +238,7 @@ In gleicher Weise funktioniert Stopp
 ```
 $> curl -X PUT -d 'stop' http://localhost:8001/mpid/C/ctrl
 ```
+
 oder
 
 ```
@@ -229,7 +249,7 @@ Durch ein ```stop``` wird der **state aller Tasks auf ready** gesetzt.
 
 ### ctrl-Syntax
 
-Die  Anweisung:
+Um Teilabläufe mehrmals zu starten ist folgendes vorgesehen; die  Anweisung:
 
 ```
 $> bin/mp_ctrl -i mpid -c C -d 'load;5:run'
@@ -261,11 +281,10 @@ zurückzubebenden Objektes (```x```) ab:
 * ist die url unzulässig liefert eine Anfrage
   ```{"code":"MethodNotAllowedError","message":"GET is not allowed"}```
 
-### Unit tests/ code coverage
+## Unit tests/ code coverage
 
-Bei Uninttests werden die Ergebnisse die kleine Programmteile
-(units) bei Ausführung liefern mit Sollergebnissen verglichen.
-Dies soll der Verbesserung der code-Qualität dienen:
+Bei unit tests werden Ergebnisse, die kleine Programmteile
+(units) bei Ausführung liefern, mit Sollergebnissen verglichen.
 
 ```
 $> cd ssmp
