@@ -30,7 +30,7 @@ var http_ssmp = function(conf, cb) {
     return next();
   });
 
-  var mem     = ndata.createClient({port: conf.mem.port});
+  var mem = ndata.createClient({port: conf.mem.port});
 
   /**
    * __GET__
@@ -57,50 +57,64 @@ var http_ssmp = function(conf, cb) {
     });
     next();
   });
+
   server.get("/:id/:container/taskstate", function(req, res, next){
     coll.get_task_state(req, function(o){
       res.send(o);
     });
     next();
-  })
+  });
+
   server.get("/:id/:container/containerelements", function(req, res, next){
     coll.get_container_elements(req, function(o){
       res.send(o);
     });
     next();
-  })
+  });
+
   server.get("/:id/:container/containerelements/:key", function(req, res, next){
     coll.get_container_elements(req, function(o){
       res.send(o);
     });
     next();
-  })
+  });
   // --*-- colection-end --*--
+
+  server.get("/:id", function(req, res, next){
+    meth.get(req, function(o){
+      res.send(o)
+    });
+    next();
+  });
 
   server.get("/:id/:no", function(req, res, next){
     meth.get(req, function(o){
       res.send(o)
     });
     next();
-  })
+  });
+
   server.get("/:id/:no/:struct", function(req, res, next){
     meth.get(req, function(o){
       res.send(o)
     });
     next();
   });
+
   server.get("/:id/:no/:struct/:l1", function(req, res, next){
     meth.get(req, function(o){
       res.send(o)
     });
     next();
   });
+
   server.get("/:id/:no/:struct/:l1/:l2", function(req, res, next){
     meth.get(req, function(o){
       res.send(o)
     });
     next();
   });
+
   server.get("/:id/:no/:struct/:l1/:l2/:l3", function(req, res, next){
     meth.get(req, function(o){
       res.send(o)
@@ -135,6 +149,7 @@ var http_ssmp = function(conf, cb) {
     });
     next();
   });
+
   /*
    * PUT
    * http://server:port/id/structure/l1/...
@@ -145,18 +160,21 @@ var http_ssmp = function(conf, cb) {
     });
     next();
   });
+
   server.put("/:id/:no/:struct/:l1", function(req, res, next) {
     meth.put(req, function(o){
       res.send(o)
     });
     next();
   });
+
   server.put("/:id/:no/:struct/:l1/:l2", function(req, res, next) {
     meth.put(req, function(o){
       res.send(o)
     });
     next();
   });
+
   server.put("/:id/:no/:struct/:l1/:l2/:l3", function(req, res, next) {
     meth.put(req, function(o){
       res.send(o)
@@ -176,7 +194,6 @@ var http_ssmp = function(conf, cb) {
     });
     next();
   });
-
 
   //
   // --- go!---
