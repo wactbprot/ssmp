@@ -82,42 +82,42 @@ var http_ssmp = function(conf, cb) {
 
   server.get("/:id", function(req, res, next){
     meth.get(req, function(o){
-      res.send(o)
+      res.send(o);
     });
     next();
   });
 
   server.get("/:id/:no", function(req, res, next){
     meth.get(req, function(o){
-      res.send(o)
+      res.send(o);
     });
     next();
   });
 
   server.get("/:id/:no/:struct", function(req, res, next){
     meth.get(req, function(o){
-      res.send(o)
+      res.send(o);
     });
     next();
   });
 
   server.get("/:id/:no/:struct/:l1", function(req, res, next){
     meth.get(req, function(o){
-      res.send(o)
+      res.send(o);
     });
     next();
   });
 
   server.get("/:id/:no/:struct/:l1/:l2", function(req, res, next){
     meth.get(req, function(o){
-      res.send(o)
+      res.send(o);
     });
     next();
   });
 
   server.get("/:id/:no/:struct/:l1/:l2/:l3", function(req, res, next){
     meth.get(req, function(o){
-      res.send(o)
+      res.send(o);
     });
     next();
   });
@@ -156,28 +156,28 @@ var http_ssmp = function(conf, cb) {
    */
   server.put("/:id/:no/:struct", function(req, res, next) {
     meth.put(req, function(o){
-      res.send(o)
+      res.send(o);
     });
     next();
   });
 
   server.put("/:id/:no/:struct/:l1", function(req, res, next) {
     meth.put(req, function(o){
-      res.send(o)
+      res.send(o);
     });
     next();
   });
 
   server.put("/:id/:no/:struct/:l1/:l2", function(req, res, next) {
     meth.put(req, function(o){
-      res.send(o)
+      res.send(o);
     });
     next();
   });
 
   server.put("/:id/:no/:struct/:l1/:l2/:l3", function(req, res, next) {
     meth.put(req, function(o){
-      res.send(o)
+      res.send(o);
     });
     next();
   });
