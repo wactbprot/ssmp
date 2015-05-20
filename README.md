@@ -104,7 +104,7 @@ $> npm install
 Nach der Installation sind folgende Schritte abzuarbeiten:
 
 1.  Starten des Servers
-2.  Laden des MP
+2.  Laden des MP (s. auch ```--load``` Startoption)
 3.  Bekanntgeben der KD (optional)
 4.  Laden der MP-Abläufe (in einem, mehreren oder allen containern)
 5.  Starten des MP (in einem, mehreren oder allen containern)
@@ -112,13 +112,18 @@ Nach der Installation sind folgende Schritte abzuarbeiten:
 
 ##  Starten des Servers
 
-__ssmp__ wird durch den Aufruf ```ssmp [-P port]``` gestartet.
+__ssmp__ wird durch den Aufruf ```bin/ssmp``` gestartet.
 
 Schöner formatierte logs bekommt man mit:
+
 ```
 $> npm run ssmp
 ```
 
+Mit ```bin/ssmp -l mpid``` bzw. ```bin/ssmp --load mpid``` wird das MP mit der
+id mpid gleich geladen; es kann so Punkt 2 des Gesamtablaufes übersprungen
+werden. 
+ 
 ## Ports
 
 Aufgrund des modularen Aufbaus des Systems werden eine Reihe von
