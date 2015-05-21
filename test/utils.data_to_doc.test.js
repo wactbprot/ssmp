@@ -236,7 +236,7 @@ describe('utils', function(){
       });
     });
 
-    it('should set second NValue on missing first', function(done){
+    it('should set second N on missing first', function(done){
       var dataset1 = {Result:[{Type:"test0",
                               Unit:"tu",
                               Value:0}]}
@@ -249,7 +249,7 @@ describe('utils', function(){
         var dataset2 = {Result:[{Type:"test0",
                                  Unit:"tu",
                                  Value:1,
-                                 NValue:10,
+                                 N:10,
                                  SdValue:0.001}]}
         utils.data_to_doc(cd, path, dataset2, function(d){
           assert.equal(d.Calibration.Measurement.Values.Pressure[0].Value.length, 2);
@@ -259,9 +259,9 @@ describe('utils', function(){
           var sd_test = d.Calibration.Measurement.Values.Pressure[0].SdValue;
           assert.equal(_.isNull(JSON.parse(JSON.stringify(sd_test))[0]), true);
 
-          assert.equal(_.isUndefined(d.Calibration.Measurement.Values.Pressure[0].NValue[0]), true);
-          assert.equal(_.isNumber(d.Calibration.Measurement.Values.Pressure[0].NValue[1]), true);
-          var n_test = d.Calibration.Measurement.Values.Pressure[0].NValue;
+          assert.equal(_.isUndefined(d.Calibration.Measurement.Values.Pressure[0].N[0]), true);
+          assert.equal(_.isNumber(d.Calibration.Measurement.Values.Pressure[0].N[1]), true);
+          var n_test = d.Calibration.Measurement.Values.Pressure[0].N;
           assert.equal(_.isNull(JSON.parse(JSON.stringify(n_test))[0]), true);
 
           done();
