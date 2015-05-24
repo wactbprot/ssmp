@@ -3,24 +3,11 @@ var _        = require("underscore")
   , ndata    = require("ndata")
   , deflt    = require("../lib/default")
   , load     = require("../lib/load")
-  , utils
+  , utils    = require("../lib/utils")
   , ds
   , mem
 
 describe('load', function(){
-  before(function(done){
-    ds = ndata.createServer({port: deflt.mem.port}).on('ready', function(){
-           mem  = ndata.createClient({port: deflt.mem.port})
-           utils    = require("../lib/utils")
-           done();
-         });
-  });
-
-  after(function(done){
-    ds.destroy();
-    done();
-  });
-
   describe('#insert(def, calob, cb)', function(){
 
     it('should return erron on wrong definition (str)', function(done){
