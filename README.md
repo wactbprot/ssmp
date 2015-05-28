@@ -81,6 +81,7 @@ Schnittstellen.
 * ```/mpid/exchange``` ... Austausch von Daten client-server 
 * ```/mpid/id``` ... Info über geladene KD
 * ```/mpid/meta``` ... Informationen zum MP
+* ```/mpid/C/elements``` ... für container C vorgesehene Anzeigeelemente
 * ```/mpid/C/ctrl``` ... Steuerung/ Übersicht des containers ```C```
 * ```/mpid/C/state``` ... Zustand des containers C
 * ```/mpid/C/state/S``` ... Zustand der ```S```. sequentiellen Schritte des
@@ -269,6 +270,21 @@ $> bin/mp_ctrl -i mpid -c C -d 'load;5:run,load;stop'
 
 was den Ablauf läd, 5 mal den Zyklus ```run``` gefolgt von ```load```
 (durch Komma getrennt) durchläuft und dann ```stop``` ausführt.
+
+## Anzeigeelemente pro container
+
+Unter der url:
+``` http://localhost:8001/mpid/C/elements``` wird ein Auszug der ```../exchange```
+Schnittstelle erstellt. Welche Elemente aufgenommen werden, ist im MP under
+dem Pfad ```Mp.Container[C].element``` mit wildcard  ```*``` definierbar.
+
+Bsp.:
+```
+ "Element": [
+               "MKT50*",
+               "KeithleyCh*"
+           ]
+```
 
 ## Rückgabewerte der  Exchange-Schnittstelle
 
