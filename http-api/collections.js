@@ -47,7 +47,7 @@ var get_mps = function(req, cb){
     }else{
       ro = {error:err};
       log.error(ro
-                 , "error on attempt to mem.getAll");
+               , "error on attempt to mem.getAll");
       cb(ro)
     }
   });
@@ -151,59 +151,39 @@ exports.get_task_state = get_task_state;
  * @param {Object} mps globales MP Objekt
  * @param {Object} req request-Objekt
  */
-var get_container_elements = function(req, cb){
+var get_elements = function(req, cb){
   var ro   = {}
-    , id   = req.params.id
-    , no   = req.params.container
-    , key  = req.params.key
-    , path_b = [id]
-    , fpat    = /\*/g
-    , bpat    = "[A-Za-z0-9\-_ ]*"
-    , path_e = path_b.concat(["exchange"])
-    , path_r = path_e.concat(["run_time","Value", "value"])
+  if(req.params){
+    var mpid = req.params.id
+      , no   = req.params.container
 
-  if(_.isUndefined(no)){
-    cb({error:"no container requested"});
-  }else{
-    mem.get(path_r, function(err, rtime){
-      if(!err && rtime){
-        if(key){
-        mem.get(path_e.concat([key]), function(err, val){
-          if(!err && val){
-            val.key = key;
-            val.id  = id;
-            val.no  = no;
-            ro[key] = val;
+    if(mpid && no){
+      var fpat    = /\*/g
+        , bpat    = "[A-Za-z0-9\-_ ]*"
 
-            cb(ro);
-          }else{
-            cb({error:err || "no value"}
-              ,  "on try to get. " +key)
-          }
-        }); // get with key
-        }else{
-          mem.get(path_e, function(err, exch){
-            mem.get(path_b.concat([no, "element"]), function(err, elem){
-              var exchKeys = _.keys(exch)
-                , eN    = elem.length;
-              if(eN > 0){
-                for(var i = 0; i < eN; i++){
+      mem.get([mpid, no, "element"], function(err, elem){
+        if(!err){
+          mem.get([mpid, "exchange"], function(err, exch){
+            if(!err){
+              var exch_keys   = _.keys(exch)
+                , no_of_elem   = elem.length;
+
+              if(no_of_elem > 0){
+                for(var i = 0; i < no_of_elem; i++){
                   // keys können wildcard * enthalten
-                  var pat = new RegExp("^" + elem[i].replace(bpat, fpat) + "$");
+                  var pat = new RegExp("^" + elem[i].replace(fpat, bpat) + "$");
                   // exchange wird nach passenden
                   // keys durchsucht (gefiltert)
-                  var elemkey = _.filter(exchKeys, function(k){
-                                  return  k.search(pat) > -1;
-                                });
-                  var noOfk   = elemkey.length;
-                  if(noOfk > 0){
-                    for(var k = 0; k < noOfk; k++){
-                      var ek = elemkey[k]
-                        , val   = exch[ek];
-                      val.key   = ek;
-                      val.id    = id;
-                      val.no    = no;
-                      ro[ek]   = val;
+
+                  var elem_key = _.filter(exch_keys, function(k){
+                                   return  k.search(pat) > -1;
+                                 });
+
+                  var no_of_keys   = elem_key.length;
+                  if(no_of_keys > 0){
+                    for(var k = 0; k < no_of_keys; k++){
+                      var ret_key = elem_key[k];
+                      ro[ret_key] = exch[ret_key];
                     }
                   }
                 } // for
@@ -211,13 +191,20 @@ var get_container_elements = function(req, cb){
               }else{
                 cb({error:"exchange seems to have length 0"});
               }
-            }); // elem
-          }); // exchob
+            }else{
+              cb({error:"can not read from exchange"});
+            }
+          }); //exchange
+        }else{
+          cb({error:"can not read from element"});
         }
-      }else{
-        cb({error:"no mp with |id|: |" + id + "| initialized"});
-      }
-    }); // get rtime
-  } // else no
+      }); // element
+    }else{
+      cb({error:"wrong path"});
+    }
+  }else{
+    cb({error:"wrong request"});
+  }
+
 }
-exports.get_container_elements = get_container_elements;
+exports.get_elements = get_elements;

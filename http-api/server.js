@@ -65,15 +65,8 @@ var http_ssmp = function(conf, cb) {
     next();
   });
 
-  server.get("/:id/:container/containerelements", function(req, res, next){
-    coll.get_container_elements(req, function(o){
-      res.send(o);
-    });
-    next();
-  });
-
-  server.get("/:id/:container/containerelements/:key", function(req, res, next){
-    coll.get_container_elements(req, function(o){
+  server.get("/:id/:container/elements", function(req, res, next){
+    coll.get_elements(req, function(o){
       res.send(o);
     });
     next();

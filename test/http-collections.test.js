@@ -29,4 +29,21 @@ describe('http-collections', function(){
       });
     })
   });
+
+  describe('#get_elements(req)', function(){
+
+    it('should return error object on missing params', function(done){
+      coll.get_elements({}, function(res){
+        assert.equal(res.error,"wrong request");
+        done();
+      });
+    })
+
+    it('should return error object on missing path', function(done){
+      coll.get_elements({params:{}}, function(res){
+        assert.equal(res.error,"wrong path");
+        done();
+      });
+    })
+  });
 });
