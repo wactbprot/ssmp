@@ -38,7 +38,7 @@ var http_ssmp = function(conf, cb) {
   var mem = ndata.createClient({port: conf.mem.port});
 
 /**
- * I's maybe a good idea to profide a
+ * I's maybe a good idea to provide a
  * human readable page as entrance
  */
   server.get("/info", function(req, res, next){
@@ -72,14 +72,13 @@ var http_ssmp = function(conf, cb) {
    * @param {String} url url-Muster der Anfrage
    * @param {Function} f Callback
    */
-  //// --*-- colection-start --*--
+  // --*-- colection-start --*--
   server.get("/", function(req, res, next){
     coll.get_mps(req, function(o){
       res.send(o);
     });
     next();
   });
-
 
   server.get("/:id/:container/taskstate", function(req, res, next){
     coll.get_task_state(req, function(o){
@@ -166,7 +165,7 @@ var http_ssmp = function(conf, cb) {
     next();
   });
 
-  /*
+  /**
    * PUT
    * http://server:port/id/structure/l1/...
    */
@@ -198,7 +197,7 @@ var http_ssmp = function(conf, cb) {
     next();
   });
 
-  /*
+  /**
    * PUT
    * http://server:port/id
    * - Initialisiert mp-Instanz
