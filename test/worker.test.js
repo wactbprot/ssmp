@@ -11,29 +11,17 @@ describe('worker', function(){
   before(function(done){
     ds = ndata.createServer({port: deflt.mem.port}).on('ready', function(){
            mem  = ndata.createClient({port: deflt.mem.port});
-           mem.set(exchpath.concat(["a"]), {Value:
-                                            {value:"ok"},
-                                            Ready:{value:"true"}}
+           mem.set(exchpath.concat(["a"]), {Value:"ok",
+                                            Ready:"true"}
                   , function(){
-                      mem.set(exchpath.concat(["b"])
-                             , {Value:
-                                {value:1,
-                                 type:"number",
-                                 save:true},
-                                Unit:
-                                {value:"mbar",
-                                 save:true},
-                                Ready:
-                                {value:true}}
+                      mem.set(exchpath.concat(["b"]), {Value:1,
+                                                       Unit:"mbar",
+                                                       Ready:true}
                              , function(){
-                                 mem.set(exchpath.concat(["c"]), {Wrong:
-                                                                  {value:"nope"}}
+                                 mem.set(exchpath.concat(["c"]),{Wrong:"nope"}
                                         , function(){
-                                            mem.set(exchpath.concat(["d"]), {Value:
-                                                                             {value:1,
-                                                                              save:true},
-                                                                             Ready:
-                                                                             {value:true}}
+                                            mem.set(exchpath.concat(["d"]), {Value:1,
+                                                                             Ready:true}
                                                    , function(){
                                                        worker    = require("../lib/worker")
                                                        done();
@@ -92,13 +80,13 @@ describe('worker', function(){
 
     it('should reset Ready to false', function(done){
       worker.readExchange({Key:"d", Path:["test", 0]}, function(res){
-        mem.get(["test", "exchange","d", "Ready", "value"], function(err, res){
+        mem.get(["test", "exchange","d", "Ready"], function(err, res){
           assert.equal(res, false);
-          mem.set(["test", "exchange","d", "Ready", "value"], true, function(err){
-            mem.get(["test", "exchange","d", "Ready", "value"], function(err, res){
+          mem.set(["test", "exchange","d", "Ready"], true, function(err){
+            mem.get(["test", "exchange","d", "Ready"], function(err, res){
               assert.equal(res, true);
               worker.readExchange({Key:"d", Path:["test", 0]}, function(res){
-                mem.get(["test", "exchange","d", "Ready", "value"], function(err, res){
+                mem.get(["test", "exchange","d", "Ready"], function(err, res){
                   assert.equal(res, false);
                   done();
                 });
