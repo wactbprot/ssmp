@@ -18,6 +18,7 @@ var http_ssmp = function(conf, cb) {
     , ndata   = require("ndata")
     , coll    = require("./collections")
     , meth    = require("./methods")
+    , info    = require("./info")
     , log     = bunyan.createLogger({name: name})
     , server  = restify.createServer({name: name});
 
@@ -30,7 +31,28 @@ var http_ssmp = function(conf, cb) {
     return next();
   });
 
+  server.get( "/favicon.ico", restify.serveStatic({
+    'directory': __dirname
+  }));
+
   var mem = ndata.createClient({port: conf.mem.port});
+
+/**
+ * I's maybe a good idea to profide a
+ * human readable page as entrance
+ */
+  server.get("/info", function(req, res, next){
+    res.writeHead(200, {
+      'Content-Type': 'text/html'
+    });
+    info(req, function(html){
+      res.write(html);
+      res.end();
+
+    });
+    next();
+  });
+
 
   /**
    * __GET__
@@ -57,6 +79,7 @@ var http_ssmp = function(conf, cb) {
     });
     next();
   });
+
 
   server.get("/:id/:container/taskstate", function(req, res, next){
     coll.get_task_state(req, function(o){
