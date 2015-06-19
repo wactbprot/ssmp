@@ -89,8 +89,7 @@ exports.handle_mp =  handle_mp;
 
 /**
  * Funktion veranlasst laden und löschen der
- * cd(calibration )-
- * Dokumente.
+ * CD (calibration documents).
  *
  * @param {Object} req Request-Objekt
  * @param {Function} cb call back
@@ -184,7 +183,7 @@ var put = function(req, cb){
       if(req.body){
         var strpath  = path.join(" ")
         log.info(ok
-                , "receice put request to path " + path.join(" "));
+                , "receice put request to path " + strpath);
         mem.set(path, req.body, function(err){
           if(!err){
             ro = ok;
