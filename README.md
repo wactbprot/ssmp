@@ -77,7 +77,7 @@ In den url-Schemata ist
 Hier ein symbolischer Überblick über die von ssmp bereitgestellten
 Schnittstellen. 
 
-* ```/mpid``` ... interne Representation des gesamten MP  
+* ```/mpid``` ... interne Representation des gesamten MP
 * ```/mpid/exchange``` ... Austausch von Daten client-server 
 * ```/mpid/id``` ... Info über geladene KD
 * ```/mpid/meta``` ... Informationen zum MP

@@ -32,7 +32,7 @@ var ssmp = function(){
             + "....................................."
             );
 
-      require("./http-api/server")(deflt, function(){
+      require("./http-api/json-srv")(deflt, function(){
         var mem      = ndata.createClient({port: deflt.mem.port})
         load.ini(function(){
           run.ini(function(){
