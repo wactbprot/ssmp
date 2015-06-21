@@ -10,7 +10,7 @@ describe('http-methods', function(){
   before(function(done){
     ds = ndata.createServer({port: deflt.mem.port}).on('ready', function(){
            mem  = ndata.createClient({port: deflt.mem.port})
-           meth = require("../http-api/methods")
+           meth = require("../api/methods")
            done();
          });
   });

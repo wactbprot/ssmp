@@ -26,13 +26,15 @@ var ssmp = function(){
       , ok       = {ok: true};
 
     log.info(ok
-            , ".....................................\n"
+            , "\n"
+            + ".....................................\n"
             + "ssmp data server up and running @"
             + deflt.mem.port +"\n"
-            + "....................................."
+            + ".....................................\n"
             );
 
-      require("./http-api/json-srv")(deflt, function(){
+    require("./api/json-srv")(deflt, function(){
+      require("./info/info-srv")(deflt, function(){
         var mem      = ndata.createClient({port: deflt.mem.port})
         load.ini(function(){
           run.ini(function(){
@@ -47,7 +49,7 @@ var ssmp = function(){
                                   , " published to get_mp channel");
                         }else{
                           log.error({error:err}
-                                  , "failed to published to get_mp channel");
+                                   , "failed to published to get_mp channel");
                         }
                       });
                     }
@@ -58,8 +60,7 @@ var ssmp = function(){
           });
         });
       });
-      //require("./socketio-api/socket-ssmp")(deflt);
-
-  }); // server
+    }); // info server
+  }); // http server
 }
 module.exports = ssmp;

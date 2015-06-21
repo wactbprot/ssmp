@@ -1,9 +1,14 @@
-var info = function(jsn, cb){
-  cb("<h1>Hi!</h1>"
-    + "<p>"
-    + "I got the following to say:"
-    + "<br>"
-    + "There is a json home below /home!"
-    + "</p>")
+var name     = "info"
+  , hc       = require("./template")
+  ,  _       = require("underscore")
+  , ndata    = require("ndata")
+  , bunyan   = require("bunyan")
+  , deflt    = require("../lib/default")
+  , log      = bunyan.createLogger({name: name})
+
+var mem = ndata.createClient({port: deflt.mem.port});
+
+var index = function(cb){
+  cb(hc["index"](deflt));
 }
-module.exports = info;
+exports.index = index;

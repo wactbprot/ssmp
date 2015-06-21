@@ -1,15 +1,7 @@
 /**
- * __Eingang__:
- * ```
- * "Lass alle Hoffnung fahren"
- * ```
- * -- Dante
- *
- * In ```app.js``` wird der http-Server gestartet,
- * welcher die _REST_-Api des _ssmp_ zur Verfügung stellt.
- *
+ * serves infos about thr running system
  */
-var http_ssmp = function(conf, cb) {
+var info_srv = function(conf, cb) {
   var name    = "info"
     , _       = require("underscore")
     , prog    = require("commander")
@@ -29,6 +21,15 @@ var http_ssmp = function(conf, cb) {
     return next();
   });
 
+  server.get( "/css/:file", restify.serveStatic({
+    'directory': __dirname
+  }));
+  server.get( "/fonts/:file", restify.serveStatic({
+    'directory': __dirname
+  }));
+  server.get( "/js/:file", restify.serveStatic({
+    'directory': __dirname
+  }));
   server.get( "/favicon.ico", restify.serveStatic({
     'directory': __dirname
   }));
@@ -39,11 +40,11 @@ var http_ssmp = function(conf, cb) {
  * I's maybe a good idea to provide a
  * human readable page as entrance
  */
-  server.get("/info", function(req, res, next){
+  server.get("/", function(req, res, next){
     res.writeHead(200, {
       'Content-Type': 'text/html'
     });
-    info(req, function(html){
+    info.index(function(html){
       res.write(html);
       res.end();
 
@@ -56,13 +57,15 @@ var http_ssmp = function(conf, cb) {
   //
   server.listen(conf.info.port, function() {
     log.info({ok: true}
-            , "``````````````````````````````\n"
+            , "\n"
+            + ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"
             + "info system up and running @"
             + conf.info.port +"\n"
-            + "``````````````````````````````"
+            + ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"
             );
     if(_.isFunction(cb)){
       cb();
     }
   });
 }
+module.exports = info_srv;

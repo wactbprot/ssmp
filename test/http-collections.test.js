@@ -10,7 +10,7 @@ describe('http-collections', function(){
   before(function(done){
     ds = ndata.createServer({port: deflt.mem.port}).on('ready', function(){
            mem  = ndata.createClient({port: deflt.mem.port})
-           coll = require("../http-api/collections")
+           coll = require("../api/collections")
            done();
          });
   });
