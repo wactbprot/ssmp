@@ -69,7 +69,7 @@ var get_task_state = function(req, cb){
     , no   = req.params.container
     , df, taskname, action, comment, value, key, st, rr
     , path_b = [id]
-    , path_r = path_b.concat(["exchange", "run_time","Value", "value"])
+    , path_r = path_b.concat(["exchange", "run_time","Value"])
 
   if(_.isUndefined(no)){
     cb({error:"no container requested"});
