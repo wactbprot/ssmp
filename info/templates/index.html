@@ -8,22 +8,27 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/info.css">
 
-    <div class="blog-masthead">
-      <div class="container">
-        <nav class="blog-nav">
-          <a class="blog-nav-item active" href="#">Home</a>
-          <a class="blog-nav-item" href="#">New features</a>
-          <a class="blog-nav-item" href="#">Press</a>
-          <a class="blog-nav-item" href="#">New hires</a>
-          <a class="blog-nav-item" href="#">About</a>
-        </nav>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="../">info@{{appname}}</a>
+        </div>
       </div>
-    </div>
+    </nav>
 
     <div class="container">
       <section>
-        <h1>{{appname}} info</h1>
-        <p></p>
+        <h1>Defaults</h1>
+      </section>
+      <section>
+        <h2>Database</h2>
+        <p>
+          <ul>
+          {{#each database}}
+          <li><b>{{@key}}:</b> {{.}}</li>
+          {{/each}}
+          </ul>
+        </p>
       </section>
     </div> <!-- /container -->
     
