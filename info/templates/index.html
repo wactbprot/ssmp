@@ -17,19 +17,27 @@
     </nav>
 
     <div class="container">
+
       <section>
-        <h1>Defaults</h1>
+        <h2>Defaults</h2>
       </section>
-      <section>
-        <h2>Database</h2>
-        <p>
-          <ul>
-          {{#each database}}
-          <li><b>{{@key}}:</b> {{.}}</li>
-          {{/each}}
-          </ul>
-        </p>
-      </section>
+
+      <div class="row">      
+        {{#each default}}
+        <div class="col-md-3">
+          <section>
+            <h3>{{@key}}</h3>
+            <p>
+              <ul>
+                {{#each .}}
+                <li><b>{{@key}}:</b> {{.}}</li>
+                {{/each}}
+              </ul>
+            </p>
+          </section>
+        </div>
+      {{/each}}
+      </div><!-- /row -->
     </div> <!-- /container -->
     
    <script src="/js/jquery-2.1.4.min.js"></script>

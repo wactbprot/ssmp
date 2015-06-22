@@ -9,6 +9,8 @@ var name     = "info"
 var mem = ndata.createClient({port: deflt.mem.port});
 
 var index = function(cb){
-  cb(hc["index"](deflt));
+  var  all = {}
+  all.default = deflt
+  cb(hc["index"](all));
 }
 exports.index = index;

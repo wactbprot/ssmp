@@ -1,8 +1,9 @@
-var _      = require("underscore")
-  , fs     = require("fs")
-  , h      = require("handlebars")
-  , fpath  = "./info/templates/"
+var _         = require("underscore")
+  , fs        = require("fs")
+  , h         = require("handlebars")
+  , fpath     = "./info/templates/"
   , templates = function(){
+
       var ff = fs.readdirSync(fpath)
         , hc = {};
 
