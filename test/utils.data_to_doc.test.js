@@ -269,5 +269,32 @@ describe('utils', function(){
       });
     });
 
+    it('should set flat string values', function(done){
+      var dataset = {Result:["foo"]}
+        , path = "Calibration.Measurement.AuxValues.Foo";
+      utils.data_to_doc(clone(caldoc), path, dataset, function(d){
+        assert.equal(d.Calibration.Measurement.AuxValues.Foo, "foo");
+        done();
+      });
+    });
+
+    it('should set flat number values', function(done){
+      var dataset = {Result:[1.234]}
+        , path = "Calibration.Measurement.AuxValues.Bar";
+      utils.data_to_doc(clone(caldoc), path, dataset, function(d){
+        assert.equal(d.Calibration.Measurement.AuxValues.Bar, 1.234);
+        done();
+      });
+    });
+
+    it('should set flat number values', function(done){
+      var dataset = {Result:[true]}
+        , path = "Calibration.Measurement.AuxValues.Baz";
+      utils.data_to_doc(clone(caldoc), path, dataset, function(d){
+        assert.equal(d.Calibration.Measurement.AuxValues.Baz, true);
+        done();
+      });
+    });
+
   });
 });
