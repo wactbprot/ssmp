@@ -21,8 +21,8 @@
     "scripts": {
         "mpshell":"bin/mpsh",
         "doc":"dox-foundation --source ./ --target doc/ --ignore coverage,test,node_modules -t ssmp",
-        "mem" :"bin/mem | bunyan -l info",
-        "ssmp": "bin/ssmp | bunyan -l info",
+        "mem" :"bin/mem | bunyan -l info -o short",
+        "ssmp": "bin/ssmp | bunyan -l info -o short",
         "show-cover":"firefox  coverage/lcov-report/index.html",
         "test":"istanbul cover _mocha -- -R spec | bunyan -l fatal",
         "all-dev":"npm test && npm run doc"
