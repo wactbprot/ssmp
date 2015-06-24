@@ -40,11 +40,11 @@ var info_srv = function(conf, cb) {
  * I's maybe a good idea to provide a
  * human readable page as entrance
  */
-  server.get("/", function(req, res, next){
+  server.get(/^\/def/, function(req, res, next){
     res.writeHead(200, {
       'Content-Type': 'text/html'
     });
-    info.index(function(html){
+    info.defaults(function(html){
       res.write(html);
       res.end();
 
