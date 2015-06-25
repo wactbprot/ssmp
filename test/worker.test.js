@@ -23,7 +23,7 @@ describe('worker', function(){
                                             mem.set(exchpath.concat(["d"]), {Value:1,
                                                                              Ready:true}
                                                    , function(){
-                                                       worker    = require("../lib/worker")
+                                                       worker = require("../lib/worker")
                                                        done();
                                                      });
                                           });
@@ -54,48 +54,7 @@ describe('worker', function(){
       });
     });
 
-    it('should work without .save entries', function(done){
-
-      worker.readExchange({Key:"a", Path:["test", 0]}, function(res){
-        assert.equal(res.ok, true);
-        done();
-      });
-    });
-
-    it('should work with type:number', function(done){
-
-      worker.readExchange({Key:"b", Path:["test", 0]}, function(res){
-        assert.equal(res.ok, true);
-        done();
-      });
-    });
-
-    it('should work with missing Ready ', function(done){
-
-      worker.readExchange({Key:"c", Path:["test", 0]}, function(res){
-        assert.equal(res.ok, true);
-        done();
-      });
-    });
-
-    it('should reset Ready to false', function(done){
-      worker.readExchange({Key:"d", Path:["test", 0]}, function(res){
-        mem.get(["test", "exchange","d", "Ready"], function(err, res){
-          assert.equal(res, false);
-          mem.set(["test", "exchange","d", "Ready"], true, function(err){
-            mem.get(["test", "exchange","d", "Ready"], function(err, res){
-              assert.equal(res, true);
-              worker.readExchange({Key:"d", Path:["test", 0]}, function(res){
-                mem.get(["test", "exchange","d", "Ready"], function(err, res){
-                  assert.equal(res, false);
-                  done();
-                });
-              });
-            });
-          });
-        });
-      });
-    });
+  
 
   });
 
