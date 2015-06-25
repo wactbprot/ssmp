@@ -6,7 +6,7 @@ var ssmp = function(){
     , deflt   = require("./lib/default")
 
     , cstr    = deflt.ctrlStr
-    , log     = bunyan.createLogger({name: deflt.appname})
+    , log     = bunyan.createLogger({name: deflt.app.name})
     , ok      = {ok:true};
 
   prog.version("0.4.0")

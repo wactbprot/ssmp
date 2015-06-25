@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>info@{{default.appname}}</title>
+    <title>{{default.app.name}} defaults</title>
   </head>
   <body>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -11,30 +11,28 @@
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <div class="navbar-header">
-          <a class="navbar-brand" href="../">info@{{default.appname}}</a>
+          <a class="navbar-brand" href="../"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></a>
+          <a class="navbar-brand" href="../">{{default.app.name}} defaults</a>
         </div>
       </div>
     </nav>
 
     <div class="container">
-
-      <section>
-        <h2>Defaults</h2>
-      </section>
-
       <div class="row">      
         {{#each default}}
-        <div class="col-md-3">
-          <section>
+        <div class="col-xs-6 col-lg-4">
             <h3>{{@key}}</h3>
             <p>
-              <ul>
+              <ul class="list-group">
                 {{#each .}}
-                <li><b>{{@key}}:</b> {{.}}</li>
+                <li class="list-group-item">
+                  <b>
+                    {{@key}}:
+                  </b> {{.}}
+                </li>
                 {{/each}}
               </ul>
             </p>
-          </section>
         </div>
       {{/each}}
       </div><!-- /row -->
