@@ -59,6 +59,28 @@ describe('load', function(){
 
       done();
     })
+    it('should also work with two Use expansions', function(done){
+      var d1 = {
+        "TaskName": "Common-write_element",
+        "ExpandPar": {
+          "ExchangePaths": [
+            "doc_table",
+            "doc_ok"
+          ],
+          "Values": [
+            "doc_table",
+            "doc_ok"
+          ]
+        }
+      }
+        , a = load.expand_task(d1, {});
+      assert.equal(a[0][0].Use.ExchangePaths,"doc_table")
+      assert.equal(a[0][1].Use.ExchangePaths,"doc_ok")
+      assert.equal(a[0][0].Use.Values,"doc_table")
+      assert.equal(a[0][1].Use.Values,"doc_ok")
+
+      done();
+    })
 
   })
 })
