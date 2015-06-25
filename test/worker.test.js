@@ -46,15 +46,15 @@ describe('worker', function(){
       });
     });
 
-    it('should fail on wrong key', function(done){
+    it('should fail on wrong ExchangePath', function(done){
 
-      worker.readExchange({Key:"wrong", Path:["test", 0]}, function(res){
+      worker.readExchange({ExchangePath:"wrong", Path:["test", 0]}, function(res){
         assert.equal(res.error, "nothing below give key")
         done();
       });
     });
 
-  
+
 
   });
 
@@ -83,7 +83,7 @@ describe('worker', function(){
     });
 
     it('should write to exchange', function(done){
-      worker.writeExchange({Path:["test", 0], Key:"a.b.c", Value:"test"}, function(res){
+      worker.writeExchange({Path:["test", 0], ExchangePath:"a.b.c", Value:"test"}, function(res){
         assert.equal(res.ok, true);
         mem.get(["test", "exchange","a", "b", "c"], function(err, res){
           assert.equal(res, "test");
