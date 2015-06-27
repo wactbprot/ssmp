@@ -8,8 +8,7 @@ var info_srv = function(conf, cb) {
     , restify  = require("restify")
     , bunyan   = require("bunyan")
     , ndata    = require("ndata")
-    , defaults = require("./defaults")
-    , index    = require("./index")
+    , get      = require("./get")
     , log      = bunyan.createLogger({name: name})
     , server   = restify.createServer({name: name});
 
@@ -46,22 +45,33 @@ var info_srv = function(conf, cb) {
     res.writeHead(200, {
       'Content-Type': 'text/html'
     });
-    defaults(function(html){
+    get.defaults(function(html){
       res.write(html);
       res.end();
 
     });
     next();
   });
+
+  server.get(/^\/dev/, function(req, res, next){
+    res.writeHead(200, {
+      'Content-Type': 'text/html'
+    });
+    get.devel(function(html){
+      res.write(html);
+      res.end();
+    });
+    next();
+  });
+
   // everything else
   server.get(/^[\/]?/, function(req, res, next){
     res.writeHead(200, {
       'Content-Type': 'text/html'
     });
-    index(function(html){
+    get.index(function(html){
       res.write(html);
       res.end();
-
     });
     next();
   });

@@ -2,76 +2,45 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>{{package.name}} index</title>
+    <title>{{package.name}}</title>
   </head>
   <body>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/info.css">
+    <link rel="stylesheet" href="/css/index.css">
     <link rel="shortcut icon" href="favicon.ico?v=2"/>
-
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="../"><span class="glyphicon glyphicon-flash" aria-hidden="true"></span></a>
-          <a class="navbar-brand" href="../">{{package.name}}</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="../index">index</a></li>
-            <li><a href="../defaults">defaults</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-    <div class="container">
-      
-      <div class="jumbotron">
-        <h1 class="cover-heading">{{package.name}}</h1>
-        <div class="row">      
-          <div class="col-xs-4">
-            <p>{{package.description}}</p>
+  
+    <div class="site-wrapper">
+      <div class="site-wrapper-inner">
+        <div class="cover-container">
+          <div class="masthead clearfix">
+            <div class="inner">
+              <h3 class="masthead-brand">{{package.name}}</h3>
+              <nav>
+                <ul class="nav masthead-nav">
+                  <li class="active"><a href="../index">index</a></li>
+                  <li><a href="../devel">devel</a></li>
+                  <li><a href="../defaults">defaults</a></li>
+                </ul>
+              </nav>
+            </div>
           </div>
-          <div class="col-xs-4">
-            <p>version: {{package.version}}</p>
+          
+          <div class="inner cover">
+            <h1 class="cover-heading">{{package.name}}</h1>
+            <p class="lead">version:{{package.version}}</p>
+            <p class="lead">{{package.description}}</p>
           </div>
-          <div class="col-xs-4">
-            <p>state: up and running</p>
-          </div>        
+          
+          <div class="mastfoot">
+            <div class="inner">
+              <p><a href="https://github.com/wactbprot/ssmp">github</a></p>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="row">      
-        <div class="col-xs-4">
-          <h3>repository</h3>
-          <ul class="list-group">
-            <li class="list-group-item"> <b>type:</b> {{package.repository.type}}</li>
-            <li class="list-group-item"> <b>url:</b> <a href='{{package.repository.url}}'>{{package.repository.url}}</a></li>
-          </ul>
-        </div>
-
-        <div class="col-xs-4">
-          <h3>dependencies</h3>
-          <ul class="list-group">
-            {{#each package.dependencies}}
-            <li class="list-group-item"> <b>{{@key}}:</b> {{.}}</li>
-            {{/each}}
-          </ul>
-        </div>
-
-
-        <div class="col-xs-4">
-          <h3>scripts</h3>
-          <ul class="list-group">
-            {{#each package.scripts}}
-            <li class="list-group-item"> <b>{{@key}}:</b> {{.}}</li>
-            {{/each}}
-          </ul>
-        </div>
-
       </div>
     </div>
     
-    
-    <script src="/js/jquery-2.1.4.min.js"></script>
+   <script src="/js/jquery-2.1.4.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
   </body>
 </html>
