@@ -2,15 +2,16 @@
  * serves infos about thr running system
  */
 var info_srv = function(conf, cb) {
-  var name    = "info"
-    , _       = require("underscore")
-    , prog    = require("commander")
-    , restify = require("restify")
-    , bunyan  = require("bunyan")
-    , ndata   = require("ndata")
-    , info    = require("./info")
-    , log     = bunyan.createLogger({name: name})
-    , server  = restify.createServer({name: name});
+  var name     = "info"
+    , _        = require("underscore")
+    , prog     = require("commander")
+    , restify  = require("restify")
+    , bunyan   = require("bunyan")
+    , ndata    = require("ndata")
+    , defaults = require("./defaults")
+    , index    = require("./index")
+    , log      = bunyan.createLogger({name: name})
+    , server   = restify.createServer({name: name});
 
   server.pre(restify.pre.sanitizePath());
   server.use(restify.queryParser());
@@ -40,11 +41,24 @@ var info_srv = function(conf, cb) {
  * I's maybe a good idea to provide a
  * human readable page as entrance
  */
+
   server.get(/^\/def/, function(req, res, next){
     res.writeHead(200, {
       'Content-Type': 'text/html'
     });
-    info.defaults(function(html){
+    defaults(function(html){
+      res.write(html);
+      res.end();
+
+    });
+    next();
+  });
+  // everything else
+  server.get(/^[\/]?/, function(req, res, next){
+    res.writeHead(200, {
+      'Content-Type': 'text/html'
+    });
+    index(function(html){
       res.write(html);
       res.end();
 
