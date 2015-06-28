@@ -16,5 +16,14 @@ socket.on('connect', function(){
 });
 
 socket.on("state", function(data){
-console.log(data)
+  console.log(JSON.stringify(data))
+  if($("#tr_state").length > 0){
+  }else{
+    var trstate = "<tr id='tr_state'>"
+                + "<td>state</td>"
+                + "<td>" + JSON.stringify(data) + "</td>"
+                + "<td>" + new Date() + "</td>";
+    $("#tbody").append(trstate)
+  }
+
 });
