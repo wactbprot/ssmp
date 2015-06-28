@@ -31,3 +31,10 @@ var index  = function(cb){
   cb(hc["index"](pack));
 };
 exports.index = index;
+
+var pubsub  = function(cb){
+  log.info({ok:true}
+          , "try generating defaults template");
+  cb(hc["pubsub"]({default : deflt}));
+};
+exports.pubsub = pubsub;

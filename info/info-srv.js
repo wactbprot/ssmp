@@ -3,6 +3,7 @@
  */
 var info_srv = function(conf, cb) {
   var name     = "info"
+    , ok       = {ok: true}
     , _        = require("underscore")
     , prog     = require("commander")
     , restify  = require("restify")
@@ -10,7 +11,12 @@ var info_srv = function(conf, cb) {
     , ndata    = require("ndata")
     , get      = require("./get")
     , log      = bunyan.createLogger({name: name})
-    , server   = restify.createServer({name: name});
+    , server   = restify.createServer({name: name})
+    , io       = require('socket.io')({pingInterval: 100,
+                                       pingTimeout: 200})
+    , mem      = ndata.createClient({port: conf.mem.port});
+
+  io.listen(conf.io.port);
 
   server.pre(restify.pre.sanitizePath());
   server.use(restify.queryParser());
@@ -34,8 +40,6 @@ var info_srv = function(conf, cb) {
     'directory': __dirname
   }));
 
-  var mem = ndata.createClient({port: conf.mem.port});
-
 /**
  * I's maybe a good idea to provide a
  * human readable page as entrance
@@ -48,7 +52,6 @@ var info_srv = function(conf, cb) {
     get.defaults(function(html){
       res.write(html);
       res.end();
-
     });
     next();
   });
@@ -58,6 +61,17 @@ var info_srv = function(conf, cb) {
       'Content-Type': 'text/html'
     });
     get.devel(function(html){
+      res.write(html);
+      res.end();
+    });
+    next();
+  });
+
+  server.get(/^\/pub/, function(req, res, next){
+    res.writeHead(200, {
+      'Content-Type': 'text/html'
+    });
+    get.pubsub(function(html){
       res.write(html);
       res.end();
     });
@@ -76,11 +90,40 @@ var info_srv = function(conf, cb) {
     next();
   });
 
+
+  // ----------------- socket.io -----------------
+  mem.subscribe("state", function(err){
+    if(!err){
+      log.info(ok
+              , "subscribed to channel state" );
+    }else{
+      log.error({error:err}
+               , "can not subscribe to state");
+    }
+  });
+
+  io.on('connection', function (socket){
+    log.info(ok
+            , "incomming connection, socket connected");
+    socket.on('disconnect', function () {
+      socket.disconnect();
+      log.info(ok
+              , "disconnect socket, remaining" );
+    });
+  }); // io on connection
+
+  mem.on("message",  function(ch, path){
+    log.info(ok,
+             "event received on channel: " + ch + " path: " + path);
+    io.sockets.emit(ch, path);
+  })
+
+
   //
   // --- go!---
   //
   server.listen(conf.info.port, function() {
-    log.info({ok: true}
+    log.info(ok
             , "\n"
             + ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"
             + "info system up and running @"
