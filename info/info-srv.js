@@ -102,6 +102,26 @@ var info_srv = function(conf, cb) {
     }
   });
 
+  mem.subscribe("worker", function(err){
+    if(!err){
+      log.info(ok
+              , "subscribed to channel worker" );
+    }else{
+      log.error({error:err}
+               , "can not subscribe to worker");
+    }
+  });
+
+  mem.subscribe("exchange", function(err){
+    if(!err){
+      log.info(ok
+              , "subscribed to channel exchange" );
+    }else{
+      log.error({error:err}
+               , "can not subscribe to exchange");
+    }
+  });
+
   io.on('connection', function (socket){
     log.info(ok
             , "incomming connection, socket connected");

@@ -16,14 +16,37 @@ socket.on('connect', function(){
 });
 
 socket.on("state", function(data){
-  console.log(JSON.stringify(data))
-  if($("#tr_state").length > 0){
-  }else{
-    var trstate = "<tr id='tr_state'>"
-                + "<td>state</td>"
-                + "<td>" + JSON.stringify(data) + "</td>"
-                + "<td>" + new Date() + "</td>";
-    $("#tbody").append(trstate)
-  }
-
+  display(data,$("#state_body"))
 });
+
+
+socket.on("worker", function(data){
+  display(data,$("#worker_body"))
+});
+
+socket.on("exchange", function(data){
+  display(data,$("#exchange_body"))
+});
+
+
+var display = function(data, $id){
+  var d = new Date();
+
+  if($id.children("tr").length > 9){
+    $id.children("tr").eq(10).remove()
+  }
+  var trstate = "<tr>"
+              + "<td>" + JSON.stringify(data) + "</td>"
+              + "<td>" + d.toLocaleTimeString() +" "+ d.getMilliseconds() + 1 + "</td>";
+  $(trstate).hide().prependTo($id).fadeIn(400)
+}
+
+
+//"stop_all_container_obs"
+//start_container_obs
+//stop_container_obs
+//update_cd
+//recipe
+//load_mp
+//worker
+//exchange
