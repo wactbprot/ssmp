@@ -122,6 +122,37 @@ var info_srv = function(conf, cb) {
     }
   });
 
+
+  mem.subscribe("recipe", function(err){
+    if(!err){
+      log.info(ok
+              , "subscribed to recipe channel" );
+    }else{
+      log.error({error:err}
+               , "can not subscribe to recipe");
+    }
+  });
+
+  mem.subscribe("start_container_obs", function(err){
+    if(!err){
+      log.info(ok
+              , "subscribed to  start_container_obs channel" );
+    }else{
+      log.error({error:err}
+               , "can not subscribe to start_container_obs");
+    }
+  });
+
+  mem.subscribe("stop_container_obs", function(err){
+    if(!err){
+      log.info(ok
+              , "subscribed to  stop_container_obs channel" );
+    }else{
+      log.error({error:err}
+               , "can not subscribe to stop_container_obs");
+    }
+  });
+
   io.on('connection', function (socket){
     log.info(ok
             , "incomming connection, socket connected");

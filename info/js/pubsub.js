@@ -28,6 +28,17 @@ socket.on("exchange", function(data){
   display(data,$("#exchange_body"))
 });
 
+socket.on("recipe", function(data){
+  display(data,$("#recipe_body"))
+});
+
+socket.on("start_container_obs", function(data){
+  display(data,$("#container_obs_body"))
+});
+socket.on("stop_container_obs", function(data){
+  display(data,$("#container_obs_body"))
+});
+
 
 var display = function(data, $id){
   var d = new Date();
@@ -48,5 +59,3 @@ var display = function(data, $id){
 //update_cd
 //recipe
 //load_mp
-//worker
-//exchange
