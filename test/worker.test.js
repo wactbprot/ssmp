@@ -126,7 +126,7 @@ describe('worker', function(){
   describe('#getTime()', function(){
     it('should give error on missing task.DocPath', function(done){
       worker.getTime({}, function(res){
-        assert.equal(res.error, "missing docpath");
+        assert.equal(res.error, "missing value");
         done();
       });
     });
@@ -143,7 +143,7 @@ describe('worker', function(){
   describe('#getDate()', function(){
     it('should give error on missing task.DocPath', function(done){
       worker.getDate({}, function(res){
-        assert.equal(res.error, "missing docpath");
+        assert.equal(res.error, "missing value");
         done();
       });
     });
