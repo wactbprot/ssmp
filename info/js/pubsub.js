@@ -44,7 +44,7 @@ var display = function(data, $id){
   var d = new Date();
 
   if($id.children("tr").length > 9){
-    $id.children("tr").eq(10).remove()
+    $id.children("tr").eq(10).fadeOut(400, function() { $(this).remove(); });
   }
   var trstate = "<tr>"
               + "<td>" + JSON.stringify(data) + "</td>"
