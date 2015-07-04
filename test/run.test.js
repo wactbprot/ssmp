@@ -1,14 +1,17 @@
 var assert   = require("assert")
-  , _        = require("underscore")
-  , ndata    = require("ndata")
-  , deflt    = require("../lib/default")
-  , cstr     = deflt.ctrlStr
-  , exchpath = ["test","exchange"]
-  , exobj    = {a:{b:{c:"test_val"}},
-                d:{e:{f:"test_val"}}}
-  , mem
-  , run
-  , ds
+, _        = require("underscore")
+, ndata    = require("ndata")
+, deflt    = require("../lib/default")
+, cstr     = deflt.ctrlStr
+, exchpath = ["test","exchange"]
+, exobj    = {a:{b:{c:"test_val"}},
+              d:{e:{f:"test_val"}},
+	      g:{h:{i:0}},
+              j:{k:{l:false}}}
+
+, mem
+, run
+, ds
 
 describe('run', function(){
   before(function(done){
@@ -100,6 +103,24 @@ describe('run', function(){
         assert.equal(_.isObject(t), true);
         assert.equal(t.A, "test_val");
         assert.equal(t.B, "test_val");
+        assert.equal(o, true);
+        assert.equal(c, "test_cmd");
+        done();
+      });
+    });
+      
+      it('should replace boolean false values (0 and false --- !!) ', function(done){
+      var task = {A:"@A",
+                  B:"@B",
+                  FromExchange:{
+                    "@A":"g.h.i",
+                    "@B":"j.k.l"}}
+        , path = ["test", "exchange"];
+
+      run.exchange_replace(path, task, true, "test_cmd", function(t, o, c){
+        assert.equal(_.isObject(t), true);
+        assert.equal(t.A, 0);
+       assert.equal(t.B, "false");
         assert.equal(o, true);
         assert.equal(c, "test_cmd");
         done();

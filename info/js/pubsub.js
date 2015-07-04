@@ -1,9 +1,15 @@
-var  connected_html   = "<h2 id='con_state'"
+var  connected_html   = "<a class='navbar-brand' id='con_state'"
                       + " class='connected'>"
-                      + "<span class='glyphicon glyphicon-ok' aria-hidden='true'>connect</span></h2>"
-  , disconnected_html = "<h2 id='con_state'"
+                      + "<span class='glyphicon glyphicon-ok' aria-hidden='true'>"
+                      + "connect"
+                      + "</span>"
+                      + "</a>"
+  , disconnected_html = "<a class='navbar-brand' id='con_state'"
                       + " class='disconnected'>"
-                      + "<span class='glyphicon glyphicon-remove' aria-hidden='true'>disconnect</span></h2>"
+                      + "<span class='glyphicon glyphicon-remove' aria-hidden='true'>"
+                      + "disconnect"
+                      + "</span>"
+                      + "</a>"
   , host              = document.location.hostname
   , socket            = io.connect('ws://' + host + ':' + 8004)
 
@@ -16,35 +22,35 @@ socket.on('connect', function(){
 });
 
 socket.on("state", function(data){
-  display(data,$("#state_body"))
+  display(data, $("#state_body"))
 });
 
 
 socket.on("worker", function(data){
-  display(data,$("#worker_body"))
+  display(data, $("#worker_body"))
 });
 
 socket.on("exchange", function(data){
-  display(data,$("#exchange_body"))
+  display(data, $("#exchange_body"))
 });
 
 socket.on("recipe", function(data){
-  display(data,$("#recipe_body"))
+  display(data, $("#recipe_body"))
 });
 
 socket.on("start_container_obs", function(data){
-  display(data,$("#container_obs_body"))
+  display(data, $("#container_obs_body"))
 });
 socket.on("stop_container_obs", function(data){
-  display(data,$("#container_obs_body"))
+  display(data, $("#container_obs_body"))
 });
 
 
 var display = function(data, $id){
   var d = new Date();
 
-  if($id.children("tr").length > 9){
-    $id.children("tr").eq(10).fadeOut(400, function() { $(this).remove(); });
+  if($id.children("tr").length > 8){
+    $id.children("tr").eq(9).remove();
   }
   var trstate = "<tr>"
               + "<td>" + JSON.stringify(data) + "</td>"
