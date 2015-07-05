@@ -12,9 +12,9 @@
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <div class="navbar-header">
-          <a class="navbar-brand" href="../"><span class="glyphicon glyphicon-flash" aria-hidden="true"></span></a>
-          <a class="navbar-brand" href="../">{{package.name}}</a>
+          <a class="navbar-brand" id="con_state">connecting</a>
         </div>
+
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="../devel">devel</a></li>
@@ -24,8 +24,8 @@
         </div>
       </div>
     </nav>
-    <div class="container">
-      
+
+    <div class="container">      
       <div class="row">      
         <div class="col-xs-4">
           <h3>repository</h3>
@@ -60,6 +60,7 @@
     
     <script src="/js/jquery-2.1.4.min.js"></script>
     <script src="/js/socket.io-1.3.5.js"></script>
+    <script src="/js/conn.js"></script>
     <script src="/js/bootstrap.min.js"></script>
   </body>
 </html>
