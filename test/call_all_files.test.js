@@ -11,6 +11,5 @@ require("../lib/worker");
 require("../lib/observe");
 require("../lib/request");
 
-require("../api/collections")
 require("../api/methods")
 require("../api/json-srv")
