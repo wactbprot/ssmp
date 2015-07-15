@@ -85,7 +85,6 @@ Schnittstellen.
 * ```/mpid/exchange``` ... Austausch von Daten client-server 
 * ```/mpid/id``` ... Info über geladene KD
 * ```/mpid/meta``` ... Informationen zum MP
-* ```/mpid/C/elements``` ... für container C vorgesehene Anzeigeelemente
 * ```/mpid/C/ctrl``` ... Steuerung/ Übersicht des containers ```C```
 * ```/mpid/C/state``` ... Zustand des containers C
 * ```/mpid/C/state/S``` ... Zustand der ```S```. sequentiellen Schritte des

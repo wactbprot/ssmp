@@ -16,7 +16,6 @@ var http_ssmp = function(conf, cb) {
     , restify = require("restify")
     , bunyan  = require("bunyan")
     , ndata   = require("ndata")
-    , coll    = require("./collections")
     , meth    = require("./methods")
     , log     = bunyan.createLogger({name: name})
     , server  = restify.createServer({name: name});
@@ -49,28 +48,6 @@ var http_ssmp = function(conf, cb) {
    * @param {String} url url-Muster der Anfrage
    * @param {Function} f Callback
    */
-  // --*-- colection-start --*--
-  server.get("/", function(req, res, next){
-    coll.get_mps(req, function(o){
-      res.send(o);
-    });
-    next();
-  });
-
-  server.get("/:id/:container/taskstate", function(req, res, next){
-    coll.get_task_state(req, function(o){
-      res.send(o);
-    });
-    next();
-  });
-
-  server.get("/:id/:container/elements", function(req, res, next){
-    coll.get_elements(req, function(o){
-      res.send(o);
-    });
-    next();
-  });
-  // --*-- colection-end --*--
 
   server.get("/:id", function(req, res, next){
     meth.get(req, function(o){

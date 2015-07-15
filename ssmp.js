@@ -48,7 +48,7 @@ var ssmp = function(){
                           log.info(ok
                                   , " published to get_mp channel");
                         }else{
-                          log.error({error:err}
+                          log.error(err
                                    , "failed to published to get_mp channel");
                         }
                       });
