@@ -36,12 +36,12 @@ var ssmp = function(){
     require("./api/json-srv")(deflt, function(){
       require("./info/info-srv")(deflt, function(){
         var mem      = ndata.createClient({port: deflt.mem.port})
-        load.ini(function(){
-          run.ini(function(){
-            build.ini(function(){
-              observe.ini(function(){
-                mphandle.ini(function(){
-                  cdhandle.ini(function(){
+        load.ini(function(err){
+          run.ini(function(err){
+            build.ini(function(err){
+              observe.ini(function(err){
+                mphandle.ini(function(err){
+                  cdhandle.ini(function(err){
                     if(prog.load){
                       mem.publish("get_mp", prog.load , function(err){
                         if(!err){
