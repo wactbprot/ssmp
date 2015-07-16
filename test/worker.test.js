@@ -39,17 +39,17 @@ describe('worker', function(){
 
   describe('#readExchange(task, cb)', function(){
       it('should fail on missing key', function(done){
-      worker.readExchange({}, function(res){
+      worker.readExchange({}, function(err, res){
 
-        assert.equal(res.error, "not a valid task")
+        assert.equal(err.message, "not a valid task")
         done();
       });
     });
 
     it('should fail on wrong ExchangePath', function(done){
 
-      worker.readExchange({ExchangePath:"wrong", Path:["test", 0]}, function(res){
-        assert.equal(res.error, "nothing below give key")
+      worker.readExchange({ExchangePath:"wrong", Path:["test", 0]}, function(err, res){
+        assert.equal(err.message, "nothing below give key")
         done();
       });
     });
@@ -61,29 +61,29 @@ describe('worker', function(){
   describe('#writeExchange(task, cb)', function(){
 
     it('should fail on missing key', function(done){
-      worker.writeExchange({Path:["test",0], Value:true}, function(res){
-        assert.equal(res.error, "not a valid task");
+      worker.writeExchange({Path:["test",0], Value:true}, function(err, res){
+        assert.equal(err.message, "not a valid task");
         done();
       });
     });
 
 
     it('should fail on missing Value', function(done){
-      worker.writeExchange({Path:["test",0], Key:"a.b.c"}, function(res){
-        assert.equal(res.error, "not a valid task");
+      worker.writeExchange({Path:["test",0], Key:"a.b.c"}, function(err, res){
+        assert.equal(err.message, "not a valid task");
         done();
       });
     });
 
     it('should fail on object key', function(done){
-      worker.writeExchange({Path:["test",0], Key:{a:1}}, function(res){
-        assert.equal(res.error, "not a valid task");
+      worker.writeExchange({Path:["test",0], Key:{a:1}}, function(err, res){
+        assert.equal(err.message, "not a valid task");
         done();
       });
     });
 
     it('should write to exchange', function(done){
-      worker.writeExchange({Path:["test", 0], ExchangePath:"a.b.c", Value:"test"}, function(res){
+      worker.writeExchange({Path:["test", 0], ExchangePath:"a.b.c", Value:"test"}, function(err, res){
         assert.equal(res.ok, true);
         mem.get(["test", "exchange","a", "b", "c"], function(err, res){
           assert.equal(res, "test");
@@ -95,29 +95,29 @@ describe('worker', function(){
 
   describe('#wait()', function(){
     it('should wait 10ms on missing WaitTime', function(done){
-      worker.wait({WaitTime:10}, function(res){
+      worker.wait({WaitTime:10}, function(err, res){
         assert.equal(res.ok, true);
         done();
       });
     });
 
     it('should wait 1000ms on  missing WaitTime', function(done){
-      worker.wait({}, function(res){
+      worker.wait({}, function(err, res){
         assert.equal(res.ok, true);
         done();
       });
     });
 
     it('should wait and call cb with ok', function(done){
-      worker.wait({WaitTime:0}, function(res){
+      worker.wait({WaitTime:0}, function(err, res){
         assert.equal(res.ok, true);
         done();
       });
     });
 
     it('should return an error', function(done){
-      worker.wait({WaitTime:"kk"}, function(res){
-        assert.equal(res.error, "not a number");
+      worker.wait({WaitTime:"kk"}, function(err, res){
+        assert.equal(err.message, "not a number");
         done();
       });
     });
@@ -125,14 +125,14 @@ describe('worker', function(){
 
   describe('#getTime()', function(){
     it('should give error on missing task.DocPath', function(done){
-      worker.getTime({}, function(res){
-        assert.equal(res.error, "missing value");
+      worker.getTime({}, function(err, res){
+        assert.equal(err.message, "missing value");
         done();
       });
     });
 
     it('should try to save time', function(done){
-      worker.getTime({DocPath:"a.b.c"}, function(res){
+      worker.getTime({DocPath:"a.b.c"}, function(err, res){
         assert.equal(res.ok, true);
         assert.equal(res.warn, "empty Id array");
         done();
@@ -142,14 +142,14 @@ describe('worker', function(){
 
   describe('#getDate()', function(){
     it('should give error on missing task.DocPath', function(done){
-      worker.getDate({}, function(res){
-        assert.equal(res.error, "missing value");
+      worker.getDate({}, function(err, res){
+        assert.equal(err.message, "missing value");
         done();
       });
     });
 
     it('should try to save  date', function(done){
-      worker.getDate({DocPath:"a.b.c"}, function(res){
+      worker.getDate({DocPath:"a.b.c"}, function(err, res){
         assert.equal(res.ok, true);
         assert.equal(res.warn, "empty Id array");
         done();
@@ -159,14 +159,14 @@ describe('worker', function(){
 
   describe('#checkRelay(task, cb)', function(){
     it('should fail on empty task', function(done){
-      worker.checkRelay({}, function(res){
-        assert.equal(res.error, "unvalid task");
+      worker.checkRelay({}, function(err, res){
+        assert.equal(err.message, "unvalid task");
         done();
       });
     });
 
     it('should return ok', function(done){
-      worker.checkRelay({Path:["test", 0], ExchangePath:"a.c.d"}, function(res){
+      worker.checkRelay({Path:["test", 0], ExchangePath:"a.c.d"}, function(err, res){
         assert.equal(res.ok, true);
         done();
       });
@@ -176,15 +176,15 @@ describe('worker', function(){
 
   describe('#nodeRelay(task, cb)', function(){
     it('should fail on empty task', function(done){
-      worker.nodeRelay({}, function(res){
-        assert.equal(res.error, "wrong path");
+      worker.nodeRelay({}, function(err, res){
+        assert.equal(err.message, "wrong path");
         done();
       });
     });
 
-    it('should return result object', function(done){
-      worker.nodeRelay({Path:["test", 0]}, function(res){
-        assert.equal(_.isObject(res),true);
+    it('should return error', function(done){
+      worker.nodeRelay({Path:["test", 0]}, function(err, res){
+        assert.equal(err.message, "action not found" );
         done();
       });
     });
@@ -193,15 +193,15 @@ describe('worker', function(){
 
   describe('#getList(task, cb)', function(){
     it('should fail on empty task', function(done){
-      worker.getList({}, function(res){
-        assert.equal(res.error, "wrong path");
+      worker.getList({}, function(err, res){
+        assert.equal(err.message, "wrong path");
         done();
       });
     });
 
-    it('should return result object', function(done){
-      worker.getList({Path:["test", 0], ExchangePath:"a.b.c"}, function(res){
-        assert.equal(_.isObject(res), true);
+    it('should return error', function(done){
+      worker.getList({Path:["test", 0], ExchangePath:"a.b.c"}, function(err, res){
+        assert.equal(err.message,  "not_found");
         done();
       });
     });
@@ -210,14 +210,14 @@ describe('worker', function(){
 
   describe('#checkDB()', function(){
     it('should fail on empty task', function(done){
-      worker.checkDB({}, function(res){
-        assert.equal(res.error, "wrong path");
+      worker.checkDB({}, function(err, res){
+        assert.equal(err.message, "wrong path");
         done();
       });
     });
 
     it('should return result object', function(done){
-      worker.checkDB({Path:["test", 0], ExchangePath:"a.b.c"}, function(res){
+      worker.checkDB({Path:["test", 0], ExchangePath:"a.b.c"}, function(err, res){
         assert.equal(_.isObject(res), true);
         done();
       });
@@ -226,14 +226,14 @@ describe('worker', function(){
 
   describe('#updateCd()', function(){
     it('should fail on empty task', function(done){
-      worker.updateCd({}, function(res){
-        assert.equal(res.error, "unvalid task");
+      worker.updateCd({}, function(err, res){
+        assert.equal(err.message, "unvalid task");
         done();
       });
     });
 
     it('should fail on empty task', function(done){
-      worker.updateCd({Path:["test", 0]}, function(res){
+      worker.updateCd({Path:["test", 0]}, function(err, res){
         assert.equal(res.ok, true);
         done();
       });
@@ -243,8 +243,8 @@ describe('worker', function(){
 
   describe('#ctrlContainer()', function(){
     it('should fail on empty task', function(done){
-      worker.ctrlContainer({}, function(res){
-        assert.equal(res.error, "unvalid task");
+      worker.ctrlContainer({}, function(err, res){
+        assert.equal(err.message, "unvalid task");
         done();
       });
     });
