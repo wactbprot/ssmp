@@ -85,14 +85,6 @@ describe('build', function(){
         done();
       });
     });
-
-    it('should return error on  empty mpid', function(done){
-      build.load_mp({_id:"test", Mp:{Container:[{From:"wrong", Take:"wrong"}]}}, function(err, path){
-        assert.equal(err.message, "container not found");
-        done();
-      });
-    });
-
   });
 
 });
