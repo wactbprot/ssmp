@@ -53,7 +53,7 @@ describe('utils', function(){
     });
 
     it('should write to exchange if data has ToExchange key', function(done){
-      var task   = {Path:["check"]}
+      var task  = {Path:["check"]}
         , data  = {"ToExchange":{'TestDev.Type.value':'test',
                                   'TestDev.Value.value':123}}
       utils.write_to_exchange(task, data, function(err, res){
