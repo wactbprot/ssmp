@@ -28,8 +28,8 @@ describe('mphandle', function(){
 
   describe('#ini()', function(){
     it('should start', function(done){
-      mphandle.ini(function(res){
-        assert.equal(res.ok, true);
+      mphandle.ini(function(err, res){
+        assert.equal(err, null);
         done();
       });
     });
@@ -39,21 +39,21 @@ describe('mphandle', function(){
 
     it('should return error on empty id', function(done){
       mphandle.getmp("", function(err, path){
-        assert.equal(err, "wrong id");
+        assert.equal(err.message, "wrong id");
         done();
       });
     });
 
     it('should return error on wrong id type', function(done){
       mphandle.getmp(true, function(err, path){
-        assert.equal(err, "wrong id");
+        assert.equal(err.message, "wrong id");
         done();
       });
     });
 
     it('should return error on missing doc', function(done){
       mphandle.getmp("test", function(err, path){
-        assert.equal(err, "not a mpdoc");
+        assert.equal(err.message, "not_found");
         done();
       });
     });
@@ -64,25 +64,23 @@ describe('mphandle', function(){
 
     it('should return error on empty id', function(done){
       mphandle.rmmp("", function(err, path){
-        assert.equal(err, "wrong id");
+        assert.equal(err.message, "wrong id");
         done();
       });
     });
 
     it('should return error on wrong id type', function(done){
       mphandle.rmmp(true, function(err, path){
-        assert.equal(err, "wrong id");
+        assert.equal(err.message, "wrong id");
         done();
       });
     });
 
     it('should try to rm', function(done){
       mphandle.rmmp("test", function(err, path){
-        assert.equal(err, false);
+        assert.equal(err, null);
         done();
       });
     });
-
   });
-
 });
