@@ -80,38 +80,38 @@ describe('worker', function(){
     });
 
     it('should select Definition', function(done){
-      worker.select({DefinitionClass:"testOk", Path:["test", 0]}, function(res){
+      worker.select({DefinitionClass:"testOk", Path:["test", 0]}, function(err, res){
         assert.equal(res.end, true)
         done();
       });
     });
 
     it('should detect unvalid conditions', function(done){
-      worker.select({DefinitionClass:"testWrong", Path:["test", 0]}, function(res){
+      worker.select({DefinitionClass:"testWrong", Path:["test", 0]}, function(err, res){
 
-        assert.equal(res.error,"unvalid condition")
+        assert.equal(err.message,"unvalid condition")
         done();
       });
     });
 
     it('should return error on wrong path', function(done){
-      worker.select({DefinitionClass:"testOk", Path:["wrong", 0]}, function(res){
-        assert.equal(res.error,"get definitions")
+      worker.select({DefinitionClass:"testOk", Path:["wrong", 0]}, function(err, res){
+        assert.equal(err.message,"get definitions")
         done();
       });
     });
 
 
     it('should return error on missing definition class', function(done){
-      worker.select({WrongClass:"testOk", Path:["test", 0]}, function(res){
-        assert.equal(res.error,"wrong task")
+      worker.select({WrongClass:"testOk", Path:["test", 0]}, function(err, res){
+        assert.equal(err.message, "wrong task")
         done();
       });
     });
 
     it('should return error on missing path', function(done){
-      worker.select({DefinitionClass:"testOk"}, function(res){
-        assert.equal(res.error,"wrong task")
+      worker.select({DefinitionClass:"testOk"}, function(err, res){
+        assert.equal(err.message, "wrong task")
         done();
       });
     });
