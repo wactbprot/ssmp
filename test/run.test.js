@@ -108,7 +108,7 @@ describe('run', function(){
         done();
       });
     });
-      
+
       it('should replace boolean false values (0 and false --- !!) ', function(done){
       var task = {A:"@A",
                   B:"@B",
@@ -136,8 +136,8 @@ describe('run', function(){
 
   describe('#ini()', function(){
     it('should start', function(done){
-      run.ini(function(res){
-        assert.equal(res.ok, true);
+      run.ini(function(err, res){
+        assert.equal(err, null);
         done();
       });
     });

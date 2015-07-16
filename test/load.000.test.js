@@ -27,8 +27,8 @@ describe('load', function(){
 
   describe('#ini()', function(){
     it('should start', function(done){
-      load.ini(function(res){
-        assert.equal(res.ok, true);
+      load.ini(function(err, res){
+        assert.equal(err, null);
         done();
       });
     });
@@ -37,49 +37,49 @@ describe('load', function(){
   describe('#distribut(def, calob, cb)', function(){
     it('should return error on wrong path', function(done){
       load.distribute("path", "def", "meta",  function(err, path){
-        assert.equal(err,"wrong path or meta object");
+        assert.equal(err.message,"wrong path or meta object");
         done()
       })
     });
 
     it('should return error on wrong meta', function(done){
       load.distribute(["test"], "def", "meta",  function(err, path){
-        assert.equal(err, "wrong path or meta object");
+        assert.equal(err.message, "wrong path or meta object");
         done()
       })
     });
 
     it('should return error on wrong meta', function(done){
       load.distribute(["test", 0], "def", "meta",  function(err, path){
-        assert.equal(err, "wrong path or meta object");
+        assert.equal(err.message, "wrong path or meta object");
         done()
       })
     });
 
     it('should return error on wrong def', function(done){
       load.distribute(["test", 0], "def", {},  function(err, path){
-        assert.equal(err,"wrong definition");
+        assert.equal(err.message,"wrong definition");
         done()
       })
     });
 
     it('should return error on wrong def', function(done){
       load.distribute(["test", 0], [], {},  function(err, path){
-        assert.equal(err,"wrong definition");
+        assert.equal(err.message,"wrong definition");
         done()
       })
     });
 
     it('should return error on wrong def', function(done){
       load.distribute(["test", 0], [[]], {},  function(err, path){
-        assert.equal(err,"wrong definition");
+        assert.equal(err.message,"wrong definition");
         done()
       })
     });
 
     it('should work with Common-wait', function(done){
       load.distribute(["test", 0], [[{TaskName:"Common-wait"}]], {},  function(err, path){
-        assert.equal(err,false);
+        assert.equal(err, null);
         done()
       })
     });
@@ -90,56 +90,56 @@ describe('load', function(){
   describe('#fetch(path, subpath, pretask, cb)', function(){
     it('should return error on wrong task (str)', function(done){
       load.fetch("path", "subpath", "pretask",  function(err, path){
-        assert.equal(err,"wrong task");
+        assert.equal(err.message,"wrong task");
         done()
       })
     });
 
     it('should return error on wrong task (taskname)', function(done){
       load.fetch("path", "subpath", {},  function(err, path){
-        assert.equal(err,"wrong task");
+        assert.equal(err.message,"wrong task");
         done()
       })
     });
 
     it('should return error on wrong path', function(done){
       load.fetch("path", "subpath", {TaskName:"test"},  function(err, path){
-        assert.equal(err,"wrong path");
+        assert.equal(err.message,"wrong path");
         done()
       })
     });
 
     it('should return error on wrong path', function(done){
       load.fetch(["path"], "subpath", {TaskName:"test"},  function(err, path){
-        assert.equal(err,"wrong path");
+        assert.equal(err.message,"wrong path");
         done()
       })
     });
 
     it('should return error on wrong subpath', function(done){
       load.fetch(["path", 0], "subpath", {TaskName:"test"},  function(err, path){
-        assert.equal(err,"wrong subpath");
+        assert.equal(err.message,"wrong subpath");
         done()
       })
     });
 
     it('should return error on wrong subpath', function(done){
       load.fetch(["path", 0], ["subpath"], {TaskName:"test"},  function(err, path){
-        assert.equal(err,"wrong subpath");
+        assert.equal(err.message,"wrong subpath");
         done()
       })
     });
 
     it('should return error on missing task', function(done){
       load.fetch(["path", 0], [0,0], {TaskName:"test"},  function(err, path){
-        assert.equal(err,"no task called: test found");
+        assert.equal(err.message,"no task called: test found");
         done()
       })
     });
 
     it('should work with Common-wait', function(done){
       load.fetch(["path", 0], [0,0], {TaskName:"Common-wait"},  function(err, path){
-        assert.equal(err, false);
+        assert.equal(err, null);
         done()
       })
     });
@@ -149,7 +149,7 @@ describe('load', function(){
   describe('#load(path)', function(){
     it('should give error on wrong path', function(done){
       load.load(["test"], function(err, path){
-        assert.equal(err, "wrong path");
+        assert.equal(err.message, "wrong path");
         done();
       });
     });
@@ -157,7 +157,7 @@ describe('load', function(){
     it('should give error on wrong path', function(done){
       mem.set(["test", 0, "definition"],[[{TaskName:"Common-wait"}]] , function(err){
         load.load(["test", 0], function(err, path){
-          assert.equal(err, "wrong path or meta object");
+          assert.equal(err.message, "wrong path or meta object");
           done();
         });
       });
@@ -167,7 +167,7 @@ describe('load', function(){
       mem.set(["test", 0, "definition"],[[{TaskName:"Common-wait"}]] , function(err){
         mem.set(["test", "meta"], {standard:"", name:""} , function(err){
           load.load(["test", 0], function(err, path){
-            assert.equal(err, false);
+            assert.equal(err, null);
             done();
           });
         });

@@ -12,7 +12,7 @@ describe('load', function(){
 
     it('should return erron on wrong definition (str)', function(done){
       load.insert("def", {}, function(err, res){
-        assert.equal(err,"wrong definition");
+        assert.equal(err.message,"wrong definition");
         done();
       });
     });
@@ -20,14 +20,14 @@ describe('load', function(){
 
     it('should return erron on wrong definition ([str])', function(done){
       load.insert(["def"], {}, function(err, res){
-        assert.equal(err,"wrong definition");
+        assert.equal(err.message,"wrong definition");
         done();
       });
     });
 
     it('should return erron on wrong definition ([[str]])', function(done){
       load.insert(["def"], {}, function(err, res){
-        assert.equal(err,"wrong definition");
+        assert.equal(err.message,"wrong definition");
         done();
       });
     });

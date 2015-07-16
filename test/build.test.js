@@ -28,8 +28,8 @@ describe('build', function(){
 
   describe('#ini()', function(){
     it('should start', function(done){
-      build.ini(function(res){
-        assert.equal(res.ok, true);
+      build.ini(function(err, res){
+        assert.equal(err, null);
         done();
       });
     });
@@ -39,21 +39,21 @@ describe('build', function(){
   describe('#load_mp()', function(){
     it('should return error on empty doc', function(done){
       build.load_mp({}, function(err, path){
-        assert.equal(err, "unvalid mp document");
+        assert.equal(err.message, "unvalid mp document");
         done();
       });
     });
 
     it('should return error on missing mpid', function(done){
       build.load_mp({Mp:{}}, function(err, path){
-        assert.equal(err, "unvalid mp document");
+        assert.equal(err.message, "unvalid mp document");
         done();
       });
     });
 
     it('should return error on  empty mpid', function(done){
       build.load_mp({_id:"", Mp:{}}, function(err, path){
-        assert.equal(err, "unvalid mp document");
+        assert.equal(err.message, "unvalid mp document");
         done();
       });
     });
@@ -67,28 +67,28 @@ describe('build', function(){
 
     it('should work on empty Mp.Container doc', function(done){
       build.load_mp({_id:"test", Mp:{Container:[]}}, function(err, path){
-        assert.equal(err, false);
+        assert.equal(err, null);
         done();
       });
     });
 
     it('should ignore wrong container type', function(done){
       build.load_mp({_id:"test", Mp:{Container:"wrong"}}, function(err, path){
-        assert.equal(err, false);
+        assert.equal(err, null);
         done();
       });
     });
 
   it('should work on empty Mp.Container object', function(done){
       build.load_mp({_id:"test", Mp:{Container:[{}]}}, function(err, path){
-        assert.equal(err, false);
+        assert.equal(err, null);
         done();
       });
     });
 
     it('should return error on  empty mpid', function(done){
       build.load_mp({_id:"test", Mp:{Container:[{From:"wrong", Take:"wrong"}]}}, function(err, path){
-        assert.equal(err, "container not found");
+        assert.equal(err.message, "container not found");
         done();
       });
     });

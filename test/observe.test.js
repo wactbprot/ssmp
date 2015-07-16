@@ -87,9 +87,7 @@ describe('observe', function(){
   describe('#dispatch()', function(){
     it('should return error', function(done){
       observe.dispatch(["test", 0], "", "", function(err, path){
-        console.log(err );
-        console.log(path );
-        //assert.equal(err, null);
+        assert.equal(err.message, "empty cmd");
         done();
       });
     });
