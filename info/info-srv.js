@@ -164,8 +164,6 @@ var info_srv = function(conf, cb) {
   }); // io on connection
 
   mem.on("message",  function(ch, path){
-    log.info(ok,
-             "event received on channel: " + ch + " path: " + path);
     io.sockets.emit(ch, path);
   })
 
