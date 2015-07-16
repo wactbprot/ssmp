@@ -7,31 +7,29 @@ describe('utils.query_cd', function(){
   describe('#query_cd()', function(){
     var now  = new Date().getTime();
     it('should give error message', function(done){
-      utils.query_cd(false, false,
-                     function(res){
-                       assert.equal(_.isString(res.error), true);
-                       done();
+      utils.query_cd(false, false, function(err, res){
+        assert.equal(err.message, "no task");
+        done();
                      });
     });
 
     it('should give error message', function(done){
       var task = {Id:[],
                   DocPath:"Date.Now"};
-      utils.query_cd(task, false,
-                     function(res){
-                       assert.equal(_.isString(res.warn), true);
-                       done();
-                     });
+      utils.query_cd(task, false, function(err, res){
+        assert.equal(_.isString(res.warn), true);
+        done();
+      });
     });
 
     it('should give error message', function(done){
       var task = {Id:["ca-test_doc_1"]};
       var data = {Result:[{Date:now}]};
 
-      utils.query_cd(task, data, function(res){
-                       assert.equal(_.isString(res.error), true);
-                       done();
-                     });
+      utils.query_cd(task, data, function(err, res){
+        assert.equal(err.message, "with given data");
+        done();
+      });
     });
 
     it('should write give', function(done){
@@ -39,11 +37,11 @@ describe('utils.query_cd', function(){
                   DocPath:"a.b.c"};
       var data = {Result:[{Date:now}]};
 
-      utils.query_cd(task, data, function(res){
+      utils.query_cd(task, data, function(err, res){
 
-        assert.equal(res.error, "not_found");
-                       done();
-                     });
+        assert.equal(err.message, "not_found");
+        done();
+      });
     });
 
   });

@@ -23,47 +23,46 @@ describe('utils', function(){
   describe('#write_to_exchange', function(){
 
     it('should answer with an error on missing data source', function(done){
-      var task   = {}
+      var task  = {Path:["check"]}
         , data  = {}
-        , path   = ["check"]
-      utils.write_to_exchange(task, data , path, function(res){
-        assert.equal(res.error, "no data src");
-          done()
+      utils.write_to_exchange(task, data, function(err, res){
+        assert.equal(err.message, "no data src");
+        done()
       });
     });
 
     it('should write to exchange if task has ExchangePath', function(done){
-      var task   = {"ExchangePath": "test"}
+      var task   = {"ExchangePath": "test",
+                    Path:["check"]}
         , data  = {"value":true}
-        , path   = ["check"]
-      utils.write_to_exchange(task, data , path, function(res){
+      utils.write_to_exchange(task, data, function(err, res){
         assert.equal(res.ok, true);
-          done()
+        done()
       });
     });
 
     it('should answer with data on empty path', function(done){
-      var task   = {"ExchangePath": "test"}
+      var task   = {"ExchangePath": "test",
+                    Path:[]}
         , data  = {ok:true}
-        , path   = []
-      utils.write_to_exchange(task, data , path, function(res){
+
+      utils.write_to_exchange(task, data, function(err, res){
         assert.equal(res.ok, true);
         done()
       });
     });
 
     it('should write to exchange if data has ToExchange key', function(done){
-      var task   = {}
+      var task   = {Path:["check"]}
         , data  = {"ToExchange":{'TestDev.Type.value':'test',
                                   'TestDev.Value.value':123}}
-        , path   = ["check"]
-      utils.write_to_exchange(task, data , path, function(res){
+      utils.write_to_exchange(task, data, function(err, res){
         assert.equal(res.ok, true);
-        mem.get(path.concat(["exchange", "TestDev","Type","value"]), function(err, res){
+        mem.get(task.Path.concat(["exchange", "TestDev","Type","value"]), function(err, res){
           assert.equal(res, "test");
-          mem.get(path.concat(["exchange", "TestDev","Value","value"]), function(err, res){
+          mem.get(task.Path.concat(["exchange", "TestDev","Value","value"]), function(err, res){
             assert.equal(res, 123);
-          done()
+            done()
           });
         });
       });

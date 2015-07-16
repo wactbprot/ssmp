@@ -59,13 +59,13 @@ describe('utils', function(){
 
     it('should return error on wrong template level 0', function(){
       utils.cp("wrong", 2, function(err, res){
-        assert.equal(err, "wrong template");
+        assert.equal(err.message, "wrong template");
       });
     });
 
     it('should return error on wrong template level 1', function(){
       utils.cp({"0":"k"}, 2, function(err, res){
-        assert.equal(err, "wrong template");
+        assert.equal(err.message, "template undefined");
       });
     });
 

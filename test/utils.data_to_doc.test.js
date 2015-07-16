@@ -14,8 +14,8 @@ describe('utils', function(){
   describe('#data_to_doc()', function(){
     it('should return error on empty data set', function(done){
 
-      utils.data_to_doc(clone(caldoc), "Calibration", {},function(d){
-        assert.equal(d.error, "wrong dataset structure");
+      utils.data_to_doc(clone(caldoc), "Calibration", {},function(err, d){
+        assert.equal(err.message, "wrong dataset structure");
 
         done();
       });
@@ -23,8 +23,8 @@ describe('utils', function(){
 
     it('should return error on empty Result set', function(done){
 
-      utils.data_to_doc(clone(caldoc), "Calibration", {Result:[]}, function(d){
-        assert.equal(d.error, "wrong dataset structure");
+      utils.data_to_doc(clone(caldoc), "Calibration", {Result:[]}, function(err, d){
+        assert.equal(err.message, "wrong dataset structure");
 
         done();
       });
@@ -40,7 +40,7 @@ describe('utils', function(){
                       ] }
         , N = dataset.Result.length;
 
-      utils.data_to_doc(clone(caldoc), path, dataset, function(d){
+      utils.data_to_doc(clone(caldoc), path, dataset, function(err, d){
         assert.equal(d.Calibration.Measurement.Values.Pressure.length, N);
 
         for(var i in  d.Calibration.Measurement.Values.Pressure){
@@ -61,7 +61,7 @@ describe('utils', function(){
                               Unit:"tu",
                               Value:123,
                               Comment:"comment1"}]};
-      utils.data_to_doc({}, path, dataset, function(d){
+      utils.data_to_doc({}, path, dataset, function(err, d){
         assert.equal(d.a.s.d.f.g.h.j.k.l.o.i.u.z.t.r.f[0].Value.length, 1);
         assert.equal(d.a.s.d.f.g.h.j.k.l.o.i.u.z.t.r.f[0].Value[0], 123);
         assert.equal(d.a.s.d.f.g.h.j.k.l.o.i.u.z.t.r.f[0].Comment[0],"comment1" );
@@ -75,27 +75,19 @@ describe('utils', function(){
                               Unit:"tu",
                               Value:123,
                               Comment:"comment1"}]};
-      utils.data_to_doc(clone(caldoc), path, dataset, function(d){
+      utils.data_to_doc(clone(caldoc), path, dataset, function(err, d){
         assert.equal(d.Calibration.Measurement.Values.Pressure[0].Value.length, 1);
-        utils.data_to_doc(d, path, dataset, function(d){
+        utils.data_to_doc(d, path, dataset, function(err, d){
           assert.equal(d.Calibration.Measurement.Values.Pressure[0].Value.length, 2);
-          utils.data_to_doc(d, path, dataset, function(d){
+          utils.data_to_doc(d, path, dataset, function(err, d){
             assert.equal(d.Calibration.Measurement.Values.Pressure[0].Value.length, 3);
-            utils.data_to_doc(d, path, dataset, function(d){
+            utils.data_to_doc(d, path, dataset, function(err, d){
               assert.equal(d.Calibration.Measurement.Values.Pressure[0].Value.length, 4);
               done();
             });
           });
         });
       });
-    })
-
-    it('should return error on wrong Result', function(done){
-
-      utils.data_to_doc(clone(caldoc), "Calibration", {Result:[{Type:"d"}]}, function(d){
-        assert.equal(d.error, "wrong data structure");
-        done();
-      })
     })
 
     it('should set one type, unit, value and comment structure', function(done){
@@ -105,7 +97,7 @@ describe('utils', function(){
                               Comment:"comment0"}]}
         , path = "Calibration.Measurement.Values.Pressure";
 
-      utils.data_to_doc(clone(caldoc), path, dataset, function(d){
+      utils.data_to_doc(clone(caldoc), path, dataset, function(err, d){
         assert.equal(d.Calibration.Measurement.Values.Pressure[0].Value.length, 1);
         assert.equal(d.Calibration.Measurement.Values.Pressure[0].Value[0], 123);
         assert.equal(d.Calibration.Measurement.Values.Pressure[0].Comment[0],"comment0" );
@@ -121,7 +113,7 @@ describe('utils', function(){
                               Comment:"comment0"}]}
         , path = "Calibration.Measurement.Values.Pressure";
 
-      utils.data_to_doc(clone(caldoc), path, dataset, function(d){
+      utils.data_to_doc(clone(caldoc), path, dataset, function(err, d){
         assert.equal(d.Calibration.Measurement.Values.Pressure[0].Value.length, 1);
         assert.equal(d.Calibration.Measurement.Values.Pressure[0].Value[0], 0);
         assert.equal(d.Calibration.Measurement.Values.Pressure[0].Comment[0],"comment0" );
@@ -134,7 +126,7 @@ describe('utils', function(){
                               Unit:"tu",
                               Value:null}]}
         , path = "Calibration.Measurement.Values.Pressure";
-      utils.data_to_doc(clone(caldoc), path, dataset, function(d){
+      utils.data_to_doc(clone(caldoc), path, dataset, function(err, d){
         assert.equal(d.Calibration.Measurement.Values.Pressure[0].Value.length, 1);
         assert.equal(_.isNull(d.Calibration.Measurement.Values.Pressure[0].Value[0]), true);
         done();
@@ -142,12 +134,12 @@ describe('utils', function(){
     });
 
     it('should set second SdValue with first value: null case', function(done){
-      var dataset1 = {Result:[{Type:"test0",
+  var dataset1 = {Result:[{Type:"test0",
                               Unit:"tu",
-                              Value:null}]}
-        , path = "Calibration.Measurement.Values.Pressure"
-        , cd = clone(caldoc);
-      utils.data_to_doc(cd, path, dataset1, function(d){
+                           Value:null}]}
+    , path = "Calibration.Measurement.Values.Pressure"
+    , cd = clone(caldoc);
+      utils.data_to_doc(cd, path, dataset1, function(err, d){
         assert.equal(d.Calibration.Measurement.Values.Pressure[0].Value.length, 1);
 
         var dataset2 = {Result:[{Type:"test0",
@@ -156,7 +148,7 @@ describe('utils', function(){
                                  SdValue:0.001}]}
           , path = "Calibration.Measurement.Values.Pressure";
 
-        utils.data_to_doc(cd, path, dataset2, function(d){
+        utils.data_to_doc(cd, path, dataset2, function(err, d){
           assert.equal(d.Calibration.Measurement.Values.Pressure[0].Value.length, 2);
           assert.equal(_.isNull(d.Calibration.Measurement.Values.Pressure[0].Value[0]), true);
           // the undefined becomes null on JSON.stringify ...
@@ -175,7 +167,7 @@ describe('utils', function(){
                              {operationKind:"opk1"}]},
           path    = "Calibration.Measurement.AuxValues.SequenceControl";
 
-      utils.data_to_doc(clone(caldoc), path, dataset, function(d){
+      utils.data_to_doc(clone(caldoc), path, dataset, function(err, d){
         assert.equal(d.Calibration.Measurement.AuxValues.SequenceControl.operationKind,"opk1");
         assert.equal(d.Calibration.Measurement.AuxValues.SequenceControl.Gas,"N2");
         done()
@@ -188,7 +180,7 @@ describe('utils', function(){
                               Value:0}]}
         , path = "Calibration.Measurement.Values.Pressure"
         , cd   = clone(caldoc)
-      utils.data_to_doc(cd, path, dataset1, function(d){
+      utils.data_to_doc(cd, path, dataset1, function(err, d){
         assert.equal(d.Calibration.Measurement.Values.Pressure[0].Value.length, 1);
         assert.equal(d.Calibration.Measurement.Values.Pressure[0].Value[0], 0);
 
@@ -196,12 +188,12 @@ describe('utils', function(){
                                  Unit:"tu",
                                  Value:1,
                                  Comment:"second comment"}]}
-        utils.data_to_doc(cd, path, dataset2, function(d){
+        utils.data_to_doc(cd, path, dataset2, function(err, d){
           assert.equal(d.Calibration.Measurement.Values.Pressure[0].Value.length, 2);
           assert.equal(d.Calibration.Measurement.Values.Pressure[0].Comment.length, 2);
           assert.equal(_.isUndefined(d.Calibration.Measurement.Values.Pressure[0].Comment[0]), true);
           assert.equal(_.isString(d.Calibration.Measurement.Values.Pressure[0].Comment[1]), true);
-          var comm_test =d.Calibration.Measurement.Values.Pressure[0].Comment;
+          var comm_test = d.Calibration.Measurement.Values.Pressure[0].Comment;
           assert.equal(_.isNull(JSON.parse(JSON.stringify(comm_test))[0]), true);
 
           done();
@@ -215,7 +207,7 @@ describe('utils', function(){
                               Value:0}]}
         , path = "Calibration.Measurement.Values.Pressure"
         , cd   = clone(caldoc)
-      utils.data_to_doc(cd, path, dataset1, function(d){
+      utils.data_to_doc(cd, path, dataset1, function(err, d){
         assert.equal(d.Calibration.Measurement.Values.Pressure[0].Value.length, 1);
         assert.equal(d.Calibration.Measurement.Values.Pressure[0].Value[0], 0);
 
@@ -223,7 +215,7 @@ describe('utils', function(){
                                  Unit:"tu",
                                  Value:1,
                                  SdValue:0.001}]}
-        utils.data_to_doc(cd, path, dataset2, function(d){
+        utils.data_to_doc(cd, path, dataset2, function(err, d){
           assert.equal(d.Calibration.Measurement.Values.Pressure[0].Value.length, 2);
           assert.equal(d.Calibration.Measurement.Values.Pressure[0].SdValue.length, 2);
           assert.equal(_.isUndefined(d.Calibration.Measurement.Values.Pressure[0].SdValue[0]), true);
@@ -242,7 +234,7 @@ describe('utils', function(){
                               Value:0}]}
         , path = "Calibration.Measurement.Values.Pressure"
         , cd   = clone(caldoc)
-      utils.data_to_doc(cd, path, dataset1, function(d){
+      utils.data_to_doc(cd, path, dataset1, function(err, d){
         assert.equal(d.Calibration.Measurement.Values.Pressure[0].Value.length, 1);
         assert.equal(d.Calibration.Measurement.Values.Pressure[0].Value[0], 0);
 
@@ -251,7 +243,7 @@ describe('utils', function(){
                                  Value:1,
                                  N:10,
                                  SdValue:0.001}]}
-        utils.data_to_doc(cd, path, dataset2, function(d){
+        utils.data_to_doc(cd, path, dataset2, function(err, d){
           assert.equal(d.Calibration.Measurement.Values.Pressure[0].Value.length, 2);
           assert.equal(d.Calibration.Measurement.Values.Pressure[0].SdValue.length, 2);
           assert.equal(_.isUndefined(d.Calibration.Measurement.Values.Pressure[0].SdValue[0]), true);
@@ -272,7 +264,7 @@ describe('utils', function(){
     it('should set flat string values', function(done){
       var dataset = {Result:["foo"]}
         , path = "Calibration.Measurement.AuxValues.Foo";
-      utils.data_to_doc(clone(caldoc), path, dataset, function(d){
+      utils.data_to_doc(clone(caldoc), path, dataset, function(err, d){
         assert.equal(d.Calibration.Measurement.AuxValues.Foo, "foo");
         done();
       });
@@ -281,7 +273,7 @@ describe('utils', function(){
     it('should set flat number values', function(done){
       var dataset = {Result:[1.234]}
         , path = "Calibration.Measurement.AuxValues.Bar";
-      utils.data_to_doc(clone(caldoc), path, dataset, function(d){
+      utils.data_to_doc(clone(caldoc), path, dataset, function(err, d){
         assert.equal(d.Calibration.Measurement.AuxValues.Bar, 1.234);
         done();
       });
@@ -290,12 +282,12 @@ describe('utils', function(){
     it('should set flat number values', function(done){
       var dataset = {Result:[true]}
         , path = "Calibration.Measurement.AuxValues.Baz";
-      utils.data_to_doc(clone(caldoc), path, dataset, function(d){
+      utils.data_to_doc(clone(caldoc), path, dataset, function(err, d){
         assert.equal(d.Calibration.Measurement.AuxValues.Baz, true);
         done();
       });
     });
 
- 
+
   });
 });
