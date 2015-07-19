@@ -10,7 +10,7 @@
  *
  */
 var http_ssmp = function(conf, cb) {
-  var name    = "http-ssmp"
+  var name    = "http"
     , _       = require("underscore")
     , prog    = require("commander")
     , restify = require("restify")
@@ -48,45 +48,81 @@ var http_ssmp = function(conf, cb) {
    * @param {String} url url-Muster der Anfrage
    * @param {Function} f Callback
    */
-
   server.get("/:id", function(req, res, next){
-    meth.get(req, function(o){
-      res.send(o);
+    meth.get(req, function(err, ro){
+      if(!err){
+        res.send(ro);
+      }else{
+        log.error(err,
+                  "get returns with error");
+        res.send(err.message);
+      }
     });
     next();
   });
 
   server.get("/:id/:no", function(req, res, next){
-    meth.get(req, function(o){
-      res.send(o);
+    meth.get(req, function(err, ro){
+      if(!err){
+        res.send(ro);
+      }else{
+        log.error(err,
+                  "get returns with error");
+        res.send(err.message);
+      }
     });
     next();
   });
 
   server.get("/:id/:no/:struct", function(req, res, next){
-    meth.get(req, function(o){
-      res.send(o);
+    meth.get(req, function(err, ro){
+      if(!err){
+        res.send(ro);
+      }else{
+        log.error(err,
+                  "get returns with error");
+        res.send(err.message);
+      }
+
     });
     next();
   });
 
   server.get("/:id/:no/:struct/:l1", function(req, res, next){
-    meth.get(req, function(o){
-      res.send(o);
+    meth.get(req, function(err, ro){
+      if(!err){
+        res.send(ro);
+      }else{
+        log.error(err,
+                  "get returns with error");
+        res.send(err.message);
+      }
     });
     next();
   });
 
   server.get("/:id/:no/:struct/:l1/:l2", function(req, res, next){
-    meth.get(req, function(o){
-      res.send(o);
+    meth.get(req, function(err, ro){
+      if(!err){
+        res.send(ro);
+      }else{
+        log.error(err,
+                  "get returns with error");
+        res.send(err.message);
+      }
     });
     next();
   });
 
   server.get("/:id/:no/:struct/:l1/:l2/:l3", function(req, res, next){
-    meth.get(req, function(o){
-      res.send(o);
+    meth.get(req, function(err, ro){
+      if(!err){
+        res.send(ro);
+      }else{
+        log.error(err,
+                  "get returns with error");
+        res.send(err.message);
+      }
     });
     next();
   });
@@ -113,8 +149,14 @@ var http_ssmp = function(conf, cb) {
    * @param {Function} f Callback
    */
   server.put("/:id/id/:cdid", function(req, res, next) {
-    meth.handle_cd(req, function(o){
-      res.send(o);
+    meth.handle_cd(req, function(err, ro){
+      if(!err){
+        res.send(ro);
+      }else{
+        log.error(err,
+                  "cd handle returns with error");
+        res.send(err.message);
+      }
     });
     next();
   });
@@ -124,29 +166,53 @@ var http_ssmp = function(conf, cb) {
    * http://server:port/id/structure/l1/...
    */
   server.put("/:id/:no/:struct", function(req, res, next) {
-    meth.put(req, function(o){
-      res.send(o);
+    meth.put(req, function(err, ro){
+      if(!err){
+        res.send(ro);
+      }else{
+        log.error(err,
+                  "put returns with error");
+        res.send(err.message);
+      }
     });
     next();
   });
 
   server.put("/:id/:no/:struct/:l1", function(req, res, next) {
-    meth.put(req, function(o){
-      res.send(o);
+    meth.put(req, function(err, ro){
+      if(!err){
+        res.send(ro);
+      }else{
+        log.error(err,
+                  "put returns with error");
+        res.send(err.message);
+      }
     });
     next();
   });
 
   server.put("/:id/:no/:struct/:l1/:l2", function(req, res, next) {
-    meth.put(req, function(o){
-      res.send(o);
+    meth.put(req, function(err, ro){
+      if(!err){
+        res.send(ro);
+      }else{
+        log.error(err,
+                  "put returns with error");
+        res.send(err.message);
+      }
     });
     next();
   });
 
   server.put("/:id/:no/:struct/:l1/:l2/:l3", function(req, res, next) {
-    meth.put(req, function(o){
-      res.send(o);
+    meth.put(req, function(err, ro){
+      if(!err){
+        res.send(ro);
+      }else{
+        log.error(err,
+                  "put returns with error");
+        res.send(err.message);
+      }
     });
     next();
   });
@@ -158,8 +224,14 @@ var http_ssmp = function(conf, cb) {
    * - startet observer
    */
   server.put("/:id", function(req, res, next){
-    meth.handle_mp(req, function(o){
-      res.send(o);
+    meth.handle_mp(req, function(err, ro){
+      if(!err){
+        res.send(ro);
+      }else{
+        log.error(err,
+                  " mp handle returns with error");
+        res.send(err.message);
+      }
     });
     next();
   });

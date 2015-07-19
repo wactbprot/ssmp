@@ -1,4 +1,4 @@
-var  name    = "http-ssmp"
+var  name    = "http"
   , _        = require("underscore")
   , bunyan   = require("bunyan")
   , clone    = require("clone")
@@ -25,23 +25,21 @@ var handle_mp = function(req, cb){
     var id    = req.params.id
       , rb    = req.body;
     if(rb && _.isString(rb)){
-      // switch
       if(rb == ctrlstr.load){
         log.info(ok
                 , "try to publish to get_mp channel");
         mem.publish("get_mp", id , function(err){
           if(!err){
             if(_.isFunction(cb)){
-              cb(ok)
+              cb(null, ok)
             }
             log.info(ok
                     , " published to get_mp channel");
           }else{
-            var ro = {error:err};
-            log.error(ro
+            log.error(err
                      , " error on attempt to publish to get_mp channel");
             if(_.isFunction(cb)){
-              cb(ro)
+              cb(err);
             }
           }
         });
@@ -57,31 +55,28 @@ var handle_mp = function(req, cb){
             log.info(ok
                     , " published to rm_mp channel");
           }else{
-            var ro = {error:err};
-            log.error(ro
+            log.error(err
                      , " error on attempt to publish to rm_mp channel");
             if(_.isFunction(cb)){
-              cb(ro)
+              cb(err)
             }
           }
         });
       }
     }else{ // string
-      var err = "unvalid request body"
-        , ro  = {error:err}
-      log.error(ro
+      var err = new Error("unvalid request body");
+      log.error(err
                , "no request body");
       if(_.isFunction(cb)){
-        cb(ro);
+        cb(err);
       }
     }
   }else{
-    var err = "unvalid request object"
-      , ro  = {error:err}
-    log.error(ro
+    var err = new Error("unvalid request object");
+    log.error(err
              , "no request param");
     if(_.isFunction(cb)){
-      cb(ro);
+      cb(err);
     }
   }
 }
@@ -102,9 +97,7 @@ var handle_cd = function(req, cb){
     var val = { id:   req.params.id
               , cdid: req.params.cdid}
       , rb  = req.body;
-
     if(rb && _.isString(rb)){
-      // switch
       if(rb == ctrlstr.load){
         log.info(ok
                 , "try to publish to get_cd channel");
@@ -113,20 +106,17 @@ var handle_cd = function(req, cb){
             log.info(ok
                     , "published to get_cd channel");
             if(_.isFunction(cb)){
-              cb(ok)
+              cb(null, ok)
             }
           }else{
-            var ro = {error:err};
-            log.error(ro
+            log.error(err
                      , "error on attempt to publish to get_cd channel");
             if(_.isFunction(cb)){
-              cb(ro)
+              cb(err)
             }
-
           }
         });
       };
-
       if(rb == ctrlstr.rm){
         log.info(ok
                 , "try to publish to get_cd channel");
@@ -135,39 +125,35 @@ var handle_cd = function(req, cb){
             log.info(ok
                     , "published to rm_cd channel");
             if(_.isFunction(cb)){
-              cb(ok);
+              cb(err, ok);
             }
           }else{
-            var ro = {error:err}
-            log.error(ro
+            log.error(err
                      , "error on attempt to publish to rm_cd channel");
             if(_.isFunction(cb)){
-              cb(ro)
+              cb(err)
             }
           }
         });
       };
     }else{ // string
-      var err = "unvalid request body"
-        , ro  = {error:err}
-      log.error(ro
+      var err = new Error("unvalid request body");
+      log.error(err
                , "no request body");
       if(_.isFunction(cb)){
-        cb(ro);
+        cb(err);
       }
     }
   }else{
-    var err = "unvalid request object"
-      , ro  = {error:err}
-    log.error(ro
+    var err = new Error("unvalid request object");
+    log.error(err
              , "no request param");
     if(_.isFunction(cb)){
-      cb(ro);
+      cb(err);
     }
-
   }
 }
-exports.handle_cd =  handle_cd;
+exports.handle_cd = handle_cd;
 
 /**
  * Funktion schreibt Daten in die
@@ -186,33 +172,32 @@ var put = function(req, cb){
                 , "receice put request to path " + strpath);
         mem.set(path, req.body, function(err){
           if(!err){
-            ro = ok;
             log.info(ok
                     , "set value to path: " + strpath);
+            if(_.isFunction(cb)){
+              cb(null, ro);
+            }
           }else{
-            ro = {error:err}
-            log.error(ro
+            log.error(err
                      , "set value to path: " + strpath);
-          }
-          if(_.isFunction(cb)){
-            cb(ro);
+            if(_.isFunction(cb)){
+              cb(err);
+            }
           }
         });
       }else{
-        err = "unvalid request body"
-        ro  = {error:err}
-        log.error(ro
+        err = new Error("unvalid request body");
+        log.error(err
                  , "given path is not meaningful");
         if(_.isFunction(cb)){
-          cb(ro);
+          cb(err);
         }
       }
     }else{
-      ro  = {error:err}
-      log.error(ro
+      log.error(err
                , "given path is not meaningful");
       if(_.isFunction(cb)){
-        cb(ro);
+        cb(err);
       }
     }
   });
@@ -227,40 +212,40 @@ exports.put = put;
  */
 var get = function(req, cb){
   var ro
-
   get_path(req, function(err, path){
     if(!err){
       log.info(ok
               , "receice get request to path " + path.join(" "));
       mem.get(path, function(err, obj){
         if(err){
-          ro = {error:err}
           log.error(ro
                    ,"error on get from mem");
+          cb(err);
         }else{
           if(_.isUndefined(obj)){
-            ro = {error:"object is undefined"}
-            log.error(ro
+            err = new Error("object is undefined");
+            log.error(err
                      ,"found nothing in the path");
+            cb(err);
           }else{
             if(_.isObject(obj) || _.isArray(obj)){
-              ro = obj;
               log.info(ok
                       , "sent object back");
+              cb(null, obj);
             }else{
-              ro  = {result:obj}
+
               log.info(ok
                       , "sent value back");
+              cb(null, {result:obj});
             };
           }
         }
-        cb(ro)
       }); // mem.get
     }else{
-      log.error({error:err}
+      log.error(err
                ,"error on get path");
       if(_.isFunction(cb)){
-        cb({error:err});
+        cb(err);
       }
     }
   }); // get_path
@@ -273,7 +258,6 @@ exports.get = get;
  * @param {Object} req Request-Objekt
  * @param {Function} cb callback of the form cb(err, path)
  */
-
 var get_path = function(req, cb){
   var path = [];
 
