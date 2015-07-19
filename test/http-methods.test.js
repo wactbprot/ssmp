@@ -24,21 +24,21 @@ describe('http-methods', function(){
 
     it('should return error object on missing params', function(done){
       meth.get_path({}, function(err, res){
-        assert.equal(err,"unvalid request object");
+        assert.equal(err.message,"unvalid request object");
         done();
       });
     })
 
     it('should return error object on empty params', function(done){
       meth.get_path({params:""}, function(err, res){
-        assert.equal(err,"unvalid request object");
+        assert.equal(err.message,"unvalid request object");
         done();
       });
     });
 
     it('should return error object on missing or empty id', function(done){
       meth.get_path({params:{id:""}}, function(err, res){
-        assert.equal(err,"missing id");
+        assert.equal(err.message,"missing id");
         done();
       });
     });
@@ -46,7 +46,7 @@ describe('http-methods', function(){
     it('should return path (id)', function(done){
       meth.get_path({params:{id:"test"}}, function(err, res){
         assert.equal(res[0], "test");
-        assert.equal(err, false);
+        assert.equal(err, null);
         assert.equal(res.length, 1);
         done();
       });
@@ -57,7 +57,7 @@ describe('http-methods', function(){
                             , no:"0"}}, function(err, res){
                                           assert.equal(res[0], "test");
                                           assert.equal(res[1], "0");
-                                          assert.equal(err, false);
+                                          assert.equal(err, null);
                                           assert.equal(res.length, 2);
                                           done();
                                         });
@@ -70,7 +70,7 @@ describe('http-methods', function(){
                                                  assert.equal(res[0], "test");
                                                  assert.equal(res[1], "0");
                                                  assert.equal(res[2], "test");
-                                                 assert.equal(err, false);
+                                                 assert.equal(err, null);
                                                  assert.equal(res.length, 3);
                                                  done();
                                                });
@@ -85,7 +85,7 @@ describe('http-methods', function(){
                                           assert.equal(res[1], "0");
                                           assert.equal(res[2], "test");
                                           assert.equal(res[3], "0");
-                                          assert.equal(err, false);
+                                          assert.equal(err, null);
                                           assert.equal(res.length, 4);
                                           done();
                                         });
@@ -102,7 +102,7 @@ describe('http-methods', function(){
                                            assert.equal(res[2], "test");
                                            assert.equal(res[3], "0");
                                            assert.equal(res[4], "0");
-                                           assert.equal(err, false);
+                                           assert.equal(err, null);
                                            assert.equal(res.length, 5);
                                            done();
                                          });
@@ -121,7 +121,7 @@ describe('http-methods', function(){
                                           assert.equal(res[3], "1");
                                           assert.equal(res[4], "2");
                                           assert.equal(res[5], "3");
-                                          assert.equal(err, false);
+                                          assert.equal(err, null);
                                           assert.equal(res.length, 6);
                                           done();
                                         });
@@ -131,22 +131,22 @@ describe('http-methods', function(){
   describe('#get(req)', function(){
 
     it('should return error object on missing params', function(done){
-      meth.get({}, function(res){
-        assert.equal(res.error,"unvalid request object");
+      meth.get({}, function(err, res){
+        assert.equal(err.message, "unvalid request object");
         done();
       });
     });
 
     it('should return error object on missing value', function(done){
-      meth.get({params:{id:"test"}}, function(res){
-        assert.equal(res.error,"object is undefined");
+      meth.get({params:{id:"test"}}, function(err, res){
+        assert.equal(err.message,"object is undefined");
         done();
       });
     });
 
     it('should return result: boolean value', function(done){
       mem.set(["test"], true, function(){
-        meth.get({params:{id:"test"}}, function(res){
+        meth.get({params:{id:"test"}}, function(err, res){
           assert.equal(res.result,true);
           done();
         });
@@ -155,7 +155,7 @@ describe('http-methods', function(){
 
     it('should return object', function(done){
       mem.set(["test"], {test:true}, function(){
-        meth.get({params:{id:"test"}}, function(res){
+        meth.get({params:{id:"test"}}, function(err, res){
           assert.equal(res.test,true);
           done();
         });
@@ -165,22 +165,22 @@ describe('http-methods', function(){
     describe('#put(req)', function(){
 
       it('should return error on empty request', function(done){
-        meth.put({}, function(res){
-          assert.equal(res.error,"unvalid request object");
+        meth.put({}, function(err, res){
+          assert.equal(err.message, "unvalid request object");
           done();
         });
       });
 
       it('should return error on empty request', function(done){
-        meth.put({params:{id:"test"}}, function(res){
-          assert.equal(res.error,"unvalid request body");
+        meth.put({params:{id:"test"}}, function(err, res){
+          assert.equal(err.message,"unvalid request body");
           done();
         });
       });
 
       it('should put value', function(done){
-        meth.put({params:{id:"test"}, body:{test:true}}, function(res){
-          assert.equal(res.ok,true);
+        meth.put({params:{id:"test"}, body:{test:true}}, function(err, res){
+          assert.equal(res.ok,     true);
           done();
         });
       });
@@ -189,28 +189,28 @@ describe('http-methods', function(){
     describe('#handle_cd(req)', function(){
 
       it('should return error on empty request', function(done){
-        meth.handle_cd({}, function(res){
-          assert.equal(res.error,"unvalid request object");
+        meth.handle_cd({}, function(err, res){
+          assert.equal(err.message, "unvalid request object");
           done();
         });
       });
 
       it('should return error on empty body', function(done){
-        meth.handle_cd({params:{id:"test", cdid:"test"}}, function(res){
-          assert.equal(res.error,"unvalid request body");
+        meth.handle_cd({params:{id:"test", cdid:"test"}}, function(err, res){
+          assert.equal(err.message, "unvalid request body");
           done();
         });
       });
 
       it('should load', function(done){
-        meth.handle_cd({params:{id:"test", cdid:"test"}, body:"load"}, function(res){
+        meth.handle_cd({params:{id:"test", cdid:"test"}, body:"load"}, function(err, res){
           assert.equal(res.ok,true);
           done();
         });
       });
 
       it('should remove', function(done){
-        meth.handle_cd({params:{id:"test", cdid:"test"}, body:"remove"}, function(res){
+        meth.handle_cd({params:{id:"test", cdid:"test"}, body:"remove"}, function(err, res){
           assert.equal(res.ok,true);
           done();
         });
@@ -219,29 +219,29 @@ describe('http-methods', function(){
       describe('#handle_mb(req)', function(){
 
         it('should return error on empty request', function(done){
-          meth.handle_mp({}, function(res){
-            assert.equal(res.error,"unvalid request object");
+          meth.handle_mp({}, function(err, res){
+            assert.equal(err.message, "unvalid request object");
             done();
           });
         });
 
         it('should return error on empty body', function(done){
-          meth.handle_mp({params:{id:"test", cdid:"test"}}, function(res){
-            assert.equal(res.error,"unvalid request body");
+          meth.handle_mp({params:{id:"test", cdid:"test"}}, function(err, res){
+            assert.equal(err.message, "unvalid request body");
             done();
           });
         });
 
         it('should load', function(done){
-          meth.handle_mp({params:{id:"test", cdid:"test"}, body:"load"}, function(res){
-            assert.equal(res.ok,true);
+          meth.handle_mp({params:{id:"test", cdid:"test"}, body:"load"}, function(err, res){
+            assert.equal(res.ok, true);
             done();
           });
         });
 
         it('should remove', function(done){
-          meth.handle_mp({params:{id:"test", cdid:"test"}, body:"remove"}, function(res){
-            assert.equal(res.ok,true);
+          meth.handle_mp({params:{id:"test", cdid:"test"}, body:"remove"}, function(err, res){
+            assert.equal(res.ok, true);
             done();
           });
         });

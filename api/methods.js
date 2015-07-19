@@ -7,6 +7,7 @@ var  name    = "http"
   , log      = bunyan.createLogger({name: name})
   , ctrlstr  = deflt.ctrlStr
   , ok       = {ok:true}
+  , err;
 
 var mem = ndata.createClient({port: deflt.mem.port});
 
@@ -47,13 +48,13 @@ var handle_mp = function(req, cb){
       if(rb == ctrlstr.rm){
         log.info(ok
                 , "try to publish to rm_mp channel");
-        mem.publish("rm_mp", id , function(err){
+        mem.publish("rm_mp", id, function(err){
           if(!err){
-            if(_.isFunction(cb)){
-              cb(ok)
-            }
             log.info(ok
                     , " published to rm_mp channel");
+            if(_.isFunction(cb)){
+              cb(null, ok)
+            }
           }else{
             log.error(err
                      , " error on attempt to publish to rm_mp channel");
@@ -163,10 +164,9 @@ exports.handle_cd = handle_cd;
  * @param {Function} cb call back
  */
 var put = function(req, cb){
-  var ro
   get_path(req, function(err, path){
     if(!err){
-      if(req.body){
+      if(!_.isUndefined(req.body)){
         var strpath  = path.join(" ")
         log.info(ok
                 , "receice put request to path " + strpath);
@@ -175,7 +175,7 @@ var put = function(req, cb){
             log.info(ok
                     , "set value to path: " + strpath);
             if(_.isFunction(cb)){
-              cb(null, ro);
+              cb(null, ok);
             }
           }else{
             log.error(err
@@ -290,16 +290,18 @@ var get_path = function(req, cb){
         }
       }
       if(_.isFunction(cb)){
-        cb(false, path);
+        cb(null, path);
       }
     }else{
+      err = new Error("missing id");
       if(_.isFunction(cb)){
-        cb("missing id",[]);
+        cb(err);
       }
     }
   }else{
+    err = new Error("unvalid request object");
     if(_.isFunction(cb)){
-      cb("unvalid request object",[]);
+      cb(err);
     }
   }
 }
