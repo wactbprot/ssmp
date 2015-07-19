@@ -1,7 +1,3 @@
-tests are on old callback signature
--------------
-
-
 ```
  ___ ___ _____ ___ 
 |_ -|_ -|     | . |
@@ -133,10 +129,10 @@ werden.
 Aufgrund des modularen Aufbaus des Systems werden eine Reihe von
 Serverprozessen an folgenden *Ports* gestartet:
 
-* 8001: http-api des ssmp
-* 9000: datenserver (intern)
-* 55555: nodeRelay
-* (8002: web socket)
+* 8001: [json-api](http://localhost:8001/) 
+* 8003: [Info-System](http://localhost:8003/)
+* 9000: Datenserver (intern)
+* 8004: Websocket
 
 
 ## Laden des Messprogramms
@@ -273,21 +269,6 @@ $> bin/mp_ctrl -i mpid -c C -d 'load;5:run,load;stop'
 
 was den Ablauf läd, 5 mal den Zyklus ```run``` gefolgt von ```load```
 (durch Komma getrennt) durchläuft und dann ```stop``` ausführt.
-
-## Anzeigeelemente pro container
-
-Unter der url:
-``` http://localhost:8001/mpid/C/elements``` wird ein Auszug der ```../exchange```
-Schnittstelle erstellt. Welche Elemente aufgenommen werden, ist im MP under
-dem Pfad ```Mp.Container[C].element``` mit wildcard  ```*``` definierbar.
-
-Bsp.:
-```
- "Element": [
-               "MKT50*",
-               "KeithleyCh*"
-           ]
-```
 
 ## Rückgabewerte der  Exchange-Schnittstelle
 
