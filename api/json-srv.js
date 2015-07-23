@@ -10,7 +10,7 @@
  *
  */
 var http_ssmp = function(conf, cb) {
-  var name    = "http"
+  var name    = "ssmp.http"
     , _       = require("underscore")
     , prog    = require("commander")
     , restify = require("restify")
