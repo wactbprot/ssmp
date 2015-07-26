@@ -9,7 +9,7 @@
  * welcher die _REST_-Api des _ssmp_ zur Verfügung stellt.
  *
  */
-var http_ssmp = function(conf, cb) {
+var http_ssmp = function(conf, cb, test) {
   var name    = "ssmp.http"
     , _       = require("underscore")
     , prog    = require("commander")
@@ -18,7 +18,8 @@ var http_ssmp = function(conf, cb) {
     , ndata   = require("ndata")
     , meth    = require("./methods")
     , log     = bunyan.createLogger({name: name})
-    , server  = restify.createServer({name: name});
+    , server  = restify.createServer({name: name})
+    , ok = {ok: true};
 
   server.pre(restify.pre.sanitizePath());
   server.use(restify.queryParser());
@@ -239,17 +240,23 @@ var http_ssmp = function(conf, cb) {
   //
   // --- go!---
   //
-  server.listen(conf.http.port, function() {
-    log.info({ok: true}
-            , "\n"
-            + "`````````````````````````````\n"
-            + "json api up and running @"
-            + conf.http.port +"\n"
-            + "`````````````````````````````\n"
-            );
+  if(!test){
+    server.listen(conf.http.port, function() {
+      log.info(ok
+              , "\n"
+              + "`````````````````````````````\n"
+              + "json api up and running @"
+              + conf.http.port +"\n"
+              + "`````````````````````````````\n"
+              );
+      if(_.isFunction(cb)){
+        cb(null, ok);
+      }
+    });
+  }else{
     if(_.isFunction(cb)){
-      cb();
+      cb(null, ok);
     }
-  });
+  }
 }
 module.exports = http_ssmp;
