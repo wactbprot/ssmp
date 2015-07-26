@@ -102,7 +102,7 @@ var handle_cd = function(req, cb){
       if(rb == ctrlstr.load){
         log.info(ok
                 , "try to publish to get_cd channel");
-        mem.publish("get_cd",val , function(err){
+        mem.publish("get_cd", val, function(err){
           if(!err){
             log.info(ok
                     , "published to get_cd channel");
@@ -121,7 +121,7 @@ var handle_cd = function(req, cb){
       if(rb == ctrlstr.rm){
         log.info(ok
                 , "try to publish to get_cd channel");
-        mem.publish("rm_cd",val , function(err){
+        mem.publish("rm_cd", val, function(err){
           if(!err){
             log.info(ok
                     , "published to rm_cd channel");

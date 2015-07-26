@@ -35,17 +35,17 @@ describe('cdhandle', function(){
     });
   });
 
-  describe('getcd#()', function(){
+  describe('#get_cd()', function(){
 
     it('should return error on empty id', function(done){
-      cdhandle.getcd("", "", function(err, path){
+      cdhandle.get_cd("", "", function(err, path){
         assert.equal(err.message, "wrong mpid or cdid");
         done();
       });
     });
 
     it('should return error on wrong id type', function(done){
-      cdhandle.getcd(true, true, function(err, path){
+      cdhandle.get_cd(true, true, function(err, path){
 
         assert.equal(err.message, "wrong mpid or cdid");
         done();
@@ -53,7 +53,7 @@ describe('cdhandle', function(){
     });
 
     it('should return error on missing doc', function(done){
-      cdhandle.getcd("test", "test", function(err, path){
+      cdhandle.get_cd("test", "test", function(err, path){
         assert.equal(err.message, "not a Calibration");
         done();
       });
@@ -61,31 +61,28 @@ describe('cdhandle', function(){
 
   });
 
-  describe('rmcd#()', function(){
+  describe('#rm_cd()', function(){
 
     it('should return error on empty id', function(done){
-      cdhandle.rmcd("","", function(err, path){
+      cdhandle.rm_cd("","", function(err, path){
         assert.equal(err.message, "wrong mpid or cdid");
         done();
       });
     });
 
     it('should return error on wrong id type', function(done){
-      cdhandle.rmcd(true, true, function(err, path){
+      cdhandle.rm_cd(true, true, function(err, path){
         assert.equal(err.message, "wrong mpid or cdid");
         done();
       });
     });
 
-//    it('should try to rm', function(done){
-//      cdhandle.rmcd("test","wrong", function(err, path){
-//
-//        // ndata gives no error on missing rm-target
-//
-//        // assert.equal(err.message, null);
-//        done();
-//      });
-//    });
+    it('should try to rm', function(done){
+      cdhandle.rm_cd("test","wrong", function(err, path){
+        assert.equal(err, null);
+        done();
+      });
+    });
 
  });
 
