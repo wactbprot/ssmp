@@ -21,6 +21,7 @@ describe('request()', function(){
       (function(j){
         rqst.exec(con, pretask, strdata, function (err, task){
           assert.equal(err,null);
+          assert.equal(task.TaskName, 'Common-wait');
           if(j == N){
             done()
           }
