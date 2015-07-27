@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-/**
- * ssmp
- */
- require('../ssmp.js')();
+#!/bin/sh 
+":" //# comment; exec /usr/bin/env node --expose_gc --stack-size=2048 --noharmony "$0" "$@"
+require('../ssmp.js')();
