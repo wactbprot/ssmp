@@ -1,7 +1,4 @@
 var ssmp = function(){
-
-  require('look').start(3000, '127.0.0.1');
-
   var ndata   = require("ndata")
     , prog    = require("commander")
     , _       = require("underscore")
