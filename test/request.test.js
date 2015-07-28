@@ -20,7 +20,7 @@ describe('request()', function(){
     for(var i = 0; i < N +1; i++){
       (function(j){
         rqst.exec(con, pretask, strdata, function (err, task){
-          assert.equal(err,null);
+          assert.equal(err, null);
           assert.equal(task.TaskName, 'Common-wait');
           if(j == N){
             done()
