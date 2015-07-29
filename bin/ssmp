@@ -1,4 +1,4 @@
 #!/bin/sh 
-":" //# comment; exec /usr/bin/env node --expose_gc --stack-size=2048 --noharmony "$0" "$@"
+":" //# comment; exec /usr/bin/env node --stack-size=2048 --noharmony "$0" "$@"
 require('look').start(3000, '127.0.0.1');
 require('../ssmp.js')();
