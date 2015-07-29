@@ -9,6 +9,7 @@ var ssmp = function(){
     , log     = bunyan.createLogger({name: deflt.app.name})
     , ok      = {ok:true};
 
+
   prog.version("0.4.0")
   .option("-l, --load <mpid>", "the id of an mpd")
   .parse(process.argv);
