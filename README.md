@@ -51,9 +51,9 @@ wichtig sind hierbei die Endpunkte ```/ctrl``` und ```/exchange```.
                     +------+-----------+
                     |   client         |
                     |------------------|
-                    | labVIEW          |
-                    | Python           |
-                    | js/http/css      |
+                    |                  |
+                    |                  |
+                    |                  |
                     +------------------+
 ```
 
