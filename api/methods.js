@@ -1,10 +1,9 @@
-var  name    = "http"
-  , _        = require("underscore")
+var _        = require("underscore")
   , bunyan   = require("bunyan")
   , clone    = require("clone")
   , ndata    = require("ndata")
   , deflt    = require("../lib/default")
-  , log      = bunyan.createLogger({name: name})
+  , log      = bunyan.createLogger({name: deflt.app.name + ".http.methods"})
   , ctrlstr  = deflt.ctrlStr
   , ok       = {ok:true}
   , err;

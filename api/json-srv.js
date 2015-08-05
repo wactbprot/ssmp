@@ -10,15 +10,15 @@
  *
  */
 module.exports  = function(conf, cb, test) {
-  var name    = "ssmp.http"
-    , _       = require("underscore")
+  var _       = require("underscore")
     , prog    = require("commander")
     , restify = require("restify")
     , bunyan  = require("bunyan")
     , ndata   = require("ndata")
+    , deflt   = require("../lib/default")
     , meth    = require("./methods")
-    , log     = bunyan.createLogger({name: name})
-    , server  = restify.createServer({name: name})
+    , log     = bunyan.createLogger({name: deflt.app.name + ".http"})
+    , server  = restify.createServer({name: deflt.app.name})
     , ok = {ok: true};
 
   server.pre(restify.pre.sanitizePath());
