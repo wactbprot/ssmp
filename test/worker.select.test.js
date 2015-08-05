@@ -2,9 +2,9 @@ var _        = require("underscore")
   , assert   = require("assert")
   , ndata    = require("ndata")
   , deflt    = require("../lib/default")
-  , worker
   , ds
   , mem
+  , worker   = {}
   , path_a   = ["test","exchange", "a","Value","value"]
   , path_b   = ["test","exchange", "b","Value","value"]
   , path_def = ["test","definitions"]
@@ -49,7 +49,7 @@ describe('worker', function(){
              mem.set(path_b, 3, function(){
                mem.set(path_def, def, function(){
 
-                 worker    = require("../lib/worker")
+                 worker.select = require("../lib/worker.select")
 
                  done();
                });
@@ -88,15 +88,14 @@ describe('worker', function(){
 
     it('should detect unvalid conditions', function(done){
       worker.select({DefinitionClass:"testWrong", Path:["test", 0]}, function(err, res){
-
-        assert.equal(err.message,"unvalid condition")
+        assert.equal(err.message,"unknown condition Methode")
         done();
       });
     });
 
     it('should return error on wrong path', function(done){
       worker.select({DefinitionClass:"testOk", Path:["wrong", 0]}, function(err, res){
-        assert.equal(err.message,"get definitions")
+        assert.equal(err.message,"missing or wrong definitions")
         done();
       });
     });
