@@ -1,10 +1,10 @@
-var assert = require("assert")
-  , _      = require("underscore")
-  , clone  = require("clone")
-  , net    = require("../lib/net")
-  , deflt  = require("../lib/default")
-  , utils = require("../lib/utils")
-  , caldoc = require("./caldoc")
+var assert   = require("assert")
+  , _        = require("underscore")
+  , clone    = require("clone")
+  , net      = require("../lib/net")
+  , deflt    = require("../lib/default")
+  , utils    = require("../lib/utils")
+  , caldoc   = require("./caldoc")
   , ctrlstr  = deflt.ctrlStr;
 
 describe('utils', function(){
