@@ -1,9 +1,9 @@
 var assert = require("assert")
   , _      = require("underscore")
   , clone  = require("clone")
-  , utils  = require("../lib/utils")
   , net    = require("../lib/net")
   , deflt  = require("../lib/default")
+  , utils = require("../lib/utils")
   , caldoc = require("./caldoc")
   , ctrlstr  = deflt.ctrlStr;
 
