@@ -1,4 +1,9 @@
 require("../lib/run");
+require("../lib/run.exchangeReplace.js");
+require("../lib/run.runIf.js");
+require("../lib/run.run.js");
+require("../lib/run.stopIf.js");
+
 require("../lib/build");
 require("../lib/cdhandle")
 require("../lib/mphandle");
