@@ -8,6 +8,8 @@ require("../lib/load");
 require("../lib/load.distribute.js");
 require("../lib/load.expandCust.js");
 require("../lib/load.fetch.js");
+require("../lib/load.expandTask.js");
+require("../lib/load.insert.js");
 
 require("../lib/utils");
 require("../lib/utils.dataToDoc.js");
