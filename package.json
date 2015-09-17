@@ -2,7 +2,7 @@
     "author": "wactbprot",
     "name": "ssmp",
     "description": "server side measurment program",
-    "version": "0.5.1",
+    "version": "0.6.0",
     "repository": {
         "type": "git",
         "url": "https://github.com/wactbprot/ssmp"
@@ -22,8 +22,8 @@
     "scripts": {
         "mpshell": "bin/mpsh",
         "doc": "dox-foundation --source ./ --target doc/ --ignore coverage,test,node_modules -t ssmp",
-        "mem": "bin/mem | bunyan -l info -o short",
-        "start": "bin/start | bunyan -l info -o short",
+        "mem": "bin/mem | bunyan  -o short",
+        "start": "bin/start | bunyan  -o short",
         "all-dev": "npm test && npm run doc",
 	"test": "mocha | bunyan -l 100",
 	"cover":"istanbul cover _mocha -- -R spec | bunyan -l 100"
