@@ -2,11 +2,10 @@ var ssmp = function(){
   var ndata   = require("ndata")
     , prog    = require("commander")
     , _       = require("underscore")
-    , bunyan  = require("bunyan")
     , deflt   = require("./lib/default")
-
     , cstr    = deflt.ctrlStr
-    , log     = bunyan.createLogger({name: deflt.app.name})
+    , bunyan  = require("bunyan")
+    , logStrm = require("bunyan-couchdb-stream")
     , ok      = {ok:true};
 
 
@@ -16,6 +15,8 @@ var ssmp = function(){
 
 
   ndata.createServer({port: deflt.mem.port}).on('ready', function(){
+
+
     // starten der ndata Clients
     var load     = require("./lib/load")
       , run      = require("./lib/run")
@@ -25,6 +26,21 @@ var ssmp = function(){
       , cdhandle = require("./lib/cdhandle")
       , utils    = require("./lib/utils")
       , ok       = {ok: true};
+    // start logger; write to db
+    var logurl  = 'http://'
+                + deflt.database.server
+                + ":"
+                + deflt.database.port
+                + "/"
+                + deflt.database.logdbprefix
+                + "-"
+                + utils.vl_date(false, true)
+
+      , log = bunyan.createLogger({name: deflt.app.name,
+                                   streams: [{
+                                     stream: new logStrm(logurl),
+                                     type: 'raw'
+                                   }]});
 
     log.info(ok
             , "\n"
