@@ -1,6 +1,6 @@
 #!/bin/sh
-no_proxy=localhost
-export no_proxy
+#no_proxy=localhost
+#export no_proxy
 echo 'try to generate logdb' 
 curl -s -X PUT http://localhost:5984/ssmp_log-`date +%Y-%m-%d` &> /dev/null 
 bin/ssmp "$0" "$@"
