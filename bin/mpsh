@@ -2,95 +2,102 @@
 
 var _          = require("underscore")
   , ndata      = require("ndata")
-  , clone      = require("clone")
   , repl       = require("repl")
-  , deflt      = require("../lib/default")
   , prettyjson = require("prettyjson")
-  , utils      = require("../lib/utils")
-  , load       = require("../lib/load")
-  , run        = require("../lib/run")
-  , net        = require("../lib/net")
-  , request    = require("../lib/request")
-  , worker     = require("../lib/worker");
+  , clone      = require("clone")
+  , deflt      = require("../lib/default")
 
-var context       = repl.start("ssmp > ").context;
 
-context.cb = function(res){
-  console.log(prettyjson.render(res));
-}
+ndata.createServer({port: deflt.mem.port}).on('ready', function(){
+  var context  = repl.start("ssmp > ").context;
+  context.mem = ndata.createClient({port: deflt.mem.port}).on('ready', function(){
+                  var utils      = require("../lib/utils")
+                    , load       = require("../lib/load")
+                    , run        = require("../lib/run")
+                    , net        = require("../lib/net")
+                  , request    = require("../lib/request")
+                  , worker     = require("../lib/worker");
 
-context.ecb = function(err, res){
-  if(err){
-    console.log(prettyjson.render(err));
-  }else{
-    console.log(prettyjson.render(res));
-  }
-}
+                context.cb = function(res){
+                  console.log(prettyjson.render(res));
+                }
 
-var task_exec = function(task, repl, cb){
-  var tsk   = clone(task)
-    , tdef;
-  tsk.Path = [];
+                context.ecb = function(err, res){
+                  if(err){
+                    console.log(prettyjson.render(err));
+                  }else{
+                    console.log(prettyjson.render(res));
+                  }
+                }
 
-  if(!_.isObject(repl)){
-    repl = {};
-  }
+                var task_exec = function(task, repl, cb){
+                  var tsk   = clone(task)
+                    , tdef;
+                  tsk.Path = [];
 
-  if(!_.isObject(tsk.Defaults) ){
-    tdef = {};
-  }else{
-    tdef = tsk.Defaults
-    delete tsk.Defaults;
-  }
+                  if(!_.isObject(repl)){
+                    repl = {};
+                  }
 
-  tdef  = _.extend(tdef, repl);
+                  if(!_.isObject(tsk.Defaults) ){
+                    tdef = {};
+                  }else{
+                    tdef = tsk.Defaults
+                    delete tsk.Defaults;
+                  }
 
-  var k  = _.keys(tdef)
-    , v  = _.values(tdef)
-    , Nk = k.length;
+                  tdef  = _.extend(tdef, repl);
 
-  for(var i = 0; i < Nk; i++){
-    tsk = utils.replace_in_with(tsk, k[i], v[i])
-    if(i == Nk - 1){
-      tsk.Defaults = tdef;
-      if(_.isObject(tsk) && tsk.Action && _.isFunction(cb)){
-        worker[tsk.Action](tsk, cb);
-      }
-    }
-  }
-}
+                  var k  = _.keys(tdef)
+                    , v  = _.values(tdef)
+                    , Nk = k.length;
 
-var refresh_task_list = function(){
-  context.task = {};
-  request.exec(net.list({ListName:"kv", ViewName:"tasks"}), false, false, function(res){
-    if(res.error){
-      console.log(prettyjson.render(res))
-    }else{
-      for(var taskName in res){
-        context.task[taskName.replace(/\-/g, "_")] = res[taskName];
-      } // task
-    }
-  })
-}
+                  for(var i = 0; i < Nk; i++){
+                    tsk = utils.replace_in_with(tsk, k[i], v[i])
+                    if(i == Nk - 1){
+                      tsk.Defaults = tdef;
+                      if(_.isObject(tsk) && tsk.Action && _.isFunction(cb)){
+                        worker[tsk.Action](tsk, cb);
+                      }
+                    }
+                  }
+                }
 
-context.mem       = ndata.createClient({port: deflt.mem.port});
-context.defaults  = deflt;
-context.utils     = utils;
-context.load      = load;
-context.worker    = worker;
-context.run       = run;
-context.request   = request;
-context.task_exec = task_exec;
-context.refresh_task_list = refresh_task_list;
-refresh_task_list();
+                var refresh_task_list = function(){
+                  context.task = {};
+                  var con = net.list({ListName:"kv", ViewName:"tasks"});
+                  request.exec(con, false, false, function(err, res){
+                    if(err){
+                      console.log(err);
+                    }else{
+                      for(var taskName in res){
+                        context.task[taskName.replace(/\-/g, "_")] = res[taskName];
+                      } // task
+                    }
+                  })
+                }
 
-console.log(".........................................................\n");
-console.log("whats already done:");
-console.log("- refresh task list and assign to task");
-console.log("- default call back in variable: cb defined");
-console.log("- default call back with err param in variable: ecb");
-console.log("- function task_exec(task_or_name, replace_object, cb)");
-console.log("- function refresh_task_list()");
-console.log("- ndata client available in variable: mem");
-console.log("- static json below ssmp/static in variable: statics");
-console.log(".........................................................\n");
+
+                context.defaults  = deflt;
+                context.utils     = utils;
+                context.load      = load;
+                context.worker    = worker;
+                context.run       = run;
+                context.request   = request;
+                context.task_exec = task_exec;
+                context.refresh_task_list = refresh_task_list;
+
+                refresh_task_list();
+
+                console.log(".........................................................\n");
+                console.log("whats already done:");
+                console.log("- refresh task list and assign to task");
+                console.log("- default call back in variable: cb defined");
+                console.log("- default call back with err param in variable: ecb");
+                console.log("- function task_exec(task, replace_object, cb)");
+                console.log("- function refresh_task_list()");
+                console.log("- ndata client available in variable: mem");
+                console.log("- static json below ssmp/static in variable: statics");
+                console.log(".........................................................\n");
+              });
+});
