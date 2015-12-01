@@ -49,6 +49,19 @@ module.exports  = function(conf, cb, test) {
    * @param {String} url url-Muster der Anfrage
    * @param {Function} f Callback
    */
+  server.get("/", function(req, res, next){
+    meth.home(req, function(err, ro){
+      if(!err){
+        res.send(ro);
+      }else{
+        log.error(err,
+                  "get returns with error");
+        res.send(err.message);
+      }
+    });
+    next();
+  });
+
   server.get("/:id", function(req, res, next){
     meth.get(req, function(err, ro){
       if(!err){

@@ -11,6 +11,21 @@ var _        = require("underscore")
 var mem = ndata.createClient({port: deflt.mem.port});
 
 /**
+ * Listet alle geladenen mps
+ * @param {Object} req Request-Objekt
+ * @param {Function} cb call back
+ */
+var home = function(req, cb){
+  mem.getAll(function(err, mps){
+    if(!err){
+      cb(null, _.keys(mps));
+    }else{
+      err = new Error("on attempt to ndata.getAll()");
+    }
+  });
+}
+exports.home = home;
+/**
  * Funktion veranlasst laden und löschen der mp-
  * Dokumente.
  *
@@ -31,7 +46,7 @@ var handle_mp = function(req, cb){
         mem.publish("get_mp", id , function(err){
           if(!err){
             if(_.isFunction(cb)){
-              cb(null, ok)
+              cb(null, ok);
             }
             log.info(ok
                     , " published to get_mp channel");
@@ -64,7 +79,7 @@ var handle_mp = function(req, cb){
         });
       }
     }else{ // string
-      var err = new Error("unvalid request body");
+      err = new Error("unvalid request body");
       log.error(err
                , "no request body");
       if(_.isFunction(cb)){
@@ -72,7 +87,7 @@ var handle_mp = function(req, cb){
       }
     }
   }else{
-    var err = new Error("unvalid request object");
+    err = new Error("unvalid request object");
     log.error(err
              , "no request param");
     if(_.isFunction(cb)){
