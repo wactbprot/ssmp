@@ -12,7 +12,6 @@ var defaults  = function(cb){
 };
 exports.defaults = defaults;
 
-
 var devel  = function(cb){
   log.info({ok:true}
           , "try generating devel template");
@@ -21,7 +20,6 @@ var devel  = function(cb){
   cb(hc["devel"](pack));
 };
 exports.devel = devel;
-
 
 var index  = function(cb){
   log.info({ok:true}
