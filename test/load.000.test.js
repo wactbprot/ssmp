@@ -1,7 +1,7 @@
 var assert = require("assert")
   , _      = require("underscore")
-  , ndata    = require("ndata")
-  , deflt  = require("../lib/default")
+  , ndata  = require("ndata")
+  , conf   = require("../lib/conf")
   , mem
   , ds
   , load
@@ -9,8 +9,8 @@ var assert = require("assert")
 
 describe('load', function(){
   before(function(done){
-    ds = ndata.createServer({port: deflt.mem.port}).on('ready', function(){
-           mem  = ndata.createClient({port: deflt.mem.port});
+    ds = ndata.createServer({port: conf.mem.port}).on('ready', function(){
+           mem  = ndata.createClient({port: conf.mem.port});
            load    = require("../lib/load");
 
            load.ini(function(){
@@ -244,7 +244,8 @@ describe('load', function(){
                  {TaskName:["Common-wait","Common-wait","Common-wait"],
                   ExpandPar:{"@waittime":[7000, 8000, 9000]}}
                ]
-             ], function(err){
+             ]
+             , function(err){
                  mem.set(["test", "meta"], {standard:"", name:""} , function(err){
                    load.load(["test", 0], function(err, path){
                      mem.get(["test", 0, "recipe"] , function(err, dat){
@@ -255,8 +256,7 @@ describe('load', function(){
                      });
                    });
                  });
-               });
+                });
     });
-
   });
 });

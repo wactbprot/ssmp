@@ -1,83 +1,123 @@
 var assert = require("assert")
-  , _      = require("underscore")
-  , net    = require("../lib/net")
-  , deflt  = require("../lib/default")
+  , ndata    = require('ndata')
+  , _        = require("underscore")
+  , net      = require("../lib/net")
+  , conf     = require("../lib/conf")
+  , mem      = ndata.createClient({port: conf.mem.port});
 
 
 describe('net', function(){
-  describe('#task(mp)', function(){
-    it('should return the task path', function(){
-      var o = net.task();
-      assert.equal( o.path, "/"+deflt.database.name + "/_design/dbmp/_list/gettask/tasks");
+  mem.get(["defaults"], function(err, defaults){
+    describe('#task(mp)', function(){
+      it('should return the task path', function(done){
+        net.task(function(err, o){
+          assert.equal( o.path
+                      , "/"+ defaults.database.name
+                      + "/_design/dbmp/_list/gettask/tasks");
+          done();
+        });
+      });
     });
-  });
-  describe('#task()', function(){
-    it('should return the task path \wo mp', function(){
-      var o = net.task();
-      assert.equal(o.path, "/"+deflt.database.name + "/_design/dbmp/_list/gettask/tasks");
-    });
-  });
-
-  describe('#list(mp, task)', function(){
-    it('should return a list path', function(){
-      var o = net.list({ListName:"l", ViewName:"v"});
-      assert.equal(o.path,  "/"+deflt.database.name + "/_design/dbmp/_list/l/v");
-    });
-
-    it('should return a list path \wo mp', function(){
-      var o = net.list({ListName:"l", ViewName:"v"});
-      assert.equal(o.path, "/"+deflt.database.name + "/_design/dbmp/_list/l/v");
+    describe('#task()', function(){
+      it('should return the task path \wo mp', function(done){
+        net.task(function(err, o){
+          assert.equal(o.path
+                      , "/"+defaults.database.name
+                      + "/_design/dbmp/_list/gettask/tasks");
+          done();
+        });
+      });
     });
 
-    it('should work with params keys', function(){
-      var o = net.list({ListName:"l", ViewName:"v", Param:{keys:"aa"}});
-      assert.equal(o.path, "/"+deflt.database.name + "/_design/dbmp/_list/l/v?keys=\"aa\"");
+    describe('#list(mp, task)', function(){
+      it('should return a list path', function(done){
+        net.list({ListName:"l", ViewName:"v"}, function(err, o){
+          assert.equal(o.path
+                      , "/"+defaults.database.name
+                      + "/_design/dbmp/_list/l/v");
+          done();
+        });
+      });
+
+      it('should return a list path \wo mp', function(done){
+        var o = net.list({ListName:"l", ViewName:"v"}, function(err, o){
+                  assert.equal(o.path
+                              , "/"+defaults.database.name
+                              + "/_design/dbmp/_list/l/v");
+                  done();
+                });
+      });
+
+      it('should work with params keys', function(done){
+        net.list({ListName:"l", ViewName:"v", Param:{keys:"aa"}}, function(err, o){
+          assert.equal(o.path
+                      , "/"+defaults.database.name
+                      + "/_design/dbmp/_list/l/v?keys=\"aa\"");
+          done();
+        });
+      });
+
+      it('should work with params user', function(done){
+        net.list({ListName:"l", ViewName:"v", Param:{"bb":"aa"}}, function(err, o){
+          assert.equal(o.path
+                      , "/"+defaults.database.name
+                      + "/_design/dbmp/_list/l/v?bb=aa");
+          done();
+        });
+      });
     });
 
-    it('should work with params user', function(){
-      var o = net.list({ListName:"l", ViewName:"v", Param:{"bb":"aa"}});
-      assert.equal(o.path, "/"+deflt.database.name + "/_design/dbmp/_list/l/v?bb=aa");
+    describe('#docinfo(mp, docid)', function(){
+      it('should return the docinfo path', function(done){
+        net.docinfo("test", function(err, o){
+          assert(o.path
+                , "/"+defaults.database.name
+                + "/_design/dbmp/_show/test");
+          done();
+        });
+      });
+
+      it('should return the docinfo path \wo mp', function(done){
+        net.docinfo("test", function(err, o){
+          assert(o.path
+                , "/"+defaults.database.name
+                + "/_design/dbmp/_show/test");
+          done();
+        });
+      });
     });
 
-  });
+    describe('#relay(mp)', function(){
+      it('should return a relay con-object', function(done){
+        net.relay(function(err, o){
+          assert(true, _.isObject(o));
+          assert(true, _.isObject(o.headers));
+          assert(true, _.isString(o.hostname));
+          assert(true, _.isNumber(o.port));
+          assert("POST", o.method);
+          done();
+        });
+      });
 
-  describe('#docinfo(mp, docid)', function(){
-    it('should return the docinfo path', function(){
-      var o = net.docinfo("test");
-      assert(o.path, "/"+deflt.database.name + "/_design/dbmp/_show/test");
+      it('should return a relay con-object  \wo mp', function(done){
+        net.relay(function(err, o){
+          assert(true, _.isObject(o));
+          assert(true, _.isObject(o.headers));
+          assert(true, _.isString(o.hostname));
+          assert(true, _.isNumber(o.port));
+          assert("POST", o.method);
+          done();
+        });
+      });
     });
 
-    it('should return the docinfo path \wo mp', function(){
-      var o = net.docinfo("test");
-      assert(o.path, "/"+deflt.database.name + "/_design/dbmp/_show/test");
+    describe('#wrtdoc(docid)', function(){
+      it('should return the write url', function(done){
+        net.wrtdoc("test", function(err, o){
+          assert(o.path, "/"+defaults.database.name + "/test");
+          done();
+        });
+      });
     });
-  });
-
-  describe('#relay(mp)', function(){
-    it('should return a relay con-object', function(){
-      var o = net.relay();
-      assert(true, _.isObject(o));
-      assert(true, _.isObject(o.headers));
-      assert(true, _.isString(o.hostname));
-      assert(true, _.isNumber(o.port));
-      assert("POST", o.method);
-    });
-
-    it('should return a relay con-object  \wo mp', function(){
-      var o = net.relay();
-      assert(true, _.isObject(o));
-      assert(true, _.isObject(o.headers));
-      assert(true, _.isString(o.hostname));
-      assert(true, _.isNumber(o.port));
-      assert("POST", o.method);
-    });
-  });
-
-  describe('#wrtdoc(docid)', function(){
-    it('should return the write url', function(){
-      var o = net.wrtdoc("test");
-      assert(o.path, "/"+deflt.database.name + "/test");
-    });
-  });
-
+  }); // defaults
 });

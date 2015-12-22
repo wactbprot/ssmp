@@ -1,7 +1,7 @@
 var assert = require("assert")
   , _      = require("underscore")
   , load   = require("../lib/load")
-  , deflt  = require("../lib/default")
+  , conf   = require("../lib/conf")
 
 describe('load', function(){
   describe('#expand_task(def, cal)', function(){
@@ -32,7 +32,7 @@ describe('load', function(){
       assert.equal(1,   a[1][0].Replace["@a"]);
       assert.equal(2,   a[1][0].Replace["@b"]);
       done()
-    })
+    });
 
     it('should work with a String as Taskname', function(done){
       var d1 = {"TaskName":"A",

@@ -2,8 +2,8 @@ var assert = require("assert"),
     _      = require("underscore"),
     utils  = require("../lib/utils"),
     net    = require("../lib/net"),
-    deflt  = require("../lib/default"),
-    ctrlstr  = deflt.ctrlStr;
+    conf   = require("../lib/conf"),
+    ctrlstr  = conf.ctrlStr;
 
 describe('utils', function(){
   describe('#replace_all(inObj, replObj, cb)', function(){

@@ -2,15 +2,15 @@ var assert   = require("assert")
   , _        = require("underscore")
   , ndata    = require("ndata")
   , worker   = require("../lib/worker")
-  , deflt    = require("../lib/default")
+  , conf    = require("../lib/conf")
   , exchpath = ["test","exchange"]
   , mem
   , ds
 
 describe('worker', function(){
   before(function(done){
-    ds = ndata.createServer({port: deflt.mem.port}).on('ready', function(){
-           mem  = ndata.createClient({port: deflt.mem.port});
+    ds = ndata.createServer({port: conf.mem.port}).on('ready', function(){
+           mem  = ndata.createClient({port: conf.mem.port});
            mem.set(exchpath.concat(["a"]), {Value:"ok",
                                             Ready:"true"}
                   , function(){

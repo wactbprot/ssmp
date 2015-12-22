@@ -1,15 +1,15 @@
 var assert = require("assert")
   , _      = require("underscore")
   , ndata  = require("ndata")
-  , deflt  = require("../lib/default")
+  , conf   = require("../lib/conf")
   , meth
   , mem
   , ds
 
 describe('http-methods', function(){
   before(function(done){
-    ds = ndata.createServer({port: deflt.mem.port}).on('ready', function(){
-           mem  = ndata.createClient({port: deflt.mem.port})
+    ds = ndata.createServer({port: conf.mem.port}).on('ready', function(){
+           mem  = ndata.createClient({port: conf.mem.port})
            meth = require("../api/methods")
            done();
          });

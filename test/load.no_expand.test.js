@@ -1,7 +1,7 @@
 var assert = require("assert")
   , _      = require("underscore")
   , load   = require("../lib/load")
-  , deflt  = require("../lib/default");
+  , conf   = require("../lib/conf");
 
 describe('load', function(){
   describe('#expand_task(def, cal)', function(){

@@ -23,6 +23,7 @@ require("../lib/utils.queryCd.js");
 require("../lib/utils.writeToExchange.js");
 
 require("../lib/default");
+require("../lib/conf");
 require("../lib/net");
 
 require("../lib/worker");

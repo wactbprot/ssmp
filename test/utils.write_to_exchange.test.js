@@ -1,15 +1,15 @@
 var _        = require("underscore")
   , assert   = require("assert")
   , ndata    = require("ndata")
-  , deflt    = require("../lib/default")
+  , conf     = require("../lib/conf")
   , utils
   , ds
   , mem
 
 describe('utils', function(){
   before(function(done){
-    ds = ndata.createServer({port: deflt.mem.port}).on('ready', function(){
-           mem  = ndata.createClient({port: deflt.mem.port})
+    ds = ndata.createServer({port: conf.mem.port}).on('ready', function(){
+           mem  = ndata.createClient({port: conf.mem.port})
            utils    = require("../lib/utils")
            done();
          });
