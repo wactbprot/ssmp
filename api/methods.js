@@ -2,13 +2,13 @@ var _        = require("underscore")
   , bunyan   = require("bunyan")
   , clone    = require("clone")
   , ndata    = require("ndata")
-  , deflt    = require("../lib/default")
-  , log      = bunyan.createLogger({name: deflt.app.name + ".http.methods"})
-  , ctrlstr  = deflt.ctrlStr
+  , conf     = require("../lib/conf")
+  , log      = bunyan.createLogger({name: conf.app.name + ".http.methods"})
+  , ctrlstr  = conf.ctrlStr
   , ok       = {ok:true}
   , err;
 
-var mem = ndata.createClient({port: deflt.mem.port});
+var mem = ndata.createClient({port: conf.mem.port});
 
 /**
  * Listet alle geladenen mps

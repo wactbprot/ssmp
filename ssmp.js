@@ -2,8 +2,7 @@ var ssmp = function(){
   var ndata   = require("ndata")
     , prog    = require("commander")
     , _       = require("underscore")
-    , conf   = require("./lib/conf")
-
+    , conf    = require("./lib/conf")
     , bunyan  = require("bunyan")
     , logStrm = require("bunyan-couchdb-stream")
     , ok      = {ok:true};
@@ -17,7 +16,7 @@ var ssmp = function(){
 
   ndata.createServer({port: conf.mem.port}).on('ready', function(){
     var mem        = ndata.createClient({port: conf.mem.port});
-    var defaults   = require("./lib/defaults")
+    var defaults   = require("./lib/default")
 
     if(prog.relay){
       defaults.relay.server = prog.relay;
@@ -57,7 +56,7 @@ var ssmp = function(){
               , "\n"
               + ".....................................\n"
               + "ssmp data server up and running @"
-              + d.mem.port +"\n"
+              + conf.mem.port +"\n"
               + ".....................................\n"
               );
 

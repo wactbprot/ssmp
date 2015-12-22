@@ -1,14 +1,18 @@
-var name     = "info"
-  , hc       = require("./template")
-  , bunyan   = require("bunyan")
-  , deflt    = require("../lib/default")
-  , utils    = require("../lib/utils")
-  , log      = bunyan.createLogger({name: name});
+var name    = "info"
+  , hc      = require("./template")
+  , bunyan  = require("bunyan")
+  , ndata   = require("ndata")
+  , conf    = require("../lib/conf")
+  , utils   = require("../lib/utils")
+  , log     = bunyan.createLogger({name: name})
+  , mem     = ndata.createClient({port: conf.mem.port});
 
 var defaults  = function(cb){
   log.info({ok:true}
           , "try generating defaults template");
-  cb(hc["defaults"]({default : deflt}));
+  mem.get(["defaults"], function(err, defaults){
+    cb(hc["defaults"]({default : defaults}));
+  });
 };
 exports.defaults = defaults;
 
@@ -33,6 +37,8 @@ exports.index = index;
 var pubsub  = function(cb){
   log.info({ok:true}
           , "try generating defaults template");
-  cb(hc["pubsub"]({default : deflt}));
+  mem.get(["defaults"], function(err, defaults){
+    cb(hc["pubsub"]({default : defaults}));
+  });
 };
 exports.pubsub = pubsub;

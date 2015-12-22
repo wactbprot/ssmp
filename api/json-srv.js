@@ -9,17 +9,18 @@
  * welcher die _REST_-Api des _ssmp_ zur Verfügung stellt.
  *
  */
-module.exports  = function(conf, cb, test) {
+module.exports  = function(defaults, cb, test) {
   var _       = require("underscore")
     , prog    = require("commander")
     , restify = require("restify")
     , bunyan  = require("bunyan")
     , ndata   = require("ndata")
-    , deflt   = require("../lib/default")
+    , conf    = require("../lib/conf")
     , meth    = require("./methods")
-    , log     = bunyan.createLogger({name: deflt.app.name + ".http"})
-    , server  = restify.createServer({name: deflt.app.name})
-    , ok = {ok: true};
+    , ok      = {ok: true}
+    , log     = bunyan.createLogger({name: conf.app.name + ".http"})
+    , server  = restify.createServer({name: conf.app.name})
+
 
   server.pre(restify.pre.sanitizePath());
   server.use(restify.queryParser());
@@ -254,12 +255,12 @@ module.exports  = function(conf, cb, test) {
   // --- go!---
   //
   if(!test){
-    server.listen(conf.http.port, function() {
+    server.listen(defaults.http.port, function() {
       log.info(ok
               , "\n"
               + "`````````````````````````````\n"
               + "json api up and running @"
-              + conf.http.port +"\n"
+              + defaults.http.port +"\n"
               + "`````````````````````````````\n"
               );
       if(_.isFunction(cb)){

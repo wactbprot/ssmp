@@ -1,7 +1,7 @@
 /**
  * serves infos about thr running system
  */
-var info_srv = function(conf, cb) {
+var info_srv = function(defaults, cb) {
   var name     = "info"
     , ok       = {ok: true}
     , _        = require("underscore")
@@ -10,13 +10,14 @@ var info_srv = function(conf, cb) {
     , bunyan   = require("bunyan")
     , ndata    = require("ndata")
     , get      = require("./get")
+    , conf     = require("../lib/conf")
     , log      = bunyan.createLogger({name: name})
     , server   = restify.createServer({name: name})
     , io       = require('socket.io')({pingInterval: 100,
                                        pingTimeout: 200})
     , mem      = ndata.createClient({port: conf.mem.port});
 
-  io.listen(conf.io.port);
+  io.listen(defaults.io.port);
 
   server.pre(restify.pre.sanitizePath());
   server.use(restify.queryParser());
@@ -171,12 +172,12 @@ var info_srv = function(conf, cb) {
   //
   // --- go!---
   //
-  server.listen(conf.info.port, function() {
+  server.listen(defaults.info.port, function() {
     log.info(ok
             , "\n"
             + ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"
             + "info system up and running @"
-            + conf.info.port +"\n"
+            + defaults.info.port +"\n"
             + ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"
             );
     if(_.isFunction(cb)){
