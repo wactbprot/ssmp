@@ -18,7 +18,10 @@ module.exports  = function(defaults, cb, test) {
     , conf    = require("../lib/conf")
     , meth    = require("./methods")
     , ok      = {ok: true}
-    , log     = bunyan.createLogger({name: conf.app.name + ".http"})
+    , log     = bunyan.createLogger({name: conf.app.name + ".observe",
+                                     streams: conf.log.streams
+                                     })
+    , mem     = ndata.createClient({port: conf.mem.port})
     , server  = restify.createServer({name: conf.app.name})
 
 
@@ -30,7 +33,7 @@ module.exports  = function(defaults, cb, test) {
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     return next();
   });
-  var mem = ndata.createClient({port: conf.mem.port});
+
 
   /**
    * __GET__
@@ -255,18 +258,20 @@ module.exports  = function(defaults, cb, test) {
   // --- go!---
   //
   if(!test){
-    server.listen(defaults.http.port, function() {
-      log.info(ok
-              , "\n"
-              + "`````````````````````````````\n"
-              + "json api up and running @"
-              + defaults.http.port +"\n"
-              + "`````````````````````````````\n"
-              );
-      if(_.isFunction(cb)){
-        cb(null, ok);
-      }
-    });
+    mem.get(["defaults"], function(err, defaults){
+      server.listen(defaults.http.port, function() {
+        log.info(ok
+                , "\n"
+                + "`````````````````````````````\n"
+                + "json api up and running @"
+                + defaults.http.port +"\n"
+                + "`````````````````````````````\n"
+                );
+        if(_.isFunction(cb)){
+          cb(null, ok);
+        }
+      });
+    });// defaults
   }else{
     if(_.isFunction(cb)){
       cb(null, ok);

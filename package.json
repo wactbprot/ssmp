@@ -19,14 +19,15 @@
         "ndata": ">=2.8.3",
         "handlebars": ">=1.3.0"
     },
-    "scripts": {
-        "mpshell": "bin/mpsh",
-        "doc": "dox-foundation --source ./ --target doc/ --ignore coverage,test,node_modules -t ssmp",
-        "mem": "bin/mem | bunyan  -o short",
-        "start": "bin/start | bunyan  -o short",
-        "all-dev": "npm test && npm run doc",
-	"test": "mocha | bunyan -l 100",
-	"cover":"istanbul cover _mocha -- -R spec | bunyan -l 100"
+  "scripts": {
+    "mpshell": "bin/mpsh",
+    "doc": "dox-foundation --source ./ --target doc/ --ignore coverage,test,node_modules -t ssmp",
+    "start-server":"node ssmp-server.js | bunyan  -o short &",
+    "start-clients":"node ssmp-clients.js | bunyan  -o short &",
+    "start": "npm run start-server; npm run start-clients",
+    "all-dev": "npm test && npm run doc",
+	  "test": "mocha | bunyan -l 100",
+	  "cover":"istanbul cover _mocha -- -R spec | bunyan -l 100"
     },
     "devDependencies": {
         "dox-foundation": ">=0.5.6",

@@ -1,5 +1,0 @@
-#!/bin/sh
-#no_proxy=localhost
-#export no_proxy
-bin/logdb
-bin/ssmp "$0" "$@"
