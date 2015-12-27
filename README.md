@@ -103,7 +103,7 @@ $> npm install
 
 Nach der Installation sind folgende Schritte abzuarbeiten:
 
-1.  Starten des Servers
+1.  Starten von server, client, api und evtl. info-System
 2.  Laden des MP (s. auch ```--load``` Startoption)
 3.  Bekanntgeben der KD (optional)
 4.  Laden der MP-Abläufe (in einem, mehreren oder allen containern)
@@ -129,8 +129,8 @@ werden.
 Aufgrund des modularen Aufbaus des Systems werden eine Reihe von
 Serverprozessen an folgenden *Ports* gestartet:
 
-* 8001: [json-api](http://localhost:8001/) 
-* 8003: [Info-System](http://localhost:8003/)
+* 8001: [api](http://localhost:8001/) 
+* 8003: [info](http://localhost:8003/)
 * 9000: Datenserver (intern)
 * 8004: Websocket
 

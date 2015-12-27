@@ -8,7 +8,7 @@
     , log      = bunyan.createLogger({name: conf.app.name + ".server",
                                       streams: conf.log.streams
                                      })
-    , server =  ndata.createServer({port: conf.mem.port});
+    , server   =  ndata.createServer({port: conf.mem.port});
 
   prog.version("0.7.0")
   .option("-r, --relay <server>", "name of relay server (default is localhost)")
@@ -23,7 +23,6 @@
     defaults.database.server = prog.database;
   }
 
-
   server.on('ready', function(){
     var mem  = ndata.createClient({port: conf.mem.port})
     log.info(ok
@@ -33,12 +32,45 @@
             + conf.mem.port +"\n"
             + ".....................................\n"
             );
+      mem.subscribe("load_mp", function(err){
+        mem.subscribe("get_cd", function(err){
+          mem.subscribe("rm_cd", function(err){
+            mem.subscribe("load", function (err){
+              mem.subscribe("get_mp", function(err){
+                mem.subscribe("rm_mp", function(err){
+                  mem.subscribe("stop_all_container_obs", function (err){
+                    mem.subscribe("start_container_obs", function (err){
+                      mem.subscribe("stop_container_obs", function (err){
+                        mem.subscribe("executed", function (err){
+                          mem.subscribe(conf.ctrlStr.stop, function (err){
+                            mem.subscribe(conf.ctrlStr.run, function (err){
+                              mem.subscribe(conf.ctrlStr.exec, function (err){
+                                log.trace(ok
+                                         , "channel subscription");
+
+                              });
+                            });
+                          });
+                        });
+                      });
+                    });
+                  });
+                });
+              });
+            });
+          });
+        });
+      });
+
+    mem.on('message',function (ch, val){
+      log.trace(val
+               , "on channel: " + ch);
+    });
+
     mem.set(["defaults"], defaults, function(err){
-      log.info(ok
-              , "set defaults");
+      log.trace(ok
+               , "set defaults");
+
     }); // set defaults
   });
-  // http://stackoverflow.com/questions/23622051/how-to-forcibly-keep-a-node-js-process-from-terminating
-  // require('net').createServer().listen();
-  // process.stdin.resume();
 })()
