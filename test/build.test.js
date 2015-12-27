@@ -12,18 +12,11 @@ var assert   = require("assert")
 
 describe('build', function(){
   before(function(done){
-    ds = ndata.createServer({port: conf.mem.port}).on('ready', function(){
-           mem  = ndata.createClient({port: conf.mem.port});
-           mem.set(exchpath, exobj, function(err){
-             build    = require("../lib/build");
-             done();
-           });
-         });
-  });
-
-  after(function(done){
-    ds.destroy();
-    done();
+    mem  = ndata.createClient({port: conf.mem.port});
+    mem.set(exchpath, exobj, function(err){
+      build    = require("../lib/build");
+      done();
+    });
   });
 
   describe('#ini()', function(){

@@ -8,20 +8,12 @@ var _        = require("underscore")
 
 describe('utils', function(){
   before(function(done){
-    ds = ndata.createServer({port: conf.mem.port}).on('ready', function(){
-           mem  = ndata.createClient({port: conf.mem.port})
-           utils    = require("../lib/utils")
-           done();
-         });
-  });
-
-  after(function(done){
-    ds.destroy();
+    mem  = ndata.createClient({port: conf.mem.port})
+    utils    = require("../lib/utils")
     done();
   });
 
   describe('#write_to_exchange', function(){
-
     it('should answer with an error on missing data source', function(done){
       var task  = {Path:["check"]}
         , data  = {}
@@ -32,8 +24,8 @@ describe('utils', function(){
     });
 
     it('should write to exchange if task has ExchangePath', function(done){
-      var task   = {"ExchangePath": "test",
-                    Path:["check"]}
+      var task = {"ExchangePath": "test",
+                  Path:["check"]}
         , data  = {"value":true}
       utils.write_to_exchange(task, data, function(err, res){
         assert.equal(res.ok, true);

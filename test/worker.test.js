@@ -2,39 +2,32 @@ var assert   = require("assert")
   , _        = require("underscore")
   , ndata    = require("ndata")
   , worker   = require("../lib/worker")
-  , conf    = require("../lib/conf")
+  , conf     = require("../lib/conf")
   , exchpath = ["test","exchange"]
   , mem
   , ds
 
 describe('worker', function(){
   before(function(done){
-    ds = ndata.createServer({port: conf.mem.port}).on('ready', function(){
-           mem  = ndata.createClient({port: conf.mem.port});
-           mem.set(exchpath.concat(["a"]), {Value:"ok",
-                                            Ready:"true"}
-                  , function(){
-                      mem.set(exchpath.concat(["b"]), {Value:1,
-                                                       Unit:"mbar",
-                                                       Ready:true}
-                             , function(){
-                                 mem.set(exchpath.concat(["c"]),{Wrong:"nope"}
-                                        , function(){
-                                            mem.set(exchpath.concat(["d"]), {Value:1,
-                                                                             Ready:true}
-                                                   , function(){
-                                                       worker = require("../lib/worker")
-                                                       done();
-                                                     });
-                                          });
-                               });
-                    });
-         });
-  });
-
-  after(function(done){
-    ds.destroy();
-    done();
+    mem  = ndata.createClient({port: conf.mem.port});
+    mem.set(exchpath.concat(["a"]), {Value:"ok",
+                                     Ready:"true"}
+           , function(){
+               mem.set(exchpath.concat(["b"]), {Value:1,
+                                                Unit:"mbar",
+                                                Ready:true}
+                      , function(){
+                          mem.set(exchpath.concat(["c"]),{Wrong:"nope"}
+                                 , function(){
+                                     mem.set(exchpath.concat(["d"]), {Value:1,
+                                                                      Ready:true}
+                                            , function(){
+                                                worker = require("../lib/worker")
+                                                done();
+                                              });
+                                   });
+                        });
+             });
   });
 
   describe('#readExchange(task, cb)', function(){

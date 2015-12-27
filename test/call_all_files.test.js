@@ -44,4 +44,3 @@ require("../lib/observe");
 require("../lib/request");
 
 require("../api/methods")
-require("../api/json-srv")

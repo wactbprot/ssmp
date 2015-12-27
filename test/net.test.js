@@ -8,9 +8,10 @@ var assert = require("assert")
 
 describe('net', function(){
   mem.get(["defaults"], function(err, defaults){
+
     describe('#task(mp)', function(){
       it('should return the task path', function(done){
-        net.task(function(err, o){
+        net.task(null, function(err, o){
           assert.equal( o.path
                       , "/"+ defaults.database.name
                       + "/_design/dbmp/_list/gettask/tasks");
@@ -20,7 +21,7 @@ describe('net', function(){
     });
     describe('#task()', function(){
       it('should return the task path \wo mp', function(done){
-        net.task(function(err, o){
+        net.task(null, function(err, o){
           assert.equal(o.path
                       , "/"+defaults.database.name
                       + "/_design/dbmp/_list/gettask/tasks");

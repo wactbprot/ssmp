@@ -8,20 +8,12 @@ var assert = require("assert")
 
 describe('http-methods', function(){
   before(function(done){
-    ds = ndata.createServer({port: conf.mem.port}).on('ready', function(){
-           mem  = ndata.createClient({port: conf.mem.port})
-           meth = require("../api/methods")
-           done();
-         });
-  });
-
-  after(function(done){
-    ds.destroy();
+    mem  = ndata.createClient({port: conf.mem.port})
+    meth = require("../api/methods")
     done();
   });
 
   describe('#get_path(req)', function(){
-
     it('should return error object on missing params', function(done){
       meth.get_path({}, function(err, res){
         assert.equal(err.message,"unvalid request object");
@@ -138,7 +130,7 @@ describe('http-methods', function(){
     });
 
     it('should return error object on missing value', function(done){
-      meth.get({params:{id:"test"}}, function(err, res){
+      meth.get({params:{id:"foo"}}, function(err, res){
         assert.equal(err.message,"object is undefined");
         done();
       });
@@ -180,7 +172,7 @@ describe('http-methods', function(){
 
       it('should put value', function(done){
         meth.put({params:{id:"test"}, body:{test:true}}, function(err, res){
-          assert.equal(res.ok,     true);
+          assert.equal(res.ok, true);
           done();
         });
       });

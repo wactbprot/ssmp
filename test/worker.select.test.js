@@ -1,7 +1,7 @@
 var _        = require("underscore")
   , assert   = require("assert")
   , ndata    = require("ndata")
-  , deflt    = require("../lib/default")
+  , conf     = require("../lib/conf")
   , ds
   , mem
   , worker   = {}
@@ -43,28 +43,20 @@ var _        = require("underscore")
 
 describe('worker', function(){
   before(function(done){
-    ds = ndata.createServer({port: deflt.mem.port}).on('ready', function(){
-           mem  = ndata.createClient({port: deflt.mem.port});
-           mem.set(path_a, 1, function(){
-             mem.set(path_b, 3, function(){
-               mem.set(path_def, def, function(){
+    mem  = ndata.createClient({port: conf.mem.port});
+    mem.set(path_a, 1, function(){
+      mem.set(path_b, 3, function(){
+        mem.set(path_def, def, function(){
 
-                 worker.select = require("../lib/worker.select")
+          worker.select = require("../lib/worker.select")
 
-                 done();
-               });
-             });
-           });
-         });
-  });
-
-  after(function(done){
-    ds.destroy();
-    done();
+          done();
+        });
+      });
+    });
   });
 
   describe('#select(task, cb)', function(){
-
     it('should find predefined value below path a ', function(done){
       mem.get(path_a, function(err,val){
         assert.equal(val, val_a)

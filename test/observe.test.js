@@ -1,8 +1,8 @@
 var assert   = require("assert")
   , _        = require("underscore")
   , ndata    = require("ndata")
-  , deflt    = require("../lib/default")
-  , cstr     = deflt.ctrlStr
+  , conf     = require("../lib/conf")
+  , cstr     = conf.ctrlStr
   , exchpath = ["test","exchange"]
   , exobj    = {a:{b:{c:"test_val"}},
                 d:{e:{f:"test_val"}}}
@@ -12,18 +12,11 @@ var assert   = require("assert")
 
 describe('observe', function(){
   before(function(done){
-    ds = ndata.createServer({port: deflt.mem.port}).on('ready', function(){
-           mem  = ndata.createClient({port: deflt.mem.port});
-           mem.set(exchpath, exobj, function(err){
-             observe    = require("../lib/observe");
-             done();
-           });
-         });
-  });
-
-  after(function(done){
-    ds.destroy();
-    done();
+    mem  = ndata.createClient({port: conf.mem.port});
+    mem.set(exchpath, exobj, function(err){
+      observe    = require("../lib/observe");
+      done();
+    });
   });
 
   describe('#ini()', function(){
@@ -278,5 +271,4 @@ describe('observe', function(){
       assert.equal("", observe.cmd_to_array("")[0]);
     })
   })
-
 });

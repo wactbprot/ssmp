@@ -6,24 +6,16 @@ var assert = require("assert")
   , ds
   , load
 
-
 describe('load', function(){
   before(function(done){
-    ds = ndata.createServer({port: conf.mem.port}).on('ready', function(){
-           mem  = ndata.createClient({port: conf.mem.port});
-           load    = require("../lib/load");
+    mem  = ndata.createClient({port: conf.mem.port});
+    load    = require("../lib/load");
 
-           load.ini(function(){
-             done();
-           });
-         });
-  });
-
-  after(function(done){
-      ds.destroy();
+    load.ini(function(){
       done();
-  });
+    });
 
+  });
 
   describe('#ini()', function(){
     it('should start', function(done){

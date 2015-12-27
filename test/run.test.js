@@ -1,32 +1,25 @@
-var assert   = require("assert")
-, _        = require("underscore")
-, ndata    = require("ndata")
-, deflt    = require("../lib/default")
-, cstr     = deflt.ctrlStr
-, exchpath = ["test","exchange"]
-, exobj    = {a:{b:{c:"test_val"}},
-              d:{e:{f:"test_val"}},
-	      g:{h:{i:0}},
-              j:{k:{l:false}}}
+var assert = require("assert")
+  , _        = require("underscore")
+  , ndata    = require("ndata")
+  , conf     = require("../lib/conf")
+  , cstr     = conf.ctrlStr
+  , exchpath = ["test","exchange"]
+  , exobj    = {a:{b:{c:"test_val"}},
+                d:{e:{f:"test_val"}},
+	              g:{h:{i:0}},
+                j:{k:{l:false}}}
 
-, mem
-, run
-, ds
+  , mem
+  , run
+  , ds
 
 describe('run', function(){
   before(function(done){
-    ds = ndata.createServer({port: deflt.mem.port}).on('ready', function(){
-           mem  = ndata.createClient({port: deflt.mem.port});
-           mem.set(exchpath, exobj, function(err){
-             run    = require("../lib/run");
-             done();
-           });
-         });
-  });
-
-  after(function(done){
-    ds.destroy();
-    done();
+    mem  = ndata.createClient({port: conf.mem.port});
+    mem.set(exchpath, exobj, function(err){
+      run    = require("../lib/run");
+      done();
+    });
   });
 
   describe('#stop_if()', function(){
