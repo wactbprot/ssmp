@@ -3,7 +3,7 @@ var _        = require("underscore")
   , clone    = require("clone")
   , ndata    = require("ndata")
   , conf     = require("../lib/conf")
-  , log      = bunyan.createLogger({name: conf.app.name + ".http.methods"})
+  , log      = bunyan.createLogger({name: conf.app.name + ".api.methods"})
   , ctrlstr  = conf.ctrlStr
   , ok       = {ok:true}
   , err;
@@ -25,6 +25,7 @@ var home = function(req, cb){
   });
 }
 exports.home = home;
+
 /**
  * Funktion veranlasst laden und löschen der mp-
  * Dokumente.
