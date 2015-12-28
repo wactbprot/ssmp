@@ -10,10 +10,9 @@
                                        streams: conf.log.streams
                                       });
 
-  prog.version("0.7.0")
+  prog.version("0.1.0")
   .option("-l, --load <mpid>", "the id of an mp-definition to load on start")
   .parse(process.argv);
-
 
   // call to start ndata clients
   var load     = require("./lib/load")

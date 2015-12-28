@@ -10,7 +10,7 @@
                                      })
     , server   =  ndata.createServer({port: conf.mem.port});
 
-  prog.version("0.7.0")
+  prog.version("0.1.0")
   .option("-r, --relay <server>", "name of relay server (default is localhost)")
   .option("-d, --database <server>", "name of database server (default is localhost)")
   .parse(process.argv);
