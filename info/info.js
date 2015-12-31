@@ -11,11 +11,11 @@
     , ndata    = require("ndata")
     , get      = require("./get")
     , conf     = require("../lib/conf")
-    , log      = bunyan.createLogger({name: conf.app.name + ".info",
+    , log      = bunyan.createLogger({name: conf.app.name + "." + name,
                                       streams: conf.log.streams
                                      })
     , mem      = ndata.createClient({port: conf.mem.port})
-    , server   = restify.createServer({name: conf.app.name + ".info"})
+    , server   = restify.createServer({name: conf.app.name + "." + name})
 
   mem.get(["defaults"], function(err, defaults){
     var io       = require('socket.io')({pingInterval: defaults.io.intervall,
@@ -178,10 +178,10 @@
     server.listen(defaults.info.port, function() {
       log.info(ok
               , "\n"
-              + ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"
-              + "info system up and running @"
-              + defaults.info.port +"\n"
-              + ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"
+              + ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"
+              + "info system up and running:\n"
+              + "http://localhost:" + defaults.info.port +"\n"
+              + ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"
               );
     });
   }); // defaults

@@ -110,19 +110,29 @@ Nach der Installation sind folgende Schritte abzuarbeiten:
 5.  Starten des MP (in einem, mehreren oder allen containern)
 
 
-##  Starten des Servers
+##  Starten des Server/Clients
 
-__ssmp__ wird durch den Aufruf ```bin/ssmp``` gestartet.
+__ssmp__ server wird durch den Aufruf ```bin/ssmp-server``` gestartet.
 
 Schöner formatierte logs bekommt man mit:
 
 ```
-$> npm run ssmp
+$> npm run server
+```
+Das Starten der clients (```load```, ```build```, ```run```, ```observe```, ...)
+geschieht mittels:
+
+```
+$> npm run clients
 ```
 
-Mit ```bin/ssmp -l mpid``` bzw. ```bin/ssmp --load mpid``` wird das MP mit der
+Mit ```bin/clients -l mpid``` bzw. ```bin/clients --load mpid``` wird das MP mit der
 id mpid gleich geladen; es kann so Punkt 2 des Gesamtablaufes übersprungen
-werden. 
+werden. Bsp.:
+
+```
+$> bin/clients -l mpd-check | bunyan -l trace
+```
  
 ## Ports
 
@@ -287,14 +297,33 @@ zurückzubebenden Objektes (```x```) ab:
 * ist die url unzulässig liefert eine Anfrage
   ```{"code":"MethodNotAllowedError","message":"GET is not allowed"}```
 
-## Unit tests/ code coverage
+## unit tests/ code coverage
 
-Bei unit tests werden Ergebnisse, die kleine Programmteile
+Bei __unit tests__ werden Ergebnisse, die kleine Programmteile
 (units) bei Ausführung liefern, mit Sollergebnissen verglichen.
+
+```
+$> cd ssmp
+$> npm run server
+```
+In einem 2. Terminal:
 
 ```
 $> cd ssmp
 $> npm test
 ```
-Die Ausgabe der Testergebnisse geschieht auf der Konsole;
-im Verzeichnis ```ssmp/coverage``` werden html-Dateien erzeugt.
+
+code coverage
+
+Die Abdeckung des codes durch die unit tests, die __code coverage__, kann mit:
+
+```
+$> cd ssmp
+$> npm run cover 
+```
+überprüft werden.
+
+```
+$> cd ssmp
+$>  firefox coverage/lcov-report/index.html
+```
