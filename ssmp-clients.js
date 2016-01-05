@@ -1,3 +1,6 @@
+/**
+ * The ssmp clients.
+ */
 (function(){
   var ndata     = require("ndata")
     , _         = require("underscore")
@@ -10,7 +13,7 @@
                                        streams: conf.log.streams
                                       });
 
-  prog.version("0.1.0")
+  prog.version("0.7.1")
   .option("-l, --load <mpid>", "the id of an mp-definition to load on start")
   .parse(process.argv);
 

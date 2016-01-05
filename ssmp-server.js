@@ -1,3 +1,6 @@
+/**
+ * The ssmp data server.
+ */
 (function(){
   var ndata    = require("ndata")
     , bunyan   = require("bunyan")
@@ -10,7 +13,7 @@
                                      })
     , server   =  ndata.createServer({port: conf.mem.port});
 
-  prog.version("0.1.0")
+  prog.version("0.7.1")
   .option("-r, --relay <server>", "name of relay server (default is localhost)")
   .option("-d, --database <server>", "name of database server (default is localhost)")
   .parse(process.argv);
@@ -32,23 +35,22 @@
             + conf.mem.port +"\n"
             + ".....................................\n"
             );
-      mem.subscribe("load_mp", function(err){
-        mem.subscribe("get_cd", function(err){
-          mem.subscribe("rm_cd", function(err){
-            mem.subscribe("load", function (err){
-              mem.subscribe("get_mp", function(err){
-                mem.subscribe("rm_mp", function(err){
-                  mem.subscribe("stop_all_container_obs", function (err){
-                    mem.subscribe("start_container_obs", function (err){
-                      mem.subscribe("stop_container_obs", function (err){
-                        mem.subscribe("executed", function (err){
-                          mem.subscribe(conf.ctrlStr.stop, function (err){
-                            mem.subscribe(conf.ctrlStr.run, function (err){
-                              mem.subscribe(conf.ctrlStr.exec, function (err){
-                                log.trace(ok
-                                         , "channel subscription");
+    mem.subscribe("load_mp", function(err){
+      mem.subscribe("get_cd", function(err){
+        mem.subscribe("rm_cd", function(err){
+          mem.subscribe("get_mp", function(err){
+            mem.subscribe("rm_mp", function(err){
+              mem.subscribe("stop_all_container_obs", function (err){
+                mem.subscribe("start_container_obs", function (err){
+                  mem.subscribe("stop_container_obs", function (err){
+                    mem.subscribe(conf.ctrlStr.exec, function (err){
+                      mem.subscribe(conf.ctrlStr.load, function (err){
+                        mem.subscribe(conf.ctrlStr.stop, function (err){
+                          mem.subscribe(conf.ctrlStr.run, function (err){
+                            mem.subscribe(conf.ctrlStr.exec, function (err){
+                              log.trace(ok
+                                       , "channel subscription");
 
-                              });
                             });
                           });
                         });
@@ -61,6 +63,7 @@
           });
         });
       });
+    });
 
     mem.on('message',function (ch, val){
       log.trace(val

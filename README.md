@@ -4,10 +4,9 @@
 |___|___|_|_|_|  _|
               |_|
 ```
-server side mp
+server side measurement program
 --------------
 
-__ssmp__ steht für  server side measurement program.
 
 __ssmp__  führt vordefinierte Abläufe (_recipes_) aus. Diese recipes
 werden in Bereichen (_container_) bereitgestellt. Recipes bestehen
@@ -59,8 +58,8 @@ wichtig sind hierbei die Endpunkte ```/ctrl``` und ```/exchange```.
 
 ## Abkürzungen
 
-* ssmp ... server side MP
 * MP ... Messprogramm
+* ssmp ... server side MP
 * KD ... Kalibrierdokument
 * mpid ... Datenbank-id der MP-Definition (json-Dokument)
 * kdid ... Datenbank-id des KD-Dokuments (json-Dokument)
@@ -112,7 +111,7 @@ Nach der Installation sind folgende Schritte abzuarbeiten:
 
 ##  Starten des Server/Clients
 
-__ssmp__ server wird durch den Aufruf ```bin/ssmp-server``` gestartet.
+__ssmp server__ wird durch den Aufruf ```bin/ssmp-server``` gestartet.
 
 Schöner formatierte logs bekommt man mit:
 
@@ -134,7 +133,20 @@ werden. Bsp.:
 $> bin/clients -l mpd-check | bunyan -l trace
 ```
  
-## Ports
+Letztlich sollte noch die http-Schnittstelle gestartet werden:
+
+```
+$> npm run api
+```
+
+Optional kann  das zur Verfügung stehende Infosystem gestartet werden:
+
+```
+$> npm run info
+```
+
+
+## Ports/Adressen
 
 Aufgrund des modularen Aufbaus des Systems werden eine Reihe von
 Serverprozessen an folgenden *Ports* gestartet:
@@ -207,7 +219,7 @@ mp_id- -i mpid -d cdid
 mp_id -i mpid 
 ```
 
-## Erstellen eines Rezepts
+## Vorbereitung der Messung
 
 Nachdem  die KD dem __ssmp__ bekannt gegeben wurden, können die konkreten
 Abläufe erstellt und geladen werden. Im Zuge dieses Prozesses wird aus der 
@@ -232,7 +244,7 @@ Mit [csmp](https://github.com/wactbprot/csmp) geht das so:
 $> bin/mp_ctrl -i mpid -c C -d load
 ```
 
-## Starten eines Rezepts
+## Starten einer Messung
 
 Das Starten des Ausführens der oben geladenen Abläufe des ```C```. containers
 geschieht über die ```ctrl``` Schnittstelle:
@@ -247,7 +259,7 @@ Die  [csmp](https://github.com/wactbprot/csmp)-Variante:
 $> bin/mp_ctrl -i mpid -c C -d run
 ```
 
-### Anhalten des MP
+### Anhalten einer Messung
 
 In gleicher Weise funktioniert Stopp
 
@@ -280,7 +292,7 @@ $> bin/mp_ctrl -i mpid -c C -d 'load;5:run,load;stop'
 was den Ablauf läd, 5 mal den Zyklus ```run``` gefolgt von ```load```
 (durch Komma getrennt) durchläuft und dann ```stop``` ausführt.
 
-## Rückgabewerte der  Exchange-Schnittstelle
+## Rückgabewerte der Exchange-Schnittstelle
 
 Das Ergebnis von _http-GET_-Anfrage hängt von der Art des
 zurückzubebenden Objektes (```x```) ab:
@@ -297,15 +309,18 @@ zurückzubebenden Objektes (```x```) ab:
 * ist die url unzulässig liefert eine Anfrage
   ```{"code":"MethodNotAllowedError","message":"GET is not allowed"}```
 
-## unit tests/ code coverage
+## unit tests/code coverage
 
 Bei __unit tests__ werden Ergebnisse, die kleine Programmteile
 (units) bei Ausführung liefern, mit Sollergebnissen verglichen.
+Viele dieser unit tests benötigen den Datenserver der vorher gestartet 
+werden muss.
 
 ```
 $> cd ssmp
 $> npm run server
 ```
+
 In einem 2. Terminal:
 
 ```
@@ -325,5 +340,5 @@ $> npm run cover
 
 ```
 $> cd ssmp
-$>  firefox coverage/lcov-report/index.html
+$> firefox coverage/lcov-report/index.html
 ```
