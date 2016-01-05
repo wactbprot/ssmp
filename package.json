@@ -21,8 +21,8 @@
   },
   "scripts": {
     "doc": "jsdoc -c ./jsdoc-conf.json -R README.md  -t ./node_modules/ink-docstrap/template/ -d jsdoc",
-    "server": "node ssmp-server.js | bunyan  -o short",
-    "clients": "node ssmp-clients.js | bunyan  -o short",
+    "server": "bin/server | bunyan  -o short",
+    "clients": "bin/clients | bunyan  -o short",
     "info":"node ./info/info.js | bunyan  -o short",
     "api":"node ./api/api.js | bunyan  -o short",
     "test": "mocha | bunyan -l 100",

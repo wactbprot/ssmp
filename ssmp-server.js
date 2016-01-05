@@ -48,9 +48,10 @@
                         mem.subscribe(conf.ctrlStr.stop, function (err){
                           mem.subscribe(conf.ctrlStr.run, function (err){
                             mem.subscribe(conf.ctrlStr.exec, function (err){
-                              log.trace(ok
-                                       , "channel subscription");
-
+                              mem.subscribe("shutdown", function (err){
+                                log.trace(ok
+                                         , "channel subscription");
+                              });
                             });
                           });
                         });
