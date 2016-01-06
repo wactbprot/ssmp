@@ -1,6 +1,6 @@
-#!/bin/sh
-":" //# comment; exec /usr/bin/env node --stack-size=2048 --noharmony "$0" "$@"
-require('look').start(3001, '127.0.0.1');
-require("../ssmp-clients")
+#!/usr/bin/env node
+// require('look').start(3001, '127.0.0.1');
+require("../ssmp-clients")();
+
 
 

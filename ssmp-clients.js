@@ -1,7 +1,7 @@
 /**
  * The ssmp clients.
  */
-(function(){
+module.exports = function(){
   var ndata     = require("ndata")
     , _         = require("underscore")
     , prog      = require("commander")
@@ -12,7 +12,6 @@
     , log       = bunyan.createLogger({name: conf.app.name + ".clients",
                                        streams: conf.log.streams
                                       });
-
   prog.version("0.7.1")
   .option("-l, --load <mpid>", "the id of an mp-definition to load on start")
   .parse(process.argv);
@@ -35,7 +34,7 @@
                 if(prog.load){
                   mem.publish("get_mp", prog.load , function(err){
                     if(!err){
-                      log.info(ok
+                      log.trace(ok
                               , " published to get_mp channel");
                     }else{
                       log.error(err
@@ -50,4 +49,4 @@
       });
     });
   }); // get defaults
-})();
+};
