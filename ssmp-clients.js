@@ -3,6 +3,7 @@
  */
 module.exports = function(){
   var ndata     = require("ndata")
+    , pj        = require("./package.json")
     , _         = require("underscore")
     , prog      = require("commander")
     , bunyan    = require("bunyan")
@@ -12,7 +13,7 @@ module.exports = function(){
     , log       = bunyan.createLogger({name: conf.app.name + ".clients",
                                        streams: conf.log.streams
                                       });
-  prog.version("0.7.1")
+  prog.version(pj.version)
   .option("-l, --load <mpid>", "the id of an mp-definition to load on start")
   .parse(process.argv);
 

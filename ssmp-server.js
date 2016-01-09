@@ -3,6 +3,7 @@
  */
 module.exports = function(){
   var ndata    = require("ndata")
+    , pj       = require("./package.json")
     , proc     = require('child_process')
     , bunyan   = require("bunyan")
     , prog     = require("commander")
@@ -13,12 +14,11 @@ module.exports = function(){
                                       streams: conf.log.streams
                                      })
     , server   =  ndata.createServer({port: conf.mem.port});
-
-  prog.version("0.7.1")
+  prog.version(pj.version)
   .option("-r, --relay <server>", "name of relay server (default is localhost)")
   .option("-d, --database <server>", "name of database server (default is localhost)")
   .parse(process.argv);
-
+  
   if(prog.relay){
     defaults.relay.server = prog.relay;
   }
