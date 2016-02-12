@@ -260,10 +260,10 @@
     server.listen(defaults.http.port, function() {
       log.info(ok
               , "\n"
-              + "..............................\n"
+              + ".......................\n"
               + "json api up and running\n"
               + "http://localhost:" + defaults.http.port +"\n"
-              + "..............................\n"
+              + ".......................\n"
               );
     });
   });// defaults

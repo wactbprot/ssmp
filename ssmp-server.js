@@ -2,7 +2,12 @@
  * The ssmp data server.
  */
 module.exports = function(){
+<<<<<<< HEAD
   var broker   = require("sc-broker")
+=======
+  var ndata    = require("ndata")
+    , pj       = require("./package.json")
+>>>>>>> 6997ac3a7a42921821f71972ee7096bfda1f0e50
     , proc     = require('child_process')
     , bunyan   = require("bunyan")
     , prog     = require("commander")
@@ -12,13 +17,18 @@ module.exports = function(){
     , log      = bunyan.createLogger({name: conf.app.name + ".server",
                                       streams: conf.log.streams
                                      })
+<<<<<<< HEAD
     , server   =  broker.createServer({port: conf.mem.port});
 
   prog.version("0.7.1")
+=======
+    , server   =  ndata.createServer({port: conf.mem.port});
+  prog.version(pj.version)
+>>>>>>> 6997ac3a7a42921821f71972ee7096bfda1f0e50
   .option("-r, --relay <server>", "name of relay server (default is localhost)")
   .option("-d, --database <server>", "name of database server (default is localhost)")
   .parse(process.argv);
-
+  
   if(prog.relay){
     defaults.relay.server = prog.relay;
   }

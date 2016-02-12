@@ -16,12 +16,13 @@
                                      })
     , mem      = broker.createClient({port: conf.mem.port})
     , server   = restify.createServer({name: conf.app.name + "." + name})
+    , ctype    = {'Content-Type': 'text/html'};
 
   mem.get(["defaults"], function(err, defaults){
-    var io       = require('socket.io')({pingInterval: defaults.io.intervall,
-                                         pingTimeout: defaults.io.timeout})
-    io.listen(defaults.io.port);
+    var io = require('socket.io')({pingInterval: defaults.io.intervall,
+                                   pingTimeout: defaults.io.timeout})
 
+    io.listen(defaults.io.port);
     server.pre(restify.pre.sanitizePath());
     server.use(restify.queryParser());
     server.use(restify.bodyParser());
@@ -48,11 +49,8 @@
      * I's maybe a good idea to provide a
      * human readable page as entrance
      */
-
     server.get(/^\/def/, function(req, res, next){
-      res.writeHead(200, {
-        'Content-Type': 'text/html'
-      });
+      res.writeHead(200, ctype);
       get.defaults(function(html){
         res.write(html);
         res.end();
@@ -61,9 +59,7 @@
     });
 
     server.get(/^\/dev/, function(req, res, next){
-      res.writeHead(200, {
-        'Content-Type': 'text/html'
-      });
+      res.writeHead(200, ctype);
       get.devel(function(html){
         res.write(html);
         res.end();
@@ -72,9 +68,7 @@
     });
 
     server.get(/^\/pub/, function(req, res, next){
-      res.writeHead(200, {
-        'Content-Type': 'text/html'
-      });
+      res.writeHead(200, ctype);
       get.pubsub(function(html){
         res.write(html);
         res.end();
@@ -84,9 +78,7 @@
 
     // everything else
     server.get(/^[\/]?/, function(req, res, next){
-      res.writeHead(200, {
-        'Content-Type': 'text/html'
-      });
+      res.writeHead(200, ctype);
       get.index(function(html){
         res.write(html);
         res.end();
@@ -101,7 +93,7 @@
         log.info(ok
                 , "subscribed to channel state" );
       }else{
-        log.error({error:err}
+        log.error(err
                  , "can not subscribe to state");
       }
     });
@@ -111,7 +103,7 @@
         log.info(ok
                 , "subscribed to channel worker" );
       }else{
-        log.error({error:err}
+        log.error(err
                  , "can not subscribe to worker");
       }
     });
@@ -121,18 +113,17 @@
         log.info(ok
                 , "subscribed to channel exchange" );
       }else{
-        log.error({error:err}
+        log.error(err
                  , "can not subscribe to exchange");
       }
     });
-
 
     mem.subscribe("recipe", function(err){
       if(!err){
         log.info(ok
                 , "subscribed to recipe channel" );
       }else{
-        log.error({error:err}
+        log.error(err
                  , "can not subscribe to recipe");
       }
     });
@@ -142,7 +133,7 @@
         log.info(ok
                 , "subscribed to  start_container_obs channel" );
       }else{
-        log.error({error:err}
+        log.error(err
                  , "can not subscribe to start_container_obs");
       }
     });
@@ -152,7 +143,7 @@
         log.info(ok
                 , "subscribed to  stop_container_obs channel" );
       }else{
-        log.error({error:err}
+        log.error(err
                  , "can not subscribe to stop_container_obs");
       }
     });
@@ -167,22 +158,19 @@
       });
     }); // io on connection
 
+    // mem --> io
     mem.on("message",  function(ch, path){
       io.sockets.emit(ch, path);
-    })
+    });
 
-
-    //
-    // --- go!---
-    //
     server.listen(defaults.info.port, function() {
       log.info(ok
               , "\n"
-              + ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"
+              + ">>>>>>>>>>>>>>>>>>>>>>>>>>\n"
               + "info system up and running:\n"
               + "http://localhost:" + defaults.info.port +"\n"
-              + ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"
+              + ">>>>>>>>>>>>>>>>>>>>>>>>>>\n"
               );
     });
   }); // defaults
-})()
+})();

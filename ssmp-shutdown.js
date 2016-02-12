@@ -2,16 +2,21 @@
  * A simple shutdown
  */
 module.exports = function(){
+
   var broker   = require("sc-broker")
+    , pj       = require("./package.json")
     , bunyan   = require("bunyan")
     , conf     = require("./lib/conf")
     , prog     = require("commander")
     , mem      = broker.createClient({port: conf.mem.port})
-    , ok       = {ok:true}, err
+
     , log      = bunyan.createLogger({name: conf.app.name + ".clients",
-                                       streams: conf.log.streams
-                                      });
-  prog.version("0.7.1")
+                                      streams: conf.log.streams
+                                     })
+    , ok       = {ok:true}
+    , err;
+
+  prog.version(pj.version)
   .parse(process.argv);
 
   mem.publish("shutdown", [], function(err){
