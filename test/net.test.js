@@ -1,10 +1,9 @@
-var assert = require("assert")
-  , ndata    = require('ndata')
+var assert   = require("assert")
+  , broker   = require("sc-broker")
   , _        = require("underscore")
   , net      = require("../lib/net")
   , conf     = require("../lib/conf")
-  , mem      = ndata.createClient({port: conf.mem.port});
-
+  , mem      = broker.createClient({port: conf.mem.port});
 
 describe('net', function(){
   mem.get(["defaults"], function(err, defaults){

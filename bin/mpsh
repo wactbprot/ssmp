@@ -1,16 +1,16 @@
 #!/usr/bin/env node
 
 var _          = require("underscore")
-  , ndata      = require("ndata")
+  , broker     = require("sc-broker")
   , repl       = require("repl")
   , prettyjson = require("prettyjson")
   , clone      = require("clone")
   , deflt      = require("../lib/default")
 
 
-ndata.createServer({port: deflt.mem.port}).on('ready', function(){
+broker.createServer({port: deflt.mem.port}).on('ready', function(){
   var context  = repl.start("ssmp > ").context;
-  context.mem = ndata.createClient({port: deflt.mem.port}).on('ready', function(){
+  context.mem = broker.createClient({port: deflt.mem.port}).on('ready', function(){
                   var utils      = require("../lib/utils")
                     , load       = require("../lib/load")
                     , run        = require("../lib/run")
@@ -96,7 +96,7 @@ ndata.createServer({port: deflt.mem.port}).on('ready', function(){
                 console.log("- default call back with err param in variable: ecb");
                 console.log("- function task_exec(task, replace_object, cb)");
                 console.log("- function refresh_task_list()");
-                console.log("- ndata client available in variable: mem");
+                console.log("- broker client available in variable: mem");
                 console.log("- static json below ssmp/static in variable: statics");
                 console.log(".........................................................\n");
               });

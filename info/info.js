@@ -8,13 +8,13 @@
     , prog     = require("commander")
     , restify  = require("restify")
     , bunyan   = require("bunyan")
-    , ndata    = require("ndata")
+    , broker   = require("sc-broker")
     , get      = require("./get")
     , conf     = require("../lib/conf")
     , log      = bunyan.createLogger({name: conf.app.name + "." + name,
                                       streams: conf.log.streams
                                      })
-    , mem      = ndata.createClient({port: conf.mem.port})
+    , mem      = broker.createClient({port: conf.mem.port})
     , server   = restify.createServer({name: conf.app.name + "." + name})
 
   mem.get(["defaults"], function(err, defaults){

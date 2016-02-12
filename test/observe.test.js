@@ -1,6 +1,6 @@
 var assert   = require("assert")
   , _        = require("underscore")
-  , ndata    = require("ndata")
+  , broker   = require("sc-broker")
   , conf     = require("../lib/conf")
   , cstr     = conf.ctrlStr
   , exchpath = ["test","exchange"]
@@ -12,7 +12,7 @@ var assert   = require("assert")
 
 describe('observe', function(){
   before(function(done){
-    mem  = ndata.createClient({port: conf.mem.port});
+    mem  = broker.createClient({port: conf.mem.port});
     mem.set(exchpath, exobj, function(err){
       observe    = require("../lib/observe");
       done();

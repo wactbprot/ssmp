@@ -14,14 +14,14 @@
     , prog    = require("commander")
     , restify = require("restify")
     , bunyan  = require("bunyan")
-    , ndata   = require("ndata")
+    , broker   = require("sc-broker")
     , conf    = require("../lib/conf")
     , meth    = require("./methods")
     , ok      = {ok: true}
     , log     = bunyan.createLogger({name: conf.app.name + ".api",
                                      streams: conf.log.streams
                                     })
-    , mem     = ndata.createClient({port: conf.mem.port})
+    , mem     = broker.createClient({port: conf.mem.port})
     , server  = restify.createServer({name: conf.app.name + ".api"})
 
 

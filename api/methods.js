@@ -1,14 +1,14 @@
 var _        = require("underscore")
   , bunyan   = require("bunyan")
   , clone    = require("clone")
-  , ndata    = require("ndata")
+  , broker   = require("sc-broker")
   , conf     = require("../lib/conf")
   , log      = bunyan.createLogger({name: conf.app.name + ".api.methods"})
   , ctrlstr  = conf.ctrlStr
   , ok       = {ok:true}
   , err;
 
-var mem = ndata.createClient({port: conf.mem.port});
+var mem = broker.createClient({port: conf.mem.port});
 
 /**
  * Listet alle geladenen mps
@@ -20,7 +20,7 @@ var home = function(req, cb){
     if(!err){
       cb(null, _.keys(mps));
     }else{
-      err = new Error("on attempt to ndata.getAll()");
+      err = new Error("on attempt to mem.getAll()");
     }
   });
 }

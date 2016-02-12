@@ -2,11 +2,11 @@
  * A simple shutdown
  */
 module.exports = function(){
-  var ndata    = require("ndata")
+  var broker   = require("sc-broker")
     , bunyan   = require("bunyan")
     , conf     = require("./lib/conf")
     , prog     = require("commander")
-    , mem      = ndata.createClient({port: conf.mem.port})
+    , mem      = broker.createClient({port: conf.mem.port})
     , ok       = {ok:true}, err
     , log      = bunyan.createLogger({name: conf.app.name + ".clients",
                                        streams: conf.log.streams

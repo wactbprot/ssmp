@@ -1,7 +1,7 @@
 var assert = require("assert")
   , _      = require("underscore")
   , load   = require("../lib/load")
-  , conf  = require("../lib/conf")
+  , conf   = require("../lib/conf")
 
 describe('load', function(){
 

@@ -1,9 +1,7 @@
 var net    = require("../lib/net")
   , conf   = require("../lib/conf")
   , assert = require("assert")
-  , rqst   =  require("../lib/request")
-
-
+  , rqst   =  require("../lib/request");
 
 describe('request()', function(){
   it('should request the db ', function(done){
@@ -14,6 +12,7 @@ describe('request()', function(){
                     MpName: 'Check',
                     Standard: '' }
       , N       = 20;
+
     net.task(JSON.stringify(pretask), function(err,con){
       for(var i = 0; i < N +1; i++){
         (function(j){

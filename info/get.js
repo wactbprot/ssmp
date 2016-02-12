@@ -1,11 +1,11 @@
 var name    = "info"
   , hc      = require("./template")
   , bunyan  = require("bunyan")
-  , ndata   = require("ndata")
+  , broker  = require("sc-broker")
   , conf    = require("../lib/conf")
   , utils   = require("../lib/utils")
   , log     = bunyan.createLogger({name: name})
-  , mem     = ndata.createClient({port: conf.mem.port});
+  , mem     = broker.createClient({port: conf.mem.port});
 
 var defaults  = function(cb){
   log.info({ok:true}

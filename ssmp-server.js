@@ -2,7 +2,7 @@
  * The ssmp data server.
  */
 module.exports = function(){
-  var ndata    = require("ndata")
+  var broker   = require("sc-broker")
     , proc     = require('child_process')
     , bunyan   = require("bunyan")
     , prog     = require("commander")
@@ -12,7 +12,7 @@ module.exports = function(){
     , log      = bunyan.createLogger({name: conf.app.name + ".server",
                                       streams: conf.log.streams
                                      })
-    , server   =  ndata.createServer({port: conf.mem.port});
+    , server   =  broker.createServer({port: conf.mem.port});
 
   prog.version("0.7.1")
   .option("-r, --relay <server>", "name of relay server (default is localhost)")
@@ -32,7 +32,7 @@ module.exports = function(){
     if(!err){
       defaults.git = {commit:stdout}
       server.on('ready', function(){
-        var mem = ndata.createClient({port: conf.mem.port})
+        var mem = broker.createClient({port: conf.mem.port});
         mem.on('message', function (ch, val){
           log.trace(val
                    , "on channel: " + ch);
@@ -87,8 +87,6 @@ module.exports = function(){
           });
         });
       });
-
     }
   }); //githash
-
 }

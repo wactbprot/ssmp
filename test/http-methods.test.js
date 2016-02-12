@@ -1,6 +1,6 @@
 var assert = require("assert")
   , _      = require("underscore")
-  , ndata  = require("ndata")
+  , broker = require("sc-broker")
   , conf   = require("../lib/conf")
   , meth
   , mem
@@ -8,7 +8,7 @@ var assert = require("assert")
 
 describe('http-methods', function(){
   before(function(done){
-    mem  = ndata.createClient({port: conf.mem.port})
+    mem  = broker.createClient({port: conf.mem.port})
     meth = require("../api/methods")
     done();
   });

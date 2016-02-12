@@ -1,6 +1,5 @@
 var _        = require("underscore")
   , assert   = require("assert")
-  , ndata    = require("ndata")
   , deflt    = require("../lib/default")
   , load     = require("../lib/load")
   , utils    = require("../lib/utils")

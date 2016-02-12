@@ -1,6 +1,6 @@
 var assert = require("assert")
   , _      = require("underscore")
-  , ndata  = require("ndata")
+  , broker = require("sc-broker")
   , conf   = require("../lib/conf")
   , mem
   , ds
@@ -8,7 +8,7 @@ var assert = require("assert")
 
 describe('load', function(){
   before(function(done){
-    mem  = ndata.createClient({port: conf.mem.port});
+    mem  = broker.createClient({port: conf.mem.port});
     load    = require("../lib/load");
 
     load.ini(function(){

@@ -2,13 +2,13 @@
  * The ssmp clients.
  */
 module.exports = function(){
-  var ndata     = require("ndata")
+  var broker    = require("sc-broker")
     , _         = require("underscore")
     , prog      = require("commander")
     , bunyan    = require("bunyan")
     , conf      = require("./lib/conf")
     , ok        = {ok:true}, err
-    , mem       = ndata.createClient({port: conf.mem.port})
+    , mem       = broker.createClient({port: conf.mem.port})
     , log       = bunyan.createLogger({name: conf.app.name + ".clients",
                                        streams: conf.log.streams
                                       });
@@ -16,7 +16,7 @@ module.exports = function(){
   .option("-l, --load <mpid>", "the id of an mp-definition to load on start")
   .parse(process.argv);
 
-  // call to start ndata clients
+  // call to start sc-broker clients
   var load     = require("./lib/load")
     , run      = require("./lib/run")
     , build    = require("./lib/build")

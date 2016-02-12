@@ -1,6 +1,6 @@
 var _        = require("underscore")
   , assert   = require("assert")
-  , ndata    = require("ndata")
+  , broker    = require("sc-broker")
   , conf     = require("../lib/conf")
   , ds
   , mem
@@ -43,7 +43,7 @@ var _        = require("underscore")
 
 describe('worker', function(){
   before(function(done){
-    mem  = ndata.createClient({port: conf.mem.port});
+    mem  = broker.createClient({port: conf.mem.port});
     mem.set(path_a, 1, function(){
       mem.set(path_b, 3, function(){
         mem.set(path_def, def, function(){

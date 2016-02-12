@@ -1,6 +1,6 @@
 var assert   = require("assert")
   , _        = require("underscore")
-  , ndata    = require("ndata")
+  , broker   = require("sc-broker")
   , worker   = require("../lib/worker")
   , conf     = require("../lib/conf")
   , exchpath = ["test","exchange"]
@@ -9,7 +9,7 @@ var assert   = require("assert")
 
 describe('worker', function(){
   before(function(done){
-    mem  = ndata.createClient({port: conf.mem.port});
+    mem  = broker.createClient({port: conf.mem.port});
     mem.set(exchpath.concat(["a"]), {Value:"ok",
                                      Ready:"true"}
            , function(){
