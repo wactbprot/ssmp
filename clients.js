@@ -1,7 +1,7 @@
 /**
  * The ssmp clients.
  */
-module.exports = function(){
+module.exports = function(cb){
 
   var broker    = require("sc-broker")
     , pj        = require("./package.json")
@@ -17,6 +17,14 @@ module.exports = function(){
   prog.version(pj.version)
   .option("-l, --load <mpid>", "the id of an mp-definition to load on start")
   .parse(process.argv);
+
+  log.trace(ok
+           , "\n"
+           + ".....................................\n"
+           + "ssmp clients start  with access to @"
+           + conf.mem.port +"\n"
+           + ".....................................\n"
+           );
 
   // call to start sc-broker clients
   var load     = require("./lib/load")
@@ -43,6 +51,11 @@ module.exports = function(){
                                , "failed to published to get_mp channel");
                     }
                   });
+                }
+                if(_.isFunction(cb)){
+                  log.trace(ok
+                           , "execute callback");
+                  cb();
                 }
               });
             });

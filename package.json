@@ -21,6 +21,7 @@
   },
   "scripts": {
     "doc": "jsdoc -c ./jsdoc-conf.json -R README.md  -t ./node_modules/ink-docstrap/template/ -d jsdoc",
+    "start": "bin/start | bunyan  -o short",
     "server": "bin/server | bunyan  -o short",
     "clients": "bin/clients | bunyan  -o short",
     "info":"node ./info/info.js | bunyan  -o short",

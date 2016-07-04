@@ -111,6 +111,14 @@ Nach der Installation sind folgende Schritte abzuarbeiten:
 
 ##  Starten des Server/Clients
 
+```
+$> npm start
+```
+
+startet alle Komponenten (```server```, ```clients``` und ```api```) in der 
+richtigen Reihenfolge mit formatierten log-Ausgaben. Die Komponenten können
+auch einzeln gestartet werden: 
+
 __ssmp server__ wird durch den Aufruf ```bin/ssmp-server``` gestartet.
 
 Schöner formatierte logs bekommt man mit:
@@ -118,7 +126,7 @@ Schöner formatierte logs bekommt man mit:
 ```
 $> npm run server
 ```
-Das Starten der clients (```load```, ```build```, ```run```, ```observe```, ...)
+Das Starten der __ssmp clients__ (```load```, ```build```, ```run```, ```observe```, ...)
 geschieht mittels:
 
 ```
@@ -133,7 +141,7 @@ werden. Bsp.:
 $> bin/clients -l mpd-check | bunyan -l trace
 ```
  
-Letztlich sollte noch die http-Schnittstelle gestartet werden:
+Letztlich sollte noch die __api__ (http-Schnittstelle) gestartet werden:
 
 ```
 $> npm run api
@@ -154,7 +162,7 @@ Serverprozessen an folgenden *Ports* gestartet:
 * 8001: [api](http://localhost:8001/) 
 * 8003: [info](http://localhost:8003/)
 * 9000: Datenserver (intern)
-* 8004: Websocket
+* (8004: Websocket)
 
 
 ## Laden des Messprogramms

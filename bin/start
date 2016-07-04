@@ -1,0 +1,11 @@
+#!/usr/bin/env node
+// require('look').start(3000, '127.0.0.1');
+require("../server")(
+  function(){
+    require("../clients")(
+      function(){
+        require("..//api/api.js")
+      }
+    )
+  }
+);

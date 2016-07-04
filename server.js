@@ -1,9 +1,10 @@
 /**
  * The ssmp data server.
  */
-module.exports = function(){
+module.exports = function(cb){
 
-  var broker   = require("sc-broker")
+  var _         = require("underscore")
+    , broker   = require("sc-broker")
     , pj       = require("./package.json")
     , proc     = require('child_process')
     , bunyan   = require("bunyan")
@@ -17,7 +18,6 @@ module.exports = function(){
 
     , server   =  broker.createServer({port: conf.mem.port});
   prog.version(pj.version)
-
   .option("-r, --relay <server>", "name of relay server (default is localhost)")
   .option("-d, --database <server>", "name of database server (default is localhost)")
   .parse(process.argv);
@@ -74,6 +74,11 @@ module.exports = function(){
                                     mem.subscribe("shutdown", function (err){
                                       log.trace(ok
                                                , "channel subscription");
+                                      if(_.isFunction(cb)){
+                                        log.trace(ok
+                                                 , "execute callback");
+                                        cb();
+                                      }
                                     });
                                   });
                                 });

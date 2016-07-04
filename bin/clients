@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // require('look').start(3001, '127.0.0.1');
-require("../ssmp-clients")();
+require("../clients")();
 
 
 

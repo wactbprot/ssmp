@@ -258,13 +258,13 @@
   //
   mem.get(["defaults"], function(err, defaults){
     server.listen(defaults.http.port, function() {
-      log.info(ok
-              , "\n"
-              + ".......................\n"
-              + "json api up and running\n"
-              + "http://localhost:" + defaults.http.port +"\n"
-              + ".......................\n"
-              );
+        log.trace(ok
+                 , "\n"
+                 + ".....................................\n"
+                 + "json api up and running\n"
+                 + "http://localhost:" + defaults.http.port +"\n"
+                 + ".....................................\n"
+                 );
     });
   });// defaults
 })()
