@@ -27,7 +27,7 @@ describe('utils.query_cd', function(){
       var data = {Result:[{Date:now}]};
 
       utils.query_cd(task, data, function(err, res){
-        assert.equal(err.message, "with given data");
+        assert.equal(err.message, "with given task object");
         done();
       });
     });
