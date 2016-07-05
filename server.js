@@ -15,7 +15,7 @@ module.exports = function(cb){
     , log      = bunyan.createLogger({name: conf.app.name + ".server",
                                       streams: conf.log.streams
                                      })
-
+    , info     = pj
     , server   =  broker.createServer({port: conf.mem.port});
   prog.version(pj.version)
   .option("-r, --relay <server>", "name of relay server (default is localhost)")
@@ -33,7 +33,7 @@ module.exports = function(cb){
 
   proc.exec('git rev-parse HEAD', function (err, stdout, stderr){
     if(!err){
-      defaults.git = {commit:stdout}
+      info.git  = {commit:stdout};
       server.on('ready', function(){
         var mem = broker.createClient({port: conf.mem.port});
         mem.on('message', function (ch, val){
@@ -54,31 +54,34 @@ module.exports = function(cb){
                  + conf.mem.port +"\n"
                  + ".....................................\n"
                  );
-
-        mem.set(["defaults"], defaults, function(err){
+        mem.set(["info"], info, function(err){
           log.trace(ok
-                   , "set defaults");
-          mem.subscribe("load_mp", function(err){
-            mem.subscribe("get_cd", function(err){
-              mem.subscribe("rm_cd", function(err){
-                mem.subscribe("get_mp", function(err){
-                  mem.subscribe("rm_mp", function(err){
-                    mem.subscribe("stop_all_container_obs", function (err){
-                      mem.subscribe("start_container_obs", function (err){
-                        mem.subscribe("stop_container_obs", function (err){
-                          mem.subscribe(conf.ctrlStr.exec, function (err){
-                            mem.subscribe(conf.ctrlStr.load, function (err){
-                              mem.subscribe(conf.ctrlStr.stop, function (err){
-                                mem.subscribe(conf.ctrlStr.run, function (err){
-                                  mem.subscribe(conf.ctrlStr.exec, function (err){
-                                    mem.subscribe("shutdown", function (err){
-                                      log.trace(ok
-                                               , "channel subscription");
-                                      if(_.isFunction(cb)){
+                   , "set info");
+          mem.set(["defaults"], defaults, function(err){
+            log.trace(ok
+                     , "set defaults");
+            mem.subscribe("load_mp", function(err){
+              mem.subscribe("get_cd", function(err){
+                mem.subscribe("rm_cd", function(err){
+                  mem.subscribe("get_mp", function(err){
+                    mem.subscribe("rm_mp", function(err){
+                      mem.subscribe("stop_all_container_obs", function (err){
+                        mem.subscribe("start_container_obs", function (err){
+                          mem.subscribe("stop_container_obs", function (err){
+                            mem.subscribe(conf.ctrlStr.exec, function (err){
+                              mem.subscribe(conf.ctrlStr.load, function (err){
+                                mem.subscribe(conf.ctrlStr.stop, function (err){
+                                  mem.subscribe(conf.ctrlStr.run, function (err){
+                                    mem.subscribe(conf.ctrlStr.exec, function (err){
+                                      mem.subscribe("shutdown", function (err){
                                         log.trace(ok
-                                                 , "execute callback");
-                                        cb();
-                                      }
+                                                 , "channel subscription");
+                                        if(_.isFunction(cb)){
+                                          log.trace(ok
+                                                   , "execute callback");
+                                          cb();
+                                        }
+                                      });
                                     });
                                   });
                                 });
