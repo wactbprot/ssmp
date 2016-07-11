@@ -4,7 +4,10 @@ require("../server")(
   function(){
     require("../clients")(
       function(){
-        require("..//api/api.js")
+        require("../api/api")(function(
+        ){
+          console.log("start frame as a second process");
+        })
       }
     )
   }

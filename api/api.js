@@ -9,7 +9,7 @@
  * welcher die _REST_-Api des _ssmp_ zur Verfügung stellt.
  *
  */
-(function() {
+module.exports = function(cb) {
   var _       = require("underscore")
     , prog    = require("commander")
     , restify = require("restify")
@@ -258,13 +258,18 @@
   //
   mem.get(["defaults"], function(err, defaults){
     server.listen(defaults.http.port, function() {
+      log.trace(ok
+               , "\n"
+               + ".....................................\n"
+               + "json api up and running\n"
+               + "http://localhost:" + defaults.http.port +"\n"
+               + ".....................................\n"
+               );
+      if(_.isFunction(cb)){
         log.trace(ok
-                 , "\n"
-                 + ".....................................\n"
-                 + "json api up and running\n"
-                 + "http://localhost:" + defaults.http.port +"\n"
-                 + ".....................................\n"
-                 );
+                 , "try to exec call back");
+        cb();
+      }
     });
   });// defaults
-})()
+}
