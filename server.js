@@ -3,9 +3,9 @@
  */
 module.exports = function(cb){
 
-  var _         = require("underscore")
+  var _        = require("underscore")
     , broker   = require("sc-broker")
-    , pj       = require("./package.json")
+    , info     = require("./package.json")
     , proc     = require('child_process')
     , bunyan   = require("bunyan")
     , prog     = require("commander")
@@ -15,9 +15,8 @@ module.exports = function(cb){
     , log      = bunyan.createLogger({name: conf.app.name + ".server",
                                       streams: conf.log.streams
                                      })
-    , info     = pj
     , server   =  broker.createServer({port: conf.mem.port});
-  prog.version(pj.version)
+  prog.version(info.version)
   .option("-r, --relay <server>", "name of relay server (default is localhost)")
   .option("-d, --database <server>", "name of database server (default is localhost)")
   .parse(process.argv);
@@ -30,10 +29,10 @@ module.exports = function(cb){
     defaults.database.server = prog.database;
   }
 
-
   proc.exec('git rev-parse HEAD', function (err, stdout, stderr){
     if(!err){
       info.git  = {commit:stdout};
+
       server.on('ready', function(){
         var mem = broker.createClient({port: conf.mem.port});
         mem.on('message', function (ch, val){
