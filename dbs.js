@@ -29,7 +29,7 @@ module.exports = function(cb){
       method: 'POST'
     }
     , repldat = JSON.stringify(
-      {"source":"vl_db", "target": datdb.name}
+      {"source":"vl_db", "target": datdb.name, "continuous": true}
     );
 
   var logreq = http.request(logopt, function(res){
