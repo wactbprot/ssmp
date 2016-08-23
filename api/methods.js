@@ -21,6 +21,9 @@ var home = function(req, cb){
       cb(null, _.keys(mps));
     }else{
       err = new Error("on attempt to mem.getAll()");
+      log.error(err
+               , " error on attempt to get all");
+
     }
   });
 }
@@ -42,14 +45,14 @@ var handle_mp = function(req, cb){
       , rb    = req.body;
     if(rb && _.isString(rb)){
       if(rb == ctrlstr.load){
-        log.info(ok
+        log.trace(ok
                 , "try to publish to get_mp channel");
         mem.publish("get_mp", id , function(err){
           if(!err){
             if(_.isFunction(cb)){
               cb(null, ok);
             }
-            log.info(ok
+            log.trace(ok
                     , " published to get_mp channel");
           }else{
             log.error(err
@@ -61,11 +64,11 @@ var handle_mp = function(req, cb){
         });
       }
       if(rb == ctrlstr.rm){
-        log.info(ok
+        log.trace(ok
                 , "try to publish to rm_mp channel");
         mem.publish("rm_mp", id, function(err){
           if(!err){
-            log.info(ok
+            log.trace(ok
                     , " published to rm_mp channel");
             if(_.isFunction(cb)){
               cb(null, ok)
@@ -115,11 +118,11 @@ var handle_cd = function(req, cb){
       , rb  = req.body;
     if(rb && _.isString(rb)){
       if(rb == ctrlstr.load){
-        log.info(ok
+        log.trace(ok
                 , "try to publish to get_cd channel");
         mem.publish("get_cd", val, function(err){
           if(!err){
-            log.info(ok
+            log.trace(ok
                     , "published to get_cd channel");
             if(_.isFunction(cb)){
               cb(null, ok)
@@ -134,11 +137,11 @@ var handle_cd = function(req, cb){
         });
       };
       if(rb == ctrlstr.rm){
-        log.info(ok
+        log.trace(ok
                 , "try to publish to get_cd channel");
         mem.publish("rm_cd", val, function(err){
           if(!err){
-            log.info(ok
+            log.trace(ok
                     , "published to rm_cd channel");
             if(_.isFunction(cb)){
               cb(err, ok);
@@ -183,11 +186,11 @@ var put = function(req, cb){
     if(!err){
       if(!_.isUndefined(req.body)){
         var strpath  = path.join(" ")
-        log.info(ok
+        log.trace(ok
                 , "receice put request to path " + strpath);
         mem.set(path, req.body, function(err){
           if(!err){
-            log.info(ok
+            log.trace(ok
                     , "set value to path: " + strpath);
             if(_.isFunction(cb)){
               cb(null, ok);
@@ -202,8 +205,8 @@ var put = function(req, cb){
         });
       }else{
         err = new Error("unvalid request body");
-        log.error(err
-                 , "given path is not meaningful");
+        log.warn(err
+                , "given path is not meaningful");
         if(_.isFunction(cb)){
           cb(err);
         }
@@ -229,7 +232,7 @@ var get = function(req, cb){
   var ro
   get_path(req, function(err, path){
     if(!err){
-      log.info(ok
+      log.trace(ok
               , "receice get request to path " + path.join(" "));
       mem.get(path, function(err, obj){
         if(err){
@@ -239,17 +242,16 @@ var get = function(req, cb){
         }else{
           if(_.isUndefined(obj)){
             err = new Error("object is undefined");
-            log.error(err
+            log.warn(err
                      ,"found nothing in the path");
             cb(err);
           }else{
             if(_.isObject(obj) || _.isArray(obj)){
-              log.info(ok
+              log.trace(ok
                       , "sent object back");
               cb(null, obj);
             }else{
-
-              log.info(ok
+              log.trace(ok
                       , "sent value back");
               cb(null, {result:obj});
             };
