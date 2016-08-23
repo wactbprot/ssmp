@@ -57,7 +57,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.error(err,
+        log.warn(err,
                   "get returns with error");
         res.send(err.message);
       }
@@ -70,7 +70,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.error(err,
+        log.warn(err,
                   "get returns with error");
         res.send(err.message);
       }
@@ -83,7 +83,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.error(err,
+        log.warn(err,
                   "get returns with error");
         res.send(err.message);
       }
@@ -96,7 +96,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.error(err,
+        log.warn(err,
                   "get returns with error");
         res.send(err.message);
       }
@@ -110,7 +110,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.error(err,
+        log.warn(err,
                   "get returns with error");
         res.send(err.message);
       }
@@ -123,7 +123,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.error(err,
+        log.warn(err,
                   "get returns with error");
         res.send(err.message);
       }
@@ -136,7 +136,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.error(err,
+        log.warn(err,
                   "get returns with error");
         res.send(err.message);
       }
@@ -170,7 +170,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.error(err,
+        log.warn(err,
                   "cd handle returns with error");
         res.send(err.message);
       }
@@ -187,7 +187,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.error(err,
+        log.warn(err,
                   "put returns with error");
         res.send(err.message);
       }
@@ -200,7 +200,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.error(err,
+        log.warn(err,
                   "put returns with error");
         res.send(err.message);
       }
@@ -213,7 +213,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.error(err,
+        log.warn(err,
                   "put returns with error");
         res.send(err.message);
       }
@@ -226,7 +226,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.error(err,
+        log.warn(err,
                   "put returns with error");
         res.send(err.message);
       }
@@ -245,7 +245,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.error(err,
+        log.warn(err,
                   " mp handle returns with error");
         res.send(err.message);
       }
