@@ -9,6 +9,7 @@ module.exports = function(cb){
     , proc     = require('child_process')
     , bunyan   = require("bunyan")
     , prog     = require("commander")
+    , dbs      = require("./dbs")
     , conf     = require("./lib/conf")
     , defaults = require("./lib/default")
     , ok       = {ok:true}, err
@@ -28,7 +29,7 @@ module.exports = function(cb){
   if(prog.database){
     defaults.database.server = prog.database;
   }
-
+dbs(function(){
   proc.exec('git rev-parse HEAD', function (err, stdout, stderr){
     if(!err){
       info.git  = {commit:stdout};
@@ -99,4 +100,5 @@ module.exports = function(cb){
       });
     }
   }); //githash
+}); // dbs
 }
