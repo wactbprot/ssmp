@@ -1,13 +1,17 @@
 #!/usr/bin/env node
-// require('look').start(3000, '127.0.0.1');
-require("../server")(
+//require('look').start(3000, '127.0.0.1');
+require("../dbs")(
   function(){
-    require("../clients")(
+    require("../server")(
       function(){
-        require("../api/api")(function(
-        ){
-          console.log("start frame as a second process");
-        })
+        require("../clients")(
+          function(){
+            require("../api/api")(function(
+            ){
+              console.log("start frame as a second process");
+            })
+          }
+        )
       }
     )
   }

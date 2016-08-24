@@ -5,6 +5,7 @@ module.exports = function(cb){
   var _        = require("underscore")
     , conf     = require("./lib/conf")
     , logdb    = conf.logdb
+    , dumpdb   = conf.dumpdb
     , datdb    = conf.database
     , http     = require("http")
     , logopt = {
@@ -13,7 +14,14 @@ module.exports = function(cb){
       path: "/" +  logdb.name,
       headers: {"content-type": "application/json"},
       method: 'PUT'
-    }
+    },
+      dumpopt = {
+        hostname: dumpdb.server,
+        port: dumpdb.port,
+        path: "/" +  dumpdb.name,
+        headers: {"content-type": "application/json"},
+        method: 'PUT'
+      }
     , delopt = {
       hostname: datdb.server,
       port: datdb.port,
@@ -44,50 +52,63 @@ module.exports = function(cb){
                  console.log("create log database: " +  logdb.name + "@" + logdb.server );
                  console.log("...................................................");
 
-                 var delreq = http.request(delopt, function(res){
-                                console.log("--------------------------------------------------");
-                                console.log("delete work database: " +  datdb.name + "@" + datdb.server );
-                                console.log("...................................................");
+                 var dumpreq = http.request(dumpopt, function(res){
+                                 console.log("--------------------------------------------------");
+                                 console.log("create dump database: " +  dumpdb.name + "@" + dumpdb.server );
+                                 console.log("...................................................");
 
-                                var datreq = http.request(datopt, function(res){
-                                               console.log("--------------------------------------------------");
-                                               console.log("create work database: " +  datdb.name + "@" + datdb.server );
-                                               console.log("...................................................");
+                                 var delreq = http.request(delopt, function(res){
+                                                console.log("--------------------------------------------------");
+                                                console.log("delete work database: " +  datdb.name + "@" + datdb.server );
+                                                console.log("...................................................");
 
-                                               var replreq = http.request(replopt, function(res){
+                                                var datreq = http.request(datopt, function(res){
                                                                console.log("--------------------------------------------------");
-                                                               console.log("replicate vl_db to work database");
+                                                               console.log("create work database: " +  datdb.name + "@" + datdb.server );
                                                                console.log("...................................................");
+
+                                                               var replreq = http.request(replopt, function(res){
+                                                                               console.log("--------------------------------------------------");
+                                                                               console.log("replicate vl_db to work database");
+                                                                               console.log("...................................................");
+                                                                               if(_.isFunction(cb)){
+                                                                                 cb();
+                                                                               }
+                                                                             });
+
+                                                               replreq.on('error', function(e){
+                                                                 console.log("error on attempt to replicate database");
+                                                               });
+
+                                                               replreq.write(repldat, function(){
+                                                                 console.log("try replicate database");
+                                                               });
+
+                                                               replreq.end(function(){
+                                                                 console.log("end replicate database");
+                                                               });
                                                              });
 
-                                               replreq.on('error', function(e){
-                                                 console.log("error on attempt to replicate database");
-                                               });
+                                                datreq.on('error', function(e){
+                                                  console.log("error on attempt to create work database");
+                                                });
 
-                                               replreq.write(repldat, function(){
-                                                 console.log("try replicate database");
-                                               });
+                                                datreq.end();
+                                              });
 
-                                               replreq.end(function(){
-                                                 console.log("end replicate database");
-                                                 cb();
-                                               });
-                                             });
+                                 delreq.on('error', function(e){
+                                   console.log("error on attempt to delete work database");
+                                 });
 
-                                datreq.on('error', function(e){
-                                  console.log("error on attempt to create work database");
-                                });
+                                 delreq.end();
+                               });
 
-                                datreq.end();
-                              });
-
-                 delreq.on('error', function(e){
-                   console.log("error on attempt to delete work database");
+                 dumpreq.on('error', function(e){
+                   console.log("error on attempt to create log database");
                  });
 
-                 delreq.end();
+                 dumpreq.end();
                });
-
   logreq.on('error', function(e){
     console.log("error on attempt to create log database");
   });

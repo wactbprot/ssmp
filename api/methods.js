@@ -30,6 +30,80 @@ var home = function(req, cb){
 exports.home = home;
 
 /**
+ * dump aller mps
+ * @param {Object} req Request-Objekt
+ * @param {Function} cb call back
+ */
+var dump = function(req, cb){
+  mem.getAll(function(err, all){
+    if(!err){
+      cb(null, all);
+    }else{
+      err = new Error("on attempt to mem.getAll()");
+      log.error(err
+               , " error on attempt to get all");
+    }
+  });
+}
+exports.dump = dump;
+
+/**
+ * restore mps
+ * @param {Object} req Request-Objekt
+ * @param {Function} cb call back
+ */
+var restore = function(req, cb){
+  var b = req.body;
+  if(_.isObject(req.body)){
+    var ks = _.keys(b)
+      , Nk = ks.length;
+    for(var i=0; i < Nk; i++){
+      (function(j){
+        if(ks[j].split("-")[0] == "mpd"){
+          var mpid = ks[j]
+            , mpd  = b[mpid];
+          mem.publish("stop_all_container_obs", [mpid], function(err){
+            if(!err){
+              mem.set([mpid], mpd, function(err){
+                if(!err){
+                  for(var l =0; l < mpd.meta.container.N; l++){
+                    mem.publish("start_container_obs", [mpid, l], function(err){});
+                  }
+                  if(j == Nk -1 && _.isFunction(cb)){
+                    cb(null, ok);
+                  }
+                }else{
+                  log.error(err
+                           , "error on attempt to restore");
+                  if(_.isFunction(cb)){
+                    cb(err);
+                  }
+                }
+              }); // set
+              };
+          });
+        }else{
+          mem.set([ks[j]], b[ks[j]], function(err){
+            if(!err){
+              if(j == Nk -1 && _.isFunction(cb)){
+                cb(null, ok);
+              }
+            }else{
+              log.error(err
+                     , "error on attempt to restore");
+              if(_.isFunction(cb)){
+                cb(err);
+              }
+            }
+          }); // set
+        }
+      })(i)
+    }
+  }
+}
+exports.restore = restore;
+
+/**
  * Funktion veranlasst laden und löschen der mp-
  * Dokumente.
  *

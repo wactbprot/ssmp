@@ -65,6 +65,19 @@ module.exports = function(cb) {
     next();
   });
 
+  server.get("/dump", function(req, res, next){
+    meth.dump(req, function(err, ro){
+      if(!err){
+        res.send(ro);
+      }else{
+        log.debug(err,
+                  "get returns with error");
+        res.send(err.message);
+      }
+    });
+    next();
+  });
+
   server.get("/:id", function(req, res, next){
     meth.get(req, function(err, ro){
       if(!err){
@@ -182,6 +195,21 @@ module.exports = function(cb) {
    * PUT
    * http://server:port/id/structure/l1/...
    */
+  server.put("/dump", function(req, res, next) {
+  meth.restore(req, function(err, ro){
+      if(!err){
+        res.send(ro);
+        log.debug(ok,
+                  "restored");
+      }else{
+        log.debug(err,
+                  "put returns with error");
+        res.send(err.message);
+      }
+    });
+    next();
+  });
+
   server.put("/:id/:no/:struct", function(req, res, next) {
     meth.put(req, function(err, ro){
       if(!err){
