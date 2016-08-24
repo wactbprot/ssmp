@@ -36,6 +36,7 @@ module.exports = function(cb){
                  console.log("---------------------------------------------");
                  console.log("create log database: " +  logdb.name + "@" + logdb.server );
                  console.log("..............................................");
+
                  var datreq = http.request(datopt, function(res){
                                 console.log("---------------------------------------------");
                                 console.log("create work database: " +  datdb.name + "@" + datdb.server );
@@ -50,6 +51,7 @@ module.exports = function(cb){
                                 replreq.on('error', function(e){
                                   console.log("error on attempt to replicate database");
                                 });
+
                                 replreq.write(repldat, function(){
                                   cb();
                                 });
