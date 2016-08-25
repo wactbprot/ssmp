@@ -41,7 +41,7 @@ module.exports = function(cb){
         console.log("\nAvailable dumps:\n");
         var  res = JSON.parse(mpstr).rows
         for (var i = 0; i < res.length; i++){
-          console.log(res[i].id +  "  (url: http://"+ getopt.hostname + ":" +getopt.port + getopt.path +"/"+res[i].id +")");
+          console.log(res[i].id +  "  (url: http://"+ getopt.hostname + ":" +getopt.port +  "/" +dumpdb.name +"/"+res[i].id +")");
         }
         console.log("\n");
       });
@@ -71,7 +71,7 @@ module.exports = function(cb){
         restorereq.write(mpstr, function(){
           console.log("wrote restore to ssmp");
         });
-        
+
         restorereq.end();
       });
       }
