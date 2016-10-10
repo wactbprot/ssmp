@@ -22,13 +22,7 @@ module.exports = function(cb){
         headers: {"content-type": "application/json"},
         method: 'PUT'
       }
-    , delopt = {
-      hostname: datdb.server,
-      port: datdb.port,
-      path: "/" +  datdb.name,
-      headers: {"content-type": "application/json"},
-      method: 'DELETE'
-    }
+
     , datopt = {
       hostname: datdb.server,
       port: datdb.port,
@@ -57,50 +51,39 @@ module.exports = function(cb){
                                  console.log("create dump database: " +  dumpdb.name + "@" + dumpdb.server );
                                  console.log("...................................................");
 
-                                 var delreq = http.request(delopt, function(res){
+
+                                 var datreq = http.request(datopt, function(res){
                                                 console.log("--------------------------------------------------");
-                                                console.log("delete work database: " +  datdb.name + "@" + datdb.server );
+                                                console.log("create work database: " +  datdb.name + "@" + datdb.server );
                                                 console.log("...................................................");
 
-                                                var datreq = http.request(datopt, function(res){
-                                                               console.log("--------------------------------------------------");
-                                                               console.log("create work database: " +  datdb.name + "@" + datdb.server );
-                                                               console.log("...................................................");
+                                                var replreq = http.request(replopt, function(res){
+                                                                console.log("--------------------------------------------------");
+                                                                console.log("replicate vl_db to work database");
+                                                                console.log("...................................................");
+                                                                if(_.isFunction(cb)){
+                                                                  cb();
+                                                                }
+                                                              });
 
-                                                               var replreq = http.request(replopt, function(res){
-                                                                               console.log("--------------------------------------------------");
-                                                                               console.log("replicate vl_db to work database");
-                                                                               console.log("...................................................");
-                                                                               if(_.isFunction(cb)){
-                                                                                 cb();
-                                                                               }
-                                                                             });
-
-                                                               replreq.on('error', function(e){
-                                                                 console.log("error on attempt to replicate database");
-                                                               });
-
-                                                               replreq.write(repldat, function(){
-                                                                 console.log("try replicate database");
-                                                               });
-
-                                                               replreq.end(function(){
-                                                                 console.log("end replicate database");
-                                                               });
-                                                             });
-
-                                                datreq.on('error', function(e){
-                                                  console.log("error on attempt to create work database");
+                                                replreq.on('error', function(e){
+                                                  console.log("error on attempt to replicate database");
                                                 });
 
-                                                datreq.end();
+                                                replreq.write(repldat, function(){
+                                                  console.log("try replicate database");
+                                                });
+
+                                                replreq.end(function(){
+                                                  console.log("end replicate database");
+                                                });
                                               });
 
-                                 delreq.on('error', function(e){
-                                   console.log("error on attempt to delete work database");
+                                 datreq.on('error', function(e){
+                                   console.log("error on attempt to create work database");
                                  });
 
-                                 delreq.end();
+                                 datreq.end();
                                });
 
                  dumpreq.on('error', function(e){
