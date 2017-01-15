@@ -186,69 +186,74 @@ describe('load', function(){
                 });
     });
 
-    it('should set recipe', function(done){
-      mem.set(["test", 0, "definition"]
-             ,[
-               [
-                 {TaskName:"Common-wait",
-                  ExpandSeq:{"@waittime":[1000, 2000, 3000]}}
-               ]
-             ]
-             , function(err){
-                 mem.set(["test", "meta"], {standard:"", name:""} , function(err){
-                   load.load(["test", 0], function(err, path){
-                     mem.get(["test", 0, "recipe"] , function(err, dat){
-                       assert.equal(_.isObject(dat['0']['0']), true);
-                       assert.equal(_.isObject(dat['1']['0']), true);
-                       assert.equal(_.isObject(dat['2']['0']), true);
-                       done();
-                     });
-                   });
-                 });
-               });
-    });
-
-    it('should set recipe', function(done){
-      mem.set(["test", 0, "definition"]
-             ,[
-               [
-                 {TaskName:"Common-wait",
-                  ExpandPar:{"@waittime":[4000, 5000, 6000]}}
-               ]
-             ], function(err){
-        mem.set(["test", "meta"], {standard:"", name:""} , function(err){
-          load.load(["test", 0], function(err, path){
-            mem.get(["test", 0, "recipe"] , function(err, dat){
-              assert.equal(_.isObject(dat['0']['0']), true);
-              assert.equal(_.isObject(dat['0']['1']), true);
-              assert.equal(_.isObject(dat['0']['2']), true);
-              done();
-            });
-          });
-        });
-      });
-    });
-
-    it('should set recipe', function(done){
-      mem.set(["test", 0, "definition"]
-             ,[
-               [
-                 {TaskName:["Common-wait","Common-wait","Common-wait"],
-                  ExpandPar:{"@waittime":[7000, 8000, 9000]}}
-               ]
-             ]
-             , function(err){
-                 mem.set(["test", "meta"], {standard:"", name:""} , function(err){
-                   load.load(["test", 0], function(err, path){
-                     mem.get(["test", 0, "recipe"] , function(err, dat){
-                       assert.equal(_.isObject(dat['0']['0']), true);
-                       assert.equal(_.isObject(dat['0']['1']), true);
-                       assert.equal(_.isObject(dat['0']['2']), true);
-                       done();
-                     });
-                   });
-                 });
-                });
-    });
+// -------------------- rm ExpandPar & ExpandSeq tests; this
+// -------------------- functionality will be removed in up
+// -------------------- comming versions
+// 
+//    it('should set recipe', function(done){
+//      mem.set(["test", 0, "definition"]
+//             ,[
+//               [
+//                 {TaskName:"Common-wait",
+//                  ExpandSeq:{"@waittime":[1000, 2000, 3000]}}
+//               ]
+//             ]
+//             , function(err){
+//                 mem.set(["test", "meta"], {standard:"", name:""} , function(err){
+//                   load.load(["test", 0], function(err, path){
+//                     mem.get(["test", 0, "recipe"] , function(err, dat){
+//console.log(dat)
+//                       assert.equal(_.isObject(dat['0']['0']), true);
+//                       assert.equal(_.isObject(dat['1']['0']), true);
+//                       assert.equal(_.isObject(dat['2']['0']), true);
+//                       done();
+//                     });
+//                   });
+//                 });
+//               });
+//    });
+//
+//    it('should set recipe', function(done){
+//      mem.set(["test", 0, "definition"]
+//             ,[
+//               [
+//                 {TaskName:"Common-wait",
+//                  ExpandPar:{"@waittime":[4000, 5000, 6000]}}
+//               ]
+//             ], function(err){
+//        mem.set(["test", "meta"], {standard:"", name:""} , function(err){
+//          load.load(["test", 0], function(err, path){
+//            mem.get(["test", 0, "recipe"] , function(err, dat){
+//              assert.equal(_.isObject(dat['0']['0']), true);
+//              assert.equal(_.isObject(dat['0']['1']), true);
+//              assert.equal(_.isObject(dat['0']['2']), true);
+//              done();
+//            });
+//          });
+//        });
+//      });
+//    });
+//
+//    it('should set recipe', function(done){
+//      mem.set(["test", 0, "definition"]
+//             ,[
+//               [
+//                 {TaskName:["Common-wait","Common-wait","Common-wait"],
+//                  ExpandPar:{"@waittime":[7000, 8000, 9000]}}
+//               ]
+//             ]
+//             , function(err){
+//                 mem.set(["test", "meta"], {standard:"", name:""} , function(err){
+//                   load.load(["test", 0], function(err, path){
+//                     mem.get(["test", 0, "recipe"] , function(err, dat){
+//                       assert.equal(_.isObject(dat['0']['0']), true);
+//                       assert.equal(_.isObject(dat['0']['1']), true);
+//                       assert.equal(_.isObject(dat['0']['2']), true);
+//                       done();
+//                     });
+//                   });
+//                 });
+//                });
+//    });
   });
 });
