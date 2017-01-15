@@ -6,7 +6,7 @@ var assert = require("assert")
   , exchpath = ["test","exchange"]
   , exobj    = {a:{b:{c:"test_val"}},
                 d:{e:{f:"test_val"}},
-	              g:{h:{i:0}},
+                g:{h:{i:0}},
                 j:{k:{l:false}}}
 
   , mem
@@ -22,21 +22,76 @@ describe('run', function(){
     });
   });
 
+  describe('#script()', function(){
+
+    it('should cause add key to task', function(done){
+      run.script([], {Script:"a = {'B':1};a;"}, true, "test_cmd", function(t, o, c){
+        assert.equal(o, true);
+        assert.equal(c, "test_cmd");
+        assert.equal(t.B, 1);
+        done();
+      });
+    });
+
+    it('should cause the task to run again because of failing script array', function(done){
+      run.script([], {Script:["*1*"]}, true, "test_cmd", function(t, o, c){
+        assert.equal(o, false);
+        assert.equal(c, cstr.ready);
+        done();
+      });
+    });
+
+    it('should cause the task to run again because of failing script', function(done){
+      run.script([], {Script:"*1*"}, true, "test_cmd", function(t, o, c){
+        assert.equal(o, false);
+        assert.equal(c, cstr.ready);
+        done();
+      });
+    });
+
+    it('should cause the task to run again because no valid script', function(done){
+      run.script([], {Script:1}, true, "test_cmd", function(t, o, c){
+        assert.equal(o, false);
+        assert.equal(c, cstr.ready);
+        done();
+      });
+    });
+
+    it('should cause the task to run again becaus no object returns', function(done){
+      run.script([], {Script:"1+1"}, true, "test_cmd", function(t, o, c){
+        assert.equal(o, false);
+        assert.equal(c, cstr.ready);
+        done();
+      });
+    });
+
+    it('should pass params', function(done){
+      run.script([], {}, true, "test_cmd", function(t, o, c){
+        assert.equal(_.isEmpty(t), true);
+        assert.equal(o, true);
+        assert.equal(c, "test_cmd");
+        done();
+      });
+    });
+
+  });
+
+
   describe('#stop_if()', function(){
     it('should pass params', function(done){
-     run.stop_if([], {}, true, "test_cmd", function(t, o, c){
-       assert.equal(_.isEmpty(t), true);
-       assert.equal(o, true);
-       assert.equal(c, "test_cmd");
+      run.stop_if([], {}, true, "test_cmd", function(t, o, c){
+        assert.equal(_.isEmpty(t), true);
+        assert.equal(o, true);
+        assert.equal(c, "test_cmd");
         done();
       });
     });
 
     it('should emit ready on missing stopif path entry', function(done){
-     run.stop_if([], {StopIf:"a.b.c"}, true, "test_cmd", function(t, o, c){
-       assert.equal(o, true);
-       assert.equal(c, cstr.ready);
-       done();
+      run.stop_if([], {StopIf:"a.b.c"}, true, "test_cmd", function(t, o, c){
+        assert.equal(o, true);
+        assert.equal(c, cstr.ready);
+        done();
       });
     });
 
@@ -44,19 +99,19 @@ describe('run', function(){
 
   describe('#run_if()', function(){
     it('should pass params', function(done){
-     run.run_if([], {}, true, "test_cmd", function(t, o, c){
-       assert.equal(_.isEmpty(t), true);
-       assert.equal(o, true);
-       assert.equal(c, "test_cmd");
+      run.run_if([], {}, true, "test_cmd", function(t, o, c){
+        assert.equal(_.isEmpty(t), true);
+        assert.equal(o, true);
+        assert.equal(c, "test_cmd");
         done();
       });
     });
 
     it('should emit ready on missing stopif path entry', function(done){
-     run.run_if([], {RunIf:"a.b.c"}, true, "test_cmd", function(t, o, c){
-       assert.equal(o, false);
-       assert.equal(c, cstr.ready);
-       done();
+      run.run_if([], {RunIf:"a.b.c"}, true, "test_cmd", function(t, o, c){
+        assert.equal(o, false);
+        assert.equal(c, cstr.ready);
+        done();
       });
     });
 
@@ -64,10 +119,10 @@ describe('run', function(){
 
   describe('#exchange_replace()', function(){
     it('should pass params', function(done){
-     run.exchange_replace([], {}, true, "test_cmd", function(t, o, c){
-       assert.equal(_.isEmpty(t), true);
-       assert.equal(o, true);
-       assert.equal(c, "test_cmd");
+      run.exchange_replace([], {}, true, "test_cmd", function(t, o, c){
+        assert.equal(_.isEmpty(t), true);
+        assert.equal(o, true);
+        assert.equal(c, "test_cmd");
         done();
       });
     });
@@ -102,7 +157,7 @@ describe('run', function(){
       });
     });
 
-      it('should replace boolean false values (0 and false --- !!) ', function(done){
+    it('should replace boolean false values (0 and false --- !!) ', function(done){
       var task = {A:"@A",
                   B:"@B",
                   FromExchange:{
@@ -113,7 +168,7 @@ describe('run', function(){
       run.exchange_replace(path, task, true, "test_cmd", function(t, o, c){
         assert.equal(_.isObject(t), true);
         assert.equal(t.A, 0);
-       assert.equal(t.B, "false");
+        assert.equal(t.B, "false");
         assert.equal(o, true);
         assert.equal(c, "test_cmd");
         done();
@@ -123,7 +178,7 @@ describe('run', function(){
 
   describe('#run()', function(){
     it('should start', function(){
-     run.run(["test", 0], 0, 0, {Action:"wait"});
+      run.run(["test", 0], 0, 0, {Action:"wait"});
     });
   });
 
