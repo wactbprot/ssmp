@@ -57,7 +57,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.debug(err,
+        log.trace(err,
                   "get returns with error");
         res.send(err.message);
       }
@@ -70,7 +70,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.debug(err,
+        log.trace(err,
                   "get returns with error");
         res.send(err.message);
       }
@@ -83,7 +83,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.debug(err,
+        log.trace(err,
                   "get returns with error");
         res.send(err.message);
       }
@@ -96,7 +96,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.debug(err,
+        log.trace(err,
                   "get returns with error");
         res.send(err.message);
       }
@@ -109,7 +109,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.debug(err,
+        log.trace(err,
                   "get returns with error");
         res.send(err.message);
       }
@@ -123,7 +123,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.debug(err,
+        log.trace(err,
                   "get returns with error");
         res.send(err.message);
       }
@@ -136,7 +136,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.debug(err,
+        log.trace(err,
                   "get returns with error");
         res.send(err.message);
       }
@@ -149,7 +149,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.debug(err,
+        log.trace(err,
                   "get returns with error");
         res.send(err.message);
       }
@@ -183,7 +183,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.debug(err,
+        log.trace(err,
                   "cd handle returns with error");
         res.send(err.message);
       }
@@ -199,10 +199,10 @@ module.exports = function(cb) {
   meth.restore(req, function(err, ro){
       if(!err){
         res.send(ro);
-        log.debug(ok,
+        log.trace(ok,
                   "restored");
       }else{
-        log.debug(err,
+        log.trace(err,
                   "put returns with error");
         res.send(err.message);
       }
@@ -215,7 +215,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.debug(err,
+        log.trace(err,
                   "put returns with error");
         res.send(err.message);
       }
@@ -228,7 +228,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.debug(err,
+        log.trace(err,
                   "put returns with error");
         res.send(err.message);
       }
@@ -241,7 +241,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.debug(err,
+        log.trace(err,
                   "put returns with error");
         res.send(err.message);
       }
@@ -254,7 +254,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.debug(err,
+        log.trace(err,
                   "put returns with error");
         res.send(err.message);
       }
@@ -273,7 +273,7 @@ module.exports = function(cb) {
       if(!err){
         res.send(ro);
       }else{
-        log.debug(err,
+        log.trace(err,
                   " mp handle returns with error");
         res.send(err.message);
       }

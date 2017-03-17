@@ -279,7 +279,7 @@ var put = function(req, cb){
         });
       }else{
         err = new Error("unvalid request body");
-        log.debug(err
+        log.trace(err
                 , "given path is not meaningful");
         if(_.isFunction(cb)){
           cb(err);
@@ -316,7 +316,7 @@ var get = function(req, cb){
         }else{
           if(_.isUndefined(obj)){
             err = new Error("object is undefined");
-            log.debug(err
+            log.trace(err
                      ,"found nothing in the path");
             cb(err);
           }else{

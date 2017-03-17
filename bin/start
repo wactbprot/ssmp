@@ -8,7 +8,7 @@ require("../dbs")(
           function(){
             require("../api/api")(function(
             ){
-              console.log("start frame as a second process");
+              console.log("now start frame as a second process");
             })
           }
         )
