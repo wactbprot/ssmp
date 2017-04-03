@@ -108,8 +108,28 @@ Nach der Installation sind folgende Schritte abzuarbeiten:
 4.  Laden der MP-Abläufe (in einem, mehreren oder allen containern)
 5.  Starten des MP (in einem, mehreren oder allen containern)
 
+##  Starten des Server/Clients 
+### systemctrl
+
+Auf den  Messrechnern wird der service automatisch beim Booten über systemctrl
+gestartet. ```stop```, ```start``` oder ```restart``` geht dann wie üblich über:
+
+```
+$> systemctl stop 
+$> systemctl start
+$> systemctl restart
+
+```
+
+Die aktuellen Logausgaben erhält man mittels:
+
+```
+$> journalctl -u ssmp -f
+```
+
 
 ##  Starten des Server/Clients
+### manuell
 
 ```
 $> npm start

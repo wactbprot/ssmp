@@ -1,0 +1,23 @@
+[Unit]
+Description=The measurement definition interpreter.
+Wants=relayServer.service
+After=network.target
+
+[Service]
+User=wwwrun
+Group=www
+Type=simple
+#StandardOutput=null
+#StandardError=null
+Restart=never
+# Run ExecStartPre/ExecStartPost with root-permissions
+PermissionsStartOnly=true
+# Remove PIDFile at Stop
+PIDFile=/var/run/ssmp/ssmp.pid
+ExecStartPre=/usr/bin/mkdir -p /var/run/ssmp
+ExecStartPost=/bin/sh -c '/usr/bin/echo $MAINPID > /var/run/ssmp/ssmp.pid'
+WorkingDirectory=/usr/local/share/ssmp
+ExecStart=/usr/local/share/ssmp/bin/start
+
+[Install]
+WantedBy=multi-user.target
