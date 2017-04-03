@@ -9,7 +9,6 @@ Group=www
 Type=simple
 #StandardOutput=null
 #StandardError=null
-Restart=never
 # Run ExecStartPre/ExecStartPost with root-permissions
 PermissionsStartOnly=true
 # Remove PIDFile at Stop
