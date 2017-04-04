@@ -45,7 +45,7 @@ module.exports = function(cb){
           }
         });
 
-        log.trace(ok
+        log.info(ok
                  , "\n"
                  + ".....................................\n"
                  + "ssmp data server up and running @"
@@ -53,10 +53,10 @@ module.exports = function(cb){
                  + ".....................................\n"
                  );
         mem.set(["info"], info, function(err){
-          log.trace(ok
+          log.info(ok
                    , "set info");
           mem.set(["defaults"], defaults, function(err){
-            log.trace(ok
+            log.info(ok
                      , "set defaults");
             mem.subscribe("load_mp", function(err){
               mem.subscribe("get_cd", function(err){
@@ -72,10 +72,10 @@ module.exports = function(cb){
                                   mem.subscribe(conf.ctrlStr.run, function (err){
                                     mem.subscribe(conf.ctrlStr.exec, function (err){
                                       mem.subscribe("shutdown", function (err){
-                                        log.trace(ok
+                                        log.info(ok
                                                  , "channel subscription");
                                         if(_.isFunction(cb)){
-                                          log.trace(ok
+                                          log.info(ok
                                                    , "execute callback");
                                           cb();
                                         }

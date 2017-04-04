@@ -18,11 +18,10 @@ module.exports = function(cb){
   .option("-l, --load <mpid>", "the id of an mp-definition to load on start")
   .parse(process.argv);
 
-  log.trace(ok
+  log.info(ok
            , "\n"
            + ".....................................\n"
-           + "ssmp clients start  with access to @"
-           + conf.mem.port +"\n"
+           + "ssmp clients start  with access to port "+ conf.mem.port +"\n"
            + ".....................................\n"
            );
 
@@ -44,7 +43,7 @@ module.exports = function(cb){
                 if(prog.load){
                   mem.publish("get_mp", prog.load , function(err){
                     if(!err){
-                      log.trace(ok
+                      log.info(ok
                               , " published to get_mp channel");
                     }else{
                       log.error(err
