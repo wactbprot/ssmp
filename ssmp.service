@@ -6,7 +6,7 @@ Wants=relayServer.service
 [Service]
 User=wwwrun
 Group=www
-Type=fork
+Type=idle
 #StandardOutput=null
 #StandardError=null
 WorkingDirectory=/usr/local/share/ssmp
