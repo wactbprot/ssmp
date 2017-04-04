@@ -1,15 +1,31 @@
 #!/usr/bin/env node
 //require('look').start(3000, '127.0.0.1');
-require("../server")(
-    function(){
-        require("../clients")(
-            function(){
-                require("../api/api")(function() {
-                        console.log("now start frame as a second process");
-                });
-            }
-        )
-    }
-)
+require("../server")(function(){
+    require("../clients")(function(){
+        require("../api/api")(function() {
+            require("../extensions/frame/frame.js")(function() {
+                console.log(
+                        "\n      ssssssssss       ssssssssss      mmmmmmm    mmmmmmm   ppppp   ppppppppp     " +
+                        "\n    ss::::::::::s    ss::::::::::s   mm:::::::m  m:::::::mm p::::ppp:::::::::p    " +
+                        "\n  ss:::::::::::::s ss:::::::::::::s m::::::::::mm::::::::::mp:::::::::::::::::p   " +
+                        "\n  s::::::ssss:::::ss::::::ssss:::::sm::::::::::::::::::::::mpp::::::ppppp::::::p  " +
+                        "\n   s:::::s  ssssss  s:::::s  ssssss m:::::mmm::::::mmm:::::m p:::::p     p:::::p  " +
+                        "\n     s::::::s         s::::::s      m::::m   m::::m   m::::m p:::::p     p:::::p  " +
+                        "\n        s::::::s         s::::::s   m::::m   m::::m   m::::m p:::::p     p:::::p  " +
+                        "\n  ssssss   s:::::s ssssss   s:::::s m::::m   m::::m   m::::m p:::::p    p::::::p  " +
+                        "\n  s:::::ssss::::::ss:::::ssss::::::sm::::m   m::::m   m::::m p:::::ppppp:::::::p  " +
+                        "\n  s::::::::::::::s s::::::::::::::s m::::m   m::::m   m::::m p::::::::::::::::p   " +
+                        "\n   s:::::::::::ss   s:::::::::::ss  m::::m   m::::m   m::::m p::::::::::::::pp    " +
+                        "\n    sssssssssss      sssssssssss    mmmmmm   mmmmmm   mmmmmm p::::::pppppppp      " +
+                        "\n                                                             p:::::p              " +
+                        "\n                                                             p:::::p              " +
+                        "\n                                                            p:::::::p             " +
+                        "\n                                                            p:::::::p             " +
+                        "\n                                                            p:::::::p             " +
+                        "\n                                                            ppppppppp             "
+                );
 
-
+            });
+        });
+    });
+});
