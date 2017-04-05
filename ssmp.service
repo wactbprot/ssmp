@@ -1,7 +1,8 @@
 [Unit]
-Description=The measurement definition interpreter.
-After=network.target
-Wants=relayServer.service
+Description=SSMP, the measurement definition interpreter.
+Wants=network.target
+After=network-online.target
+
 
 [Service]
 User=wwwrun

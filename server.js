@@ -15,7 +15,7 @@ module.exports = function(cb){
     , log      = bunyan.createLogger({name: conf.app.name + ".server",
                                       streams: conf.log.streams
                                      })
-    , server   =  broker.createServer({port: conf.mem.port});
+
   prog.version(info.version)
   .option("-r, --relay <server>", "name of relay server (default is localhost)")
   .option("-d, --database <server>", "name of database server (default is localhost)")
@@ -32,7 +32,7 @@ module.exports = function(cb){
     if(!err){
       info.git  = {commit:stdout};
 
-      server.on('ready', function(){
+       broker.createServer({port: conf.mem.port}).on('ready', function(){
         var mem = broker.createClient({port: conf.mem.port});
         mem.on('message', function (ch, val){
           log.trace(val
