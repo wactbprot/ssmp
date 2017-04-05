@@ -286,12 +286,9 @@ module.exports = function(cb) {
   //
   mem.get(["defaults"], function(err, defaults){
     server.listen(defaults.http.port, function() {
-      log.info(ok
-               , "\n"
-               + ".....................................\n"
-               + "json api up and running http://localhost:" + defaults.http.port +"\n"
-               + ".....................................\n"
-               );
+      log.info(ok,
+               " ----> json api up and running http://localhost:" + defaults.http.port
+              );
       if(_.isFunction(cb)){
         log.info(ok
                  , "try to exec call back");

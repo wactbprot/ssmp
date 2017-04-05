@@ -32,32 +32,17 @@ module.exports = function(cb){
     if(!err){
       info.git  = {commit:stdout};
 
-       broker.createServer({port: conf.mem.port}).on('ready', function(){
+      broker.createServer({port: conf.mem.port}).on('ready', function(){
         var mem = broker.createClient({port: conf.mem.port});
-        mem.on('message', function (ch, val){
-          log.trace(val
-                   , "on channel: " + ch);
-
-          if(ch == "shutdown"){
-            log.info("server shutdown");
-            server.destroy();
-            // process.exit(1);
-          }
-        });
-
         log.info(ok
-                 , "\n"
-                 + ".....................................\n"
-                 + "ssmp data server up and running @"
-                 + conf.mem.port +"\n"
-                 + ".....................................\n"
-                 );
+                , " ----> ssmp data server up and running @" + conf.mem.port
+                );
         mem.set(["info"], info, function(err){
           log.info(ok
-                   , "set info");
+                  , "set info");
           mem.set(["defaults"], defaults, function(err){
             log.info(ok
-                     , "set defaults");
+                    , "set defaults");
             mem.subscribe("load_mp", function(err){
               mem.subscribe("get_cd", function(err){
                 mem.subscribe("rm_cd", function(err){
@@ -73,10 +58,10 @@ module.exports = function(cb){
                                     mem.subscribe(conf.ctrlStr.exec, function (err){
                                       mem.subscribe("shutdown", function (err){
                                         log.info(ok
-                                                 , "channel subscription");
+                                                , "channel subscription");
                                         if(_.isFunction(cb)){
                                           log.info(ok
-                                                   , "execute callback");
+                                                  , "execute callback");
                                           cb();
                                         }
                                       });

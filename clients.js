@@ -19,11 +19,8 @@ module.exports = function(cb){
   .parse(process.argv);
 
   log.info(ok
-           , "\n"
-           + ".....................................\n"
-           + "ssmp clients start  with access to port "+ conf.mem.port +"\n"
-           + ".....................................\n"
-           );
+          , "----> ssmp clients start  with access to port "+ conf.mem.port
+          );
 
   // call to start sc-broker clients
   var load     = require("./lib/load")
