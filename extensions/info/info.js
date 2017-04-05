@@ -1,9 +1,8 @@
 /**
- * serves infos about thr running system
+ * serves infos about the system runtime
  */
-(function() {
+module.exports = function(cb) {
   var name     = "info"
-    , ok       = {ok: true}
     , _        = require("underscore")
     , prog     = require("commander")
     , restify  = require("restify")
@@ -16,6 +15,7 @@
                                      })
     , mem      = broker.createClient({port: conf.mem.port})
     , server   = restify.createServer({name: conf.app.name + "." + name})
+    , ok       = {ok: true}
     , ctype    = {'Content-Type': 'text/html'};
 
   mem.get(["defaults"], function(err, defaults){
@@ -165,12 +165,11 @@
 
     server.listen(defaults.info.port, function() {
       log.info(ok
-              , "\n"
-              + ">>>>>>>>>>>>>>>>>>>>>>>>>>\n"
-              + "info system up and running:\n"
-              + "http://localhost:" + defaults.info.port +"\n"
-              + ">>>>>>>>>>>>>>>>>>>>>>>>>>\n"
+              , "---> info system up and running @port:" + defaults.info.port
               );
+      if(_.isFunction(cb)){
+        cb();
+      }
     });
   }); // defaults
-})();
+};
