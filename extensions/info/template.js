@@ -1,7 +1,7 @@
 var _         = require("underscore")
   , fs        = require("fs")
   , h         = require("handlebars")
-  , fpath     = "./info/templates/"
+  , fpath     = "extensions/info/templates/"
   , templates = function(){
 
       var ff = fs.readdirSync(fpath)

@@ -9,7 +9,7 @@ module.exports = function(cb) {
     , bunyan   = require("bunyan")
     , broker   = require("sc-broker")
     , get      = require("./get")
-    , conf     = require("../lib/conf")
+    , conf     = require("../../lib/conf")
     , log      = bunyan.createLogger({name: conf.app.name + "." + name,
                                       streams: conf.log.streams
                                      })
@@ -18,11 +18,12 @@ module.exports = function(cb) {
     , ok       = {ok: true}
     , ctype    = {'Content-Type': 'text/html'};
 
-  mem.get(["defaults"], function(err, defaults){
-    var io = require('socket.io')({pingInterval: defaults.io.intervall,
-                                   pingTimeout: defaults.io.timeout})
 
-    io.listen(defaults.io.port);
+
+  var io = require('socket.io')({pingInterval: conf.io.intervall,
+                                 pingTimeout: conf.io.timeout})
+
+
     server.pre(restify.pre.sanitizePath());
     server.use(restify.queryParser());
     server.use(restify.bodyParser());
@@ -44,19 +45,6 @@ module.exports = function(cb) {
     server.get( "/favicon.ico", restify.serveStatic({
       'directory': __dirname
     }));
-
-    /**
-     * I's maybe a good idea to provide a
-     * human readable page as entrance
-     */
-    server.get(/^\/def/, function(req, res, next){
-      res.writeHead(200, ctype);
-      get.defaults(function(html){
-        res.write(html);
-        res.end();
-      });
-      next();
-    });
 
     server.get(/^\/dev/, function(req, res, next){
       res.writeHead(200, ctype);
@@ -163,13 +151,14 @@ module.exports = function(cb) {
       io.sockets.emit(ch, path);
     });
 
-    server.listen(defaults.info.port, function() {
-      log.info(ok
-              , "---> info system up and running @port:" + defaults.info.port
-              );
-      if(_.isFunction(cb)){
-        cb();
-      }
-    });
-  }); // defaults
+  io.listen(conf.io.port);
+  server.listen(conf.info.port, function() {
+    log.info(ok
+            , "---> info system up and running @port:" + conf.info.port
+            );
+    if(_.isFunction(cb)){
+      cb();
+    }
+  });
+
 };

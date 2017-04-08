@@ -281,19 +281,14 @@ module.exports = function(cb) {
     next();
   });
 
-  //
-  // --- go!---
-  //
-  mem.get(["defaults"], function(err, defaults){
-    server.listen(defaults.http.port, function() {
-      log.info(ok,
-               " ----> json api up and running http://localhost:" + defaults.http.port
-              );
-      if(_.isFunction(cb)){
-        log.info(ok
-                 , "try to exec call back");
-        cb();
-      }
-    });
-  });// defaults
+  server.listen(conf.http.port, function() {
+    log.info(ok,
+             " ----> json api up and running http://localhost:" + conf.http.port
+            );
+    if(_.isFunction(cb)){
+      log.info(ok
+                , "try to exec call back");
+      cb();
+    }
+  });
 }

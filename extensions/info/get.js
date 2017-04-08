@@ -2,19 +2,10 @@ var name    = "info"
   , hc      = require("./template")
   , bunyan  = require("bunyan")
   , broker  = require("sc-broker")
-  , conf    = require("../lib/conf")
-  , utils   = require("../lib/utils")
+  , conf    = require("../../lib/conf")
+  , utils   = require("../../lib/utils")
   , log     = bunyan.createLogger({name: name})
   , mem     = broker.createClient({port: conf.mem.port});
-
-var defaults  = function(cb){
-  log.info({ok:true}
-          , "try generating defaults template");
-  mem.get(["defaults"], function(err, defaults){
-    cb(hc["defaults"]({default : defaults}));
-  });
-};
-exports.defaults = defaults;
 
 var devel  = function(cb){
   log.info({ok:true}

@@ -1,22 +1,25 @@
 #!/usr/bin/env node
-// require('look').start(3000, '127.0.0.1');
+//                require('look').start(3000, '127.0.0.1');
 require("../server")(function(){
-    console.log("server cb");
-    require("../clients")(function(){
-	console.log("clients cb");	
-        require("../api/api")(function() {
-	    console.log("api cb");	 
-	    require("../extensions/frame/frame.js")(function() {
-                console.log(
-                    " \n  ..######...######..##.....##.########.  " +
-			" \n  .##....##.##....##.###...###.##.....##  " +
-			" \n  .##.......##.......####.####.##.....##  " +
-			" \n  ..######...######..##.###.##.########.  " +
-			" \n  .......##.......##.##.....##.##.......  " +
-			" \n  .##....##.##....##.##.....##.##.......  " +
-			" \n  ..######...######..##.....##.##.......  " 
-                );
-	    });
+  console.log(" server cb");
+  require("../clients")(function(){
+    console.log("clients cb");
+    require("../api/api")(function() {
+      console.log("api cb");
+      require("../extensions/frame/frame.js")(function() {
+        console.log("info cb");
+        require("../extensions/info/info.js")(function() {
+          console.log(
+            " \n  ..######...######..##.....##.########.  " +
+            " \n  .##....##.##....##.###...###.##.....##  " +
+            " \n  .##.......##.......####.####.##.....##  " +
+            " \n  ..######...######..##.###.##.########.  " +
+            " \n  .......##.......##.##.....##.##.......  " +
+            " \n  .##....##.##....##.##.....##.##.......  " +
+            " \n  ..######...######..##.....##.##.......  "
+        );
         });
+      });
     });
+  });
 });
