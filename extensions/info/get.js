@@ -7,14 +7,6 @@ var name    = "info"
   , log     = bunyan.createLogger({name: name})
   , mem     = broker.createClient({port: conf.mem.port});
 
-var devel  = function(cb){
-  log.info({ok:true}
-          , "try generating devel template");
-  var pack = utils.get_jsn("./")
-
-  cb(hc["devel"](pack));
-};
-exports.devel = devel;
 
 var index  = function(cb){
   log.info({ok:true}

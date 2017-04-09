@@ -21,6 +21,7 @@ socket.on("recipe", function(data){
 socket.on("start_container_obs", function(data){
   display(data, $("#container_obs_body"))
 });
+
 socket.on("stop_container_obs", function(data){
   display(data, $("#container_obs_body"))
 });

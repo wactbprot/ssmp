@@ -55,14 +55,6 @@ module.exports = function(cb) {
     next();
   });
 
-  server.get(/^\/pub/, function(req, res, next){
-    res.writeHead(200, ctype);
-    get.pubsub(function(html){
-      res.write(html);
-      res.end();
-    });
-    next();
-  });
 
   // everything else
   server.get(/^[\/]?/, function(req, res, next){
