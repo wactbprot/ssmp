@@ -316,7 +316,7 @@ var get = function(req, cb){
         }else{
           if(_.isUndefined(obj)){
             err = new Error("object is undefined");
-            log.trace(err
+            log.warn(err
                      ,"found nothing in the path");
             cb(err);
           }else{
