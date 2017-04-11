@@ -23,7 +23,9 @@ var home = function(req, cb){
       err = new Error("on attempt to mem.getAll()");
       log.error(err
                , " error on attempt to get all");
-
+      if(_.isFunction(cb)){
+        cb(err);
+      }
     }
   });
 }
@@ -42,6 +44,9 @@ var dump = function(req, cb){
       err = new Error("on attempt to mem.getAll()");
       log.error(err
                , " error on attempt to get all");
+      if(_.isFunction(cb)){
+        cb(err);
+      }
     }
   });
 }
