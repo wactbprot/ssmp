@@ -20,7 +20,7 @@ module.exports = function(cb){
       broker.createServer({port: conf.mem.port}).on('ready', function(){
         var mem = broker.createClient({port: conf.mem.port});
         log.info(ok
-                , " ----> ssmp data server up and running @" + conf.mem.port
+                , " ----> ssmp data server up and running on port: " + conf.mem.port
                 );
         mem.set(["info"], info, function(err){
           log.info(ok

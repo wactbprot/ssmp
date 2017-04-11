@@ -10,20 +10,19 @@
  *
  */
 module.exports = function(cb) {
-  var _       = require("underscore")
-    , prog    = require("commander")
+  var name    = "api"
+    , _       = require("underscore")
     , restify = require("restify")
     , bunyan  = require("bunyan")
     , broker  = require("sc-broker")
     , conf     = require("../../lib/conf")
     , meth    = require("./methods")
     , ok      = {ok: true}
-    , log     = bunyan.createLogger({name: conf.app.name + ".api",
+    , log     = bunyan.createLogger({name: name,
                                      streams: conf.log.streams
                                     })
     , mem     = broker.createClient({port: conf.mem.port})
-    , server  = restify.createServer({name: conf.app.name + ".api"})
-
+    , server  = restify.createServer({name: name})
 
   server.pre(restify.pre.sanitizePath());
   server.use(restify.queryParser());

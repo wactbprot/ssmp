@@ -3,7 +3,7 @@ var _        = require("underscore")
   , clone    = require("clone")
   , broker   = require("sc-broker")
   , conf     = require("../../lib/conf")
-  , log      = bunyan.createLogger({name: conf.app.name + ".api.methods"})
+  , log      = bunyan.createLogger({name: "api.methods"})
   , ctrlstr  = conf.ctrlStr
   , ok       = {ok:true}
   , err;

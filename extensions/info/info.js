@@ -4,20 +4,18 @@
 module.exports = function(cb) {
   var name     = "info"
     , _        = require("underscore")
-    , prog     = require("commander")
     , restify  = require("restify")
     , bunyan   = require("bunyan")
     , broker   = require("sc-broker")
     , get      = require("./get")
     , conf     = require("../../lib/conf")
-    , log      = bunyan.createLogger({name: conf.app.name + "." + name,
+    , log      = bunyan.createLogger({name:  name,
                                       streams: conf.log.streams
                                      })
     , mem      = broker.createClient({port: conf.mem.port})
-    , server   = restify.createServer({name: conf.app.name + "." + name})
+    , server   = restify.createServer({name: name})
     , ok       = {ok: true}
     , ctype    = {'Content-Type': 'text/html'};
-
 
 
   var io = require('socket.io')({pingInterval: conf.io.intervall,
@@ -55,7 +53,6 @@ module.exports = function(cb) {
     next();
   });
 
-
   // everything else
   server.get(/^[\/]?/, function(req, res, next){
     res.writeHead(200, ctype);
@@ -65,7 +62,6 @@ module.exports = function(cb) {
     });
     next();
   });
-
 
   // ----------------- mem subscriptions -----------------
   mem.subscribe("state", function(err){
