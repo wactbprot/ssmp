@@ -2,7 +2,8 @@
 //                require('look').start(3000, '127.0.0.1');
 require("../server")(function(){
   require("../clients")(function(){
-    require("../api/api")(function() {
+    
+    require("../extensions/api/api")(function() {
       require("../extensions/frame/frame.js")(function() {
         require("../extensions/info/info.js")(function() {
           console.log(
