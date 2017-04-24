@@ -1,30 +1,24 @@
 ```
- ___ ___ _____ ___ 
+ ___ ___ _____ ___
 |_ -|_ -|     | . |
 |___|___|_|_|_|  _|
               |_|
 ```
-server side measurement program
---------------
 
+## server side measurement program
 
-__ssmp__  führt vordefinierte Abläufe (_recipes_) aus. Diese recipes
-werden in Bereichen (_container_) bereitgestellt. Recipes bestehen
-aus Teilaufgaben (_tasks_) die zur  parallelen oder sequenziellen
-Abarbeitung angeordnet werden können.
+__ssmp__ is an interpreter for predefined sequences called _recipes_. They are
+written in json format. Such recipes consist of building bloks called _tasks_.
+Tasks  can be arranged for parallel or sequentiel execution. Recipes consisting
+of tasks are the core of a measurement program definition (_mpdef_). mpdefs are
+stored as CouchDB documents.
 
-Die Gesamtheit der container, recipes und tasks ist die Messprogrammdefinition
-(_mpdef_).
+__ssmp__ is contolled by http requests. The most important end points
+are ```http://<server>:<port>/<mpd id>/ctrl```
+and ```http://<server>:<port>/<mpd id>/exchange```.
 
-Bei der mpdef handelt es sich um ein json-Document. Dieses ist in
-der Datenbank (CouchDB) abgelegt.  Es besitzt eine id, die in allen
-nachfolgend beschriebenen urls gleich nach dem Port
-auftaucht.
+## scheme
 
-__ssmp__ kann vollständig über http gesteuert und abgefragt werden. Besonders
-wichtig sind hierbei die Endpunkte ```/ctrl``` und ```/exchange```. 
-
-## Schema
 
 ```
    +-------------+              +-------------+
@@ -32,7 +26,7 @@ wichtig sind hierbei die Endpunkte ```/ctrl``` und ```/exchange```.
    |-------------|              |-------------|         +--------+
    | - mp-docs   |      http    | - TCP       +-------->|Device  |
    | - tasks     |    +-------->| - VXI       |<--------+        |
-   | - kd-docs   |    | +-------+ - Rscript   |         +--------+
+   | - cd-docs   |    | +-------+ - Rscript   |         +--------+
    |             |    | |       | - email     |
    +-----+-------+    | |       +-------------+
        ^ |            | v
@@ -47,169 +41,131 @@ wichtig sind hierbei die Endpunkte ```/ctrl``` und ```/exchange```.
                            | | http
                            | |
                            | v
-                    +------+-----------+
-                    |   client         |
-                    |------------------|
-                    |                  |
-                    |                  |
-                    |                  |
-                    +------------------+
+                           +------+-----------+
+                           |   client         |
+                           |------------------|
+                           |                  |
+                           |                  |
+                           |                  |
+                           +------------------+
 ```
 
-## Abkürzungen
+## glossary and abbreviations
 
-* MP ... Messprogramm
-* ssmp ... server side MP
-* KD ... Kalibrierdokument
-* mpid ... Datenbank-id der MP-Definition (json-Dokument)
-* kdid ... Datenbank-id des KD-Dokuments (json-Dokument)
-* API ... application programming interface
-* container ... Teilbereich eines MP indem Unterabläufe organisiert werden können
+* mp ... measurement program
+* mpd ... mp definition (json document)
+* ssmp ... server side mp
+* cd ... calibration document
+* mpid ... database id of the  mp definition (json document)
+* cdid ... database id of the  cd documents (json document)
+* api ... application programming interface
+* tasks ... mp building blocks, json structures with certain values
+* recipes ... sequences of tasks
+* container ... region of the mpd in which sub sequences can be organized
+* ```C```  number of containers (counts from 0)
+* ```S```  nummer of sequentiel step (counts from 0)
+* ```P```  nummer of parallel step (counts from 0)
 
-In den url-Schemata ist 
-* ```C``` (zählt von 0 an) Nummer des containers
-* ```S``` (zählt von 0 an) Nummer des sequentiellen Schritts
-* ```P``` (zählt von 0 an) Nummer des parallelen Schritts
+## api endpoints
 
-## API Endpunkte
+Some important api endpoints are:
 
-Hier ein symbolischer Überblick über die von ssmp bereitgestellten
-Schnittstellen. 
-
-* ```/mpid``` ... interne Representation des gesamten MP
-* ```/mpid/exchange``` ... Austausch von Daten client-server 
-* ```/mpid/id``` ... Info über geladene KD
-* ```/mpid/meta``` ... Informationen zum MP
-* ```/mpid/C/ctrl``` ... Steuerung/ Übersicht des containers ```C```
-* ```/mpid/C/state``` ... Zustand des containers C
-* ```/mpid/C/state/S``` ... Zustand der ```S```. sequentiellen Schritte des
-  containers ```C```
-* ```/mpid/C/state/S/P``` ... Zustand des ```S```. sequentiellen und
-  ```P```. parallelen Schritts des containers ```C```
-*  ```/mpid/C/recipe``` ... recipe des containers ```C```
+* ```/mpid``` ... internal representation of the entire mp
+* ```/mpid/exchange``` ... server/server and client/server data exchange
+* ```/mpid/id``` ... loaded cd
+* ```/mpid/meta``` ... informations about a loaded mpd
+* ```/mpid/C/ctrl``` ... controling (PUT) or state (GET) of container ```C```
+* ```/mpid/C/state``` ... state of container ```C```
+* ```/mpid/C/state/S``` ... state  of sequentiel step ```S```
+      of container ```C```
+* ```/mpid/C/state/S/P``` ... state of paralel step ```P```  
+      of sequentiel step ```S``` of container ```C```
+*  ```/mpid/C/recipe``` ... recipe of container ```C```
 *  ```/mpid/C/recipe/S``` ...  analog state
 *  ```/mpid/C/recipe/S/P``` ...  analog state
 
-## Installation
+## installation
 
 ```
 $> git clone https://github.com/wactbprot/ssmp.git
 $> cd ssmp
 $> npm install
 ```
+ ---> todo: describe the systemctrl installation
 
-## Gesamtablauf
-
-Nach der Installation sind folgende Schritte abzuarbeiten:
-
-1.  Starten von server, client, api
-2.  Laden des MP (s. auch ```--load``` Startoption)
-3.  Bekanntgeben der KD (optional)
-4.  Laden der MP-Abläufe (in einem, mehreren oder allen containern)
-5.  Starten des MP (in einem, mehreren oder allen containern)
-
-##  Starten des Server/Clients 
-### systemctrl
-
-Auf den  Messrechnern wird der service automatisch beim Booten über systemctrl
-gestartet. ```stop```, ```start``` oder ```restart``` geht dann wie üblich über:
+## systemctrl
 
 ```
-$> systemctl stop 
+$> systemctl stop
 $> systemctl start
 $> systemctl restart
 
 ```
 
-Die aktuellen Logausgaben erhält man mittels:
+## logging
 
 ```
 $> journalctl -u ssmp -f
 ```
+## extension/tcplog
 
-
-##  Starten des Server/Clients
-### manuell
-
-```
-$> npm start
-```
-
-startet alle Komponenten (```server```, ```clients``` und ```api```) in der 
-richtigen Reihenfolge mit formatierten log-Ausgaben. Die Komponenten können
-auch einzeln gestartet werden: 
-
-__ssmp server__ wird durch den Aufruf ```bin/ssmp-server``` gestartet.
-
-Schöner formatierte logs bekommt man mit:
+A TCP server providing low level log information is started per default. Start
+a log client  by:
 
 ```
-$> npm run server
-```
-Das Starten der __ssmp clients__ (```load```, ```build```, ```run```, ```observe```, ...)
-geschieht mittels:
-
-```
-$> npm run clients
+$> cd  ssmp
+$> ./bin/log
 ```
 
-Mit ```bin/clients -l mpid``` bzw. ```bin/clients --load mpid``` wird das MP mit der
-id mpid gleich geladen; es kann so Punkt 2 des Gesamtablaufes übersprungen
-werden. Bsp.:
+## ports
+ssmp is a modular system. It starts several services on the following ports:
 
-```
-$> bin/clients -l mpd-check | bunyan -l trace
-```
- 
-Letztlich sollte noch die __api__ (http-Schnittstelle) gestartet werden:
-
-```
-$> npm run api
-```
+* 9000: data server (internal)
+* 8001: [api: the json interface to ssmp](http://localhost:8001/)
+* 8002: [frame: simple web frontend](http://localhost:8002/)
+* 8003: [info: info system](http://localhost:8003/)
+* 8004: [web socket: provides a pub sub hub](http://localhost:8003/) used by
+  the info system (internal)
+* 8005: [log: log server](http://localhost:8005/)
 
 
-## Ports/Adressen
+## load a mpd
 
-Aufgrund des modularen Aufbaus des Systems werden zwei
-Serverprozesse an folgenden *Ports* gestartet:
+The mpd is a json document stored in a CouchDB database.
+which name and location is given in the configuration file ```lib/conf.js```.
 
-* 8001: [api](http://localhost:8001/) 
-* 9000: Datenserver (intern)
-
-## Laden des Messprogramms
-
-Die Definition eines MP liegt im JSON Format vor welch zweckmäßiger
-Weise in einer CouchDB als Dokumente abgelegt sind. Sie kann auf folgende
-Weise dem __ssmp__ zur Abarbeiting übergeben werden:
+The low level way of loading a measurement definition document with the
+database id ```mpid``` is:
 
 ```
 $> curl -X PUT -d  'load'  http://localhost:8001/mpid
 ```
 
-oder mit [csmp](https://github.com/wactbprot/csmp):
-
+The same can be done by short commandline tools provided by
+[csmp](https://github.com/wactbprot/csmp):
 
 ```
 $> bin/mp_ini -i mpid -d load
 ```
 
-## Löschen eines MP
+## remove a mdp
 
-Das Entfernen eines MP aus dem ssmp Speicher geschieht in analoger Weise:
- 
+A mpd can be removed by:
+
 ```
 $> curl -X PUT -d  'remove'  http://localhost:8001/mpid
 ```
 
-oder mit [csmp](https://github.com/wactbprot/csmp):
+or by means of [csmp](https://github.com/wactbprot/csmp) with:
 
 
 ```
 $> bin/mp_ini -i mpid -d remove
 ```
 
-## Kalibrierdokumente
+## calibration documents (cd)
 
+Since the recipes
 Der konkrete Ablauf eines Messprogramms hängt auch von den zu kalibrierenden
 Geräten ab. _Wieviel_, _welche_ und _wie_ die Geräte kalibriert werden sollen,
 wird am Anfang des Gesamtablaufs festgelegt. __ssmp__ muss also die ids der KD
@@ -235,13 +191,13 @@ mp_id- -i mpid -d cdid
 ```
 Übersicht
 ```
-mp_id -i mpid 
+mp_id -i mpid
 ```
 
 ## Vorbereitung der Messung
 
 Nachdem  die KD dem __ssmp__ bekannt gegeben wurden, können die konkreten
-Abläufe erstellt und geladen werden. Im Zuge dieses Prozesses wird aus der 
+Abläufe erstellt und geladen werden. Im Zuge dieses Prozesses wird aus der
 _Definition_ zusammen mit den _Informationen aus den KD_ und den aus der
 Datenbank bezogenen _Task_s das Rezept (_recipe_)
 entwickelt. Dieses ist dann unter
@@ -332,7 +288,7 @@ zurückzubebenden Objektes (```x```) ab:
 
 Bei __unit tests__ werden Ergebnisse, die kleine Programmteile
 (units) bei Ausführung liefern, mit Sollergebnissen verglichen.
-Viele dieser unit tests benötigen den Datenserver der vorher gestartet 
+Viele dieser unit tests benötigen den Datenserver der vorher gestartet
 werden muss.
 
 ```
@@ -353,7 +309,7 @@ Die Abdeckung des codes durch die unit tests, die __code coverage__, kann mit:
 
 ```
 $> cd ssmp
-$> npm run cover 
+$> npm run cover
 ```
 überprüft werden.
 
