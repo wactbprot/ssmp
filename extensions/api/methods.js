@@ -265,7 +265,7 @@ var put = function(req, cb){
     if(!err){
       if(!_.isUndefined(req.body)){
         var strpath  = path.join(" ")
-        log.trace(ok
+        log.info(ok
                 , "receice put request to path " + strpath);
         mem.set(path, req.body, function(err){
           if(!err){
