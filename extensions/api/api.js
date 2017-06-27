@@ -210,7 +210,7 @@ module.exports = function(cb) {
   });
 
   server.put("/:id/:no/:struct", function(req, res, next) {
-    meth.put(req, function(err, ro){
+      meth.put(req, function(err, ro){
       if(!err){
         res.send(ro);
       }else{
