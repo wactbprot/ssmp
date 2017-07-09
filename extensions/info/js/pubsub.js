@@ -1,10 +1,10 @@
+// client code
 var host              = document.location.hostname
   , socket            = io.connect('ws://' + host + ':' + 8004)
 
 socket.on("state", function(data){
   display(data, $("#state_body"))
 });
-
 
 socket.on("worker", function(data){
   display(data, $("#worker_body"))
@@ -39,10 +39,9 @@ var display = function(data, $id){
   $(trstate).hide().prependTo($id).fadeIn(400)
 }
 
-
-//"stop_all_container_obs"
-//start_container_obs
-//stop_container_obs
-//update_cd
-//recipe
-//load_mp
+// stop_all_container_obs
+// start_container_obs
+// stop_container_obs
+// update_cd
+// recipe
+// load_mp
