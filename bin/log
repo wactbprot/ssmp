@@ -1,0 +1,3 @@
+#!/bin/sh
+
+/usr/bin/node ./extensions/tcplog/client.js | ./node_modules/.bin/bunyan
