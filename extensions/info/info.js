@@ -23,24 +23,31 @@ module.exports = function(cb) {
 
 
   server.pre(restify.pre.sanitizePath());
-  server.use(restify.queryParser());
-  server.use(restify.bodyParser());
+  server.use(restify.plugins.queryParser({
+      mapParams: true
+  }));
+  server.use(restify.plugins.bodyParser({
+      mapParams: true
+  }));
+
+
+
   server.use(function crossOrigin(req,res,next){
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     return next();
   });
 
-  server.get( "/css/:file", restify.serveStatic({
+  server.get( "/css/:file", restify.plugins.serveStatic({
     'directory': __dirname
   }));
-  server.get( "/fonts/:file", restify.serveStatic({
+  server.get( "/fonts/:file", restify.plugins.serveStatic({
     'directory': __dirname
   }));
-  server.get( "/js/:file", restify.serveStatic({
+  server.get( "/js/:file", restify.plugins.serveStatic({
     'directory': __dirname
   }));
-  server.get( "/favicon.ico", restify.serveStatic({
+  server.get( "/favicon.ico", restify.plugins.serveStatic({
     'directory': __dirname
   }));
 

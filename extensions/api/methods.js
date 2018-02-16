@@ -122,8 +122,10 @@ var handle_mp = function(req, cb){
 
     var id    = req.params.id
       , rb    = req.body;
-    if(rb && _.isString(rb)){
-      if(rb == ctrlstr.load){
+      console.log("--------------------------------------------------------")
+      console.log(rb)
+    if(rb && _.isObject(rb)){
+      if(rb.cmd == ctrlstr.load){
         log.trace(ok
                 , "try to publish to get_mp channel");
         mem.publish("get_mp", id , function(err){
@@ -142,7 +144,8 @@ var handle_mp = function(req, cb){
           }
         });
       }
-      if(rb == ctrlstr.rm){
+
+      if(rb.cmd == ctrlstr.rm){
         log.trace(ok
                 , "try to publish to rm_mp channel");
         mem.publish("rm_mp", id, function(err){
@@ -162,7 +165,7 @@ var handle_mp = function(req, cb){
         });
       }
     }else{ // string
-      err = new Error("unvalid request body");
+      err = new Error("invalid request body");
       log.error(err
                , "no request body");
       if(_.isFunction(cb)){

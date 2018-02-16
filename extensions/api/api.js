@@ -25,13 +25,24 @@ module.exports = function(cb) {
     , server  = restify.createServer({name: name})
 
   server.pre(restify.pre.sanitizePath());
-  server.use(restify.queryParser());
-  server.use(restify.bodyParser());
-  server.use(function crossOrigin(req,res,next){
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    return next();
-  });
+  server.use(restify.plugins.queryParser({
+    mapParams: true
+  }));
+  server.use(restify.plugins.bodyParser({
+    mapParams: true
+  }));
+
+const corsMiddleware = require('restify-cors-middleware')
+
+const cors = corsMiddleware({
+  preflightMaxAge: 5, //Optional
+  origins: ['*'],
+  allowHeaders: ['API-Token'],
+  exposeHeaders: ['API-Token-Expiry']
+})
+
+server.pre(cors.preflight)
+server.use(cors.actual)
 
   /**
    * __GET__
