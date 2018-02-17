@@ -4,7 +4,7 @@
         "dictionaries": ["jsdoc"]
     },
     "source": {
-    "include": ["lib", "api", "."],
+    "include": ["lib", "extensions", "."],
 	"exclude": [ "test", "node_modules", "bin", ".git", "info", "doc"],
 	"includePattern": ".+\\.js(doc)?$",
 	"excludePattern": "(^|\\/|\\\\)_"

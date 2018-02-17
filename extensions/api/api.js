@@ -15,7 +15,7 @@ module.exports = function(cb) {
     , restify = require("restify")
     , bunyan  = require("bunyan")
     , broker  = require("sc-broker")
-    , conf     = require("../../lib/conf")
+    , conf    = require("../../lib/conf")
     , meth    = require("./methods")
     , ok      = {ok: true}
     , log     = bunyan.createLogger({name: name,
@@ -25,13 +25,24 @@ module.exports = function(cb) {
     , server  = restify.createServer({name: name})
 
   server.pre(restify.pre.sanitizePath());
-  server.use(restify.queryParser());
-  server.use(restify.bodyParser());
-  server.use(function crossOrigin(req,res,next){
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    return next();
-  });
+  server.use(restify.plugins.queryParser({
+    mapParams: true
+  }));
+  server.use(restify.plugins.bodyParser({
+    mapParams: true
+  }));
+
+const corsMiddleware = require('restify-cors-middleware')
+
+const cors = corsMiddleware({
+  preflightMaxAge: 5, //Optional
+  origins: ['*'],
+  allowHeaders: ['API-Token'],
+  exposeHeaders: ['API-Token-Expiry']
+})
+
+server.pre(cors.preflight)
+server.use(cors.actual)
 
   /**
    * __GET__
@@ -210,7 +221,7 @@ module.exports = function(cb) {
   });
 
   server.put("/:id/:no/:struct", function(req, res, next) {
-    meth.put(req, function(err, ro){
+      meth.put(req, function(err, ro){
       if(!err){
         res.send(ro);
       }else{
