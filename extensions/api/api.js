@@ -13,6 +13,7 @@ module.exports = function(cb) {
   var name    = "api"
     , _       = require("underscore")
     , restify = require("restify")
+    , corsM    = require('restify-cors-middleware')
     , bunyan  = require("bunyan")
     , broker  = require("sc-broker")
     , conf    = require("../../lib/conf")
@@ -24,6 +25,7 @@ module.exports = function(cb) {
     , mem     = broker.createClient({port: conf.mem.port})
     , server  = restify.createServer({name: name})
 
+
   server.pre(restify.pre.sanitizePath());
   server.use(restify.plugins.queryParser({
     mapParams: true
@@ -31,15 +33,12 @@ module.exports = function(cb) {
   server.use(restify.plugins.bodyParser({
     mapParams: true
   }));
-
-const corsMiddleware = require('restify-cors-middleware')
-
-const cors = corsMiddleware({
-  preflightMaxAge: 5, //Optional
-  origins: ['*'],
-  allowHeaders: ['API-Token'],
-  exposeHeaders: ['API-Token-Expiry']
-})
+  const cors = corsM({
+      preflightMaxAge: 5, //Optional
+      origins: ['*'],
+      allowHeaders: ['API-Token'],
+      exposeHeaders: ['API-Token-Expiry']
+  })
 
 server.pre(cors.preflight)
 server.use(cors.actual)

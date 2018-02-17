@@ -5,6 +5,7 @@ module.exports = function(cb) {
   var name     = "info"
     , _        = require("underscore")
     , restify  = require("restify")
+    , corsM   = require('restify-cors-middleware')
     , bunyan   = require("bunyan")
     , broker   = require("sc-broker")
     , get      = require("./get")
@@ -21,22 +22,22 @@ module.exports = function(cb) {
   var io = require('socket.io')({pingInterval: conf.io.intervall,
                                  pingTimeout: conf.io.timeout})
 
-
-  server.pre(restify.pre.sanitizePath());
-  server.use(restify.plugins.queryParser({
+server.pre(restify.pre.sanitizePath());
+    server.use(restify.plugins.queryParser({
       mapParams: true
-  }));
-  server.use(restify.plugins.bodyParser({
+    }));
+    server.use(restify.plugins.bodyParser({
       mapParams: true
-  }));
+    }));
+    const cors = corsM({
+        preflightMaxAge: 5, //Optional
+        origins: ['*'],
+        allowHeaders: ['API-Token'],
+        exposeHeaders: ['API-Token-Expiry']
+    })
 
-
-
-  server.use(function crossOrigin(req,res,next){
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    return next();
-  });
+  server.pre(cors.preflight)
+  server.use(cors.actual)
 
   server.get( "/css/:file", restify.plugins.serveStatic({
     'directory': __dirname
