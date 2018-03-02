@@ -266,14 +266,17 @@ var put = function(req, cb){
 
   get_path(req, function(err, path){
     if(!err){
+        log.trace(ok
+                    , "receive put request with body: " +req.body );
       if(!_.isUndefined(req.body)){
         var strpath  = path.join(" ")
         log.info(ok
                 , "receice put request to path " + strpath);
         if(req.body.cmd) {
             data = req.body.cmd;
-        } else {
-            data = req.body;
+        }
+        if(req.body.value){
+            data = req.body.value;
         }
         mem.set(path, data, function(err){
           if(!err){
