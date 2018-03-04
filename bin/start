@@ -5,7 +5,7 @@
     require("../clients")(function(){
       require("../extensions/api/api")(function() {
         require("../extensions/frame/frame.js")(function() {
-          require("../extensions/info/info.js")(function() {
+          require("../extensions/plt/plt.js")(function() {
             console.log(
                 " \n   ****       ****                        ****    " +
                 " \n  * **** *   * **** * *** **** ****      * ***  * " +
@@ -22,8 +22,8 @@
                 " \n                                       **         " +
                 " \n                                        **        "
             );
-          });
         });
       });
     });
   });
+ });
