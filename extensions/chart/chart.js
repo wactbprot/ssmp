@@ -41,6 +41,8 @@ server.use(cors.actual)
  }));
 
  server.get("/res/info", function(req, res, next){
+   log.trace(ok
+   , "request to res/info")
     meth.available(req, function(err, ro){
       if(!err){
         res.send(ro);
