@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>plt</title>
+  </head>
+  <body>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <nav class="navbar navbar-default">
+      <ul class="nav nav-pills">
+      <li id="chart_tab_1" class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Chart 1</a>
+          <div id = "available_1" class="dropdown-menu">
+          </div>
+      </li>
+        <li id="chart_tab_2" class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Chart 2</a>
+          <div id = "available_2" class="dropdown-menu">
+          </div>
+      </li>
+        <li id="chart_tab_3" class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Chart 3</a>
+          <div id = "available_3" class="dropdown-menu">
+          </div>
+      </li>
+
+      </ul>
+    </nav>
+    <div class="container" style='width:900px;height:900px'>
+      <canvas id="chart_1" width="900" height="300" ></canvas>
+      <canvas id="chart_2" width="900" height="300" ></canvas>
+      <canvas id="chart_3" width="900" height="300" ></canvas>
+    </div>
+    <script src="/js/jquery3.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/Chart.min.js"></script>
+    <script src="/js/chart.js"></script>
+  </body>
+</html>

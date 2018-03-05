@@ -5,7 +5,7 @@
     require("../clients")(function(){
       require("../extensions/api/api")(function() {
         require("../extensions/frame/frame.js")(function() {
-          require("../extensions/plt/plt.js")(function() {
+          require("../extensions/chart/chart.js")(function() {
             console.log(
                 " \n   ****       ****                        ****    " +
                 " \n  * **** *   * **** * *** **** ****      * ***  * " +

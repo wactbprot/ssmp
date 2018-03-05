@@ -10,7 +10,7 @@ module.exports = function(cb){
                                     })
     , ok      = {ok:true}
     , err;
-  
+
   // call to start sc-broker clients
   require("./lib/load").ini(function(err){
     require("./lib/run").ini(function(err){
@@ -18,14 +18,17 @@ module.exports = function(cb){
         require("./lib/observe").ini(function(err){
           require("./lib/mphandle").ini(function(err){
             require("./lib/cdhandle").ini(function(err){
-              log.info(ok
-                      , "----> ssmp clients start  with access to port "+ conf.mem.port
-                      );
-              if(_.isFunction(cb)){
+              require("./lib/exchangeUpdateTime").ini(function(err){
                 log.info(ok
-                         , "execute clients callback");
-                cb();
-              }
+                    , "----> ssmp clients start  with access to port "+
+                          conf.mem.port
+                        );
+                if(_.isFunction(cb)){
+                    log.info(ok
+                          , "execute clients callback");
+                  cb();
+                }
+              });
             });
           });
         });
