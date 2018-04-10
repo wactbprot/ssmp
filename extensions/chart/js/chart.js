@@ -17,6 +17,8 @@ $( document ).ready(function() {
         type: 'scatter',
         data: {datasets: [{
                 label: 'Scatter Dataset',
+                showLine: true,        
+                pointRadius:5,
                 data: []
               }]
             },
@@ -40,6 +42,7 @@ $.ajax({
   $('#chart_tab_1 a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     var path = $(this).data("path");
     chart1.data.datasets[0].label = path;
+    chart1.data.datasets[0].pointBackgroundColor ='#ff6384';
     chart1.data.datasets[0].data =[];
     setInterval(function(){
       $.ajax({url:path
@@ -60,6 +63,7 @@ $.ajax({
 $('#chart_tab_2 a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     var path = $(this).data("path");
     chart2.data.datasets[0].label = path;
+    chart2.data.datasets[0].pointBackgroundColor='#36a2eb';
     chart2.data.datasets[0].data =[];
     setInterval(function(){
       $.ajax({url:path
@@ -80,7 +84,8 @@ $('#chart_tab_2 a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
   $('#chart_tab_3 a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     var path = $(this).data("path");
     chart3.data.datasets[0].label = path;
-      chart3.data.datasets[0].data =[];
+    chart2.data.datasets[0].pointBackgroundColor='#cc65fe';
+    chart3.data.datasets[0].data =[];
     setInterval(function(){
       $.ajax({url:path
       }).done(function(res) {
