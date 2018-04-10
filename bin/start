@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 //                require('look').start(3000, '127.0.0.1');
-require("../extensions/tcplog/tcplog")(function() {
+
   require("../server")(function(){
     require("../clients")(function(){
       require("../extensions/api/api")(function() {
         require("../extensions/frame/frame.js")(function() {
-          require("../extensions/info/info.js")(function() {
+          require("../extensions/chart/chart.js")(function() {
             console.log(
                 " \n   ****       ****                        ****    " +
                 " \n  * **** *   * **** * *** **** ****      * ***  * " +
@@ -22,9 +22,8 @@ require("../extensions/tcplog/tcplog")(function() {
                 " \n                                       **         " +
                 " \n                                        **        "
             );
-          });
         });
       });
     });
   });
-});
+ });

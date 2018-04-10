@@ -122,8 +122,9 @@ var handle_mp = function(req, cb){
 
     var id    = req.params.id
       , rb    = req.body;
-    if(rb && _.isString(rb)){
-      if(rb == ctrlstr.load){
+
+    if(rb && _.isObject(rb)){
+      if(rb.cmd == ctrlstr.load){
         log.trace(ok
                 , "try to publish to get_mp channel");
         mem.publish("get_mp", id , function(err){
@@ -142,7 +143,8 @@ var handle_mp = function(req, cb){
           }
         });
       }
-      if(rb == ctrlstr.rm){
+
+      if(rb.cmd == ctrlstr.rm){
         log.trace(ok
                 , "try to publish to rm_mp channel");
         mem.publish("rm_mp", id, function(err){
@@ -162,7 +164,7 @@ var handle_mp = function(req, cb){
         });
       }
     }else{ // string
-      err = new Error("unvalid request body");
+      err = new Error("invalid request body");
       log.error(err
                , "no request body");
       if(_.isFunction(cb)){
@@ -195,8 +197,8 @@ var handle_cd = function(req, cb){
     var val = { id:   req.params.id
               , cdid: req.params.cdid}
       , rb  = req.body;
-    if(rb && _.isString(rb)){
-      if(rb == ctrlstr.load){
+    if(rb && _.isObject(rb)){
+      if(rb.cmd == ctrlstr.load){
         log.trace(ok
                 , "try to publish to get_cd channel");
         mem.publish("get_cd", val, function(err){
@@ -215,7 +217,7 @@ var handle_cd = function(req, cb){
           }
         });
       };
-      if(rb == ctrlstr.rm){
+      if(rb.cmd == ctrlstr.rm){
         log.trace(ok
                 , "try to publish to get_cd channel");
         mem.publish("rm_cd", val, function(err){
@@ -261,13 +263,22 @@ exports.handle_cd = handle_cd;
  * @param {Function} cb call back
  */
 var put = function(req, cb){
+
   get_path(req, function(err, path){
     if(!err){
+        log.trace(ok
+                    , "receive put request with body: " +req.body );
       if(!_.isUndefined(req.body)){
         var strpath  = path.join(" ")
         log.info(ok
                 , "receice put request to path " + strpath);
-        mem.set(path, req.body, function(err){
+        if(req.body.cmd) {
+            data = req.body.cmd;
+        }
+        if(req.body.value){
+            data = req.body.value;
+        }
+        mem.set(path, data, function(err){
           if(!err){
             log.trace(ok
                     , "set value to path: " + strpath);
