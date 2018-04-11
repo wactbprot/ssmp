@@ -36,8 +36,8 @@ module.exports = function(cb) {
   const cors = corsM({
       preflightMaxAge: 5, //Optional
       origins: ['*'],
-      allowHeaders: ['API-Token'],
-      exposeHeaders: ['API-Token-Expiry']
+      allowHeaders: ['*'],
+      exposeHeaders: ['*']
   })
 
 server.pre(cors.preflight)
