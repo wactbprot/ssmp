@@ -22,8 +22,11 @@ module.exports = function(cb) {
     , log     = bunyan.createLogger({name: name,
                                      streams: conf.log.streams
                                     })
-    , mem     = broker.createClient({port: conf.mem.port})
-    , server  = restify.createServer({name: name})
+
+    , mem     = broker.createClient({port: conf.mem.port
+				    })
+
+    var server  = restify.createServer({name: name})
 
 
   server.pre(restify.pre.sanitizePath());

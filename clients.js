@@ -13,6 +13,8 @@ module.exports = function(cb){
 
   // call to start sc-broker clients
   require("./lib/load").ini(function(err){
+      log.trace(ok
+		, "load callback");
     require("./lib/run").ini(function(err){
       require("./lib/build").ini(function(err){
         require("./lib/observe").ini(function(err){
@@ -33,6 +35,6 @@ module.exports = function(cb){
           });
         });
       });
-    });
   });
-};
+});
+}
