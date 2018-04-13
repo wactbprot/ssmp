@@ -172,7 +172,7 @@ var handle_mp = function(req, cb){
       }
     }
   }else{
-    err = new Error("unvalid request object");
+    err = new Error("invalid request object");
     log.error(err
              , "no request param");
     if(_.isFunction(cb)){
